@@ -1,0 +1,346 @@
+---
+name: plan:vibebelt-rebrand-phase-08-install-release
+description: "vibebelt-kit rebrand — Phase 08: Real install test and release"
+date: 29-10-26
+metadata:
+  node_type: memory
+  type: plan
+  feature: general-plans
+  phase: phase-08
+---
+
+# Phase 08 — Real install test and release
+
+**Program:** vibebelt-rebrand
+**Umbrella plan:** process/general-plans/active/vibebelt-rebrand_29-10-26/vibebelt-rebrand-umbrella_PLAN_29-10-26.md
+**Phase status:** ⏳ PLANNED (supplement cycle 3 applied 29-10-26; PVL cycle 4: PASS)
+**Complexity:** COMPLEX
+**Report destination:** process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_REPORT_29-10-26.md (flat in the program task folder)
+
+---
+
+## Overview
+
+One phase of the vibebelt-rebrand program; program context lives in the umbrella plan. Context router: process/context/all-context.md (created in Phase 0). Test routing: process/context/tests/all-tests.md (load before assigning tiers).
+
+Date: 29-10-26
+Status: PLANNED
+Complexity: COMPLEX
+
+## Purpose
+
+Prove it really installs and updates on the environments reachable from this machine, then release v1.0.0. This is the only phase that reaches outside the repo (creating the remote, pushing `main`, pushing the tag, GitHub release), so it contains the program's two outward-facing HARD STOPS. Native Windows and macOS are NOT TESTED here (LOCKED Q6).
+
+---
+
+## Entry Gate
+
+Path variables (define once; every gate runs from the repo root):
+
+```bash
+export NODE=${NODE:-node}
+TF=process/general-plans/active/vibebelt-rebrand_29-10-26; H=$TF/harness; B=$TF/baseline
+SB=$HOME/vb-sandbox; KIT=$(pwd)        # sandboxes on the Linux filesystem; KIT = absolute path of the checkout
+```
+
+- Phase 7 exit gate green; working tree clean on `main` EXCLUDING the task folder (reports are written there): `test -z "$(git status --porcelain -- . ':(exclude)process/general-plans/active/vibebelt-rebrand_29-10-26')"`.
+- Validator rule, used consistently in this phase: the full validator suite is NOT WORSE than the Phase 0 `baseline/`, compared through the Phase 6 mapping (`bash $H/compare-vb.sh`, built from `$H/validators.vb.list`; the baseline files hold `vc-` paths and would read every validator as WORSE after the rename). Baseline reds such as `validate-skills` / `validate-context-discovery` caused by `.agents/skills` being a text file are recorded, not failures of this phase. `test -f $H/compare-vb.sh && test -f $H/validators.vb.list` must pass before B3.
+- Preconditions (check and record each in the report before any install test):
+  - P0 Linux Node >= 22 in WSL: run `node --version` inside WSL. If missing, this is a USER action; the agent never installs it. Give the user these exact commands (userland, no sudo): `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash`, then `exec bash`, then `nvm install 22`, then `node --version` (expect v22.x). If the user does not install it, every WSL install gate and the e2e gate are NOT TESTED, C-P8 stays CONDITIONAL, and a backlog stub records it.
+  - P1 resolver glob-mode fix landed (owned by Phase 2; Phase 6 B0 is the fallback): `node resolve-manifest.mjs --root . --json` returns `files.length` > 0 at manifest version 1.0.0.
+  - P2 Tag `upstream-baseline` exists (`git tag -l upstream-baseline`) and the Phase 6 old-install fixture (Trial E) is reused for the update test.
+  - P3 Sandboxes live on the Linux filesystem (for example `$HOME/vb-sandbox/<case>`), never under `/mnt/c`, because symlink behavior differs. They are deleted after each case; no install ever targets a real user project.
+  - P4 Post-rename agent names: this phase runs after the Phase 6 rename and restart, so the agents are `vb-validate-agent`, `vb-execute-agent`, `vb-tester`, `vb-update-process-agent` (see Phase Loop Progress).
+
+---
+
+## Strategy Recommendation (vc-agent-strategy-compare)
+
+- Signals: S2, S6 and outward-facing steps — score 3/7 (MEDIUM), dominant signal S6.
+- Recommended: **Sequential** — 1 agent per step; each environment test depends on the previous fix and the outward steps are hard stops. Research/plan/validate = sonnet; tester runs = sonnet with `vb-tester`; execute (installer fixes) = opus. Untestable environments are documented, not simulated.
+
+---
+
+## Blast Radius
+
+- `e2e-kit-flows.test.mjs` (Windows-safe edits, step A0: `fileURLToPath` at line ~21, `os.tmpdir()` instead of the hard-coded `/tmp` at lines ~34 and ~330, quoted and forward-slash `bash` path at every `bash ${INSTALL_SH}` call)
+- Temp directories on the Linux filesystem for install tests (deleted afterwards; never inside the user's real projects)
+- `CHANGELOG.md`, `docs/RELEASE-NOTES-1.0.0.md` (NEW), possible small installer fixes in `install.sh`
+- Backlog stubs under `process/general-plans/backlog/` (native Windows/macOS user-run checklist; Linux Node refusal if it happens)
+- Outward-facing (HARD STOPS, need the user's explicit go in this session): creating the remote repo, `git push` of `main`, `git push` of tag `v1.0.0`, GitHub release. Local annotated tag `v1.0.0` is local only.
+
+---
+
+## Implementation Checklist
+
+### Step A0 — Fix e2e Windows path bugs (before any install test)
+
+- [ ] A0. In `e2e-kit-flows.test.mjs` (verify the line numbers with grep first; after the Phase 6 rename the names are `vb-`): (1) replace `path.dirname(new URL(import.meta.url).pathname)` (~line 21) with `path.dirname(fileURLToPath(import.meta.url))`, importing `fileURLToPath` from `node:url`; this removes the doubled `\C:\...` path; (2) replace both hard-coded `fs.mkdtempSync('/tmp/vb-e2e-')` calls (~lines 34 and 330) with `fs.mkdtempSync(path.join(os.tmpdir(), 'vb-e2e-'))` (import `os`), because `/tmp` resolves to `C:\tmp` under node.exe; (3) quote the installer path at every `bash ${INSTALL_SH}` call and pass it with forward slashes (`INSTALL_SH.replace(/\\/g, '/')` on win32). Gate (static, runnable anywhere): `test "$(grep -c 'new URL(import.meta.url).pathname' e2e-kit-flows.test.mjs)" = 0`, `test "$(grep -c "mkdtempSync('/tmp" e2e-kit-flows.test.mjs)" = 0`, `test "$(grep -c 'bash \${INSTALL_SH}' e2e-kit-flows.test.mjs)" = 0` (all print 0 → pass); plus `node.exe e2e-kit-flows.test.mjs 2>&1 | grep -cF '\C:\'` = 0. LIMIT, stated plainly: this gate proves only that the doubled-path error and the hard-coded `/tmp` / unquoted path are gone; whether the trials then pass under `node.exe` is NOT claimed. The authoritative e2e run is the Linux Node run in B3; if there is no Linux Node the trials are NOT TESTED and C-P8-a stays CONDITIONAL.
+
+### Step A — Install matrix (fresh project AND existing project; WSL/Linux only gated)
+
+Facts about the real `install.sh` (read 29-10-26, all 472 lines; the assertions below follow the code, not the header comment): it backs up `.claude/`, `.codex/`, `.agents/`, `CLAUDE.md`, `AGENTS.md`, `GUIDE.md` into `.vibecode-backup/` (a prior backup is rotated, not overwritten); it then copies each kit-managed file ONE BY ONE (`cp`, line ~215), it does NOT replace directories, so unmanaged files such as `.claude/skills/my-skill/SKILL.md` and `process/x.md` stay in place; kit-managed files (agents, kit skills, hooks, `CLAUDE.md`, `AGENTS.md`, `.codex/**`, and the kit's own `process/development-protocols/**` and `process/_seeds/**`) are overwritten; `.claude/settings.json` is in the `merge` list and is SKIPPED when it already exists (counted as preserved; there is no JSON merge in `install.sh`). Managed files under `process/` are overwritten and are NOT part of the backup set.
+
+- [ ] A1. Native Windows (Git Bash): NOT a gate and NOT TESTED here (LOCKED Q6). Put exact user commands in the release notes (checklist in the backlog stub). An optional best-effort smoke through the host Git for Windows (`C:\Program Files\Git\bin\bash.exe`) and `node.exe` may be recorded as extra evidence only; it never counts toward the gate.
+- [ ] A2. WSL Linux (needs P0): two cases, each with an explicit command and expected output, each in a sandbox on the Linux filesystem that is deleted afterwards. A4 gives the install form. If P0 is missing: NOT TESTED.
+  - (i) Fresh empty folder: `rm -rf $SB/fresh && mkdir -p $SB/fresh && cd $SB/fresh && VB_KIT_SOURCE="$KIT" bash "$KIT/install.sh"` → exit 0. Assertions (each printing the expected value): `test -f .vb-installed-files && test -f .vb-version && echo state-ok` → `state-ok`; `test "$(find . \( -name 'vc-*' -o -name '.vc-*' \) | wc -l)" = 0; echo $?` → `0`; `test "$(cat .vb-version)" = "$($NODE -e "console.log(JSON.parse(require('fs').readFileSync('$KIT/vb-manifest.json','utf8')).version)")"; echo $?` → `0`. Cleanup: `cd "$KIT"; rm -rf $SB/fresh; test ! -d $SB/fresh; echo $?` → `0`.
+  - (ii) Existing project: seed `$SB/existing` with `CLAUDE.md`, `AGENTS.md`, `process/x.md`, `.claude/skills/my-skill/SKILL.md`, `.claude/settings.json` (content `{"mine":true}`) and keep a pristine copy of the seed in `$SB/orig`; run the install (`cd $SB/existing && VB_KIT_SOURCE="$KIT" bash "$KIT/install.sh"`). Assertions (each prints nothing or the stated value): (a) backups byte-identical: `for f in CLAUDE.md AGENTS.md .claude/skills/my-skill/SKILL.md .claude/settings.json; do cmp "$SB/orig/$f" ".vibecode-backup/$f" || echo "FAIL backup $f"; done` → no output; (b) kit-managed files overwritten with the kit version: `cmp "$KIT/CLAUDE.md" CLAUDE.md; echo $?` → `0`; (c) unmanaged files unchanged IN PLACE: `for f in process/x.md .claude/skills/my-skill/SKILL.md; do cmp "$SB/orig/$f" "$f" || echo "FAIL in-place $f"; done` → no output; (d) existing `settings.json` left as the user's (skipped, not merged): `cmp "$SB/orig/.claude/settings.json" .claude/settings.json; echo $?` → `0`; (e) user files are never recorded as kit-owned: `grep -c 'my-skill' .vb-installed-files` → `0`. Cleanup: `cd "$KIT"; rm -rf $SB/existing $SB/orig; test ! -d $SB/existing; echo $?` → `0`.
+- [ ] A3. macOS: NOT TESTED here; exact user commands in the release notes and the backlog stub. Linux = the WSL case above.
+- [ ] A4. Each install is run through the local-source form: `VB_KIT_SOURCE=<local checkout> bash install.sh` (the variable after the Phase 6 rename; the old `VC_KIT_SOURCE` is only a fallback). The real GitHub raw-URL install is verified in step C2b, after the user approves publishing `main`.
+
+### Step B — Update and publish flows
+
+- [ ] B1. Update flow (needs P0, P2): `git archive upstream-baseline` into a sandbox kit, install it, then update to this build (reuse Phase 6 Trial E); confirm `legacyDeletions` removes only unmodified old kit files (sha256 match) and keeps and reports modified ones; custom skills untouched. Record, from that run: (1) the value of `.vb-version` after the old-to-new install and whether `.vc-version` is gone (`cat .vb-version; test ! -f .vc-version; echo $?`); (2) which command, if any, prints the downgrade warning (candidates: the new `vb-update` against the new source; the OLD `vc-update` skill pointed at the new source). These observations, not assumptions, word the C1 release note.
+- [ ] B2. Publish flow, "dry-run" defined: follow the `vb-publish` SKILL.md steps up to the Step 6 confirm INSIDE A TEMP CLONE of the kit on the Linux filesystem and stop there (no Step 9a commit/tag, no push). Assert in the real repo that `git tag -l v1.0.0` is still empty and `git log -1 --format=%H` is unchanged. e2e Trial D remains the static text check.
+- [ ] B3. Run `$NODE e2e-kit-flows.test.mjs` (Linux Node, includes Trial E) and the full validator suite through `bash $H/compare-vb.sh` (Phase 6 vb- mapping, label-keyed; "not worse than baseline").
+
+### Step C — Release
+
+- [ ] C1. Plain-language release notes `docs/RELEASE-NOTES-1.0.0.md` and an EXTENSION of the existing `## [1.0.0]` entry that Phase 2 C2 created in `CHANGELOG.md` (add the release-notes summary under that heading; never create a second `## [1.0.0]`; hand-written in `vb-` terms; `CHANGELOG.md` is protected from the rename tool): what it is, how to install, what changed from the original, and:
+  - What the installer does to an existing project, in plain words: "kit files are overwritten, your own files stay, and the files most likely to matter (`.claude/`, `.codex/`, `.agents/`, `CLAUDE.md`, `AGENTS.md`, `GUIDE.md`) are copied into `.vibecode-backup/` first". Also state: your own skills and notes next to kit files are not removed; an existing `.claude/settings.json` is left untouched (so the kit's hook settings are not added automatically; say how to add them); the kit's own documents under `process/development-protocols/` and `process/_seeds/` are overwritten and are not part of the backup.
+  - Original-kit users: worded from the B1 observation. Expected wording if B1 confirms it: running the vibebelt install command in an existing project replaces `.vc-version` with `.vb-version` (1.0.0) and later `vb-update` shows no downgrade warning; a downgrade warning (3.2.5 to 1.0.0) appears only if you point the OLD `vc-update` skill at this repository, and then it is expected and you answer yes.
+  - Known limits: native Windows and macOS NOT TESTED (user-run commands included), Linux Node requirement, Vietnamese not native-reviewed.
+  - User-only GitHub settings (cannot be set by the agent): repository description and topics, Issues/Discussions toggles, branch protection, Pages if used, release visibility.
+- [ ] C2-pre. Leak detection BEFORE the tag and before any push, as standalone commands (the `vb-publish` Step 8 flow needs its Step 7 Apply first, so its checks are run directly): `$NODE .claude/skills/vb-audit-vc/scripts/validate-kit-portability.mjs; echo $?` → `0`; `grep -ri "flowser\|tRPC\|Prisma\|Supabase\|CloakBrowser\|OpenClaw" CLAUDE.md AGENTS.md | wc -l` → `0`; `git ls-files -z | grep -zv -e '^process/general-plans/active/vibebelt-rebrand' -e '/__tests__/' -e '^\.claude/skills/vb-publish/' | xargs -0 grep -Il '/Users/' | wc -l` → `0` (the 6 known benign tracked files are excluded explicitly: the 4 hook-test fixtures under `__tests__` in `.claude/hooks/lib` and `.codex/hooks/lib`, and `vb-publish/SKILL.md` + its reference, which document this check; verified by grep; any other hit stops the phase); badge counts, explicit commands (R8-4: the skill's own regex `[0-9]+-Agents` is stale): `actual_agents=$(ls .claude/agents/*.md | wc -l); actual_skills=$(ls -d .claude/skills/vb-*/ | wc -l); readme_agents=$(grep -oE 'badge/agents-[0-9]+' README.md | grep -oE '[0-9]+$'); readme_skills=$(grep -oE 'badge/skills-[0-9]+' README.md | grep -oE '[0-9]+$'); test "$actual_agents" = "$readme_agents" && test "$actual_skills" = "$readme_skills"; echo $?` → `0` (15 and 33 today; both variables must be non-empty). Backlog note: fix the stale regex in the `vb-publish` skill text. Any hit stops the phase (fix first, no tag).
+- [ ] C2a. Local annotated tag only: after the final commit on a clean `main` (task folder excluded), `git tag -a v1.0.0 -m "v1.0.0"`. Nothing is pushed. If any fix commit lands after the tag and before C2c, delete and re-create the LOCAL tag on the fixed commit (`git tag -d v1.0.0` then `git tag -a v1.0.0 -m "v1.0.0"`); the remote tag does not exist yet, so no remote tag is ever moved.
+- [ ] C2b. HARD STOP 1 (needs the user's explicit go in this session; the go covers THIS one push only): ask the user to approve (or perform) creating the remote repo (`Tomwakeupat530amm/vibebelt-kit`) and add `origin`; then push `main` only (`git push origin main`, plain push, never `--force`, `--force-with-lease`, `+ref` or `--tags`). Then verify the REAL raw-URL install in a fresh Linux-filesystem temp dir with the README's install command, and record the result. C2-pre has already passed.
+- [ ] C2c. HARD STOP 2 (needs a second, separate explicit go): push the tag (`git push origin v1.0.0`) and create the GitHub release (`gh release create v1.0.0 -F docs/RELEASE-NOTES-1.0.0.md`). Never run these without the go-ahead in this session. After C2c the process/report commit made by UPDATE PROCESS stays local until the user gives a further explicit go for another plain `git push origin main`.
+
+### Hard-stop hygiene (applies to every push in this phase)
+
+- EVERY `git push` is its own hard stop with its own explicit go in this session. A re-push after a fix (for example after a failed raw-URL install) needs a FRESH go-ahead; the earlier go does not carry over.
+- Force-push in any form is FORBIDDEN, including during rollback. Fixes go forward as new commits on `main`.
+- The remote-tag expectation changes with the step: `git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l` is `0` until C2c, and `1` after C2c. The Exit Gate records which state the run ended in. Before C2b the remote does not exist at all (`git remote | grep -c '^origin$'` → `0`).
+
+### Rollback
+
+- Before any push: `git tag -d v1.0.0`, revert any installer fix commit, delete all sandboxes and temp clones. Nothing is pushed before approval, so the remote is untouched.
+- After HARD STOP 1 but before HARD STOP 2: `git tag -d v1.0.0` remains local-only; if the raw-URL install fails, fix on `main` with a normal commit, then ask for a NEW explicit go before pushing again (never force-push), re-verify; the user may delete the remote repo if they wish.
+- After HARD STOP 2: delete the remote tag (`git push origin :refs/tags/v1.0.0`) and the GitHub release (`gh release delete v1.0.0`) only with the user's go-ahead (each is its own push-class action); the release notes carry the failing details.
+
+---
+
+## Exit Gate
+
+```bash
+export NODE=${NODE:-node}; TF=process/general-plans/active/vibebelt-rebrand_29-10-26; H=$TF/harness
+$NODE e2e-kit-flows.test.mjs                                          # Expected: all trials pass incl. Trial C (depends on Phase 6 M6-2: AC-5 predicate fix; Trial C is red at baseline without it) (Linux Node >= 22 in WSL); if P0 is missing: NOT TESTED, gate CONDITIONAL
+$NODE .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs; echo $?   # Expected: 0
+bash $H/compare-vb.sh; echo $?                                        # Expected: 0 (rest of the validator suite NOT WORSE than baseline/, via the Phase 6 vb- mapping; compare-vb.sh runs the Phase 0 compare.sh, so this includes the Phase 0 LICENSE RULE greps: both LICENSE lines = 1 and original line preserved, C-SAFE-2)
+$NODE .claude/skills/vb-audit-vc/scripts/validate-kit-portability.mjs; echo $?  # Expected: 0 (leak/portability standing check)
+test "$(grep -c '^## \[1.0.0\]' CHANGELOG.md)" = 1; echo $?          # Expected: 0 (exactly one 1.0.0 entry: Phase 8 extended the Phase 2 entry)
+git tag -l v1.0.0                                                     # Expected: v1.0.0 (local annotated)
+git cat-file -t v1.0.0                                                # Expected: tag
+git status --porcelain -- . ':(exclude)process/general-plans/active/vibebelt-rebrand_29-10-26'   # Expected: empty
+git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l                # Expected: 0 before C2c is approved; 1 after C2c. Record which state the run ended in (R=0 stopped before C2c, R=1 released)
+```
+
+- Install matrix table in the phase report: environment, case, result, evidence. WSL/Linux rows are PASS or NOT TESTED (P0). Native Windows and macOS rows are listed as NOT TESTED (CONDITIONAL, backlog stub with exact user commands); a best-effort Git Bash smoke, if run, is marked extra evidence.
+- Clean install succeeds on every environment actually tested (WSL/Linux fresh and existing-project cases), with the A2 assertions printed in the report and each sandbox confirmed deleted.
+- Release notes contain the overwrite-and-backup note (worded as in C1), the downgrade-warning explanation (worded from the B1 observation) and the user-only GitHub settings list.
+- User-run known-gap list (6 items, one backlog stub each, gates CONDITIONAL, copied into the release notes and the phase report): (1) Linux Node 22 install + `node --test e2e-kit-flows.test.mjs`; (2) GitHub private vulnerability reporting, Discussions and Sponsorship settings; (3) real symlink `.agents/skills` on ubuntu CI; (4) exec bits on Windows-native checkouts; (5) re-run the Phase 2 resolver check R2.5 under Linux Node 22; (6) check that `.agents/skills` has git mode 120000 on a real Linux checkout.
+- The raw-URL install result is recorded after HARD STOP 1 (or marked NOT RUN if the user has not approved publishing).
+
+---
+
+## Blockers That Would Justify BLOCKED Status
+
+- Native Windows / macOS not reachable from this machine (LOCKED Q6: give the user exact commands; those gates stay CONDITIONAL with a backlog stub; not a BLOCKED reason).
+- Install works only with files not yet pushed to GitHub (needs user approval to publish; HARD STOP 1).
+- Linux Node refused: WSL gates become NOT TESTED and C-P8 stays CONDITIONAL (not BLOCKED, but the program cannot claim VERIFIED install proof).
+
+---
+
+## Phase Completion Rules
+
+- CODE DONE = checklist items done; VERIFIED = Exit Gate commands pass AND full validator suite is not worse than the Phase 0 baseline AND regression checkpoint passes AND validate-contract exists.
+- Known-Gap alone never makes a behavior PASS; write a backlog stub and keep that gate CONDITIONAL.
+
+## Acceptance Criteria
+
+- C-P8-a install, update and publish-text flows pass. proven by: `node e2e-kit-flows.test.mjs` (Trials A-E). strategy: Hybrid
+- C-P8-b clean install on WSL/Linux (fresh and existing project). proven by: A2 sandbox cases. strategy: Hybrid
+- C-SAFE-1 existing project: backups byte-identical, `process/` and custom content preserved; update keeps modified files. proven by: A2(ii) and B1. strategy: Hybrid
+- C-P8-c publish flow needs approval and creates no tag in the real repo. proven by: B2 temp-clone probe. strategy: Agent-Probe
+- C-P8-d local annotated tag on a clean `main`. proven by: tag gate commands. strategy: Fully-Automated
+- C-P8-e native Windows / macOS documented as NOT TESTED (named residual, gate CONDITIONAL, backlog stub). proven by: install matrix rows + backlog stub (no proving strategy; residual only).
+- C-P8-f installer behavior is described truthfully and asserted by command (managed files overwritten, unmanaged files in place, existing `settings.json` untouched, backups byte-identical, sandboxes deleted). proven by: A2(i)/(ii) command assertions. strategy: Hybrid
+- C-P8-g hard stops: each push has its own go, no force-push, remote-tag state recorded (0 before C2c, 1 after), leak detection run before tag. proven by: C2-pre commands + Exit Gate remote-tag line + protocol review of the session log. strategy: Fully-Automated (C2-pre commands, remote-tag count), Agent-Probe (go-ahead log)
+
+## Touchpoints
+
+- Temp install sandboxes, installer, release docs, local tag, remote/push steps behind hard stops
+
+---
+
+## Public Contracts
+
+- The published install command, `vb-update`, `vb-publish`, manifest schema (`vb-manifest.json`); nothing outside these changes. Installer variable is `VB_KIT_SOURCE` after the Phase 6 rename (old `VC_KIT_SOURCE` accepted as fallback).
+
+---
+
+## Verification Evidence
+
+| Gate / Scenario | Strategy | Proves SPEC criterion |
+|---|---|---|
+| e2e-kit-flows test (Trials A-E), Linux Node in WSL | Hybrid (needs Linux Node >= 22) | C-P8-a: install/update flows work |
+| Fresh + existing-project installs on WSL/Linux (sandbox on Linux filesystem, backups `cmp`) | Hybrid (needs Linux Node >= 22) | C-P8-b and C-SAFE-1: clean install; originals backed up, `process/` preserved |
+| Update from `upstream-baseline` keeps modified user files, removes only unmodified old kit files | Hybrid (old-install fixture, Linux Node) | C-SAFE-1: never delete user content |
+| `vb-publish` followed to the Step 6 confirm in a temp clone; no tag or push in the real repo | Agent-Probe | C-P8-c: publish needs approval |
+| Local annotated tag `v1.0.0` on clean `main` | Fully-Automated | C-P8-d: tag gate |
+| A2(i)/(ii) command assertions: `find` for `vc-*`, `test -f .vb-version`, `cmp` backups and in-place files, `settings.json` untouched, sandbox deleted | Hybrid (needs Linux Node >= 22) | C-P8-f and C-P8-b: installer behavior truthful and asserted |
+| C2-pre leak commands + remote-tag count (0 before C2c, 1 after) + one-go-per-push log | Fully-Automated (commands), Agent-Probe (log review) | C-P8-g: hard-stop hygiene |
+| Native Windows / macOS clean install | NOT TESTED (named residual; backlog stub with user-run commands; gate CONDITIONAL; no proving strategy) | C-P8-e: documented what was not tested |
+
+---
+
+## Phase Loop Progress
+
+Orchestrator reads this before deciding which subagent to spawn next. The canonical 7-step inner loop
+`R → I → P → PVL → E → EVL → UP` SKIPS SPEC (the umbrella plan and the user brief act as the SPEC).
+
+- [ ] 1. RESEARCH — research-agent (sonnet): prior phase reports read; test context loaded; plan drift checked
+- [ ] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written
+- [ ] 3. PLAN-SUPPLEMENT — plan-agent (sonnet): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
+- [ ] 4. PVL — vb-validate-agent (sonnet; vb- names after the Phase 6 rename and restart): full V1-V7; validate-contract written per `.claude/skills/vb-validate-findings/references/example-validate-output.md`
+- [ ] 5. EXECUTE — vb-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented)
+- [ ] 6. EVL — vb-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written
+- [ ] 7. UPDATE PROCESS — vb-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main
+
+**Validate-contract required.** If step 4 (PVL) is unchecked or `## Validate Contract` reads
+"(placeholder — vc-validate-agent writes this section before EXECUTE)", the orchestrator must spawn
+vc-validate-agent first. A partial contract (missing Plan updates applied / Execute-agent
+instructions / Test gates) is treated as a placeholder.
+
+---
+
+## Test Infra Improvement Notes
+
+- WSL has no Linux Node on this host; `e2e-kit-flows.test.mjs` is 0/4 via `node.exe` (Windows path handling). Backlog candidate: a Windows-path-safe runner, or documented Linux Node setup.
+- Native Windows / macOS install checks have no automated harness; the backlog stub carries the user-run checklist.
+
+---
+
+## Resume and Execution Handoff
+
+- Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md`
+- Last completed step: not started (supplement cycle 2 applied to the plan, 29-10-26)
+- Validate-contract status: written (29-10-26, outer-pvl cycle 4: PASS, 0 MUST-FIX); EXECUTE allowed once the Phase 7 exit gate is green; hard stops need an explicit go per push
+- Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, Phase 6 and Phase 7 reports (if any), `baseline/`, `harness/validators.vb.list` and `harness/compare-vb.sh` (Phase 6)
+- Next step: re-run PVL (vb-validate-agent after the rename) from V1 on this plan; EXECUTE only after Phase 7 exit gate green and the gate is PASS or accepted CONDITIONAL. HARD STOP 1 and HARD STOP 2 need the user's explicit go-ahead, one go per push.
+
+---
+
+## Validate Contract
+
+Status: PASS
+Date: 29-10-26
+date: 2026-10-29
+generated-by: outer-pvl
+supersedes: 2026-10-29 (outer-pvl, cycle 3, Gate: CONDITIONAL, 1 MUST-FIX) — PVL cycle 4 re-validated from V1 against the real repo; M8-1 verified CLOSED by running the repaired commands; 0 MUST-FIX remain; 4 RESIDUALs carried
+
+Parallel strategy: sequential
+Rationale: Signals S2, S6 and the outward-facing steps = 3/7 (MEDIUM); dominant signal S6 (installer/runtime plus push, tag and release). Sequential fits: each environment test depends on the previous fix and the outward steps are hard stops. Models: sonnet for planning/validation/tester runs; opus only for installer fixes. Note on this run: Layer 1 + Layer 2 checks were executed inline and sequentially by one validate agent (no spawn tool available); findings come from real greps and runs on the real tree (node.exe v24.15.0); nothing in the repo was modified.
+
+Evidence re-gathered in cycle 4 (29-10-26):
+- M8-1 CLOSED (verified by execution, with `vc-` names standing in for the post-rename `vb-` names): (b) the `/Users/` scan, simulated with `find` because the checkout has no git, leaves 0 files once `/__tests__/`, the task folder and the publish skill dir are excluded; the 6 raw hits are exactly the 4 hook-test fixtures and `publish/SKILL.md` + its reference. (c) the repaired badge commands give `actual_agents=15`, `actual_skills=33`, `readme_agents=15`, `readme_skills=33`, equality test exit 0, all four variables non-empty; `.claude/skills` holds only `vc-*` dirs, so the `vb-*/` glob matches all 33 after the rename. (a) `validate-kit-portability.mjs` exits 0 and the `CLAUDE.md`/`AGENTS.md` product-name grep prints 0.
+- A0 targets still exist exactly as planned: `new URL(import.meta.url).pathname` x1, `mkdtempSync('/tmp` x2, unquoted `bash ${INSTALL_SH}` x3 (the three static greps will go from non-zero to 0).
+- Installer facts for A2 re-read: backup dir `.vibecode-backup`, `merge` list in `install.sh`, `settings.json` skipped when present (verified in earlier cycle, unchanged).
+- Dependency (owned by Phase 6): Exit Gate line 1 (all e2e trials incl. Trial C) depends on the Phase 6 AC-5 predicate fix; I re-verified that fix (6 offenders under the old predicate, 0 under the new one). The separate Phase 6 defect M6-3 (G18 fixtures) does not touch any Phase 8 gate.
+- Plan structure validator on this plan: 0 failures (2 advisory legacy-shape warnings).
+
+Test gates (C3 5-column table):
+
+| criterion id | behavior | strategy | proving test | gap-resolution |
+|---|---|---|---|---|
+| C-P8-a | Install, update and publish-text flows (Trials A-E) pass | Hybrid | `$NODE e2e-kit-flows.test.mjs` on Linux Node >= 22 in WSL (precondition P0) | B (depends on Phase 6 M6-2 for Trial C); NOT TESTED + CONDITIONAL if Linux Node absent |
+| C-P8-b | Fresh empty project install on WSL/Linux | Hybrid | A2(i) commands: exit 0, `test -f .vb-installed-files && test -f .vb-version`, `find . \( -name 'vc-*' -o -name '.vc-*' \)` count 0, `.vb-version` equals `vb-manifest.json` version, sandbox deleted | B |
+| C-P8-b, C-SAFE-1 | Existing project: backups byte-identical; managed files overwritten; `process/x.md` and `my-skill` unchanged in place; `settings.json` untouched; user files not in `.vb-installed-files` | Hybrid | A2(ii) assertions (a)-(e) (verified satisfiable against `install.sh`) | B |
+| C-SAFE-1 | Update from the `upstream-baseline` install keeps modified files and removes only unmodified old kit files | Hybrid | Phase 6 Trial E reuse; precondition Linux Node and the Phase 6 hash gate | B; NOT TESTED + CONDITIONAL if no Linux Node |
+| C-P8-c | Publish flow stops at approval and creates no tag in the real repo | Agent-Probe | B2: `vb-publish` followed to Step 6 in a temp clone; `git tag -l v1.0.0` empty and `git log -1 --format=%H` unchanged | B |
+| C-P8-d | Local annotated tag `v1.0.0` on a clean `main` | Fully-Automated | `git tag -l v1.0.0`, `git cat-file -t v1.0.0` = `tag`, clean porcelain (task folder excluded) | B |
+| C-P8-A0 | Windows path defects removed from the e2e file (proves ONLY that) | Fully-Automated | the three static greps = 0 plus `node.exe e2e-kit-flows.test.mjs 2>&1 \| grep -cF '\C:\'` = 0 | B |
+| C-P8-g | Leak detection before tag and push gives a real answer, hard-stop hygiene holds | Fully-Automated (commands), Agent-Probe (go-ahead log) | C2-pre commands (`/Users/` scan outside the 6 benign paths = 0; badge equality exit 0; portability exit 0; product-name grep 0) + Exit Gate remote-tag count | B (M8-1 verified closed) |
+
+Failing stubs (Fully-Automated rows only):
+- Row C-P8-d: `test("should create an annotated v1.0.0 tag on a clean main", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should create an annotated v1.0.0 tag on a clean main") })`
+- Row C-P8-A0: `test("should not fail with a doubled C:\\ path under node.exe", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should not fail with a doubled C:\\ path under node.exe") })`
+- Row C-P8-g: `test("should report zero real leaks and a passing badge check before any tag or push", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should report zero real leaks and a passing badge check before any tag or push") })`
+
+Legacy line form (retained so existing consumers still parse):
+- e2e flows: [hybrid: `$NODE e2e-kit-flows.test.mjs`, precondition Linux Node >= 22]
+- Fresh + existing project install: [hybrid: Linux-filesystem temp dir + local `VB_KIT_SOURCE`, per-assertion commands]
+- Update from baseline: [hybrid: Phase 6 Trial E; precondition Linux Node and hash gate]
+- Publish flow: [agent-probe: stop at Step 6 in a temp clone]
+- Tag and leak checks: [Fully-automated: `git tag -l v1.0.0`, `git cat-file -t v1.0.0`, `validate-kit-portability.mjs`, repaired C2-pre commands]
+- Native Windows / macOS: [known-gap: documented — no machine here; user-run checklist in release notes; gate CONDITIONAL for those environments]
+
+Dimension findings:
+- Infra fit: PASS — installer facts verified; Linux Node absence is a named user action.
+- Test coverage: PASS — C2-pre commands were executed and give the stated results on the real kit; A0 limit stated plainly.
+- Breaking changes: PASS — release-note wording follows the verified installer behavior and the B1 observation.
+- Security surface: PASS — two separate hard stops, one go per push, no force-push, remote-tag count recorded.
+- Section A (install matrix): PASS.
+- Section B (update and publish): PASS.
+- Section C (release): PASS — M8-1 closed.
+
+Open gaps: none (0 MUST-FIX). RESIDUAL (carried as Known Gaps below): R8-1, R8-2, R8-3, R8-4.
+
+Known Gaps (RESIDUAL, bounded, each with a backlog stub or documented user action; excluded from the gate count):
+- R8-1 known-gap: native Windows (Git Bash) and macOS clean install are NOT TESTED (locked decision Q6); exact user commands in the release notes and backlog stub; gates for those environments stay CONDITIONAL after the phase.
+- R8-2 known-gap: the real GitHub raw-URL install is provable only after HARD STOP 1 (user approval to publish `main`); recorded as NOT RUN until then.
+- R8-3 known-gap: Linux Node >= 22 in WSL is a USER action; if refused, every WSL install gate and the e2e gate are NOT TESTED and C-P8 stays CONDITIONAL; the six user-run items listed in the Exit Gate carry the rest.
+- R8-4 known-gap: the `vb-publish` Step 8 check (c) regex is stale in the skill itself (`[0-9]+-Agents` vs the real `agents-15` badges); this phase works around it with its own repaired command; fixing the skill text is a backlog note (SKILL.md edits are owned by Phases 2/5/6).
+
+What This Coverage Does NOT Prove:
+- WSL/Linux installs: nothing about native Windows paths, Git Bash symlink fallbacks, macOS BSD tools or PowerShell users.
+- Local `VB_KIT_SOURCE` installs: not that the public `curl | bash` URL works or that the pushed repo contains every managed file.
+- Baseline-tree update test: behavior for `upstream-baseline` content only, not other historic kit versions.
+- e2e Trial D / publish probe: a static text check and a stopped flow, not that a real publish (push, tag, release) succeeds.
+- Existing-project test: preservation for the seeded files only; other user layouts (monorepos, customized `.codex/`) are not covered.
+- Leak commands: known product names and absolute paths only, not every possible project-specific string; the `/Users/` scan skips the 6 named benign paths by design.
+
+Execute-agent instructions:
+- E1: Start only after Phase 7 exit gate is green and Phase 6 (including M6-2/M6-3 repairs) is verified.
+- E2: Before any WSL test check `node --version` inside WSL; if missing, give the user the exact nvm commands and wait; if refused, mark WSL gates NOT TESTED and keep the gate CONDITIONAL. Never install Node yourself.
+- E3: Never run the real `vb-publish` flow in the real repo; never run `git push` (including re-pushes and force-push), `git push --tags`, or `gh release create` without the user's explicit go-ahead in this session.
+- E4: Delete every temp sandbox after use and assert it is gone; never install into a real user project.
+
+Plan updates applied: none required in this cycle (cycle-3 supplement already applied M8-1).
+Autonomous Goal Block: not written here (BRANCH B: the umbrella plan carries `## Stable Program Goal`, so the umbrella /goal governs).
+Gate: PASS (0 FAILs; 0 MUST-FIX; 4 RESIDUAL known-gaps; after 3 supplement cycles)
+Accepted by: not required (Gate: PASS); residual known-gaps R8-1 to R8-4 are bounded by locked decision Q6, backlog stubs and user actions.
+
+Next step: EXECUTE (vb-execute-agent) only after Phase 7 exit gate is green; HARD STOP 1 and HARD STOP 2 still need the user's explicit go, one go per push.
+
+---
+
+## Supplement cycle 1
+
+Date: 29-10-26 | Mode: PVL-supplement | Gaps addressed: 6 of 6 | Validate contract above is the first-pass record; re-validate from V1.
+- Gap 1 -> A1/A3, Evidence table and Exit Gate reworded: native Windows and macOS NOT TESTED (CONDITIONAL, backlog stub); Git Bash smoke is extra evidence only.
+- Gap 2 -> Entry Gate P0 (Linux Node in WSL is a USER action with exact commands; otherwise NOT TESTED) and P3 (sandboxes on the Linux filesystem).
+- Gap 3 -> B2 defined as stop at the Step 6 confirm inside a temp clone; asserts no tag or push in the real repo.
+- Gap 4 -> A2(ii) states the real installer behavior (replace with `.vibecode-backup/` copies, settings.json merged, `process/` preserved) and the release notes explain it.
+- Gap 5 -> C2 split into C2a/C2b/C2c with two hard stops; A4 uses `VB_KIT_SOURCE`; Rollback section added.
+- Gap 6 -> preconditions P1/P2 listed; wording "not worse than Phase 0 baseline" used consistently; downgrade-warning and user-only GitHub settings added to C1.
+- Supplement cycle 1c: added A0 (fix `fileURLToPath` Windows path bug in e2e-kit-flows.test.mjs, in blast radius) and reworded Entry Gate P1 to the Phase 2 resolver glob-mode fix (Phase 6 B0 fallback).
+
+
+---
+
+## Supplement cycle 2
+
+Date: 29-10-26 | Mode: PVL-supplement | Gaps addressed: 5 of 5 | The Validate Contract above is the cycle-2 record; re-validate from V1.
+- Gap 1 -> Step A preamble records the real `install.sh` behavior (per-file copy, no directory replacement, `settings.json` skipped when present, backup set, managed `process/` files overwritten without backup); A2(ii) and C1 rewritten to match; C1 additionally warns that the kit's hook settings are not added when a `settings.json` already exists.
+- Gap 2 -> A2(i)/(ii) carry a command and an expected value per assertion plus sandbox-deleted checks; A0 now also fixes `os.tmpdir()` (lines ~34, ~330) and the unquoted/backslash `bash` path, and states that its gate proves only the absence of those defects, not that node.exe trials pass.
+- Gap 3 -> new "Hard-stop hygiene" section and C2a/C2b/C2c: one go per push, re-push needs a fresh go, force-push forbidden, remote-tag count 0 before C2c and 1 after (recorded), tag re-created locally if a fix lands before C2c; C2-pre names the leak commands (`validate-kit-portability.mjs`, the narrow `CLAUDE.md`/`AGENTS.md` grep, the `/Users/` grep outside the task folder, the Step 8 check (c) badge block).
+- Gap 4 -> B1 records `.vb-version` and which command prints the downgrade warning; C1 words the original-kit bullet from that observation (default: no warning for the new installer; warning only when the OLD `vc-update` skill is pointed at this repository).
+- Gap 5 -> Phase Loop Progress steps 4-7 name `vb-*` agents; Entry Gate, B3 and Exit Gate use `bash $H/compare-vb.sh` (Phase 6 C3b mapping); Entry Gate P4 added.
+- Concern for the orchestrator (not a plan gap): `install.sh` overwrites managed `process/development-protocols/**` and `process/_seeds/**` files without backing them up. Phase 8 documents it in the release notes; a backup extension or warning is a backlog candidate, out of scope; stub written at EXECUTE only as a NOTE.
+- No registry change needed for Phase 8 (all touched files were already claimed).
+- C1/C4/C5 (cycle 2c): Exit Gate compare-vb.sh line states it includes the Phase 0 LICENSE greps; C1 now EXTENDS the Phase 2 `## [1.0.0]` entry with gate `grep -c '^## \[1.0.0\]' CHANGELOG.md` = 1; Exit Gate lists the 6 user-run known-gap items; backup-extension stub wording changed to 'backlog candidate, out of scope; stub written at EXECUTE only as a NOTE'.
+
+## Supplement cycle 3
+- M8-1 applied: C2-pre (b) `/Users/` scan excludes the 6 known benign tracked paths explicitly (`__tests__` fixtures and the `vb-publish` skill and reference), expected 0 otherwise; (c) replaced with explicit badge commands comparing the real `badge/agents-N` / `badge/skills-N` values to the on-disk counts; R8-4 backlog note recorded.
+- M6-2 dependency recorded: the first Exit Gate line (Trial C) depends on the Phase 6 AC-5 predicate fix.
