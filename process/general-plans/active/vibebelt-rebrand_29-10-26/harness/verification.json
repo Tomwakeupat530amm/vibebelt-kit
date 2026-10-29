@@ -1,34 +1,41 @@
 {
-  "_note": "Schema: the `steps` array follows .claude/skills/vc-risk-evidence-pack/SKILL.md section 3 (step, command, result PASS|FAIL|SKIP, notes). The top-level fields phase/date/tester/commits/known_gaps are extra metadata added by Phase 1 UPDATE PROCESS because 11-phase-programs.md and 10-update-process.md define no separate EVL record file. Source of results: the independent vc-tester (opus) EVL run, and this agent's re-runs on 2026-10-29.",
-  "phase": "phase-01-fix-inconsistencies",
+  "_note": "Schema: the `steps` array follows .claude/skills/vc-risk-evidence-pack/SKILL.md section 3 (step, command, result PASS|FAIL|SKIP, notes). Top-level fields phase/date/tester/commits/known_gaps are extra metadata (same shape as the Phase 1 file). This file REPLACES the Phase 1 content; the Phase 1 record is preserved in the git history (commit 189e8fe) and in phase-01-fix-inconsistencies_REPORT_29-10-26.md. Results come from the independent vc-tester (opus) EVL run on 0812325 plus the UPDATE PROCESS re-checks on 2026-10-29. The follow-up commit 0333ed8 gate re-run is PASS (independent vc-tester addendum, 2026-10-29).",
+  "phase": "phase-02-identity-distribution",
   "date": "2026-10-29",
-  "tester": "vc-tester (opus), independent EVL confirmation run",
+  "tester": "vc-tester (opus), independent EVL confirmation run on 0812325",
   "gate": "PASS",
+  "evl_addendum_0333ed8": "PASS",
   "commits": {
-    "p1_start": "27d9600",
-    "execution": "1733f7bda2e6c23acec2ee2e924cefdf016c1d1b",
-    "process_baseline": "e188368"
+    "p2_start": "a3cc0cfbc9bec4738481a1b8e3dd7ca8d4e083a1",
+    "execution": "b80abad",
+    "process_baseline": "0812325",
+    "follow_up_fix": "0333ed8"
   },
   "steps": [
-    {"step": "New validator exits 0 on the real agents", "command": "node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs", "result": "PASS", "notes": "exit 0"},
-    {"step": "New validator exits 0 on pass fixture, 1 on fail fixture with plain-language messages (happy path and failure case)", "command": "validate-model-effort-policy.mjs --root <fixtures/model-effort-pass|model-effort-fail>", "result": "PASS", "notes": "pass exit 0; fail exit 1 naming agent + field + expected value"},
-    {"step": "Red-first run before the effort edits", "command": "validate-model-effort-policy.mjs on pre-edit agents", "result": "PASS", "notes": "exactly 3 effort messages (execute, fast-mode, quick-fix), no model message"},
-    {"step": "Mutation test: flip one model/effort line, validator must fail", "command": "manual flip + validator run + revert", "result": "PASS", "notes": "validator failed as required"},
-    {"step": "Positive control: README row set back to sonnet gives RED", "command": "R1.12 loop after temporary edit", "result": "PASS", "notes": "RED line printed; edit reverted"},
-    {"step": "Agent diff gate: only 3 effort lines moved, no model line changed", "command": "git diff -U0 27d9600 -- .claude/agents", "result": "PASS", "notes": "3 files, effort low -> max; 0 model lines; .codex untouched"},
-    {"step": "Agent parity and frontmatter", "command": "validate-agent-parity.mjs; validate-agent-frontmatter.mjs", "result": "PASS", "notes": "both exit 0"},
-    {"step": "Validator count in READMEs", "command": "grep for 36 / 38 sites in README.md + docs/i18n/README.*.md", "result": "PASS", "notes": "36 sites 40 -> 0; 38 sites 0 -> 40; 38 validators on disk"},
-    {"step": "Model-fact claim grep and README model facts", "command": "R1.11 claim grep; R1.12 per-row loop; 60.70 grep", "result": "PASS", "notes": "claim grep 14 -> 0; README RED 30 -> 0; 60.70 10 -> 0; 7 opus / 8 sonnet"},
-    {"step": "CI name loop over both workflows", "command": "for w in validate release: every validate-*.mjs named", "result": "PASS", "notes": "CI validator names missing 20 -> 0; script-name sets of validate.yml and release.yml equal; release.yml additions only; YAML parse ok"},
-    {"step": "21 new CI steps run locally", "command": "node <validator> <fixture> for each row of the E2 table", "result": "PASS", "notes": "19 exit 0; row 3 validate-eval-coverage and row 19 validate-risk-artifacts exit 1 and are continue-on-error: true (2 in each workflow)"},
-    {"step": "Baseline comparison", "command": "bash baseline/compare.sh", "result": "PASS", "notes": "exit 0; NOTE new validator validate-model-effort-policy; nothing worse than validators_after_setup.tsv"},
-    {"step": "Identity and remote", "command": "git log author check; git remote", "result": "PASS", "notes": "one author identity; no remote; nothing pushed"},
-    {"step": "R1.10 / R1.13 agent-probe: review of 9 README translations", "command": "code-reviewer agent", "result": "PASS", "notes": "a code-reviewer agent (read-only) checked all 10 README files against the repo on 2026-10-29: 7 opus / 8 sonnet identical everywhere, research/plan/validate rows say opus, Mermaid diagram skeleton byte-identical to English after blanking quoted strings (static check; not rendered with mermaid-cli), validator count 38 at all 4 sites, the '60-70%' claim removed in every language, no translation damage that changes meaning. Cosmetic only: some English fragments remain in the diagram edge labels (as before); the 8 non-English/non-Vietnamese READMEs are slated for deletion in the clean-tree step."},
-    {"step": "CI on a real ubuntu runner (K1-2)", "command": "n/a", "result": "SKIP", "notes": "cannot run here; Phase 8 including the release.yml tag path"}
+    {"step": "R2.1/R2.1b old identity only in tagged or brand-detection lines (kept files and process/)", "command": "grep -rIn \"withkynam\\|flowser\" . --exclude-dir=.git --exclude-dir=process | grep -vE -f harness/doomed.regex | grep -vF <tag and brand markers>", "result": "PASS", "notes": "62 lines before -> 3 tagged + 11 brand-detection; untagged non-brand 0; process/ 0"},
+    {"step": "R2.2 display name vibecode-pro-max-kit only tagged or author: lines", "command": "R2.2 grep with doomed filter", "result": "PASS", "notes": "71 non-author lines -> 3 tagged; 19 author lines kept for Phase 6"},
+    {"step": "R2.3 no hotlinks, local assets exist, logo gone", "command": "grep tenor|skillicons; asset existence loop; test ! -e assets/flowser-logo.svg", "result": "PASS", "notes": "tenor/skillicons lines 20 -> 0; assets/ no longer exists"},
+    {"step": "R2.4 version 1.0.0 in manifest, both READMEs, CHANGELOG", "command": "node -e version; grep badge/version; grep '^## \\[1.0.0\\]' CHANGELOG.md", "result": "PASS", "notes": "3.2.5 and 3.0.0 -> 1.0.0; one [1.0.0] entry"},
+    {"step": "R2.5 resolver list identical to P2_START at 3.2.5 and at 1.0.0", "command": "node resolve-manifest.mjs | sort | diff - baseline/resolved_p2_start.node.txt (and node.exe list)", "result": "PASS", "notes": "416 files (Linux node) and 493 (node.exe), byte-identical; negative control: old resolver at 1.0.0 returns 0 files"},
+    {"step": "Legacy-manifest fixture (old format manifest still resolves)", "command": "tester fixture run", "result": "PASS", "notes": "behavior identical for old-format manifests"},
+    {"step": "Local install trial", "command": "install.sh against a local clone (VC_KIT_SOURCE)", "result": "PASS", "notes": "rc 0, version 1.0.0, 416 installed = 416 resolved, no withkynam in installed files"},
+    {"step": "R2.7 installer REPO line and URLs in vc-update/vc-publish", "command": "grep REPO line; bash -n install.sh; grep -c URL", "result": "PASS", "notes": "REPO is https://github.com/Tomwakeupat530amm/vibebelt-kit.git"},
+    {"step": "R2.8 portability validator green and unchanged", "command": "node validate-kit-portability.mjs; git diff P2_START -- it", "result": "PASS", "notes": "exit 0; no diff"},
+    {"step": "R2.9 / R2.10 security and funding", "command": "grep advisories URL, mailto; test ! -e FUNDING.yml", "result": "PASS", "notes": "private advisories URL present, no mailto, FUNDING.yml gone"},
+    {"step": "R2.14 WhatsApp invite removed from kept files", "command": "grep -rn chat.whatsapp.com with doomed filter", "result": "PASS", "notes": "3 -> 0"},
+    {"step": "R2.15 relative links resolve in both READMEs", "command": "R2.15 loop", "result": "PASS", "notes": "3 dead VI links -> 0"},
+    {"step": "R2.16-R2.18 credit line, vc-update pointer, version-format wording", "command": "grep -c checks", "result": "PASS", "notes": "credit line 1 per README; vc-update points at CHANGELOG; 4 wording lines replaced"},
+    {"step": "Mutation tests M1-M4 (old URL re-added, tag removed, WhatsApp re-added, broken relative link)", "command": "tester mutations with revert", "result": "PASS", "notes": "caught by R2.1/R2.2, R2.16, R2.14, R2.15 respectively"},
+    {"step": "release.yml ordering gate: Phase 1 validator steps survive", "command": "name loop over release.yml; step count", "result": "PASS", "notes": "44 steps"},
+    {"step": "Baseline comparison", "command": "bash baseline/compare.sh", "result": "PASS", "notes": "exit 0"},
+    {"step": "CHANGELOG hooks block deep-equal to .claude/settings.json hooks", "command": "node -e deep-equality one-liner", "result": "PASS", "notes": "true (re-checked by UPDATE PROCESS after 0333ed8)"},
+    {"step": "R2.12/R2.13 Agent-Probe: credit lines, brand sweep, URL consistency, README sync", "command": "code-reviewer agent (read-only)", "result": "PASS", "notes": "found D1 HIGH (vc-update pointed to a missing hooks block), D2, D4, D6; all fixed in 0333ed8; D3 skipped (MIGRATION.md doomed); D5 expected (removed in Phase 8 cleanup); D7 info (user enables Private Vulnerability Reporting)"},
+    {"step": "Gate re-run for follow-up commit 0333ed8", "command": "independent vc-tester (opus) re-run", "result": "PASS", "notes": "Exit Gate R2.1, R2.2, R2.14-R2.18, compare.sh exit 0, hooks block deep-equal (mutation gives false), one 1.0.0 heading, credit lines tagged, diff since 0812325 = 5 follow-up files, one author, no remote"},
+    {"step": "e2e Trial C and Trial D, native Windows/macOS runs", "command": "n/a", "result": "SKIP", "notes": "K2-1: Trial C is Phase 6 B4, Trial D and native runs Phase 8"},
+    {"step": "GitHub-side settings and live links", "command": "n/a", "result": "SKIP", "notes": "K2-2: Phase 8, user-run list goes to RELEASE-NOTES-1.0.0.md"}
   ],
   "known_gaps": [
-    {"id": "K1-1", "text": "orchestration.md Regression Gate Validators and validator registry docs do not list the new validator until Phase 4", "backlog": "process/general-plans/backlog/validator-registry-docs-lag_NOTE_29-10-26.md"},
-    {"id": "K1-2", "text": "CI never run on a real ubuntu runner, including the release.yml tag path", "owner": "Phase 8"},
-    {"id": "K1-3", "text": "validate-risk-artifacts.mjs needs its own fixtures and a schema decision", "backlog": "process/general-plans/backlog/risk-artifacts-validator-fixtures_NOTE_29-10-26.md"}
+    {"id": "K2-1", "text": "e2e Trial C (legacyDeletions predicate) not green; Trial D and native Windows/macOS runs untested", "owner": "Phase 6 B4 (Trial C); Phase 8 (Trial D, native runs)"},
+    {"id": "K2-2", "text": "GitHub-side settings (Private Vulnerability Reporting, Discussions, Sponsorship OFF, community channel) and live links cannot be checked before the repo exists", "owner": "Phase 8, user-run list in RELEASE-NOTES-1.0.0.md"}
   ]
 }

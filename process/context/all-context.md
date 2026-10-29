@@ -131,10 +131,10 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
   CLAUDE.md, AGENTS.md                -- managed protocol files (orchestrator rules, RIPER-5); no project facts
   README.md, CHANGELOG.md, MIGRATION.md, CONTRIBUTING.md, SECURITY.md, LICENSE (MIT)
   install.sh                          -- bash installer (472 lines); clones/copies kit, backs up old setup, installs
-  resolve-manifest.mjs                -- glob resolver for vc-manifest.json (needs Node 22 fs.globSync)
+  resolve-manifest.mjs                -- resolver for vc-manifest.json; picks glob mode by manifest shape (`Array.isArray(manifest.include)`), not by version (needs Node 22 fs.globSync)
   compute-sync-plan.mjs               -- pure add/modify/delete/preserve plan between kit and target
   e2e-kit-flows.test.mjs              -- 4 node:test install trials
-  vc-manifest.json                    -- version 3.2.5; include/exclude/kitOnly/symlinks/legacyDeletions lists
+  vc-manifest.json                    -- version 1.0.0; include/exclude/kitOnly/symlinks/legacyDeletions lists
   .claude/
     agents/                           -- 15 agent prompts (vc-*-agent, vc-tester, vc-debugger, ...)
     skills/                           -- 33 skills; each has SKILL.md, plus references/ and scripts/
@@ -165,7 +165,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
 - **Config formats:** JSON (`vc-manifest.json`, `.claude/settings.json`, `.codex/hooks.json`), TOML (`.codex/config.toml`, agent mirrors), YAML (GitHub workflows, frontmatter in every doc).
 - **Dependencies:** none at the repo level. No `package.json`, no lockfile, no package manager. Two skills carry their own small footprints: `vc-sequential-thinking` (`package.json`) and `vc-agent-browser` (scripts and a lockfile); both are excluded from installs by the manifest.
 - **CI:** GitHub Actions: `validate.yml` (pull_request and push to `main`, Ubuntu, Node 22; 42 steps) and `release.yml` (version tag; 44 steps), plus `labeler.yml` and `welcome.yml`. No deployments.
-- **Distribution:** `curl ... install.sh | bash` from a GitHub repo (the user's own repo, not yet pushed); version tracked by `vc-manifest.json` (`3.2.5`) and a `.vc-version` file written into target projects.
+- **Distribution:** `curl ... install.sh | bash` from a GitHub repo (`Tomwakeupat530amm/vibebelt-kit`, created by the user in Phase 8, not yet pushed); version tracked by `vc-manifest.json` (`1.0.0`, reset from upstream 3.2.5 in Phase 2; the CHANGELOG `[1.0.0]` entry records the fork origin) and a `.vc-version` file written into target projects.
 - **Agent targets:** Claude Code (`.claude/`) and Codex (`.codex/`, model `gpt-5.4`); skills are shared through `.agents/skills`.
 
 ## Key Patterns and Conventions

@@ -361,7 +361,7 @@ C0b commands (executed by a spawned vc-execute-agent; gate run by a spawned vc-t
 
 - `git rm -r --cached process/general-plans/active/vibebelt-rebrand_29-10-26` (and any archived copy under `process/general-plans/completed/`), then add the folder to `.git/info/exclude` (local only; files stay on disk; C0 evidence stays readable).
 - `git rm` (work tree + index) of every other DOOMED path below.
-- Edits (non-code, text only): cut the language-switcher block in `README.md`, `docs/i18n/README.vi-VN.md` and `CONTRIBUTING.md` to links that exist (README: English + Vietnamese only; VI README: English link + Vietnamese; CONTRIBUTING: remove the block); fix `CHANGELOG.md` line 125 (`See [MIGRATION.md](MIGRATION.md)...`, a dead link once MIGRATION.md is gone) to plain text without a link; keep the Vietnamese README in sync with English after these edits.
+- Edits (non-code, text only): cut the language-switcher block in `README.md`, `docs/i18n/README.vi-VN.md` and `CONTRIBUTING.md` to links that exist (README: English + Vietnamese only; VI README: English link + Vietnamese; CONTRIBUTING: remove the block; SECURITY.md: remove the block at the top of the file, found by content); fix every `CHANGELOG.md` link to MIGRATION.md (found by content; now about lines 217 and 234, dead once MIGRATION.md is gone) to plain text without a link; keep the Vietnamese README in sync with English after these edits.
 - Re-run `harness/clean-check.sh` (below) and the validators; fix in the same commit until green; ONE commit.
 
 ### DOOMED SET (deleted by C0b; throw-away until then)
@@ -443,7 +443,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 |---|---|
 | 0 — Foundation | ✅ VERIFIED |
 | 1 — Fix inconsistencies | ✅ VERIFIED |
-| 2 — Identity and distribution | ⏳ PLANNED |
+| 2 — Identity and distribution | ✅ VERIFIED |
 | 3 — Slim agents | ⏳ PLANNED |
 | 4 — Doc de-duplication | ⏳ PLANNED |
 | 5 — Tune skills | ⏳ PLANNED |
@@ -550,24 +550,29 @@ node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs pr
 ## Current Execution State
 
 Last updated: 2026-10-29
-Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS
-Current phase: 2 of 9
-Phase 2 name: Identity and distribution
-Phase 2 status: NOT_STARTED
+Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS; Phase 2 (Identity and distribution) COMPLETE_WITH_GAPS
+Current phase: 3 of 9
+Phase 3 name: Slim agents
+Phase 3 status: NOT_STARTED
 Phase 0 name: Foundation
 Phase 0 status: DONE (COMPLETE_WITH_GAPS; named residuals K0-1 and K0-2 carried to Phase 8 backlog stubs)
 Phase 0 EVL: green (independent vc-tester run PASS, 38 rows)
 Phase 0 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-00-foundation_REPORT_29-10-26.md
 Phase 1 name: Fix inconsistencies
-Phase 1 status: DONE (COMPLETE_WITH_GAPS; execution commit 1733f7b, baseline commit e188368; residuals K1-1 registry docs in Phase 4, K1-2 real-runner CI in Phase 8, K1-3 risk-artifacts fixtures backlog; translation probe R1.10/R1.13 pending, orchestrator updates)
-Phase 1 EVL: green (independent vc-tester run PASS on every runnable Exit Gate row; mutation test and positive control passed; compare.sh exit 0); translation probe pending
+Phase 1 status: DONE (COMPLETE_WITH_GAPS; execution commit 1733f7b, baseline commit e188368; residuals K1-1 registry docs in Phase 4, K1-2 real-runner CI in Phase 8, K1-3 risk-artifacts fixtures backlog; translation probe R1.10/R1.13 PASS)
+Phase 1 EVL: green (independent vc-tester run PASS on every runnable Exit Gate row; mutation test and positive control passed; compare.sh exit 0)
 Phase 1 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_REPORT_29-10-26.md
-Next phase: 2 - Identity and distribution (phase-02-identity-distribution_PLAN_29-10-26.md)
-Current loop step: RESEARCH (Phase 2, step 1a). Phase 2's inner PVL contract is Gate: PASS dated 2026-10-29; Phase 2 starts from the registry and umbrella claims. Phases 3 and 8 still carry Inner Loop Refresh Notes, so their PVL restarts at V1.
-Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl; hand-off H1 to Phase 2); Phases 0 and 1 = Gate: PASS (inner), consumed; Phase 2 = Gate: PASS (2026-10-29); Phases 3-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
+Phase 2 name: Identity and distribution
+Phase 2 status: DONE (COMPLETE_WITH_GAPS; P2_START a3cc0cf; execution commit b80abad, process commit 0812325, follow-up fix commit 0333ed8; version reset to 1.0.0; residuals K2-1 e2e Trial C in Phase 6 B4 and Trial D plus native runs in Phase 8, K2-2 GitHub-side settings and live links in Phase 8)
+Phase 2 EVL: green (independent vc-tester PASS on 0812325: every runnable row, 4 mutation tests, resolver negative control, local install trial 416 = 416 files; Agent-Probe R2.12/R2.13 passed after fixes in 0333ed8). EVL addendum for 0333ed8: PASS (independent vc-tester re-run on 2026-10-29)
+Phase 2 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_REPORT_29-10-26.md
+Next phase: 3 - Slim agents (phase-03-slim-agents_PLAN_29-10-26.md)
+Current loop step: RESEARCH (Phase 3, step 1a). Phase 3 still carries an Inner Loop Refresh Note, so its inner PVL restarts at V1. Phase 3 step A0 is a COST ACKNOWLEDGEMENT and must be the first step before any billed (live-provider) run. The user said to stop after Phase 2 for the night: do not start Phase 3 until the user resumes.
+Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl); Phases 0, 1 and 2 = Gate: PASS (inner), consumed; Phases 3-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
 Program Net Gate: PASS at umbrella level; C-P8r (native Windows / macOS) stays CONDITIONAL inside Phase 8
-Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-29 (Linux node 22.23.4; prints NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
-Git state: branch main, HEAD e188368, no remote, nothing pushed; tag `upstream-baseline` = 005744e; Phase 1 start marker 27d9600; Phase 1 execution commit 1733f7b, process commit e188368; uncommitted: this UPDATE PROCESS closeout (Phase 1 report, backlog stubs, harness/verification.json, umbrella state, results.tsv, two context docs) - commit as a process commit
+Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-29 after Phase 2 (Linux node 22.23.4; NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
+Git state: branch main, HEAD 0333ed8, no remote, nothing pushed; tag `upstream-baseline` = 005744e; Phase 2 start marker a3cc0cf; Phase 2 commits b80abad (chore, 21 files), 0812325 (process), 0333ed8 (fix); uncommitted: this UPDATE PROCESS closeout (Phase 2 report and plan checkboxes, umbrella state and C0b line, results.tsv, harness/verification.json, two context docs) - commit as a process commit
+Phase 2 hand-offs: (1) `author: vibecode-pro-max-kit` in 19 files -> Phase 6; (2) CHANGELOG hooks block is a COPY of `.claude/settings.json` hooks: Phase 8 re-runs the deep-equality one-liner (expects true) after any Phase 6 hook change; (3) Phase 8 C0b removes the language switchers and dead MIGRATION.md links in CHANGELOG.md, SECURITY.md, CONTRIBUTING.md and both READMEs (found by content); (4) user-run GitHub settings (Private vulnerability reporting, Discussions, Sponsorship OFF, replacement community channel) go to RELEASE-NOTES-1.0.0.md in Phase 8.
 Model facts after Phase 1: 7 opus (execute, fast-mode, quick-fix, plan, research, tester, validate) and 8 sonnet; effort low -> max on execute, fast-mode, quick-fix. Sessions started before Phase 1 hold the old CLAUDE.md: spawns of plan, research, validate and tester must not pass a model override.
 
 Loop step values: RESEARCH | INNOVATE | PLAN-SUPPLEMENT | PVL | EXECUTE | EVL | UPDATE-PROCESS
