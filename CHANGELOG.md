@@ -1,6 +1,18 @@
 # Changelog
 
-All notable changes to vibecode-pro-max-kit are documented in this file.
+All notable changes to vibebelt-kit are documented in this file.
+
+## [1.0.0] - 2026-10-29
+
+### Fork origin
+
+- vibebelt-kit is a fork of [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) by its original authors (MIT), started from upstream version 3.2.5. <!-- upstream-attribution -->
+- The exact upstream code the fork started from is tagged `upstream-baseline` in this repository's git history.
+- The version number starts again at 1.0.0. If you installed the upstream kit (version 3.x) and run the update skill against this kit, it prints a downgrade warning (`v1.0.0 → v3.x`) and asks you to confirm. That is expected for a fork: the kit is not older, its version numbers restarted. Confirm to switch to vibebelt-kit.
+
+## Upstream history
+
+The entries below are the upstream project's history before the fork, kept as they were.
 
 ## [3.2.5] - 2026-06-21
 

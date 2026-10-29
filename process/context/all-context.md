@@ -151,7 +151,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
     general-plans/{active,backlog,completed}/  -- plan task folders; active holds the rebrand program
     features/                         -- feature folders (none yet) + _feature-template/
   docs/                               -- i18n/ (README, CONTRIBUTING, SECURITY translations), GitHub label/settings notes
-  assets/                             -- flowser-logo.svg
+  assets/                             -- no vendored media (README images are text or remote badges)
   .github/                            -- workflows (validate, release, labeler, welcome), issue templates, PR template
 ```
 
@@ -207,7 +207,7 @@ No test framework or package manager. Checks are plain Node scripts: the 38 vali
 ## Open Questions
 
 - The `.agents/skills` symlink cannot be followed in this Windows work tree, so two validators fail here only; whether to repair it is deferred to the program owner.
-- The kit's GitHub repo URL is not yet set (installer and README still point at upstream `withkynam/vibecode-pro-max-kit` until the rebrand's identity phase).
+- The installer `REPO` and the README now point at `https://github.com/Tomwakeupat530amm/vibebelt-kit`, which the user creates in Phase 8 (until then those links do not resolve).
 - Exact status of the rebrand phases lives only in the umbrella plan's `## Current Execution State`.
 
 ## Source References

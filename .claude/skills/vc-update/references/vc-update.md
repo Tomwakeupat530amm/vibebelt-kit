@@ -45,7 +45,7 @@ The manifest uses glob-based patterns resolved by `resolve-manifest.mjs`.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `version` | string | Semver version of this release. >= 2.1.0 means glob format. |
+| `version` | string | Semver version of this release. It does not choose the format: a manifest whose `include` is an array of glob patterns is glob format. |
 | `include` | string[] | Glob patterns for files managed by the kit. Resolved against the kit repo root. |
 | `exclude` | string[] | Glob patterns to exclude from include matches. Post-filtered by the resolver. |
 | `strip` | string[] | Files needing project-specific content stripped at publish time. Informational for vc-update. |
@@ -61,14 +61,14 @@ Old manifests use explicit file lists instead of glob patterns:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `version` | string | Semver version (< 2.1.0) |
+| `version` | string | Semver version (informational; this format is recognised by the missing `include` array, not by the version) |
 | `managed` | string[] | Individual files overwritten on update |
 | `managedDirs` | string[] | Directories synced entirely (rsync-style replace) |
 | `seedsDir` | string | Path to legacy seeds directory when a pre-2.1.0 kit release still ships one |
 | `symlinks` | object | Symlink path -> target mappings |
 | `deletions` | string[] | Paths to delete (accumulated across versions) |
 
-The resolver handles both formats transparently. If version >= 2.1.0, it uses glob resolution. Otherwise, it falls back to explicit list resolution.
+The resolver handles both formats transparently and detects the format from the manifest shape: if `include` is an array of glob patterns, it uses glob resolution. Otherwise, it falls back to explicit list resolution. The version number is not used for this choice.
 
 ## resolve-manifest.mjs
 
@@ -275,7 +275,7 @@ Layout migration:
 
 The resolver script handles both manifest formats:
 
-- **v2.1.0+**: Glob patterns in `include`/`exclude`/`kitOnly`. Resolver uses `fs.globSync` with post-filtering.
+- **Glob format** (`include` is an array; used since v2.1.0): Glob patterns in `include`/`exclude`/`kitOnly`. Resolver uses `fs.globSync` with post-filtering.
 - **v2.0.x**: Explicit `managed`/`managedDirs`/`seedsDir` arrays. Resolver walks directories recursively.
 
 If the remote kit doesn't have `resolve-manifest.mjs` (very old version), fall back to the legacy algorithm that reads `managed`/`managedDirs` directly from the manifest JSON.

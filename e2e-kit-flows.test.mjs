@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * e2e-kit-flows.test.mjs
- * Four end-to-end trials for vibecode-pro-max-kit v3.0.0.
+ * Four end-to-end trials for vibebelt-kit (written for upstream v3.0.0).
  * Uses Node built-in node:test — no external test dependencies.
  * ALL writes go to /tmp — never touches the target/source repo.
  *

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# vibecode-pro-max-kit installer
+# vibebelt-kit installer
 # Clean install with backup for both new and existing projects.
 # Replaces .claude/, .codex/, .agents/, CLAUDE.md, AGENTS.md with kit versions.
 # Preserves: process/ (user content). Merges .claude/settings.json (not replaced if present).
 # After this script, run Claude Code and say "Run vc-setup" to
 # auto-detect your project, scaffold process/, and populate context.
 
-REPO="https://github.com/withkynam/vibecode-pro-max-kit.git"
+REPO="https://github.com/Tomwakeupat530amm/vibebelt-kit.git"
 # VC_KIT_SOURCE overrides the default remote.
 # Accepts: a local filesystem path OR an alternate git URL.
 # - Local directory: working tree is copied as-is (uncommitted changes included).
@@ -26,7 +26,7 @@ cleanup() { rm -rf "$VC_INSTALL_TMPDIR" 2>/dev/null; }
 trap cleanup EXIT
 
 echo ""
-echo "  vibecode-pro-max-kit installer"
+echo "  vibebelt-kit installer"
 echo "  ─────────────────────────────────"
 echo ""
 

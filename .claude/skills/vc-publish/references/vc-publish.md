@@ -8,11 +8,11 @@ Create this file in the project root to tell vc-publish where the kit repo check
 
 ```json
 {
-  "kitRepoPath": "/Users/you/vibecode-pro-max-kit"
+  "kitRepoPath": "/Users/you/vibebelt-kit"
 }
 ```
 
-- The path must point to a git checkout of `github.com/withkynam/vibecode-pro-max-kit.git`
+- The path must point to a git checkout of `github.com/Tomwakeupat530amm/vibebelt-kit.git`
 - The checkout must have `vc-manifest.json` at its root
 - If missing, the skill asks the user for the path interactively
 - Add `.vc-publish-config` to `.gitignore` -- it contains a local machine path
@@ -207,7 +207,7 @@ Publish v2.2.0? (patch/minor/major to change, abort to cancel)
 ```
 vc-publish complete: v2.1.0 -> v2.2.0
 
-Published to: github.com/withkynam/vibecode-pro-max-kit.git
+Published to: github.com/Tomwakeupat530amm/vibebelt-kit.git
 Tag: v2.2.0
 Commit: abc1234
 

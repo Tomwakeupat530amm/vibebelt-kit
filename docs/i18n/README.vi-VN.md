@@ -13,22 +13,13 @@
 
 <div align="center">
 
-<a href="https://flowser.ai">
-  <img src="../../assets/flowser-logo.svg" alt="Flowser" width="120">
-</a>
-
-*Được xây dựng bởi những kỹ sư hàng đầu, dành cho vibecoders tại*<br>
-*[flowser.ai](https://flowser.ai) — AI Agents với máy tính cho GTM*
-
 <br>
 
-# vibecode-pro-max-kit
+# vibebelt-kit
 
 <br>
 
 <p align="center">
-  <img src="https://media.tenor.com/q_5em_iLaxoAAAAC/tanjiro-i-water-style.gif" alt="Flow like water" width="480">
-  <br><br>
   <em>"Toàn Tập Trung — Hơi Thở Đặc Kỹ, Thức Thứ Mười: Vibe Flow không bao giờ đứt."</em><br>
   <strong>— Tanjiro Kamado</strong>
 </p>
@@ -83,12 +74,12 @@
 </table>
 
 <p>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/stargazers"><img src="https://img.shields.io/github/stars/withkynam/vibecode-pro-max-kit" alt="Stars"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/network/members"><img src="https://img.shields.io/github/forks/withkynam/vibecode-pro-max-kit" alt="Forks"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/withkynam/vibecode-pro-max-kit" alt="License"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/graphs/contributors"><img src="https://img.shields.io/github/contributors/withkynam/vibecode-pro-max-kit" alt="Contributors"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/withkynam/vibecode-pro-max-kit/validate.yml" alt="CI"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.0.0-2EA043" alt="Version"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/stargazers"><img src="https://img.shields.io/github/stars/Tomwakeupat530amm/vibebelt-kit" alt="Stars"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/network/members"><img src="https://img.shields.io/github/forks/Tomwakeupat530amm/vibebelt-kit" alt="Forks"></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/Tomwakeupat530amm/vibebelt-kit" alt="License"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/graphs/contributors"><img src="https://img.shields.io/github/contributors/Tomwakeupat530amm/vibebelt-kit" alt="Contributors"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/Tomwakeupat530amm/vibebelt-kit/validate.yml" alt="CI"></a>
+  <a href="../../CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.0.0-2EA043" alt="Version"></a>
   <img src="https://img.shields.io/badge/agents-15-orange" alt="Agents">
   <img src="https://img.shields.io/badge/skills-33-purple" alt="Skills">
   <img src="https://img.shields.io/badge/hooks-10-blue" alt="Hooks">
@@ -108,23 +99,9 @@
 
 <p>
   <em>Hoạt động trên mọi công nghệ, ngôn ngữ, dự án</em><br><br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=ts%2Cjs%2Creact%2Cnextjs%2Cvue%2Cnuxt%2Csvelte%2Cangular%2Cnodejs%2Cexpress%2Cbun%2Cpython%2Cdjango%2Cflask%2Cfastapi&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=ts%2Cjs%2Creact%2Cnextjs%2Cvue%2Cnuxt%2Csvelte%2Cangular%2Cnodejs%2Cexpress%2Cbun%2Cpython%2Cdjango%2Cflask%2Cfastapi&theme=light&perline=15" />
-    <img alt="Tech Stack Row 1" src="https://skillicons.dev/icons?i=ts,js,react,nextjs,vue,nuxt,svelte,angular,nodejs,express,bun,python,django,flask,fastapi&perline=15" />
-  </picture>
-  <br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=ruby%2Crails%2Cgo%2Crust%2Cjava%2Cspring%2Ckotlin%2Cswift%2Cphp%2Claravel%2Ccs%2Cdotnet%2Celixir%2Cgraphql%2Cprisma&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=ruby%2Crails%2Cgo%2Crust%2Cjava%2Cspring%2Ckotlin%2Cswift%2Cphp%2Claravel%2Ccs%2Cdotnet%2Celixir%2Cgraphql%2Cprisma&theme=light&perline=15" />
-    <img alt="Tech Stack Row 2" src="https://skillicons.dev/icons?i=ruby,rails,go,rust,java,spring,kotlin,swift,php,laravel,cs,dotnet,elixir,graphql,prisma&perline=15" />
-  </picture>
-  <br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=supabase%2Cfirebase%2Cpostgres%2Cmongodb%2Credis%2Cdocker%2Ckubernetes%2Caws%2Cgcp%2Cazure%2Cvercel%2Ccloudflare%2Ctailwind%2Celectron&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=supabase%2Cfirebase%2Cpostgres%2Cmongodb%2Credis%2Cdocker%2Ckubernetes%2Caws%2Cgcp%2Cazure%2Cvercel%2Ccloudflare%2Ctailwind%2Celectron&theme=light&perline=15" />
-    <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
-  </picture>
+  TypeScript · JavaScript · React · Next.js · Vue · Nuxt · Svelte · Angular · Node.js · Express · Bun · Python · Django · Flask · FastAPI<br>
+  Ruby · Rails · Go · Rust · Java · Spring · Kotlin · Swift · PHP · Laravel · C# · .NET · Elixir · GraphQL · Prisma<br>
+  Supabase · Firebase · PostgreSQL · MongoDB · Redis · Docker · Kubernetes · AWS · Google Cloud · Azure · Vercel · Cloudflare · Tailwind CSS · Electron
   <br>
   <p><em>Không chỉ để trưng bày. Khi bạn chạy <code>vc-setup</code>, các agent quét codebase,<br>
   phát hiện công nghệ bạn dùng, và xây dựng nhóm kiến thức dành riêng cho dự án mà mọi skill đọc trước khi làm việc.<br>
@@ -143,7 +120,7 @@
 **Chỉ có một lệnh duy nhất, và nó dùng được cho tất cả mọi người.** Chạy trong thư mục dự án của bạn. Nó tự phát hiện bạn là người dùng mới hay cũ, cài đặt an toàn mà không ghi đè file của bạn, rồi *cho bạn biết chính xác câu tiếp theo cần nói.*
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 ```
 
 Khi xong, nó in ra một trong hai thông báo — **đọc phần cuối của output và làm đúng theo những gì nó nói:**
@@ -214,9 +191,9 @@ your-project/
 > Mở Claude Code hoặc Codex **với thư mục dự án của bạn làm thư mục làm việc**, rồi dán:
 
 ```
-First, install the vibecode-pro-max-kit agent harness by running this command:
+First, install the vibebelt-kit agent harness by running this command:
 
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 
 After install completes, run vc-setup and follow the full interactive flow:
 
@@ -455,7 +432,7 @@ Nó nghiên cứu code xác thực hiện tại của bạn và cách các codeb
 
 ## So Sánh
 
-| Tính năng | vibecode-pro-max-kit | Superpowers | GSD | gstack |
+| Tính năng | vibebelt-kit | Superpowers | GSD | gstack |
 |---------|---------------------|-------------|-----|--------|
 | Vòng đời lập kế hoạch trước | RIPER-5 đầy đủ (research → spec → innovate → plan → validate → execute → update) | Quy trình bắt buộc | Sửa context-rot | Một phần |
 | An toàn khóa từng bước | Tool của agent bị giới hạn theo giai đoạn (nghiên cứu chỉ đọc, không ghi trong innovate) | Ràng buộc dựa trên skill | Tách giai đoạn | Không có |
@@ -1692,38 +1669,39 @@ Nhiều mặc định nhỏ, thông minh cộng lại giúp ít phải giám sá
 
 ## Đóng Góp
 
-Chúng tôi hoan nghênh đóng góp! Xem [CONTRIBUTING.md](CONTRIBUTING.md) để biết hướng dẫn.
+Chúng tôi hoan nghênh đóng góp! Xem [CONTRIBUTING.md](../../CONTRIBUTING.md) để biết hướng dẫn.
 
 <br>
 
 **Liên kết nhanh:**
 
-- 🐛 [Báo cáo lỗi](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=1.bug_report.yml)
-- 💡 [Yêu cầu tính năng](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=2.feature_request.yml)
-- ⚡ [Gửi kỹ năng](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=3.skill_submission.yml)
-- 🌐 [Thêm bản dịch](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=5.translation.yml)
+- 🐛 [Báo cáo lỗi](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=1.bug_report.yml)
+- 💡 [Yêu cầu tính năng](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=2.feature_request.yml)
+- ⚡ [Gửi kỹ năng](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=3.skill_submission.yml)
 
 <br>
 
-<a href="https://github.com/withkynam/vibecode-pro-max-kit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=withkynam/vibecode-pro-max-kit" alt="Contributors" />
+<a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Tomwakeupat530amm/vibebelt-kit" alt="Contributors" />
 </a>
 
 <br>
 
 ### 🙏 Ghi Nhận
 
-vibecode-pro-max-kit tập trung vào khung phát triển theo đặc tả và tổ chức ngữ cảnh tự cải thiện, mà không làm bạn nặng nề với 80+ kỹ năng. Ít công cụ hơn, nhiều cấu trúc hơn.
+Dựa trên [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) của các tác giả gốc (MIT). <!-- upstream-attribution -->
+
+vibebelt-kit tập trung vào khung phát triển theo đặc tả và tổ chức ngữ cảnh tự cải thiện, mà không làm bạn nặng nề với 80+ kỹ năng. Ít công cụ hơn, nhiều cấu trúc hơn.
 
 ---
 
 ## ⭐ Lịch Sử Ngôi Sao
 
-<a href="https://star-history.com/#withkynam/vibecode-pro-max-kit&Date">
+<a href="https://star-history.com/#Tomwakeupat530amm/vibebelt-kit&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date" />
  </picture>
 </a>
 

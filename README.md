@@ -13,22 +13,13 @@
 
 <div align="center">
 
-<a href="https://flowser.ai">
-  <img src="assets/flowser-logo.svg" alt="Flowser" width="120">
-</a>
-
-*Built by world-class engineers, for vibecoders at*<br>
-*[flowser.ai](https://flowser.ai) — AI Agents with computers for GTM*
-
 <br>
 
-# vibecode-pro-max-kit
+# vibebelt-kit
 
 <br>
 
 <p align="center">
-  <img src="https://media.tenor.com/q_5em_iLaxoAAAAC/tanjiro-i-water-style.gif" alt="Flow like water" width="480">
-  <br><br>
   <em>"Total Concentration — Spec Breathing, Tenth Form: the Vibe Flow never breaks."</em><br>
   <strong>— Tanjiro Kamado</strong>
 </p>
@@ -83,12 +74,12 @@
 </table>
 
 <p>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/stargazers"><img src="https://img.shields.io/github/stars/withkynam/vibecode-pro-max-kit" alt="Stars"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/network/members"><img src="https://img.shields.io/github/forks/withkynam/vibecode-pro-max-kit" alt="Forks"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/withkynam/vibecode-pro-max-kit" alt="License"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/graphs/contributors"><img src="https://img.shields.io/github/contributors/withkynam/vibecode-pro-max-kit" alt="Contributors"></a>
-  <a href="https://github.com/withkynam/vibecode-pro-max-kit/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/withkynam/vibecode-pro-max-kit/validate.yml" alt="CI"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.2.5-2EA043" alt="Version"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/stargazers"><img src="https://img.shields.io/github/stars/Tomwakeupat530amm/vibebelt-kit" alt="Stars"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/network/members"><img src="https://img.shields.io/github/forks/Tomwakeupat530amm/vibebelt-kit" alt="Forks"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Tomwakeupat530amm/vibebelt-kit" alt="License"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/graphs/contributors"><img src="https://img.shields.io/github/contributors/Tomwakeupat530amm/vibebelt-kit" alt="Contributors"></a>
+  <a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/Tomwakeupat530amm/vibebelt-kit/validate.yml" alt="CI"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.0.0-2EA043" alt="Version"></a>
   <img src="https://img.shields.io/badge/agents-15-orange" alt="Agents">
   <img src="https://img.shields.io/badge/skills-33-purple" alt="Skills">
   <img src="https://img.shields.io/badge/hooks-10-blue" alt="Hooks">
@@ -108,23 +99,9 @@
 
 <p>
   <em>Works across any tech stack, any language, any project</em><br><br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=ts%2Cjs%2Creact%2Cnextjs%2Cvue%2Cnuxt%2Csvelte%2Cangular%2Cnodejs%2Cexpress%2Cbun%2Cpython%2Cdjango%2Cflask%2Cfastapi&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=ts%2Cjs%2Creact%2Cnextjs%2Cvue%2Cnuxt%2Csvelte%2Cangular%2Cnodejs%2Cexpress%2Cbun%2Cpython%2Cdjango%2Cflask%2Cfastapi&theme=light&perline=15" />
-    <img alt="Tech Stack Row 1" src="https://skillicons.dev/icons?i=ts,js,react,nextjs,vue,nuxt,svelte,angular,nodejs,express,bun,python,django,flask,fastapi&perline=15" />
-  </picture>
-  <br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=ruby%2Crails%2Cgo%2Crust%2Cjava%2Cspring%2Ckotlin%2Cswift%2Cphp%2Claravel%2Ccs%2Cdotnet%2Celixir%2Cgraphql%2Cprisma&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=ruby%2Crails%2Cgo%2Crust%2Cjava%2Cspring%2Ckotlin%2Cswift%2Cphp%2Claravel%2Ccs%2Cdotnet%2Celixir%2Cgraphql%2Cprisma&theme=light&perline=15" />
-    <img alt="Tech Stack Row 2" src="https://skillicons.dev/icons?i=ruby,rails,go,rust,java,spring,kotlin,swift,php,laravel,cs,dotnet,elixir,graphql,prisma&perline=15" />
-  </picture>
-  <br>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=supabase%2Cfirebase%2Cpostgres%2Cmongodb%2Credis%2Cdocker%2Ckubernetes%2Caws%2Cgcp%2Cazure%2Cvercel%2Ccloudflare%2Ctailwind%2Celectron&theme=dark&perline=15" />
-    <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=supabase%2Cfirebase%2Cpostgres%2Cmongodb%2Credis%2Cdocker%2Ckubernetes%2Caws%2Cgcp%2Cazure%2Cvercel%2Ccloudflare%2Ctailwind%2Celectron&theme=light&perline=15" />
-    <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
-  </picture>
+  TypeScript · JavaScript · React · Next.js · Vue · Nuxt · Svelte · Angular · Node.js · Express · Bun · Python · Django · Flask · FastAPI<br>
+  Ruby · Rails · Go · Rust · Java · Spring · Kotlin · Swift · PHP · Laravel · C# · .NET · Elixir · GraphQL · Prisma<br>
+  Supabase · Firebase · PostgreSQL · MongoDB · Redis · Docker · Kubernetes · AWS · Google Cloud · Azure · Vercel · Cloudflare · Tailwind CSS · Electron
   <br>
   <p><em>Not just for show. When you run <code>vc-setup</code>, agents scan your codebase,<br>
   detect your stack, and build project-specific knowledge groups that every skill reads before it works.<br>
@@ -145,7 +122,7 @@
 **There is only one command, and it works for everyone.** Run it inside your project folder. It detects whether you are a new or returning user, installs safely without overwriting your files, and then *tells you the exact next thing to say.*
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 ```
 
 When it finishes, it prints one of two messages — **read the bottom of the output and do exactly what it says:**
@@ -216,9 +193,9 @@ your-project/
 > Open Claude Code or Codex **with your project folder as the working directory**, then paste:
 
 ```
-First, install the vibecode-pro-max-kit agent harness by running this command:
+First, install the vibebelt-kit agent harness by running this command:
 
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 
 After install completes, run vc-setup and follow the full interactive flow:
 
@@ -457,7 +434,7 @@ It researches your current auth code and how other codebases solved RBAC, writes
 
 ## How This Compares
 
-| Feature | vibecode-pro-max-kit | Superpowers | GSD | gstack |
+| Feature | vibebelt-kit | Superpowers | GSD | gstack |
 |---------|---------------------|-------------|-----|--------|
 | Plan-first lifecycle | Full RIPER-5 (research → spec → innovate → plan → validate → execute → update) | Mandatory workflows | Context-rot fix | Partial |
 | Step-locked safety | Agent tools are restricted per phase (read-only research, no writing in innovate) | Skill-based constraints | Phase separation | None |
@@ -1702,32 +1679,33 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 **Quick links:**
 
-- 🐛 [Report a bug](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=1.bug_report.yml)
-- 💡 [Request a feature](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=2.feature_request.yml)
-- ⚡ [Submit a skill](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=3.skill_submission.yml)
-- 🌐 [Add a translation](https://github.com/withkynam/vibecode-pro-max-kit/issues/new?template=5.translation.yml)
+- 🐛 [Report a bug](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=1.bug_report.yml)
+- 💡 [Request a feature](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=2.feature_request.yml)
+- ⚡ [Submit a skill](https://github.com/Tomwakeupat530amm/vibebelt-kit/issues/new?template=3.skill_submission.yml)
 
 <br>
 
-<a href="https://github.com/withkynam/vibecode-pro-max-kit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=withkynam/vibecode-pro-max-kit" alt="Contributors" />
+<a href="https://github.com/Tomwakeupat530amm/vibebelt-kit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Tomwakeupat530amm/vibebelt-kit" alt="Contributors" />
 </a>
 
 <br>
 
 ### 🙏 Credits
 
-vibecode-pro-max-kit focuses on the spec-driven development framework and self-improving context organization, without bloating you with 80+ skills. Fewer tools, more structure.
+Based on [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) by its original authors (MIT). <!-- upstream-attribution -->
+
+vibebelt-kit focuses on the spec-driven development framework and self-improving context organization, without bloating you with 80+ skills. Fewer tools, more structure.
 
 ---
 
 ## ⭐ Star History
 
-<a href="https://star-history.com/#withkynam/vibecode-pro-max-kit&Date">
+<a href="https://star-history.com/#Tomwakeupat530amm/vibebelt-kit&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Tomwakeupat530amm/vibebelt-kit&type=Date" />
  </picture>
 </a>
 

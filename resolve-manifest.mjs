@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * resolve-manifest.mjs — Glob-based manifest resolver for vibecode-pro-max-kit.
+ * resolve-manifest.mjs — Glob-based manifest resolver for vibebelt-kit.
  *
  * Resolves vc-manifest.json include/exclude/kitOnly patterns to a flat file list.
  * Supports both v2.1+ (glob) and legacy v2.0.x (explicit list) formats.
@@ -52,20 +52,13 @@ try {
   process.exit(1);
 }
 
-// ── Version check ─────────────────────────────────────────────────────────────
+// ── Format detection ──────────────────────────────────────────────────────────
 
-function semverGte(a, b) {
-  const pa = a.split(".").map(Number);
-  const pb = b.split(".").map(Number);
-  for (let i = 0; i < 3; i++) {
-    if ((pa[i] || 0) > (pb[i] || 0)) return true;
-    if ((pa[i] || 0) < (pb[i] || 0)) return false;
-  }
-  return true; // equal
-}
-
-const version = manifest.version || "0.0.0";
-const useGlob = semverGte(version, "2.1.0");
+// The manifest format is detected by its SHAPE, not by its version number:
+// glob format (v2.1+) has an `include` array of glob patterns; the legacy
+// v2.0.x format lists `managed` / `managedDirs` instead. The version may be
+// reset (a fork starts again at 1.0.0) without changing the format.
+const useGlob = Array.isArray(manifest.include);
 
 // ── Glob resolution (v2.1+) ──────────────────────────────────────────────────
 

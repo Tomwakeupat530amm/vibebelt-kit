@@ -12,14 +12,14 @@ metadata:
 
 > **Output style:** Follow `process/development-protocols/communication-standards.md` — answer-first, plain language, no unexplained jargon, TL;DR on long responses.
 
-Push harness improvements from the current development repo to the remote kit repository (`vibecode-pro-max-kit`). This is the **maintainer** counterpart to `vc-update`.
+Push harness improvements from the current development repo to the remote kit repository (`vibebelt-kit`). This is the **maintainer** counterpart to `vc-update`.
 
 - `vc-update` = **user** pulls latest harness INTO their project FROM the remote
 - `vc-publish` = **maintainer** pushes improvements FROM the development repo TO the remote kit repo
 
 ## Prerequisites
 
-- Local checkout of the kit repo (`git clone git@github.com:withkynam/vibecode-pro-max-kit.git`)
+- Local checkout of the kit repo (`git clone git@github.com:Tomwakeupat530amm/vibebelt-kit.git`)
 - `.vc-publish-config` file in the current repo root (see Configuration below)
 - Git push access to the remote kit repo
 
@@ -28,7 +28,7 @@ Push harness improvements from the current development repo to the remote kit re
 Create `.vc-publish-config` in the repo root:
 
 ```json
-{"kitRepoPath": "/path/to/vibecode-pro-max-kit"}
+{"kitRepoPath": "/path/to/vibebelt-kit"}
 ```
 
 If this file is missing, ask the user for the kit repo checkout path and offer to create it.
@@ -339,7 +339,7 @@ vc-publish complete
 ===================
 Version:       v2.2.0 (was v2.1.0)
 Files changed: 4
-Remote:        git@github.com:withkynam/vibecode-pro-max-kit.git
+Remote:        git@github.com:Tomwakeupat530amm/vibebelt-kit.git
 Tag:           v2.2.0
 Release:       https://github.com/<owner>/<repo>/releases/tag/v2.2.0
 ```

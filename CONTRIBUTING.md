@@ -7,9 +7,9 @@
   <a href="docs/i18n/CONTRIBUTING.pt-BR.md">Português</a>
 </p>
 
-# Contributing to vibecode-pro-max-kit
+# Contributing to vibebelt-kit
 
-Thank you for your interest in contributing to vibecode-pro-max-kit! This project provides a ready-to-use agent harness for Claude Code and Codex, and we welcome contributions from everyone.
+Thank you for your interest in contributing to vibebelt-kit! This project provides a ready-to-use agent harness for Claude Code and Codex, and we welcome contributions from everyone.
 
 By participating in this project, please be respectful and constructive in all interactions.
 
@@ -17,7 +17,6 @@ By participating in this project, please be respectful and constructive in all i
 
 ## Communication Channels
 
-- **WhatsApp (primary):** [Join our community group](https://chat.whatsapp.com/E42ySo6iGmuAyeh25eAXuu?s=cl&p=i&mlu=1)
 - **GitHub Issues:** Bug reports, feature requests, and task tracking
 - **GitHub Discussions:** Questions, ideas, and general conversation
 
@@ -90,15 +89,15 @@ Fixes for validation scripts, install logic, seed templates, or any other existi
 2. **Clone** your fork locally:
 
    ```bash
-   git clone https://github.com/<your-username>/vibecode-pro-max-kit.git
-   cd vibecode-pro-max-kit
+   git clone https://github.com/<your-username>/vibebelt-kit.git
+   cd vibebelt-kit
    ```
 
 3. **Install** the harness into a test project to verify everything works:
 
    ```bash
    # From a test project directory
-   bash /path/to/vibecode-pro-max-kit/install.sh
+   bash /path/to/vibebelt-kit/install.sh
    ```
 
 4. **Run the setup skill** to verify the installed harness:
@@ -281,4 +280,4 @@ Top contributors may be invited as maintainers.
 
 ---
 
-Thank you for helping make vibecode-pro-max-kit better for everyone!
+Thank you for helping make vibebelt-kit better for everyone!

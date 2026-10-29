@@ -12,7 +12,7 @@ metadata:
 
 > **Output style:** Follow `process/development-protocols/communication-standards.md` — answer-first, plain language, no unexplained jargon, TL;DR on long responses.
 
-Pull the latest agent harness improvements from the remote vibecode-pro-max-kit repository into the current project.
+Pull the latest agent harness improvements from the remote vibebelt-kit repository into the current project.
 
 ## When to Use
 
@@ -43,7 +43,7 @@ Read the file `.vc-version` in the project root.
 ```bash
 # Respect VC_KIT_SOURCE override (local path or alternate URL).
 # When unset, defaults to the official remote.
-KIT_SOURCE="${VC_KIT_SOURCE:-https://github.com/withkynam/vibecode-pro-max-kit.git}"
+KIT_SOURCE="${VC_KIT_SOURCE:-https://github.com/Tomwakeupat530amm/vibebelt-kit.git}"
 VC_UPDATE_TMPDIR="/tmp/vc-update-$(date +%s)"
 git clone --local --depth 1 --quiet "$KIT_SOURCE" "$VC_UPDATE_TMPDIR" 2>/dev/null \
   || git clone --depth 1 --quiet "$KIT_SOURCE" "$VC_UPDATE_TMPDIR"
@@ -353,7 +353,7 @@ Missing hooks most likely absent from your v2.x install:
   Stop                 → stop-validator-sweep.cjs      — runs core validators on session end
   SubagentStart        → subagent-init.cjs             — injects compact context into every subagent
 
-Paste-ready hooks block: see https://github.com/withkynam/vibecode-pro-max-kit/blob/main/MIGRATION.md#action-required-settingsjson-hooks
+Paste-ready hooks block: see the 1.0.0 entry of CHANGELOG.md (https://github.com/Tomwakeupat530amm/vibebelt-kit/blob/main/CHANGELOG.md)
 or diff .claude/settings.json .vibecode-backup/.claude/settings.json
 ```
 
