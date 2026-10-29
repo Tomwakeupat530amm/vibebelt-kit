@@ -42,11 +42,13 @@ Tune (never remove) the 33 skills: find trigger-keyword overlaps that cause wron
 ## Strategy Recommendation (vc-agent-strategy-compare)
 
 - Signals: S4 yes, S7 yes — score 3/7.
-- Recommended: **Agent team**, same team as Phase 4 (`TeamCreate` "vibebelt-p4-p5", teammate `p5-skills-tune`, its own `TaskCreate` task, `SendMessage` to `p4-docs-dedup` before touching anything outside the registry claim, `TaskList` to track). Not parallel subagents. Sonnet for research/plan/validate/audit; opus for the teammate leg that edits skill files. Fallback: sequential after Phase 4.
+- Recommended: **Agent team**, same team as Phase 4 (`TeamCreate` "vibebelt-p4-p5", teammate `p5-skills-tune`, its own `TaskCreate` task, `SendMessage` to `p4-docs-dedup` before touching anything outside the registry claim, `TaskList` to track). Not parallel subagents. Research/plan/validate run on opus (front-matter), audit and ad-hoc helpers on sonnet; opus for the teammate leg that edits skill files. Fallback: sequential after Phase 4.
 
 ---
 
 ## Blast Radius (disjoint from Phase 4 — see registry)
+
+Scope limit for `.claude/skills/vc-agent-strategy-compare/SKILL.md`: edit front-matter, `trigger_keywords` and `description` only. The `## Model Selection Policy` body and the output-template `Model:` line belong to Phase 1 (F2/F3) and are NOT touched here.
 
 - `.claude/skills/*/SKILL.md` (frontmatter `description`, `trigger_keywords` only; bodies untouched except oversize splitting into `references/`) and new `.claude/skills/*/references/*` files created by those splits
 - `.claude/skills/vc-agent-browser/**` (investigation only; no change, see A3/B3)
@@ -95,7 +97,7 @@ P=$T/p5-tools
 ### Step C - Proposals and catalog
 
 - [ ] C1. Write `$T/proposed-new-skills.md` (name, one-line purpose, why a vibecoder needs it). Add NOTHING.
-- [ ] C2. JOIN STEP (ONE join serves Phases 4 and 5; executed once, after BOTH teammates report quiesced; the catalog `routedFrom` derives from CLAUDE.md/AGENTS.md text). The ORCHESTRATOR ONLY SEQUENCES; it runs no gate command and edits no file itself: (1) spawn `vc-execute-agent` (opus) to merge `p4-docs-dedup` and `p5-skills-tune` (`git merge --no-ff`, disjoint paths) and run `node.exe .claude/skills/vc-audit-context/scripts/generate-skills-catalog.mjs --write`; (2) spawn `vc-tester` (sonnet) to run `... --check` (exit 0), confirm the skill count is still 33 and every skill has non-empty `routedFrom`, `cmp` the charter-template mirror pair, and then the joint validator suite INCLUDING `validate-skill-keywords.mjs` (green only after `--write`). Phase 5 never edits CLAUDE.md, AGENTS.md or `process/development-protocols/**` (including the protocol-side charter-template mirror).
+- [ ] C2. JOIN STEP (ONE join serves Phases 4 and 5; executed once, after BOTH teammates report quiesced; the catalog `routedFrom` derives from CLAUDE.md/AGENTS.md text). The ORCHESTRATOR ONLY SEQUENCES; it runs no gate command and edits no file itself: (1) spawn `vc-execute-agent` (opus) to merge `p4-docs-dedup` and `p5-skills-tune` (`git merge --no-ff`, disjoint paths) and run `node.exe .claude/skills/vc-audit-context/scripts/generate-skills-catalog.mjs --write`; (2) spawn `vc-tester` (opus, front-matter) to run `... --check` (exit 0), confirm the skill count is still 33 and every skill has non-empty `routedFrom`, `cmp` the charter-template mirror pair, and then the joint validator suite INCLUDING `validate-skill-keywords.mjs` (green only after `--write`). Phase 5 never edits CLAUDE.md, AGENTS.md or `process/development-protocols/**` (including the protocol-side charter-template mirror).
 - [ ] C3. Per-teammate diff-vs-claim on the BRANCH diff (never shared `main`): `git diff --name-only $(cat $P/baseline.sha)..p5-skills-tune | node.exe $P/claim-check.mjs $P/claim.globs` prints nothing (the tool is Phase 5's own `$P/claim-check.mjs` from 0.4a), and its name list has an empty `comm -12` intersection with the Phase 4 branch list. Rollback unit = the branch: after the merge, rehearse `git revert -m 1 --no-commit <p5-merge-commit>`, assert the changed set is inside the claim, then `git revert --abort`.
 
 ---
@@ -180,10 +182,10 @@ git diff --check                                                             # E
 Orchestrator reads this before deciding which subagent to spawn next. The canonical 7-step inner loop
 `R → I → P → PVL → E → EVL → UP` SKIPS SPEC (the umbrella plan and the user brief act as the SPEC).
 
-- [ ] 1. RESEARCH — research-agent (sonnet): prior phase reports read; test context loaded; plan drift checked
+- [ ] 1. RESEARCH — vc-research-agent (opus, front-matter): prior phase reports read; test context loaded; plan drift checked
 - [ ] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written
-- [ ] 3. PLAN-SUPPLEMENT — plan-agent (sonnet): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
-- [ ] 4. PVL — vc-validate-agent (sonnet): full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
+- [ ] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus, front-matter): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
+- [ ] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
 - [ ] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented)
 - [ ] 6. EVL — vc-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written
 - [ ] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main
@@ -205,9 +207,9 @@ instructions / Test gates) is treated as a placeholder.
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_PLAN_29-10-26.md`
 - Last completed step: not started
-- Validate-contract status: written 29-10-26 (PASS, outer-pvl, PVL cycle 4 re-run: 0 FAIL, 0 MUST-FIX, 7 RESIDUAL incl. 2 bounded Known Gaps); EXECUTE legal
+- Validate-contract status: PVL cycle 5 (outer-pvl, 2026-10-29, from V1) re-validated after Phase 0 completion and the ripple supplement: Gate: PASS (0 FAIL / 0 MUST-FIX / 10 RESIDUAL incl. 2 bounded Known Gaps); EXECUTE legal. Earlier cycle-4 PASS superseded.
 - Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, prior phase report (if any)
-- Next step: Spawn vc-research-agent (sonnet) for step 1 RESEARCH of this phase (after Phase 3 exit gate, parallel with Phase 4)
+- Next step: Spawn vc-research-agent (opus, front-matter) for step 1 RESEARCH of this phase (after Phase 3 exit gate, parallel with Phase 4)
 
 ---
 
@@ -217,39 +219,59 @@ Status: PASS
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 3 CONDITIONAL) — PVL cycle 4 re-ran V1-V7 against the real repo and has current evidence
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 4 PASS) — same-day re-validation from V1 (PVL cycle 5). The cycle-4 PASS predates the Phase 0 completion facts and the 2026-10-29 ripple supplement (strategy-compare scope limit, model labels, join-step tester label), so this contract replaces it in full; the cycle supplement logs below stay as history only. The date is the same calendar day, so ordering rests on this explicit statement and on the "PVL cycle 5" label.
 
-Parallel strategy: vc-team
-Rationale: Plan mandates the same agent team as Phase 4 (`p5-skills-tune`; TeamCreate + TaskCreate + SendMessage + TaskList; NOT parallel subagents); sequential after Phase 4 is the valid fallback. Score 3/7; dominant signals S4 and S7 plus the need to keep blast radii disjoint. Sonnet for research/audit/validate; opus only for the teammate leg that edits skill files. This pass ran Layer 1 (4) and Layer 2 (Step 0, A, B, C) inline in one session (no spawn tool); evidence = real-repo reads and measurements (`ls`, `wc -c`, `du`, `find`, `.claude/skills` and script paths, manifest and `.gitignore` greps, `vc-research-agent` frontmatter, registry), `validate-plan-artifact.mjs` (exit 0, 0 failures, 2 advisory legacy-shape warnings). V1: existing contract was CONDITIONAL (not PASS) and no `## Inner Loop Refresh Note` exists, so no auto-proceed; V1-V7 re-ran in full. Prior verdicts were not trusted.
+V1 line: `V1 RE-VALIDATE TRIGGERED: ripple supplement dated 2026-10-29 (strategy-compare front-matter-only scope limit, model labels, join-step tester) postdates the existing PASS contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the same-day ripple as newer. V1 AUTO-PROCEED does not apply.`
 
-Cycle-3 MUST-FIX closure check (M1 plus 2 residuals), verified against the real plan text and repo:
-- CLOSED (M1, phase lock and missing tool): A2 and 0.2 now say RESEARCH is read-only and only REPORTS the numeric threshold, per-skill byte sizes and the snapshot approach; the EXECUTE agent writes `$P/oversize.list` (threshold on line 1, re-measured at 0.6) and `$P/snapshot.mjs` in Step 0 before 0.6. This matches `vc-research-agent` (`disallowedTools: Write, Edit, MultiEdit`, verified). New item 0.4a creates `$P/claim-check.mjs` (same interface as Phase 4: names on stdin, `claim.globs` with `!` excludes, prints paths outside the claim, exit 1); C3, the Exit Gate and the Verification Evidence row call that Phase 5 path, never Phase 4's. `$P/**` and `$P/claim.globs` cover the new tools, so the claim-check passes on them.
-- CLOSED (residual E1): A3 now says `chat-mock-workspace.png` is 429 bytes. Verified with `ls -la`: 429.
-- CLOSED (residual E2 wording): 0.5 says "Red" means worse than the Phase 0 baseline, and "validate-skills failure lines excluding `.agents/skills` must be empty", with the 17-byte text file kept in the work tree.
-- Facts re-verified in the real repo this pass: 33 skill folders; five SKILL.md over 20000 bytes (vc-setup 27741, vc-intent-clarify 26600, vc-update 25663, vc-generate-phase-program 25426, vc-agent-strategy-compare 21645); `vc-agent-browser` screenshots hold 53 PNGs, `ui-audit-20260408` 4.3M and `ui-audit-20260408-v2` 8.9M (13.2M), five top-level mock PNGs, `vc-manifest.json` `exclude` has `**/screenshots/**`, `scripts/README.md:107` says "Always save screenshots to `.claude/skills/vc-agent-browser/screenshots` directory", `.gitignore` has no screenshots rule; all six `validate-skill-*`, confusable and catalog scripts exist at the paths named in the Exit Gate; the registry Phase 5 entry matches `claim.globs` and is still disjoint from Phase 4.
+Parallel strategy: vc-team (agent team with Phase 4)
+Rationale: the plan mandates the same agent team as Phase 4 (teammate `p5-skills-tune`; TeamCreate + TaskCreate + SendMessage + TaskList; NOT parallel subagents); sequential after Phase 4 is the valid fallback. Score 3/7, dominant signals S4 and S7 plus the need to keep blast radii disjoint. Models: research/plan/validate/tester on their front-matter (opus), audit and ad-hoc helpers sonnet, the teammate leg that edits skill files opus. This pass was ONE fire-and-forget validate-agent (no spawn tool): Layer 1 (4) and Layer 2 (Step 0, A, B, C, Exit Gate) inline with throw-away checks in a scratch clone. Prior verdicts were not trusted.
 
-New-MUST-FIX scan (gate unsatisfiable, unsafe or irreversible step, protocol violated, cost hard-stop ordering, phase locks): none found. Phase 5 runs no billed model call and does nothing irreversible (the agent-browser decision is a backlog note only; nothing is deleted or ignored). Items examined and classified RESIDUAL: E6 (where the `oversize.list` instruction lives), E7 (0.6 wording).
+### Real-repo facts and checks (V1-V7, cycle 5)
 
-Plan updates applied: none in this pass except the handoff status line.
+- **Counts and sizes (real tree):** 33 skill folders; five SKILL.md over 20000 bytes exactly as the plan lists (vc-setup 27741, vc-intent-clarify 26600, vc-update 25663, vc-generate-phase-program 25426, vc-agent-strategy-compare 21645); no other file is over 20000. Phase 1 and Phase 2 will change some of these sizes a little (vc-update/vc-setup/vc-publish URLs, the strategy-compare body); the plan re-measures at 0.6, so nothing is stale.
+- **Screenshots decision (user, Phase 0):** `.claude/skills/vc-agent-browser/screenshots/` holds 15M (7 top-level entries: 5 mock PNGs plus the two audit folders; 53 PNGs in total as the plan states); `git check-ignore -v` confirms `.gitignore:10` ignores the directory; `git ls-tree -r upstream-baseline` and `git ls-files` list 0 screenshot paths, so they are excluded from the baseline and untracked; `scripts/README.md:107` still names the directory as a runtime output path. The plan (A3, B3, Verification row) is consistent: non-destructive, keep the directory, no `.gitignore` or untrack proposal, backlog note only. The old contract's sentence "`.gitignore` has no screenshots rule" was true before Phase 0 and is superseded here.
+- **Catalog/validator mechanics reproduced in a scratch clone (Linux node):** `generate-skills-catalog.mjs --check` = exit 0 now (so the 0.2(c) `pre-catalog.json` copy is allowed); after a `trigger_keywords` edit `validate-skill-keywords.mjs` is RED with "generated-skills-catalog.json is stale" (so the plan's rule "expected red until the join" is right); after `--write` the `--check` is 0 again; editing only SKILL.md bodies or URLs (what Phases 1 and 2 do) does NOT stale the catalog (`--check` stays 0 and `validate-skill-keywords.mjs` stays 0). `routedFrom` is computed from the canonical routing surfaces by substring, so it stays non-empty once Phase 4 replaces the AGENTS.md Skill Registry table by a pointer.
+- **Team design rehearsed in a scratch clone:** two worktrees, one disjoint commit each, `git merge --no-ff` of both, `git revert -m 1 --no-commit <merge>` changed exactly one branch's file and `git revert --abort` left a clean tree (see the Phase 4 contract). C2 is correct on protocol: the ORCHESTRATOR ONLY SEQUENCES the join; a spawned `vc-execute-agent` (opus) merges and runs `--write`; a spawned `vc-tester` (opus, front-matter) runs `--check`, the 33-skill and non-empty `routedFrom` checks, the mirror `cmp` and the joint suite. The strategy text names TeamCreate, `p5-skills-tune`, TaskCreate, SendMessage and TaskList and contrasts with parallel subagents. Registry entries for Phases 4 and 5 are disjoint; the charter-template pair is excluded from both `claim.globs`.
+- **Locked scope for the strategy-compare skill:** the plan states (Blast Radius preface) "edit front-matter, `trigger_keywords` and `description` only; the `## Model Selection Policy` body and the output-template `Model:` line belong to Phase 1". There is one tension inside the plan: B2 splits every skill in `oversize.list`, and `vc-agent-strategy-compare` (21645 bytes) is on that list. The more specific scope limit wins; this contract makes it mechanical (E8 and the extra gate row below). Not a MUST-FIX: the specific rule is explicit, and the extra gate closes the ambiguity without a plan edit.
+- **Paths and scripts exist:** `validate-skills.mjs`, `validate-skill-invocation-wiring.mjs` (vc-audit-vc); `validate-skill-routing.mjs`, `validate-confusable-skills.mjs`, `validate-skill-keywords.mjs`, `validate-skill-cross-refs.mjs`, `generate-skills-catalog.mjs` (vc-audit-context). `validate-plan-artifact.mjs` on this plan: exit 0, 0 failures, 2 advisory legacy-shape warnings.
 
-Test gates (C3 5-column table):
+### MUST-FIX / RESIDUAL classification
+
+MUST-FIX: 0.
+RESIDUAL (10): KG1 and KG2 (bounded Known Gaps), E3-E7 carried from the cycle-4 contract (re-read, still valid), and new E8-E10 below (E8 strategy-compare scope, E9 screenshots live in the primary work tree only, E10 runtime and the stale `.gitignore` sentence).
+
+### Plan updates applied
+
+None in this pass except the handoff status line.
+
+### Test gates (C3 5-column table)
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
 | C-P5 | 33 skills remain, folder names unchanged | Fully-Automated | `ls -d .claude/skills/*/ \| wc -l` == 33 (33 today) AND sorted folder-name file diff vs `$P/pre-skill-folders.txt` empty | A (count) + B (snapshot) |
-| C-P5 | Skill validators not worse than Phase 0 baseline, in the right ORDER | Fully-Automated | after the join: validate-skills (failure lines excluding `.agents/skills` must be empty), skill-routing, confusable, skill-keywords, skill-cross-refs, invocation-wiring; mid-phase set excludes skill-keywords | A (all green today except validate-skills baseline) + B |
-| C-P5 | Catalog regenerated and fresh at the join | Fully-Automated | `generate-skills-catalog.mjs --write` (spawned vc-execute-agent) then `--check` exit 0 (spawned vc-tester) after Phase 4 reports quiesced | B |
-| C-P5 | Each skill still reachable by its main phrases | Hybrid | `node.exe $P/routing-check.mjs`: recorded top-3 `trigger_keywords` retained, none stolen, new overlaps reported; snapshot from SKILL.md frontmatter written by the EXECUTE agent (`$P/snapshot.mjs`) | B |
-| C-P5 | Oversize splits lose nothing | Fully-Automated | `node.exe $P/conservation-check.mjs` over `$P/oversize.list` (written by the EXECUTE agent in Step 0) plus `validate-skill-cross-refs` | B |
-| C-P5 | 15MB of vc-agent-browser explained with CORRECT numbers and a safe decision | Agent-Probe | judge checks 15M in `screenshots/` (53 PNGs; 13.2M in two audit folders), manifest-excluded, `scripts/README.md:107` runtime output dir, 429-byte mock, decision keeps the directory, no .gitignore re-proposal (already ignored by Phase 0 A3c) | A (facts verified now) + B (report) |
-| C-P5 | Proposals only | Fully-Automated | `test -s $T/proposed-new-skills.md` AND folder count == 33 | B |
-| C-P5 | Each teammate touched only its claim; rollback unit exists | Fully-Automated | branch diff through `$P/claim-check.mjs $P/claim.globs` (tool created by 0.4a), empty `comm -12`, merge revert rehearsal, charter-template pair `cmp` at the join (identical today) | B |
+| C-P5 | skill validators not worse than Phase 0 baseline, in the right ORDER | Fully-Automated | after the join: validate-skills (failure lines excluding `.agents/skills` must be empty), skill-routing, confusable, skill-keywords, skill-cross-refs, invocation-wiring; mid-phase set excludes skill-keywords (reproduced: red until `--write`) | A + B |
+| C-P5 | catalog regenerated and fresh at the join | Fully-Automated | `generate-skills-catalog.mjs --write` (spawned vc-execute-agent) then `--check` exit 0 (spawned vc-tester) after Phase 4 reports quiesced (reproduced) | B |
+| C-P5 | each skill still reachable by its main phrases | Hybrid | `node.exe $P/routing-check.mjs`: recorded top-3 `trigger_keywords` retained, none stolen, new overlaps reported; snapshot from SKILL.md frontmatter written by the EXECUTE agent | B |
+| C-P5 | oversize splits lose nothing | Fully-Automated | `node.exe $P/conservation-check.mjs` over `$P/oversize.list` plus `validate-skill-cross-refs` | B |
+| C-P5 | strategy-compare skill changes front-matter only (Phase 1's Model Selection Policy body survives) | Fully-Automated | contract row (closes the B2 tension, see block below): body after the front-matter is identical to the body at `$P/baseline.sha`; mechanics tested in scratch (front-matter-only edit gives `cmp` 0, a body edit gives 1) | B (row added by this contract) |
+| C-P5 | 15MB of vc-agent-browser explained with CORRECT numbers and a safe decision | Agent-Probe | judge checks 15M in `screenshots/` (53 PNGs; 13.2M in two audit folders), manifest-excluded, `scripts/README.md:107` runtime output dir, 429-byte mock, decision keeps the directory, states the PNGs are already ignored (Phase 0, `.gitignore:10`) and never in the baseline tag; backlog note only | A (facts verified now) + B (report) |
+| C-P5 | proposals only | Fully-Automated | `test -s $T/proposed-new-skills.md` AND folder count == 33 | B |
+| C-P5 | each teammate touched only its claim; rollback unit exists | Fully-Automated | branch diff through `$P/claim-check.mjs $P/claim.globs`, empty `comm -12` with the Phase 4 list, merge revert rehearsal (mechanics rehearsed), charter-template pair `cmp` at the join | B |
+
+Extra gate row for the strategy-compare scope (run at the join on merged `main`, from the repo root, by the spawned vc-tester; `$P` as in the plan):
+
+```bash
+git show $(cat $P/baseline.sha):.claude/skills/vc-agent-strategy-compare/SKILL.md | awk '/^---$/{c++;next} c>=2' > $P/sc-body-before.txt
+awk '/^---$/{c++;next} c>=2' .claude/skills/vc-agent-strategy-compare/SKILL.md > $P/sc-body-after.txt
+cmp $P/sc-body-before.txt $P/sc-body-after.txt; echo $?   # Expected: exit 0 then 0 (body identical; only front-matter may differ)
+```
 
 Failing stubs (Fully-Automated rows, red-first for execute-agent):
 - test("should keep exactly 33 skill folders with unchanged names", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should keep exactly 33 skill folders with unchanged names") })
 - test("should run skill-keywords only after the catalog join", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should run skill-keywords only after the catalog join") })
 - test("should regenerate the catalog with --write and pass --check", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should regenerate the catalog with --write and pass --check") })
 - test("should conserve every line moved out of an oversize SKILL.md", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should conserve every line moved out of an oversize SKILL.md") })
+- test("should leave the strategy-compare skill body unchanged and edit only its front-matter", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should leave the strategy-compare skill body unchanged and edit only its front-matter") })
 - test("should list proposed skills without adding any", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should list proposed skills without adding any") })
 - test("should keep phase 5 diff inside its claim globs", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should keep phase 5 diff inside its claim globs") })
 
@@ -257,46 +279,55 @@ Legacy line form:
 - skill count/names: [Fully-automated: ls -d .claude/skills/*/ | wc -l == 33 + sorted name-list diff in bash]
 - validators: [Fully-automated: validate-skills + validate-skill-routing + validate-confusable-skills + validate-skill-cross-refs + validate-skill-invocation-wiring mid-phase; plus validate-skill-keywords after the join]
 - catalog: [Fully-automated: generate-skills-catalog.mjs --write then --check at the join, spawned executor]
+- strategy-compare scope: [Fully-automated: body-after-front-matter cmp against baseline.sha]
 - routing: [hybrid: routing-check.mjs vs top-3 snapshot from frontmatter]
 - agent-browser: [agent-probe: decision report with corrected numbers]
 
-Dimension findings:
-- Infra fit: PASS — gate commands and validator paths exist and run; ordering around the catalog is correct; tool paths use `$P` from the repo root; every tool the gates call (`snapshot.mjs`, `routing-check.mjs`, `conservation-check.mjs`, `claim-check.mjs`) now has a creating Step 0 item and an EXECUTE-agent owner.
-- Test coverage: PASS — routing-check and conservation-check are well specified; the validate-skills guard is stated in 0.5; fragilities are bounded measurement limits (KG1, KG2).
-- Breaking changes: PASS — names/directories unchanged, headings kept in split skills (so CLAUDE.md `§Model Selection Policy` style citations of `vc-agent-strategy-compare` still resolve), catalog fresh at the join, mirror pair frozen and `cmp`-checked.
-- Security surface: PASS — skill prose/frontmatter only; no tool grants or secrets; no billed run; `vc-security` and `vc-agent-browser/scripts` untouched; RESEARCH phase lock respected.
-- Step 0 (tools and snapshot) feasibility: PASS — EXECUTE-owned tools and snapshot; RESIDUAL E6, E7.
-- Section A (audit) feasibility: PASS — numbers verified, including the 429-byte fix.
-- Section B (tune) feasibility: PASS — mid-phase validator set excludes skill-keywords; split rule >= 30 percent body drop.
-- Section C (proposals and catalog) feasibility: PASS — join executed by spawned agents, per-branch claim-check with Phase 5's own tool.
+### Known Gaps (named residuals, excluded from the CONCERN/FAIL count; bounded measurement limits)
 
-Disjointness verdict (Phase 4 vs Phase 5): file-level claims DISJOINT (re-verified against the registry); the registry prose for Phase 5 matches `claim.globs`; coupling points covered (Phase 4 AGENTS.md Skill Registry pointer, catalog `routedFrom`).
-
-Net gate derivation: 0 FAIL / 0 MUST-FIX / 0 unresolved CONCERN / 7 RESIDUAL (2 bounded Known Gaps, 5 execute-agent instructions). Net gate: PASS. Vacuous-green ban check: every developed behavior has a Fully-Automated, Hybrid or Agent-Probe gate; KG1 and KG2 are bounded measurement limits, not the only coverage of any behavior.
-
-Signal legality: PHASE_COMPLETE: VALIDATE is LEGAL (Gate is PASS, condition (a)). Emit `PHASE_COMPLETE: VALIDATE — validate-contract written (after 3 validate-fix loop(s)). Proceed to EXECUTE.`
-
-Known Gaps (named residuals, excluded from the CONCERN/FAIL count; bounded measurement limits, no new plan required):
 - KG1 Keyword checks prove a skill is still listed under its recorded top-3 phrases, not that a live model picks it for a user's wording; non-top-3 keywords trimmed in B1 are not protected.
 - KG2 Conservation proves text moved to `references/`, not that a split skill behaves identically when its details load on demand.
 
-Execute-agent instructions (RESIDUAL, no plan edit needed):
-- E3 Step 0.6 order: files written after `baseline.sha` (`claim.globs`, `mirror.sha256`) do not exist in a worktree created from it; commit them in a second path-limited `process:` commit and create the worktree from that HEAD, or copy them; step-0 tool commits are path-limited and serialized with Phase 4 (`SendMessage`) to avoid `index.lock` races.
+### Execute-agent instructions (RESIDUAL, no plan edit needed)
+
+- E3 Step 0.6 order: files written after `baseline.sha` (`claim.globs`, `mirror.sha256`) do not exist in a worktree created from it; commit them in a second path-limited `process:` commit and create the worktree from that HEAD, or copy them; step-0 tool commits are path-limited and serialised with Phase 4 (`SendMessage`) to avoid `index.lock` races.
 - E4 The joint suite at the join is the UNION of the Phase 4 and Phase 5 Exit Gate lists, run once by a spawned vc-tester after the catalog `--write` (see the Phase 4 contract E3).
 - E5 After the join and all Exit Gate commands, `git worktree remove` the teammate worktree; in the sequential fallback the join is just `--write` then `--check` on `main`.
 - E6 The instruction to write `$P/oversize.list` lives in A2 (Step A, labelled read-only) but is executed in Step 0 before 0.6 by the EXECUTE agent; write it with `snapshot.mjs` in Step 0 and do not wait for Step A.
 - E7 0.6 says "after 0.2-0.4 tools are committed"; include 0.4a (`claim-check.mjs`) and `oversize.list` in that process commit so they exist in the worktree created from `baseline.sha`.
+- E8 Strategy-compare scope: do NOT split `vc-agent-strategy-compare` in B2 even though it is on `oversize.list` (record it there as "skipped: front-matter only, Phase 1 owns the body"); edit only its front-matter (`description`, `trigger_keywords`). The extra gate row above proves it at the join.
+- E9 The screenshots are untracked and ignored, so they do NOT exist in the teammate worktree. Run the A3 `du -sh` / `ls` / PNG count in the PRIMARY work tree (the repo directory, not `../vibebelt-p5`), cite those numbers in the report and the backlog note, and never move, delete or `git add` anything under `screenshots/`.
+- E10 Runtime: Linux `node` exists; the plan's `node.exe $P/<script>` commands may run with `node` (record which). The stale statement "`.gitignore` has no screenshots rule" in older supplement logs is history only.
 
-Open gaps: none (0 MUST-FIX)
+Open gaps: none (0 MUST-FIX); KG1 and KG2 above are bounded residuals.
 
-What this coverage does NOT prove (What This Coverage Does NOT Prove):
+### Dimension findings
+
+- Infra fit: PASS — gate commands, validator paths and the catalog ordering exist and behave as the plan says (reproduced); worktree/branch/merge/revert mechanics rehearsed; every tool the gates call has a creating Step 0 item and an EXECUTE-agent owner.
+- Test coverage: PASS — routing-check and conservation-check are well specified; the validate-skills guard is stated in 0.5; the new strategy-compare row closes the only scope ambiguity.
+- Breaking changes: PASS — names/directories unchanged, headings kept in split skills, catalog fresh at the join, mirror pair frozen and `cmp`-checked; Phase 1's model text in the strategy-compare body is protected by the row.
+- Security surface: PASS — skill prose/front-matter only; no tool grants or secrets; no billed run; nothing deleted or ignored by this phase (the screenshots decision is a backlog note).
+- Step 0 (tools and snapshot) feasibility: PASS — E3, E6, E7.
+- Section A (audit) feasibility: PASS — numbers verified; E9 for where to measure.
+- Section B (tune) feasibility: PASS — mid-phase validator set excludes skill-keywords; split rule >= 30 percent body drop; E8 excludes strategy-compare.
+- Section C (proposals and catalog) feasibility: PASS — join executed by spawned agents, per-branch claim-check with Phase 5's own tool.
+- Exit Gate: PASS — order (write, check, then validators) verified; all commands runnable.
+
+Disjointness verdict (Phase 4 vs Phase 5): file-level claims DISJOINT (registry re-read); coupling points covered (AGENTS.md Skill Registry pointer, catalog `routedFrom`, charter-template pair).
+
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 5 PASS. MUST-FIX 0; RESIDUAL 10 (2 bounded Known Gaps + 8 execute-agent instructions E3-E10). Net gate: PASS. Vacuous-green check: every developed behavior has a Fully-Automated, Hybrid or Agent-Probe gate; KG1 and KG2 are bounded measurement limits, not the only coverage of any behavior.
+
+Signal legality: `PHASE_COMPLETE: VALIDATE` is LEGAL (Gate is PASS, condition (a)). Emit `PHASE_COMPLETE: VALIDATE — validate-contract written (after 4 validate-fix loop(s)). Proceed to EXECUTE.` (`wc -l < results.tsv` = 6: header, baseline, four cycle rows.) The orchestrator appends the PVL iteration-5 bookkeeping row.
+
+What This Coverage Does NOT Prove (What this coverage does NOT prove):
 - Keyword checks prove a skill is still listed under its top-3 recorded phrases, not that a live model chooses it for a user's wording; non-top-3 keywords trimmed in B1 are not protected.
 - Conservation checks prove text moved, not that a skill behaves identically when its details are loaded on demand.
+- The strategy-compare body check proves the body is unchanged since `baseline.sha`; it does not prove the Phase 1 text in it is correct (Phase 1's gates do).
 - The agent-browser report proves explanation quality, not that untracking the PNGs is harmless to unknown external readers.
-- Node validators ran through node.exe on NTFS; Linux/macOS behavior is unproven.
+- Validators were exercised under Linux node and node.exe on a drvfs checkout; macOS and native-Windows behavior is unproven.
 
-Gate: PASS (0 FAIL / 0 MUST-FIX / 7 RESIDUAL; PVL cycle 4; EXECUTE is legal on this contract)
-Accepted by: not required for PASS; KG1, KG2 and E3-E7 are recorded as named residuals (PVL cycle 4, session).
+Gate: PASS (0 FAIL / 0 MUST-FIX / 10 RESIDUAL; PVL cycle 5; EXECUTE is legal on this contract)
+Accepted by: not required for PASS; KG1, KG2 and E3-E10 are recorded as named residuals (PVL cycle 5, session).
 
 ---
 
@@ -344,3 +375,5 @@ Addressed 1 gap (MUST-FIX M1) plus 2 residuals: RESEARCH only reports threshold,
 vc-validate-agent re-ran V1-V7 (outer-pvl). The cycle-3 MUST-FIX (Step 0 ownership of `oversize.list`, `snapshot.mjs` and `claim-check.mjs`) is closed and no new MUST-FIX was found. Validate-contract above supersedes the cycle-3 contract. No plan edit made in this pass.
 
 Supplement (screenshots decision): Phase 5 now treats the agent-browser screenshots as already ignored (Phase 0 A3c) and never in the baseline tag; the backlog note only records that, no `.gitignore`/untrack proposal. Earlier supplement-log lines saying `.gitignore` has no screenshots rule are historical (pre-decision) and superseded.
+
+Supplement (ripple of 2026-10-29 decisions): model labels corrected to front-matter reality (research, plan, validate, tester = opus; innovate, spec, update-process = sonnet; EXECUTE = opus; Phase 1 A1 table, Decision B). for .claude/skills/*agent-strategy-compare/SKILL.md this phase edits front-matter / trigger_keywords / description ONLY; its Model Selection Policy body belongs to Phase 1 (F2) and must stay intact.

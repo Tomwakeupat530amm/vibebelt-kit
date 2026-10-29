@@ -27,6 +27,7 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - Group (c): `README.md` (ALL old-name lines, not only header/badges), `CHANGELOG.md` (new top `## [1.0.0]` entry with "Fork origin" note; upstream history lines tagged), `assets/flowser-logo.svg` (DELETE), `assets/` new files only if a license is recorded
 - Group (d): `docs/i18n/README.*.md` (9 files; identity + images, by one replacement script)
 - Task folder `baseline/`: `resolved_p2_start.<runtime>.txt` (e.g. `resolved_p2_start.node-exe.txt`) and `p2_start.txt` (both written at the Entry Gate)
+- `process/context/all-context.md` lines 154 and 210 ONLY (flowser-logo.svg mention; withkynam URL note); lines 137/168 (`3.2.5`) are left for UPDATE PROCESS, line 179 is Phase 1's (PVL cycle 5, M2-1)
 - NOT touched: `validate-kit-portability.mjs`, the 11 brand-detection lines in `vc-publish` SKILL and reference. Left for later (hand-off line in the report, no phase plan claims it; see contradiction C7): `author: vibecode-pro-max-kit` skill metadata in about 33 files
 - Strict order: Phase 1 then Phase 2 both touch the 9 translated READMEs; Phase 7 edits `docs/i18n/README.*.md` after Phase 2 (never parallel)
 
@@ -124,3 +125,15 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 ## Supplement (user decisions 2026-10-29: quality-equivalence + model direction)
 - Decision B: Phase 1 claim rewritten (no `model:` edits; effort lines of 3 execution agents; model-fact docs in CLAUDE.md, 5 protocol files, strategy-compare SKILL.md, all-context.md, README x10). Ownership conflict resolution: Phase 1 first, Phase 4 preserves, Phase 5 front-matter only, Phase 7 keeps the facts.
 - Decision A: Phase 3 now also owns the frozen `golden/tasks/**`; Phase 8 owns `eq/**` and only reads `golden/**`. Still disjoint: Phase 4 vs Phase 5.
+
+## Supplement (PVL cycle 5 MUST-FIX, 29-10-26)
+- Phase 2 claim gains `process/context/all-context.md` lines 154 and 210 ONLY (checklist step B7). Phase 1 keeps line 179; lines 137/168 stay for UPDATE PROCESS. Still disjoint from Phases 4 and 5 (neither claims `process/context/all-context.md`).
+
+## Supplement (sync with Phase 1/6/8 cycle-5 edits, 29-10-26)
+- Phase 1 also owns `.github/workflows/release.yml`: ADDITIONS only (the same validator steps as `validate.yml`; the `on: push: tags: ['v*']` trigger, permissions and the `Create GitHub Release` step are untouched). It runs BEFORE Phase 2's one display-name line in that file. The E3 exit-code table (`continue-on-error` rule) covers both workflow files.
+- Phase 1 README/i18n edits are per-file, grep-located anchors (no shared find-and-replace): ko-KR, pt-BR, vi-VN, zh-CN have localized diagram text; zh-CN uses full-width parentheses.
+- Phase 2: the `release.yml` display-name line (and the `release.yml (1 line)` entry above) runs AFTER Phase 1's validator steps.
+- Phase 6: `e2e-kit-flows.test.mjs` edit is limited to the AC-5 predicate lines (~267-277, step B4); Trial D is untouched (Phase 8 A0). Its e2e gate (G15) covers trials A, B, E, and C after B4.
+- Phase 8: `e2e-kit-flows.test.mjs` A0 edits at ~21 (`fileURLToPath`), ~34 and ~330 (`os.tmpdir()`), the Trial D clone at ~333 (`--no-hardlinks`) and the quoted `bash ${INSTALL_SH}` calls. Linux-node e2e baseline is 2 of 4 (A, B pass; C fails AC-5; D fails cross-device clone), not 0/4 via node.exe.
+- Stale-prose check: the registry contains no 'OPEN C1', 'Phase 7 owns README.vi.md' or 'no Linux Node' text (grep-verified); the only hits are in Phase 2/8/umbrella plans (Phase 8 R8-7 notes, Phase 8 line 113, umbrella C-EQ row), outside this edit's scope.
+- Still disjoint: Phase 4 vs Phase 5.

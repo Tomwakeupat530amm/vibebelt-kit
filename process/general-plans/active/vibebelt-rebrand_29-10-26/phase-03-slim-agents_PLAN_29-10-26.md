@@ -232,7 +232,7 @@ instructions / Test gates) is treated as a placeholder.
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-slim-agents_PLAN_29-10-26.md`
 - Last completed step: not started
-- Validate-contract status: written 29-10-26 but PARTLY SUPERSEDED by the Inner Loop Refresh Note 2026-10-29 (golden tasks frozen under `$G/tasks/`, OLD role changed); the inner PVL must re-run from V1. Earlier text: written 29-10-26 (CONDITIONAL, outer-pvl, PVL cycle 4 re-run: 0 FAIL, 0 MUST-FIX, 13 RESIDUAL incl. 2 named Known Gaps; EXECUTE legal via mechanical gate (b), 3 recorded fix cycles)
+- Validate-contract status: PVL cycle 5 (outer-pvl, 2026-10-29, from V1) re-validated against the Inner Loop Refresh Note of 2026-10-29 and decisions A and B: Gate: CONDITIONAL (0 FAIL / 0 MUST-FIX / 16 RESIDUAL incl. 2 named Known Gaps: Codex references loading, e2e NOT TESTED); EXECUTE legal via the mechanical gate (results.tsv records 4 fix cycles, `wc -l` = 6). Earlier cycle-4 contract superseded.
 - Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, prior phase report (if any)
 - Next step: after PVL re-run, spawn vc-research-agent (opus, front-matter) for step 1 RESEARCH (after Phase 2 exit gate is green). Phase 3 runs strictly before Phases 4/5.
 
@@ -251,33 +251,50 @@ Status: CONDITIONAL
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 3 CONDITIONAL) — PVL cycle 4 re-ran V1-V7 against the real repo and has current evidence
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 4 CONDITIONAL) — same-day re-validation from V1 (PVL cycle 5) against the Inner Loop Refresh Note of 2026-10-29 and the user decisions A and B. The cycle-4 contract and the "PVL cycle 4 note" below predate those decisions in part (the Refresh Note itself says the earlier contract is invalidated), so this contract replaces BOTH in full; the cycle supplement logs below stay as history only. The date is the same calendar day, so ordering rests on this explicit statement and on the "PVL cycle 5" label.
+
+V1 line: `V1 RE-VALIDATE TRIGGERED: Inner Loop Refresh Note dated 2026-10-29 is newer than existing contract (same day; the Refresh Note states it invalidates the prior contract). V1 AUTO-PROCEED does not apply.`
 
 Parallel strategy: sequential
-Rationale: Plan mandates sequential, one agent per cycle (a regression must be attributable to one agent). Score 3/7; dominant signal S7 (15 agent files plus Codex mirrors), quality-risk high. Opus only for the editing leg; sonnet for judge, plan, validate. This pass ran Layer 1 (4 dimensions) and Layer 2 (Step 0 gates, Step A golden baseline, Step B slim loop, Step C totals) inline in one session (no spawn tool). Evidence = real-repo reads (plan, umbrella hard stops, registry, `vc-research-agent` frontmatter, agent counts and sizes), `validate-plan-artifact.mjs` (exit 0, 0 failures, 2 advisory legacy-shape warnings). V1: existing contract was CONDITIONAL (not PASS) and no `## Inner Loop Refresh Note` exists, so no auto-proceed; V1-V7 re-ran in full. Prior verdicts were not trusted.
+Rationale: the plan mandates one agent per cycle (a regression must be attributable to one agent; "revert that agent only"). Score about 3/7, dominant signal S7 (15 agents plus Codex mirrors), quality risk high. Models: named vc-agents run on their front-matter (verified now: 7 opus = execute, fast-mode, quick-fix, plan, research, tester, validate; 8 sonnet), the blind judge is an ad-hoc sonnet agent, the editing leg is opus. This pass was ONE fire-and-forget validate-agent (no spawn tool): Layer 1 (4 dimensions) and Layer 2 (Step 0, Step A incl. A5 freeze, Step B, Step C, Exit Gate) inline, with throw-away checks in a scratch clone. Prior verdicts were not trusted.
 
-Cycle-3 MUST-FIX closure check (1 item), verified against the real plan text and the umbrella:
-- CLOSED (M1, A0 cost gate order): Step 0 now opens with item 0.0 "COST GATE FIRST". It computes the itemised total (golden, Phase 1 control, new-agent comparison, judge calls, 0.2a and RESEARCH init-field probes), requires the user's acknowledgement, says "No acknowledgement: stop", and states that 0.2a and the RESEARCH init-field probe run ONLY after it, with their calls kept in the A0 total. 0.2a itself repeats "(only after the 0.0 acknowledgement)". A0 in Step A is labelled the itemisation spec, not a second gate. This matches the umbrella hard stop (lines 101, 140, 203, 300-301: "billed model runs beyond the approved golden set: ask the user first", cost acknowledgement at Phase 3 A0). No other billed run exists in Step 0 before 0.0. Regression check: 0.0 introduces no new command; the 0.1-0.7 numbering and cross-references (0.2f, 0.4, 0.5, 0.6, A0, B4, B5, B6, C1b) are intact; the registry Phase 3 entry still matches the blast radius (`golden/**`, `.codex/agents/references/`, one backlog stub).
+### Real-repo facts and checks (V1-V7, cycle 5)
 
-New-MUST-FIX scan (gate unsatisfiable, unsafe or irreversible step, protocol violated, cost hard-stop ordering, phase locks): none found. Items examined and classified RESIDUAL: probe-count wording (E10), RESEARCH probe timing relative to the EXECUTE-time acknowledgement (E11). Everything else from cycle 3 (E1-E9, KG1, KG2) is unchanged and carried.
+- **Entry state:** Phase 0 is done (HEAD 7845316, `upstream-baseline` tag, baselines for Linux node and node.exe, `process/context/**` present); Phase 1 is planned to change no `model:` line (user decision B), so `golden/old/` and `golden/phase1/` share the same agent models. The Entry Gate "Phase 2 exit gate green" is the correct single dependency (strict order 0..8). `claude` 2.1.312 is installed (the 0.2a headless probe is feasible); no `codex` binary exists.
+- **Decision A (C-EQ) mechanism, checked item by item against the plan text:** A1 freezes 3 tasks under `$G/tasks/` with `tasks.md`, per task `prompt.md` / `fixture/` / `expected-artifacts.md`, prompts in plain user language that name no `vc-`/`vb-` item (gate: `grep -rnE 'vc-|vb-' $G/tasks/task-*/prompt.md | wc -l` = 0); A2b writes `old-sandbox-recipe.md` as 8 runnable steps with the per-run values to record; A3 `rubric.md` with the `VC-` to `VB-` mapping; A4 `judge.md` written so Phase 8 applies it unchanged (EQUAL / BETTER / WORSE, tie = EQUAL, WORSE only if reproduced in both replicates); A5 writes `FROZEN.md` and `FROZEN.sha256` BEFORE the first model run and verifies with `sha256sum -c`. I rehearsed the exact A5 commands in a scratch folder: `find . -type f ! -name FROZEN.sha256 | LC_ALL=C sort | xargs sha256sum > FROZEN.sha256` then `sha256sum -c FROZEN.sha256` = every line `OK`, exit 0; the prompt grep prints 0. The registry (`golden/tasks/**` owned by Phase 3, read-only for Phase 8) and the umbrella (C-P3, C-EQ, Phase 7/8 dependencies) agree with the plan.
+- **A0 cost gate:** it is the FIRST Step 0 item (0.0); billed calls (0.2a probes, the RESEARCH init-field probe, golden/control/new-agent runs, judge calls) come only after the user's acknowledgement ("No acknowledgement: stop"). A0 reports the Phase 8 FINAL EQUIVALENCE GATE estimate "12 task runs + 6 judge calls for 3 tasks" (3 tasks x 2 replicates x 2 kits = 12; 3 x 2 judge pairs = 6), which matches Phase 8 B4.3 ("the 12 task runs"), and offers the control choice: full OLD control (3 x 2, default) or a recipe rehearsal only (1 task x 1 replicate on the OLD sandbox). Correct and consistent with the umbrella hard stop.
+- **Decision B coherence:** the live checklist is coherent: the Strategy line ("Phase 1 changed none"), A2 ROLES (`$G/phase1/` is the judged control for the revert decision; `$G/old/` is a reported-only pre-program control because all three trees use the same models), A4 (judge compares NEW vs PHASE1), B4, the Exit Gate bullets and the Verification Evidence rows all say the same. No live checklist or gate item still measures a "model change", so nothing dangles. The only "Phase 1 model change" wording left is in the historical supplement-cycle logs (cycle 1/2 summaries and the old PVL cycle 2 request, below), which the closing "Supplement (user decisions 2026-10-29)" block explicitly supersedes; treat them as history (E12). The umbrella's own old contract still has two stale sentences (C-P3q row "reported only as the Phase 1 model-change measurement", and a line about the "sonnet downgrade of research/plan/validate/tester"); they are outside this plan and are reported to the orchestrator.
+- **Gate runnability:** all Exit Gate scripts are created by 0.3/0.4/0.5/C1b before use (red-first); `sha256sum`, `LC_ALL=C sort`, `xargs` exist; `git worktree add` + `git revert --no-commit` + `--abort` was rehearsed (see Phase 4 contract) and works on this git; the manifest grep needs `tr '\\' '/'` under node.exe only and is harmless under Linux node. The parity baseline files `baseline/validators_before.txt` (Linux, first line `# runtime=node`) and `.node-exe.txt` both hold 15 `normalized body differs` lines, so `parity-compare.mjs` can read either.
+- **Structural check:** `validate-plan-artifact.mjs` on this plan: exit 0, 0 failures, 2 advisory legacy-shape warnings.
 
-Plan updates applied: none in this pass except the handoff status line.
+### MUST-FIX / RESIDUAL classification
 
-Test gates (C3 5-column table):
+MUST-FIX: 0. (No gate is unsatisfiable, no step is unsafe or irreversible, the cost hard stop is ordered first, phase locks hold.)
+RESIDUAL (14 execute-agent instructions E1-E14, plus the Known Gaps KG1 and KG2; none blocks a gate): E1-E11 carried from the cycle-4 contract (re-read, still valid) plus three new items that became E12-E14:
+- RES-A Stale parenthetical in 0.7: "(validate-skills and validate-context-discovery are red at baseline only because `.agents/skills` is a 17-byte text file; Phase 0 repairs it)". Phase 0 did NOT repair it: both validators stay red (exit 1) in both baseline TSVs and only go green on a native Linux or CI checkout. The operative rule in the same sentence ("red = WORSE than this baseline") and the Exit Gate ("compared to the Phase 0 baseline, not required absolute green") are correct, so no gate breaks (E13).
+- RES-B Runtime wording: scripts are written as `node.exe $G/<script>` with "use `node` where it exists"; Linux node exists now. Sandboxes live outside the repo, where Linux `node` is the natural runtime; `node.exe` also works but reports UNC paths (E14). The e2e remark "red at baseline under node.exe" (0.2e, Exit Gate note) is now "red at baseline: Trial C everywhere, Trial D on drvfs" (still NOT TESTED here and carried to Phase 8).
+- RES-C Historical supplement logs still contain the superseded "Phase 1 model change" wording (see Decision B above); no action beyond E12.
+
+### Plan updates applied
+
+None in this pass except the handoff status line (validate-agent writes the contract only).
+
+### Test gates (C3 5-column table)
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
-| C-P3 | Prompt size drops >= 25 percent per kept agent and on the slimmed-set total | Fully-Automated | `node.exe $G/size-check.mjs` vs `sizes-before.json`/`slimmed.list`, exit 1 if any listed agent or the total drops < 25 percent | B |
-| C-P3 | Every signal string, mode marker and status code intact in each slimmed prompt body (.md and .toml) | Fully-Automated | `node.exe $G/signal-census.mjs --check` (sorted set of prefix-stripped (agent, file-kind, token) lines vs `signal-census-before.txt`) | B |
-| C-P3 | `signal-census.mjs` and `signal-census-phase3.txt` kept at the exact paths Phase 7 reads | Fully-Automated | `test -f $G/signal-census.mjs && test -f $G/signal-census-phase3.txt` (created by step C1b) | B |
-| C-P3 | Nothing lost, only moved; guardrail sections byte-identical in md and toml | Fully-Automated | `node.exe $G/conservation-check.mjs` with per-agent `guardrails.json` | B |
-| C-P3 | Cross-agent section pointers still resolve | Fully-Automated | `node.exe $G/pointer-check.mjs` before vs after | B |
-| C-P3 | Claude/Codex parity, frontmatter, protocol-wiring, invocation-wiring not worse than Phase 0 baseline | Fully-Automated | four validators exit 0 (they exit 0 today; parity has 15 body-differs warnings) plus `node.exe $G/parity-compare.mjs` (see E1 for the comparison unit) | A (validators exit 0 today) + B (comparator) |
-| C-P3 | Slimmed agent output equal or better than the same-model unslimmed agent | Agent-Probe | blind pairwise judge per `$G/judge.md`, 2 replicates, NEW vs `golden/phase1/`, runs valid only with `golden/runs/<run-id>.json` verified (see E3 for proof the target agent actually ran) | B |
-| C-P3 | Billed runs happen only after the user acknowledges the itemised total | Hybrid | item 0.0 precedes 0.2a and every billed run; precondition: user acknowledgement recorded in `$G/compare.md` before the first `claude -p` call | B |
-| C-P3 | Revert-on-worse works for one agent only | Hybrid | precondition git + per-agent commit; `git revert --no-commit <agent-commit>` then `--abort`, asserting only that agent's md/toml/references change | B (see E5) |
-| C-P3 | `references/` ships and is not mistaken for an agent | Hybrid | manifest grep `node.exe resolve-manifest.mjs \| tr '\\' '/' \| grep -F agents/references` (mechanism verified on `.claude/agents/` today); headless `claude -p` init `agents` array before == after (see E2, E8) | A (manifest mechanism) + B |
-| C-P3 | Codex loads/ignores `.codex/agents/references/*.md` correctly | none (no proving strategy; named residual, no `codex` binary) | Known-Gap residual KG1, never a proving strategy | D (backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md`, written by step 0.2f) |
+| C-P3 | prompt size drops >= 25 percent per kept agent and on the slimmed-set total | Fully-Automated | `node.exe $G/size-check.mjs` vs `sizes-before.json` / `slimmed.list`, exit 1 if any listed agent or the total drops < 25 percent | B |
+| C-P3 | every signal string, mode marker, status code intact in each slimmed prompt body (.md and .toml) | Fully-Automated | `node.exe $G/signal-census.mjs --check` (sorted set of prefix-stripped (agent, file-kind, token) lines vs `signal-census-before.txt`) | B |
+| C-P3 | `signal-census.mjs` and `signal-census-phase3.txt` kept at the exact paths Phase 7 reads | Fully-Automated | `test -f $G/signal-census.mjs && test -f $G/signal-census-phase3.txt` (step C1b) | B |
+| C-P3 | nothing lost, only moved; guardrail sections byte-identical (md and toml) | Fully-Automated | `node.exe $G/conservation-check.mjs` with per-agent `guardrails.json` | B |
+| C-P3 | cross-agent section pointers still resolve | Fully-Automated | `node.exe $G/pointer-check.mjs` before vs after | B |
+| C-P3 | Claude/Codex parity, frontmatter, protocol-wiring, invocation-wiring not worse than Phase 0 baseline | Fully-Automated | four validators exit 0 today (parity has 15 body-differs warnings) plus `node.exe $G/parity-compare.mjs` (comparison unit per E1) | A (validators exit 0 today) + B (comparator) |
+| C-P3 / C-EQ input | golden task definitions frozen, kit-name-neutral and re-runnable verbatim in Phase 8 | Fully-Automated | `test -f` on tasks.md, rubric.md, judge.md, old-sandbox-recipe.md, FROZEN.md; `(cd $G/tasks && sha256sum -c FROZEN.sha256)` exit 0; `grep -rnE 'vc-\|vb-' $G/tasks/task-*/prompt.md \| wc -l` = 0 (A5 procedure rehearsed in scratch) | B |
+| C-P3 | slimmed agent output equal or better than the same-model unslimmed agent | Agent-Probe | blind pairwise judge per `$G/tasks/judge.md`, 2 replicates, NEW vs `golden/phase1/`, runs valid only with a verified `golden/runs/<run-id>.json` and (E3) proof the agent under test ran; `golden/old/` reported only | B |
+| C-P3 / C-EQ | billed runs only after the user acknowledges the itemised total; A0 also reports the Phase 8 count (12 runs + 6 judge calls) and offers the full-3x2 or 1x1-rehearsal OLD control | Hybrid | item 0.0 precedes 0.2a and every billed run; precondition: user acknowledgement recorded in `$G/compare.md` before the first `claude -p` call | B |
+| C-P3 | revert-on-worse works for one agent only | Hybrid | precondition git + per-agent commit; `git revert --no-commit <agent-commit>` then `--abort` asserting only that agent's md/toml/references change (mechanics rehearsed in scratch) | B (see E5) |
+| C-P3 | `references/` ships and is not mistaken for an agent (Claude side) | Hybrid | `node.exe resolve-manifest.mjs \| tr '\\' '/' \| grep -F agents/references`; headless `claude -p` init `agents` array before == after (E2, E8) | A (manifest mechanism) + B |
+| C-P3 | Codex loads/ignores `.codex/agents/references/*.md` correctly | none (named residual KG1, never a proving strategy; no `codex` binary) | backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` (step 0.2f) | D |
 
 Failing stubs (Fully-Automated rows, red-first for execute-agent):
 - test("should drop slimmed-set bytes by at least 25 percent", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should drop slimmed-set bytes by at least 25 percent") })
@@ -286,61 +303,72 @@ Failing stubs (Fully-Automated rows, red-first for execute-agent):
 - test("should conserve every removed line in a references file and keep guardrail headings identical", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should conserve every removed line in a references file and keep guardrail headings identical") })
 - test("should resolve every cross-agent section pointer", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should resolve every cross-agent section pointer") })
 - test("should not worsen Claude/Codex parity divergence or warning count", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should not worsen Claude/Codex parity divergence or warning count") })
+- test("should freeze the golden task definitions with a verifiable sha256 and kit-name-neutral prompts", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should freeze the golden task definitions with a verifiable sha256 and kit-name-neutral prompts") })
 
 Legacy line form:
 - agents size: [Fully-automated: node.exe $G/size-check.mjs]
 - signals/conservation/pointers: [Fully-automated: node.exe $G/signal-census.mjs --check && node.exe $G/conservation-check.mjs && node.exe $G/pointer-check.mjs]
 - parity/frontmatter/wiring: [Fully-automated: validate-agent-parity.mjs + validate-agent-frontmatter.mjs + validate-protocol-wiring.mjs + validate-skill-invocation-wiring.mjs + $G/parity-compare.mjs]
-- output quality: [agent-probe: blind pairwise rubric judge vs same-model control]
-- cost gate + revert + install: [hybrid: user ack of the itemised total before any billed run; git revert rehearsal after first agent commit; resolve-manifest listing; headless init agent list]
+- frozen golden definitions: [Fully-automated: sha256sum -c FROZEN.sha256 + prompt grep = 0]
+- output quality: [agent-probe: blind pairwise rubric judge, NEW vs PHASE1 (same models)]
+- cost gate + revert + install: [hybrid: user ack of the itemised total before any billed run; git revert rehearsal after the first agent commit; resolve-manifest listing; headless init agent list]
 - Codex references load: [known-gap: documented as NEW PLAN REQUIRED — see backlog/codex-agent-references-load_NOTE_29-10-26.md]
 
-Dimension findings:
-- Infra fit: PASS — A0 now runs first (0.0) so no billed probe precedes the acknowledgement; manifest grep, top-level validator scans, parity parser format and worktree/revert mechanics were verified in earlier cycles and no item that touches them changed.
-- Test coverage: PASS — scripted gates, harness-side run record and the blind judge are specified; fragilities are carried as RESIDUAL E1-E3.
-- Breaking changes: PASS — agent names, triggers, tool grants, status codes and signal strings are held verbatim by the contract, the census and the guardrail hashes; Phase 7 hard dependency has a creating step (C1b) and a prefix-neutral key format.
-- Security surface: PASS — guardrail text (Entry Requirement, Strictly Forbidden, Violation Prevention, tool grants, write guards) is hash-protected per agent for md and toml; frontmatter byte-identical; user cost hard stop now ordered before every billed run.
-- Step 0 (pre-run gates) feasibility: PASS — 0.0 first; RESIDUAL E10, E11.
-- Section A (golden baseline) feasibility: PASS — A0 is the itemisation spec for 0.0; sandboxes per E4.
-- Section B (slim loop) feasibility: PASS — per-agent commit exception, revert rehearsal, expected reverts for guardrail-heavy agents (E6).
-- Section C (totals) feasibility: PASS — C1/C1b create the census artifact at the pinned path.
+### Known Gaps (named residuals, excluded from the CONCERN/FAIL count)
 
-Net gate derivation: 0 FAIL / 0 MUST-FIX / 13 RESIDUAL (2 named Known Gaps, 11 execute-agent instructions). By the vacuous-green ban the terminal verdict is CONDITIONAL, not PASS, because one developed behavior (Codex runtime loading of `references/`, KG1) has no automated or hybrid gate, only the named residual and its backlog stub. No other behavior rests on Known-Gap alone. The missing coverage is named: a real Codex session, planned for Phase 8 or later.
-
-Signal legality: PHASE_COMPLETE: VALIDATE is LEGAL for this contract. Reason: Gate is CONDITIONAL, so it needs one of (a) PASS, (b) N>=1 recorded fix cycles, (c) explicit user acceptance. Condition (b) holds: `wc -l < results.tsv` = 5 (header, baseline, three cycle rows) which is >= 3, so three PVL fix cycles are recorded. Condition (c) is not claimed. Emit the N>=1 variant: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 3 validate-fix loop(s)). Proceed to EXECUTE.` The SUPPLEMENT REQUEST path is not needed: there is no MUST-FIX to supplement.
-
-Known Gaps (named residuals, excluded from the CONCERN/FAIL count):
 - KG1 Codex runtime loading of `.codex/agents/references/*.md` is unproven (no `codex` binary): known-gap: documented as NEW PLAN REQUIRED — see backlog/codex-agent-references-load_NOTE_29-10-26.md (written by step 0.2f; resolution: a real Codex session in Phase 8 or later).
-- KG2 e2e `e2e-kit-flows.test.mjs` is red at baseline under node.exe: NOT TESTED here, carried to Phase 8 (plan 0.2e).
+- KG2 e2e `e2e-kit-flows.test.mjs` stays red at baseline (Trial C everywhere, Trial D on drvfs; node.exe has a Windows path bug): NOT TESTED here, carried to Phase 8 (plan 0.2e).
 
-Execute-agent instructions (RESIDUAL, no plan edit needed):
-- E1 `parity-compare.mjs`: compare the ABSOLUTE character divergence `|len(normalize(md body)) - len(normalize(toml developer_instructions))|` (recompute with the validator's own `normalize`, snapshot per agent into `$G/parity-before.json` at step 0.6) with after <= before; print the validator's percent only as information. Reason: a rounded relative percent rises when bodies shrink even with zero new divergence (validate 1.15 to 1.54 percent at the 25 percent floor, execute 1.94 to 2.59, fast-mode 5.29 to 7.05). If the percent rule is kept, move or equalise the md-only/toml-only divergent lines (fast-mode SPEC, execute Specialist Delegation, validate V6 template) into references first; do not move signal-bearing V2/V7 lines.
-- E2 Re-capture the Claude agent list a third time at C1 with the real references files present (`$G/agents-list-final.json`, one more counted probe in the 0.0 total) and assert equal to before; 0.2a only proved the location with a placeholder.
-- E3 `run-record.mjs` also parses the run's stream-json and records which `subagent_type` values were invoked; the judge ignores a run in which the agent under test never ran (otherwise EQUAL could be vacuous).
+### Execute-agent instructions (RESIDUAL, no plan edit needed)
+
+- E1 `parity-compare.mjs`: compare the ABSOLUTE character divergence `|len(normalize(md body)) - len(normalize(toml developer_instructions))|` (recompute with the validator's own `normalize`, snapshot per agent into `$G/parity-before.json` at step 0.6) with after <= before; print the validator's percent only as information (a rounded relative percent rises when bodies shrink even with zero new divergence). If the percent rule is kept, equalise md-only/toml-only divergent lines into references first; do not move signal-bearing V2/V7 lines.
+- E2 Re-capture the Claude agent list a third time at C1 with the real references files present (`$G/agents-list-final.json`, one more counted probe in the 0.0 total) and assert equal to before.
+- E3 `run-record.mjs` also parses the run's stream-json and records which `subagent_type` values were invoked; the judge ignores a run in which the agent under test never ran.
 - E4 Build the three sandboxes without `process/general-plans/active/vibebelt-rebrand_29-10-26` (or identically in all three) so plan-discovery does not read the program's own plans; list this in the `diff -r` record.
-- E5 Commits are path-limited (`git commit -- <agent md, toml, references>`); commit `$G` evidence in a separate `process:` commit before the first agent commit; in B5 assert `git status --porcelain` is unchanged by the rehearsal (empty only if everything is committed) instead of assuming empty.
+- E5 Commits are path-limited (`git commit -- <agent md, toml, references>`); commit `$G` evidence in a separate `process:` commit before the first agent commit; in B5 assert `git status --porcelain` is unchanged by the rehearsal instead of assuming empty.
 - E6 Expect reverts for execute (about 45 percent guardrail text), innovate (49), research (41); revert per B6, do not force.
 - E7 Keep the one trailing-whitespace line of vc-innovate-agent in the prompt body (or normalise it in `.md` and `.toml` together) so `git diff --check` stays clean.
-- E8 The single RESEARCH probe to confirm the init `agents` field runs only after the 0.0 acknowledgement. If the field is absent or no acknowledgement exists yet: NEEDS_CONTEXT (the umbrella lists the cost acknowledgement as a user checkpoint) and the references-location row stays CONDITIONAL (the top-level-only validator scans still hold).
+- E8 The single RESEARCH probe to confirm the init `agents` field runs only after the 0.0 acknowledgement. If the field is absent or no acknowledgement exists yet: NEEDS_CONTEXT, and the references-location row stays CONDITIONAL.
 - E9 Remove the three sandbox worktrees (`git worktree remove`, `git worktree prune`) after the judge evidence is saved.
-- E10 Probe count: 0.0 says "at least 4" probe calls, A0 says "at least 3"; use the larger, and add the E2 re-capture, so the acknowledged total is a maximum (it is a ceiling, not a promise).
-- E11 0.0 sits in EXECUTE Step 0 while the RESEARCH init-field probe happens in the earlier RESEARCH step: RESEARCH must not run the billed probe unless the user has already acknowledged the total; otherwise RESEARCH reports "init field unconfirmed" and the EXECUTE agent confirms it in 0.2a after 0.0. Counts in 0.0 are computed from the A1 task list (3 tasks x 2 replicates) and the per-agent task mapping as a ceiling.
+- E10 Probe count: 0.0 says "at least 4", A0 says "at least 3"; use the larger and add the E2 re-capture so the acknowledged total is a ceiling.
+- E11 0.0 sits in EXECUTE Step 0 while the RESEARCH init-field probe happens earlier: RESEARCH must not run the billed probe unless the user has already acknowledged the total; otherwise RESEARCH reports "init field unconfirmed" and the EXECUTE agent confirms it in 0.2a after 0.0. Counts in 0.0 are a ceiling computed from the A1 task list and the per-agent task mapping.
+- E12 Treat the "Phase 1 model change" sentences in the historical supplement logs (cycle 1/2 summaries, old PVL cycle 2 request) as superseded by the 2026-10-29 supplement; do not build any model-change measurement step. `golden/old/` = reported-only pre-program control.
+- E13 Ignore the false clause "Phase 0 repairs it" in 0.7: `.agents/skills` stays a 17-byte text file in this work tree; validate-skills and validate-context-discovery stay red (exit 1) at baseline and are judged "not worse".
+- E14 Use Linux `node` for the `$G` scripts (sandbox cwd outside the repo, `git` calls) and record the runtime per run; if `node.exe` is used, normalise backslash paths first. Keep one runtime for before and after of every comparison.
 
 Open gaps:
 - none blocking (0 MUST-FIX)
 - codex-agent-references-load: known-gap: documented as NEW PLAN REQUIRED — see backlog/codex-agent-references-load_NOTE_29-10-26.md
+- e2e-kit-flows: known-gap: documented as NEW PLAN REQUIRED — carried to the Phase 8 user-run list (Trial C: Phase 6 B4; native-Linux run: Phase 8)
+
+### Dimension findings
+
+- Infra fit: PASS — cost gate ordered first, manifest/validator scan mechanics and git worktree/revert mechanics verified; frozen-task procedure rehearsed.
+- Test coverage: PASS — scripted gates, harness-side run record, blind judge and the freeze/hash gate are specified; fragilities carried as RESIDUAL E1-E3.
+- Breaking changes: PASS — agent names, triggers, tool grants, status codes and signal strings held verbatim by census and guardrail hashes; Phase 7 hard dependency has a creating step (C1b) and prefix-neutral keys; Phase 8 reuses the frozen tasks verbatim.
+- Security surface: PASS — guardrail text hash-protected per agent for md and toml; frontmatter byte-identical; the user cost hard stop precedes every billed run.
+- Step 0 (pre-run gates) feasibility: PASS — 0.0 first; RESIDUAL E10, E11, RES-A.
+- Section A (golden baseline, freeze) feasibility: PASS — A0, A1, A2, A2b, A3, A4, A5 consistent with decision A and with Phase 8 B4.
+- Section B (slim loop) feasibility: PASS — per-agent commit exception, revert rehearsal, expected reverts (E6).
+- Section C (totals) feasibility: PASS — C1/C1b create the census artifact at the pinned path.
+- Exit Gate: PASS — commands exist or are created earlier in the phase; expected values are stated.
+
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 5 PASS. MUST-FIX 0; RESIDUAL 16 (2 named Known Gaps + 14 execute-agent instructions E1-E14, incl. the 3 new items RES-A/B/C folded into E13/E14/E12). By the vacuous-green ban the terminal verdict is CONDITIONAL, not PASS: one developed behavior (Codex runtime loading of `references/`, KG1) has no automated or hybrid gate, only a named residual and its backlog stub. No other behavior rests on Known-Gap alone.
+
+Signal legality: `PHASE_COMPLETE: VALIDATE` is LEGAL for this contract. Gate is CONDITIONAL, so it needs (a) PASS, (b) N>=1 recorded fix cycles, or (c) explicit user acceptance. Condition (b) holds: `wc -l < process/general-plans/active/vibebelt-rebrand_29-10-26/results.tsv` = 6 (header, baseline, four cycle rows) which is >= 3. Condition (c) is not claimed. Emit the N>=1 variant: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 4 validate-fix loop(s)). Proceed to EXECUTE.` No SUPPLEMENT REQUEST is needed (0 MUST-FIX). The orchestrator appends the PVL iteration-5 bookkeeping row.
 
 What this coverage does NOT prove (What This Coverage Does NOT Prove):
 - Size, census, conservation and pointer scripts prove nothing about whether an agent FOLLOWS a "read references/X when doing Y" pointer at run time; only the golden comparison can show it, over about 3 tasks and 2 replicates, so BLOCKED, abort and /goal branches stay unexercised.
 - Parity commands do not prove Codex runtime behavior; Codex was never run here and no binary is installed.
 - The judge does not prove cost or latency per run; with 2 replicates and "tie = EQUAL" it favors keeping the slim version, so a small real regression can pass; unless E3 is applied it also does not prove the slimmed agent was invoked.
+- The freeze hash proves the definitions did not change after A5, not that 3 tasks are representative of every behavior the Phase 8 gate cares about.
 - The headless init `agents` array proves the loader tolerates the location, not that Claude Code never warns about frontmatter-less files.
 - The cost-gate ordering is a plan-text rule; nothing mechanical stops an executor from skipping 0.0, so it relies on the EXECUTE agent and the umbrella hard stop.
-- Node validators ran through node.exe on NTFS; Linux/macOS path behavior is unproven.
+- Validators were exercised under Linux node and node.exe on a drvfs checkout; macOS and native-Windows path behavior is unproven.
 - The revert rehearsal does not prove a real regression would be detected.
 
-Gate: CONDITIONAL (0 FAIL / 0 MUST-FIX / 13 RESIDUAL; PVL cycle 4; vacuous-green ban applies because of KG1, so the terminal verdict is CONDITIONAL, not PASS; EXECUTE is legal on this contract via the mechanical gate (3 recorded PVL fix cycles))
-Accepted by: PVL cycle 4 mechanical gate (b) — `results.tsv` records 3 fix cycles; no separate user acceptance is claimed. Accepted-as-residual by name: KG1 (Codex references loading), KG2 (e2e NOT TESTED), E1-E11 execute-agent instructions.
+Gate: CONDITIONAL (0 FAIL / 0 MUST-FIX / 16 RESIDUAL; PVL cycle 5; vacuous-green ban applies because of KG1, so the terminal verdict is CONDITIONAL, not PASS; EXECUTE is legal on this contract via the mechanical gate (b), 4 recorded PVL fix cycles)
+Accepted by: PVL mechanical gate (b) — `results.tsv` records 4 fix cycles; no separate user acceptance is claimed. Accepted-as-residual by name: KG1 (Codex references loading), KG2 (e2e NOT TESTED), E1-E14 execute-agent instructions.
 
 ---
 

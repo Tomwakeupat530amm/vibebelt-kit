@@ -39,7 +39,7 @@ Remove the contradictions the kit has today so later phases build on a consisten
 
 - Phase 0 exit gate green (git, baseline, `all-context.md`, `tests/all-tests.md`).
 - Phase 0 step C resolved `.agents/skills` OR the two environment reds (validate-skills, validate-context-discovery) are recorded in `baseline/validators_before.txt` as environment-caused. "Red validator" in this phase means "worse than the Phase 0 baseline", judged mechanically by `bash process/general-plans/active/vibebelt-rebrand_29-10-26/baseline/compare.sh` (exit 0 = not worse).
-- Path variables used below: `P=process/general-plans/active/vibebelt-rebrand_29-10-26`, `B=$P/baseline`, `EX=":!$P"`. Before any edit save the start commit to a FILE (a spawned tester shell has no shell variables): `git rev-parse HEAD > $B/p1_start.txt`, and copy the value into the phase report. The diff gates read it back with `P1_START=$(cat $B/p1_start.txt)`.
+- Path variables used below: `P=process/general-plans/active/vibebelt-rebrand_29-10-26`, `B=$P/baseline`, `EX=":!$P"`. Before any edit save the start commit to a FILE (a spawned tester shell has no shell variables): `git rev-parse HEAD > $B/p1_start.txt`, and copy the value into the phase report. The diff gates read it back with `P1_START=$(cat $B/p1_start.txt)`. **Commit order (inner-3 supplement, 2026-10-29):** the task folder carries other uncommitted plan edits; the orchestrator commits them as a SEPARATE `process:` commit BEFORE Phase 1 EXECUTE, so `P1_START` = that commit (record it; never take `HEAD` from a dirty task folder).
 - Runtime (updated 2026-10-29): Linux `node` v22.23.4 now exists in this WSL; use `node`. `node.exe` also works; every command below that says `node.exe` may use `node`. Record which runtime ran in the phase report; the Phase 0 baseline files exist for both runtimes (`baseline/*.node.*` and `baseline/*.node-exe.*`).
 
 ---
@@ -47,7 +47,7 @@ Remove the contradictions the kit has today so later phases build on a consisten
 ## Strategy Recommendation (vc-agent-strategy-compare)
 
 - Signals: S7 yes (3 agent files edited, 15 read + README + 9 i18n + CI + new validator + about 9 doc files with model claims) — score about 2/7 (MEDIUM).
-- Recommended: **Parallel subagents**, 3 groups with disjoint files, ONE ordering rule: (a) the 3 execution-agent `effort:` lines + new validator + fixtures + `vc-audit-vc/SKILL.md` line; (b) README + 9 i18n (validator count D1 AND model-fact correction D2, in ONE pass per file) + CI workflow; (c) model-fact corrections in the non-README docs (Step F). Group (b) steps D1 and E start only AFTER group (a) step B2 (validator script exists on disk and fixtures pass) because the README count (N) and the CI list depend on the new validator; group (b) may prepare nothing earlier than B2 (D2 text itself needs only the A1 table). Group (c) needs only the A1 table and may start at once. Alternative: one sequential implementing pass A, B, C, D, E, F (same result, simpler). Models: named agents run on the model in their own front-matter (plan, research, validate, tester = opus; innovate, update-process = sonnet; this phase changes none of them); the implementing subagents are opus; any ad-hoc helper defaults to sonnet. Cost note: 4 + 4 + 3 = 11 agents, under the 30-agent guard.
+- Recommended: **Parallel subagents**, 3 groups with disjoint files, ONE ordering rule: (a) the 3 execution-agent `effort:` lines + new validator + fixtures + `vc-audit-vc/SKILL.md` line; (b) README + 9 i18n (validator count D1 AND model-fact correction D2, in ONE pass per file, each file edited by grep-located anchors, never by one shared find-and-replace) + CI workflows `validate.yml` AND `release.yml` (Step E, same 21-row command table); (c) model-fact corrections in the non-README docs (Step F). Group (b) steps D1 and E start only AFTER group (a) step B2 (validator script exists on disk and fixtures pass) because the README count (N) and the CI list depend on the new validator; group (b) may prepare nothing earlier than B2 (D2 text itself needs only the A1 table). Group (c) needs only the A1 table and may start at once. Alternative: one sequential implementing pass A, B, C, D, E, F (same result, simpler). Models: named agents run on the model in their own front-matter (plan, research, validate, tester = opus; innovate, update-process = sonnet; this phase changes none of them); the implementing subagents are opus; any ad-hoc helper defaults to sonnet. Cost note: 4 + 4 + 3 = 11 agents, under the 30-agent guard.
 
 ---
 
@@ -57,7 +57,7 @@ Remove the contradictions the kit has today so later phases build on a consisten
 - `.claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs` (NEW) + `fixtures/model-effort-pass/.claude/agents/*.md` and `fixtures/model-effort-fail/.claude/agents/*.md`
 - `.claude/skills/vc-audit-vc/SKILL.md` (one line registering the new validator)
 - `README.md`, `docs/i18n/README.*.md` (9 copies) — (1) validator count (4 sites per file, 40 total) and (2) the model-fact claim sites listed in Step D2 (this phase corrects the FACT only; Phase 7 rewrites the wording)
-- `.github/workflows/validate.yml`
+- `.github/workflows/validate.yml` AND `.github/workflows/release.yml` (inner-3 decision: release.yml duplicates the validator list today, 18 script names identical to validate.yml, and would stay behind at the v1.0.0 tag; Phase 1 adds the same validator steps, keeps its `on: push: tags: ['v*']` trigger and the `Create GitHub Release` step untouched). Ordering with Phase 2: Phase 1 runs FIRST; Phase 2 later changes one display-name line in release.yml (the release `--title`); the two edits are disjoint lines.
 - Model-fact documentation fixes (Step F; line numbers verified by grep on 2026-10-29, re-grep before editing): `CLAUDE.md` (§Model Selection Policy, lines 128-141); `process/development-protocols/implementation-standards.md` (effort bullet, lines 74-76); `process/development-protocols/orchestration.md` (line 35); `process/development-protocols/vc-system-behavior/04-research.md:23`, `07-plan.md:29`, `08-validate.md:23` and `:25`; `.claude/skills/vc-agent-strategy-compare/SKILL.md` (§Model Selection Policy, lines 22-34, and the output template line 186); `process/context/all-context.md:179` (Phase 0 file, one paragraph). Verified NO change needed: `AGENTS.md` (no model/opus/sonnet text), `06-innovate.md:27` (innovate = sonnet, correct), `09-execute.md:23` (OPUS, correct), `autopilot.md:129` (an ad-hoc teammate example), `orchestration.md:575` and `CLAUDE.md:219` (quick-fix = opus, correct).
 - `process/general-plans/active/vibebelt-rebrand_29-10-26/baseline/p1_start.txt` (NEW) and one appended line in `baseline/validators.list` (program evidence folder, not kit code)
 
@@ -101,7 +101,7 @@ Remove the contradictions the kit has today so later phases build on a consisten
 ### Step D — README count (starts after B2)
 
 - [ ] D1. Compute `N=$(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' | wc -l)` AFTER B2 (expected 38; today 37). Do not hand-count. Update ALL 4 sites in each of the 10 files (README.md and `docs/i18n/README.*.md`, 40 sites) found by `grep -nE '(<h3>|\*\*|🛡️ )36\b' README.md docs/i18n/README.*.md`; write N in each. Line numbers differ per file (README.md 61/270/1009/1011; de/es/fr/pt-BR/vi-VN 61/268/1006/1008; hi/ja-JP/ko-KR/zh-CN differ again): use the grep, not line numbers. Prose elsewhere (for example "14 VC-system behavior validators") is out of scope.
-- [ ] D2. Model-fact correction in the same pass over the same 10 files (README.md and `docs/i18n/README.*.md`). Phase 1 corrects the FACT only; Phase 7 rewrites the wording in plain language. Find the sites by grep, never by line number (line numbers differ per file; EN today: 57, 857-858, 866-867, 886-889, 1524-1528, 1683; de: 854-886, 1520-1528, 1679; zh-CN: 855-887, 1509-1517, 1668): (1) the feature cell `🧮 ...` (EN "Smart model use", `grep -n '🧮' file`); (2) the Mermaid model diagram and table (`grep -n 'OPUS\|SONNET' file`, then the 2-row table and the `>` note below it); (3) the "Core workflow agents" table rows `vc-research-agent`, `vc-plan-agent`, `vc-validate-agent`: model column `sonnet` -> `opus` (these rows only; spec, innovate, update-process stay sonnet); (4) the bullet that starts "It uses the premium AI model only where it matters" (translated in the other 9; locate with `grep -nE '60.70'`). Target English wording is in Step F ("Exact target wording"); the 9 translations carry the same facts in their language (numbers 7 and 8, the model names opus and sonnet stay untranslated). The unmeasured claim "roughly 60-70% lower cost" is REMOVED (it was derived from the false policy); Phase 7 may reintroduce a figure only if measured.
+- [ ] D2. Model-fact correction in the same pass over the same 10 files (README.md and `docs/i18n/README.*.md`). Phase 1 corrects the FACT only; Phase 7 rewrites the wording in plain language. Find the sites by grep, never by line number (line numbers differ per file; EN today: 57, 857-858, 866-867, 886-889, 1524-1528, 1683; de: 854-886, 1520-1528, 1679; zh-CN: 855-887, 1509-1517, 1668): (1) the feature cell `🧮 ...` (EN "Smart model use", `grep -n '🧮' file`); (2) the Mermaid model diagram and table (`grep -n 'OPUS\|SONNET' file`, then the 2-row table and the `>` note below it); (3) the "Core workflow agents" table rows `vc-research-agent`, `vc-plan-agent`, `vc-validate-agent`: model column `sonnet` -> `opus` (these rows only; spec, innovate, update-process stay sonnet); (4) the bullet that starts "It uses the premium AI model only where it matters" (translated in the other 9; locate with `grep -nE '60.70'`). Target English wording is in Step F ("Exact target wording"); the 9 translations carry the same facts in their language (numbers 7 and 8, the model names opus and sonnet stay untranslated). **Per-file rule (inner-3, verified by grep 2026-10-29):** the diagram, note, feature cell and bullet text is localized differently in the translations, so D2 is a per-file edit located by grep, NEVER one shared find-and-replace across files. Every one of the 10 files has exactly: 2 `🧮` lines (feature cell near line 57, heading `### 🧮 ...` near 879-882), 3 `OPUS`/`SONNET` pairs (`OPUS[`, `SONNET[`, and the two `MC -->|...| OPUS` / `| SONNET` edge lines plus the `style` lines), 1 `60.70` line, and 3 agent-table rows (`vc-research-agent`, `vc-plan-agent`, `vc-validate-agent`). Language differences to respect: ko-KR, pt-BR, vi-VN and zh-CN have LOCALIZED node text (`OPUS["...(EXECUTE만)"]`, `(somente EXECUTE)`, `(chỉ EXECUTE)`, `（仅 EXECUTE）`) and ko-KR/zh-CN also localized edge labels; de, es, fr, hi, ja-JP keep the English node/edge text; zh-CN uses full-width parentheses `（ ）` and `60–70%` with an en dash; ja-JP, ko-KR and zh-CN line offsets differ by 1 to 12 lines from README.md (the `60.70` bullet is at README.md 1683, zh-CN 1668, de/es/fr/hi/pt-BR/vi-VN 1679, ja-JP/ko-KR 1681). Anchor list to locate per file: (a) `grep -n '🧮' f` (feature cell + heading); (b) `grep -nE 'OPUS\[|SONNET\[' f` (node ids); (c) `grep -nE 'MC -->' f` (edge labels; EN: `EXECUTE / fast-mode\nquick-fix (real code)` and `Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers`); (d) the heading `### 🧮 ...` then the 2-row model table below it; (e) the `>` note paragraph that starts after the table (EN: `> When work is split across several agents, only the *coding* agent uses opus.`); (f) `grep -nE '^\| [^|`]*`vc-(research|plan|validate)-agent` \|' f` (the three agent-table rows; model column `sonnet` -> `opus`); (g) `grep -nE '60.70' f` (the "premium model" bullet). The gate loops per file (R1.12, R1.13 mechanical backstop). The unmeasured claim "roughly 60-70% lower cost" is REMOVED (it was derived from the false policy); Phase 7 may reintroduce a figure only if measured.
 
 ### Step E — CI (starts after B2)
 
@@ -134,6 +134,7 @@ Remove the contradictions the kit has today so later phases build on a consisten
 
   (Rows 1-7 and 9-21 are the 20 names missing from CI today plus the new row 8; row 8 exists only after B2.) Expected local result is exit 0 for every row EXCEPT the likely reds: row 3 (needs harness/git context), row 9 and row 19 (no own fixtures, arguments to be confirmed by reading the script's usage line). The implementing agent confirms each exit code locally (E3) and does not trust this expectation.
 - [ ] E3. Per-step local run and `continue-on-error` rule (reconciles R1.4 with "never add a silently failing step"): for each row run the exact command locally with its own `; echo $?` (one command per exit code) and record the table of 21 exit codes in the phase report. Exit 0 -> add a normal step. Non-zero -> add the SAME step with `continue-on-error: true` and a YAML comment on the line above naming the cause (for example `# continue-on-error: needs harness scenarios; fails on a bare kit checkout`), and list it under "CI steps allowed to fail" in the phase report. The step name still contains the script base name, so R1.4 stays satisfiable and CI stays green. Never remove or weaken an existing step; a validator that is red at baseline for a reason outside this phase is recorded the same way. Fixture-based steps test the validator, not the kit; that is accepted and stated in the report.
+- [ ] E4. `.github/workflows/release.yml` (inner-3 decision): add the SAME validator steps (the 21-row E2 table, same command, same step names containing the script base name, same E3 `continue-on-error: true` rule and cause comment for the rows that fail locally; reuse the E3 exit-code table, no second run needed because the commands are identical). Insert them after the existing `Validate skill keywords` step and before `Validate plan artifacts (if any)`; keep the existing steps, the `on: push: tags: ['v*']` trigger, `permissions: contents: write`, the `Create GitHub Release` step and its `--title` line untouched (Phase 2 owns the display-name line). Do NOT add a `pull_request` or `branches` trigger to release.yml. Result: release.yml names every `validate-*.mjs` script, and the validator-name set of release.yml equals that of validate.yml (including `generate-skills-catalog.mjs`). Known fact, not a defect: `validate.yml` has `concurrency: cancel-in-progress: true` keyed on `github.head_ref || github.ref_name`; with the new `push` trigger a second push to `main` cancels the in-flight run on `main`. Accepted (the later push re-runs everything); do not change it in this phase.
 
 ### Step F — Model-fact documentation fixes (Decision B; group (c); needs only the A1 table)
 
@@ -175,7 +176,12 @@ node.exe $V/validate-agent-frontmatter.mjs; echo $?                             
 N=$(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' | wc -l); echo $N          # Expected: 38
 grep -rnE '(<h3>|\*\*|🛡️ )36\b' README.md docs/i18n/README.*.md                              # Expected: no output
 grep -rnE "(<h3>|\*\*|🛡️ )$N\b" README.md docs/i18n/README.*.md | wc -l                     # Expected: 40
-for f in $(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*'); do b=$(basename $f); grep -q "$b" .github/workflows/validate.yml || echo "MISSING $b"; done   # Expected: no output
+for w in validate release; do for f in $(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*'); do b=$(basename $f); grep -q "$b" .github/workflows/$w.yml || echo "MISSING $w $b"; done; done   # Expected: no output (both workflow files name every validator)
+diff <(grep -oE '[a-z-]+\.mjs' .github/workflows/validate.yml | sort -u) <(grep -oE '[a-z-]+\.mjs' .github/workflows/release.yml | sort -u); echo $?   # Expected: no diff output, then 0 (same script-name set; today 18 = 18, after Phase 1 39 = 39)
+python3 -c "import yaml; d=yaml.safe_load(open('.github/workflows/release.yml')); o=d.get('on', d.get(True)); assert o['push']['tags']==['v*'] and 'pull_request' not in o; print('ok')"   # Expected: ok (tag trigger kept; YAML 1.1 reads on as True)
+for w in validate release; do grep -c 'continue-on-error: true' .github/workflows/$w.yml; done | sort -u | wc -l   # Expected: 1 (both files carry the same number of continue-on-error steps)
+git diff -U0 $P1_START -- .github/workflows/release.yml | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | grep -E '^-' ; echo done   # Expected: only "done" (release.yml: additions only, no existing line removed)
+for f in README.md docs/i18n/README.*.md; do echo "$f $(grep -c '🧮' $f) $(grep -cE 'OPUS\[|SONNET\[' $f) $(grep -c '60.70' $f)"; done   # Expected: every line ends "2 2 0" (per-file: 2 calc lines, OPUS+SONNET node ids kept, percentage gone)
 python3 -c "import yaml; d=yaml.safe_load(open('.github/workflows/validate.yml')); o=d.get('on', d.get(True)); assert 'push' in o and 'pull_request' in o and o['push']['branches']==['main']; print('ok')"   # Expected: ok (YAML 1.1 reads the key on as True)
 grep -c 'continue-on-error: true' .github/workflows/validate.yml                   # Expected: equals the number of "CI steps allowed to fail" in the phase report (record it)
 git diff -U0 $P1_START -- .claude/agents | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | grep -vE '^[+-]effort:'   # Expected: no output (only effort lines moved)
@@ -194,6 +200,7 @@ git diff --check $P1_START -- . "$EX"                                           
 
 - New validator proven on both fixtures (pass exits 0, fail exits non-zero) and on the real agents.
 - The phase report contains the 15-agent old/new table (all `model:` values unchanged; three `effort:` values `low` -> `max`), the token-cost note, and the list of documentation sites corrected (file:line before/after), citing `implementation-standards.md` §Agent Frontmatter Conventions. The report states that Decision B (keep opus, fix docs) was applied and that the sonnet-versus-opus cost measurement is a deferred follow-up outside this program.
+- Report requirements added by the inner-3 supplement: (i) the token-cost note names `vc-quick-fix-agent` (the lightest lane; effort `max` raises its per-run token cost most visibly against its purpose), `vc-fast-mode-agent` and `vc-execute-agent` explicitly, old and new value each; (ii) a note that `CLAUDE.md` is the orchestrator's own governing text: sessions started before the Step F1 change still hold the old model text, and spawns of plan, research, validate and tester after Phase 1 must NOT pass a `model:` override (they use their own front-matter, opus); (iii) the registry claim note: Phase 1 also owns `.github/workflows/release.yml` (additions only; Phase 2 keeps the display-name line, Phase 1 runs first) and the E3 exit-code table covers both workflow files (the owner of the registry applies it; this phase does not edit the registry); (iv) the accepted CI note: `push` plus `cancel-in-progress: true` on `main` means a second push cancels an in-flight run, accepted and not a defect; (v) commit hygiene: the `fix:` commit is staged by an explicit file list only (never `git add -A`); `baseline/validators.list` append and `baseline/p1_start.txt` go in the later `process:` evidence commit.
 
 ---
 
@@ -217,7 +224,7 @@ git diff --check $P1_START -- . "$EX"                                           
 
 ## Touchpoints
 
-- Three agent front-matter `effort:` lines (no `model:`), one new script + fixtures, `vc-audit-vc/SKILL.md`, model-fact corrections in CLAUDE.md / 5 protocol files / strategy-compare SKILL.md / all-context.md, README + 9 translations (count + model facts), CI workflow
+- Three agent front-matter `effort:` lines (no `model:`), one new script + fixtures, `vc-audit-vc/SKILL.md`, model-fact corrections in CLAUDE.md / 5 protocol files / strategy-compare SKILL.md / all-context.md, README + 9 translations (count + model facts), CI workflows (`validate.yml` and `release.yml`)
 
 ---
 
@@ -244,6 +251,8 @@ git diff --check $P1_START -- . "$EX"                                           
 | claim-regex grep over CLAUDE.md / AGENTS.md / protocols / strategy-compare / all-context / README prints nothing (R1.11) | Fully-Automated | C-P1 (R1.11): English docs state the real model policy |
 | README agent-table loop over the 10 README files prints nothing; sonnet-row count is 3 in each (R1.12) | Fully-Automated | C-P1 (R1.12): table facts correct in all 10 languages |
 | translated prose, diagram text, feature cell and "premium model" bullet in 9 translations state 7 opus / 8 sonnet and the removed percentage | Agent-Probe (judgement of wording in 9 languages; named residual, never the sole proof) | C-P1 (R1.13): translations carry the same facts |
+| release.yml carries the same validator set as validate.yml (name loop over both files, script-name sets equal, YAML parses with `push.tags == ['v*']`, additions only) | Fully-Automated | C-P1 (R1.4): CI covers full suite (release path) |
+| per-file README anchors: each of the 10 files keeps 2 `🧮` lines and the OPUS/SONNET node ids and has 0 `60.70` | Fully-Automated | C-P1 (R1.12/R1.13 mechanical backstop) |
 | CI steps actually pass on ubuntu runner | Known-Gap residual (needs a real push, Phase 8); backlog stub, gate stays CONDITIONAL, never PASS on this alone | C-P1 (R1.4) residual |
 
 ---
@@ -278,8 +287,9 @@ instructions / Test gates) is treated as a placeholder.
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_PLAN_29-10-26.md`
 - Last completed step: not started
-- Validate-contract status: written 29-10-26 (generated-by outer-pvl; Gate: PASS) BUT PARTLY SUPERSEDED by the Inner Loop Refresh Note 2026-10-29 (Decision B changes the policy table, the diff gate, Step C and adds Step F); the inner PVL must re-run from V1 and rewrite the contract. Earlier PASS text is kept below unchanged for history.
+- Validate-contract status: written 29-10-26 (generated-by inner-pvl: phase-1; Gate: PASS; supersedes the earlier outer-pvl PASS contract and the Inner Loop Refresh Note of 2026-10-29). The earlier contract text is replaced (git history only). Inner steps 1-3 (RESEARCH, INNOVATE, PLAN-SUPPLEMENT) are still unchecked; a newer Inner Loop Refresh Note from them re-triggers the PVL (instruction E15).
 - Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, prior phase report (if any)
+- Inner steps 1-3 status: inner 3 (PLAN-SUPPLEMENT) applied 2026-10-29 (release.yml sync, per-file README anchors, report requirements); the Inner Loop Refresh Note dated 2026-10-29 (inner 3) re-triggers the PVL from V1.
 - Next step: step 1 RESEARCH of this phase when its turn comes (strict phase order), then the inner PVL from V1 (Refresh Note newer in effect than the contract; see the note on same-day dates in the Supplement). EXECUTE starts after the Phase 0 exit gate is green.
 
 ---
@@ -291,65 +301,93 @@ User decision B (2026-10-29): keep `opus` on research, plan, validate, tester as
 ---
 
 
+## Inner Loop Refresh Note: 2026-10-29 (inner 3) — changed sections: Strategy Recommendation, Blast Radius, Implementation Checklist (D2 per-file anchors, new E4 release.yml sync), Exit Gate (name loop over both workflows, script-set equality, release.yml YAML gate, per-file README anchor loop, report requirements), Verification Evidence (2 rows), Touchpoints, Entry Gate (commit order), Resume and Execution Handoff (research findings: release.yml sync, per-file README diagram edits). Invalidates the validate-contract below for the new gates; the PVL must re-run from V1.
+
+### Supplement (inner 3, research findings)
+
+Scope: research findings folded in; no umbrella decision changed (Decision B, Decision A and the 7 opus / 8 sonnet facts are untouched).
+
+- S1 release.yml: verified 2026-10-29 that `release.yml` and `validate.yml` name the same 18 scripts today (17 validators plus `generate-skills-catalog.mjs`) and that no phase syncs release.yml. Orchestrator decision: Phase 1 syncs it (new Step E4, blast radius, gates). Phase 2 later edits one display-name line there; Phase 1 first.
+- S2 README: verified that all 10 README files have the same counts (2 `🧮`, 3 OPUS/SONNET node lines, 1 `60.70`, 3 agent rows) but localized text differs (ko-KR/pt-BR/vi-VN/zh-CN node text, ko-KR/zh-CN edge labels, zh-CN full-width parentheses and en dash, per-file line offsets). D2 is per-file, grep-located, with a per-file gate.
+- S3 token cost: the report names quick-fix, fast-mode and execute explicitly.
+- S4 commit hygiene: separate `process:` commit BEFORE EXECUTE (so `P1_START` is that commit); `fix:` commit by explicit file list; evidence files in the later `process:` commit.
+- S5 CLAUDE.md governs the orchestrator: stale-session note and no `model:` override on plan/research/validate/tester spawns after Phase 1 (report requirement).
+- S6 CI `push` + `cancel-in-progress: true` on `main`: accepted note, not a defect.
+- Wording to adjust in files this supplement does not own (hand-off): registry Phase 1 section needs `.github/workflows/release.yml` (additions only; runs before Phase 2's display-name line) and the 10-file per-language anchor note; Phase 2 plan/registry line `release.yml (1 line)` should say "after Phase 1's validator steps"; Phase 6 plan line 155 ("the 18 commands in `.github/workflows/release.yml`") will be about 39 script names after Phase 1 and should read the count from the file rather than say 18.
+
+
 ## Validate Contract
 
 Status: PASS
 Date: 29-10-26
 date: 2026-10-29
-generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl) — cycle-2 CONDITIONAL contract (G1-9, G1-10); PVL cycle 3 re-validation from V1 has current evidence
+generated-by: inner-pvl: phase-1
+supersedes: 2026-10-29 (outer-pvl) — the earlier PASS contract (cycle 3, written for the old plan: opus -> sonnet on 4 agents) AND the Inner Loop Refresh Note dated 2026-10-29. The note and the old contract carry the same calendar date, so the date comparison cannot order them; this contract was written AFTER the note in the same session, was produced by a full V1-V7 pass on the rewritten plan (Decision B), and is the only contract with current evidence. The earlier contract text is replaced, not appended (inner-PVL overwrite rule); it survives only in git history (HEAD 7845316).
 
-Parallel strategy: parallel-subagents (2 groups, one ordering rule: README and CI start after the validator exists)
-Rationale: score 2/7 (S4 phase program, S7 five or more files: 15 agents + README + 9 translations + CI + new script). Dominant signal S7. Group (b) README/CI steps D and E depend on step B2 of group (a), so a single sequential implementing pass A, B, C, D, E is an equally valid choice. Models: planning/validation sonnet, implementing subagents opus. Fan-out cost if used: 4 (Layer 1) + 5 (Layer 2: Steps A-E) + 2 implementers = 11, up to 14 with optional reviewer/tester/security (under the 30-agent guard). This cycle-3 pass was ONE fire-and-forget validate-agent with direct repo inspection plus a throw-away dry run (no sub-agent fan-out possible).
+V1 line (relayed): `V1 RE-VALIDATE TRIGGERED: Inner Loop Refresh Note dated 2026-10-29 is newer than existing contract.` (V1 AUTO-PROCEED did not apply.)
 
-### Real-repo facts checked (V1, cycle 3)
+Parallel strategy: parallel-subagents (3 groups, ONE ordering rule: README/i18n/CI start after the validator exists on disk) — or one sequential implementing pass A, B, C, D, E, F (same result, simpler)
+Rationale: score 2/7 (S4 phase program, S7 five or more files). Dominant signal S7. Group (b) depends on step B2 (validator + N); group (c) needs only the A1 table. Models: named agents keep their own front-matter model (plan, research, validate, tester = opus; innovate, update-process = sonnet; this phase changes none); implementing subagents opus; any ad-hoc helper sonnet. Fan-out cost if used: 4 (Layer 1) + 6 (Layer 2: Steps A-F) + 3 implementers = 13, up to 16 with optional reviewer/tester/security (under the 30-agent guard). This pass was ONE fire-and-forget validate-agent (no sub-agent fan-out possible): all four dimensions and six sections were checked by direct inspection plus a full dry run of the phase in a throw-away copy (deleted afterwards).
 
-- Agent front-matter today matches the A1 policy table input: opus = research (low), plan (low), validate (high), tester (low), execute (low), fast-mode (low), quick-fix (low); sonnet = code-reviewer (high), code-simplifier (medium), debugger (high), git-manager (low), innovate (medium), spec (medium), ui-ux-designer (medium), update-process (medium). Structural plan check: exit 0, two advisory "legacy plan shape" warnings.
-- **Dry run in a copy of the repo (same drive type, git repo present, Phase 0 state):**
-  - Applying exactly the A1 table (execute/fast-mode/quick-fix effort `max`; plan/validate `sonnet` + `high`; research/tester `sonnet`) leaves `validate-agent-parity`, `validate-agent-frontmatter`, `validate-protocol-wiring` and `validate-guide-sync` at exit 0, and the diff gate (`git diff -U0 ... -- .claude/agents | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | grep -vE '^[+-](model|effort):'`) prints nothing.
-  - Fixtures laid out as `.claude/skills/vc-audit-vc/scripts/fixtures/model-effort-{pass,fail}/.claude/agents/*.md` do not disturb any other validator (parity, skills, portability, guide-sync, protocol-wiring, invocation-wiring, frontmatter, context-discovery, skill-keywords/cross-refs/routing, confusable, protocol-discovery, plan-inventory all unchanged), and `resolve-manifest.mjs` does NOT list them (dot-directory); a new script `validate-model-effort-policy.mjs` adds exactly one line to the resolver list. One added line in `vc-audit-vc/SKILL.md` leaves the skill validators at exit 0.
-  - `find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' | wc -l` = 37 (38 after B2); the README regex `(<h3>|\*\*|🛡️ )36\b` hits exactly 4 sites in each of the 10 files (40 total) and `37`/`38` have no pre-existing hits at those sites; there are 9 translated READMEs.
-  - `validate.yml` parses with PyYAML 6.0.3 as `on = {pull_request: {branches: [main]}}` today; the missing-name loop lists exactly the 20 names that rows 1-7 and 9-21 of the E2 table cover (checked name by name).
-- **The 21-row CI table, every command run locally (exit codes on the real files):** rows 1, 2, 4, 6, 7, 9 (prints a WARN about `TBD` test gates but exits 0), 10-18, 20, 21 exit 0. Row 3 (`validate-eval-coverage`) exits 1 ("scenarios directory not found / coverage map empty"): the plan already expects this red. Row 19 (`validate-risk-artifacts` on the evidence-pack pass directory) exits 1 ("risk-gate.json missing", the fixture uses a different file layout): the plan already expects this red. **Row 5 (`validate-phase-reports ... /pass` with a DIRECTORY) exits 1 with `EISDIR`: that validator takes an umbrella plan FILE.** With `.../validate-phase-reports/pass/umbrella.md` it exits 0 (see R1-a).
+### Real-repo facts checked (V1-V3, this pass; Linux node v22.23.4, HEAD 7845316)
 
-### Prior gaps G1-9, G1-10: re-check against the real repo
-
-- G1-9 CLOSED (with one correction, R1-a): the 21-row table gives an exact command per validator; the E3 rule (exit 0 -> normal step, non-zero -> same step with `continue-on-error: true` and a cause comment) makes R1.4 satisfiable without hiding anything; all 20 absent names are covered.
-- G1-10 CLOSED: each validator has its own `; echo $?`; the PyYAML check asserts `push` on `main` plus `pull_request`; `P1_START` is persisted to `baseline/p1_start.txt` and read back.
+- Structural check of this plan: `validate-plan-artifact.mjs` exit 0 (0 failures, 2 advisory legacy-shape warnings). No `## Phase Ordering`, no `## Pre-PVL Conflict Resolution` in the plan; registry has no `status: BLOCKED`; Phase 0 report exists (COMPLETE_WITH_GAPS), so the dependency guard does not fire. Umbrella has `## Stable Program Goal` (so no goal block is written into this plan: BRANCH B).
+- **Agent inventory** (`grep '^model:\|^effort:' .claude/agents/*.md`) equals the A1 table exactly: opus = execute (low), fast-mode (low), quick-fix (low), plan (low), research (low), tester (low), validate (high); sonnet = code-reviewer (high), code-simplifier (medium), debugger (high), git-manager (low), innovate (medium), spec (medium), ui-ux-designer (medium), update-process (medium). 7 opus / 8 sonnet. The F-TEXT-4 effort sentence matches these values. `.codex/agents/*.toml` have no `model`/`effort` fields (0 files); `.codex/config.toml` has the single `model = "gpt-5.4"`.
+- **Every cited doc site exists and says what the plan says**: `CLAUDE.md` 128-141 (heading at 128, "Full rules" at 141); `implementation-standards.md` 74-76; `orchestration.md` 35; `04-research.md:23`, `07-plan.md:29`, `08-validate.md:23` and `:25` (all `(sonnet)` / the "runs on sonnet" sentence); `vc-agent-strategy-compare/SKILL.md` section at 22-34 and template line 186; `process/context/all-context.md:179` (Phase 0 "Model policy" paragraph). `AGENTS.md` has no opus/sonnet text; `06-innovate.md:27`, `09-execute.md:23`, `autopilot.md:129`, `orchestration.md:575`, `CLAUDE.md:219` are correct as the plan says. A repo-wide scan of md/toml/json/mjs/yml for opus|sonnet found no stale model claim outside the plan's list.
+- **Claim grep R1.11 today: 14 hits** (CLAUDE.md 3, 04/07/08 one each, strategy-compare 3, all-context 1, README 4) = the author's count. **README agent-table loop R1.12 today: 30 RED lines** (10 files x 3 agents; every file has exactly one row per agent in the expected format); sonnet-row loop prints `10 3`.
+- README count: `find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' | wc -l` = 37 today (38 after B2); the regex `(<h3>|\*\*|🛡️ )36\b` hits 4 lines in each of the 10 files (40).
+- **Dry run in a throw-away copy of the repo (git repo present, Phase 0 state), Steps A-F executed with the plan's wording:**
+  - B1/B2/C1: a prototype validator (`--root`, defaults to `git rev-parse --show-toplevel`, same convention as `validate-kit-portability.mjs`; note `validate-agent-frontmatter.mjs` has NO `--root`, which the plan correctly does not claim) gives: real agents BEFORE the edit exit 1 with exactly 3 messages (execute, fast-mode, quick-fix: effort is low, expected max) and ZERO model messages; pass fixture (15 files, 7 opus / 8 sonnet) exit 0; fail fixture exit 1 with 4 plain-language lines (plan model, innovate model, execute effort, git-manager effort). After the 3 `effort:` edits the real agents exit 0.
+  - R1.7 gates after the edit: diff gate prints nothing; `model:` changed lines = 0; changed files = exactly `vc-execute-agent.md`, `vc-fast-mode-agent.md`, `vc-quick-fix-agent.md`; `effort: max` x3; 7 opus / 8 sonnet; `.codex` diff empty. parity, frontmatter, seeds, skill-dependencies, skills-catalog `--check` all exit 0.
+  - Fixtures at `.claude/skills/vc-audit-vc/scripts/fixtures/model-effort-{pass,fail}/.claude/agents/` do not disturb any validator; `resolve-manifest.mjs --json` lists the new script (1 added line, 416 files) and no fixture file.
+  - B4: appending the `validate-model-effort-policy` line to `baseline/validators.list` (the file ends with a newline, so the append is clean) and running `bash baseline/compare.sh`: prints `NOTE new validator validate-model-effort-policy`, then `OK: nothing worse than validators_after_setup.tsv`, exit 0 (36 s). Run again after ALL edits (agents, README x10, CI, Step F docs): same, exit 0. `git diff --check <P1_START> -- . ':!<task folder>'` prints nothing.
+  - D: after replacing, regex `36` has 0 hits and `38` has exactly 40 hits (see R1-c for one tooling trap).
+  - E: the PyYAML check passes after adding `push` (`ok`); `validate.yml` still parses (29 steps in the simulation with 8 rows added); the missing-name loop today lists exactly 20 names (rows 1-7 and 9-21 of E2 cover them name by name).
+  - F: with the plan's F-TEXT-1..7 and README target wording applied, the R1.11 grep prints nothing EXCEPT one hit (R1-b below); the R1.12 loop prints nothing (0 RED) and the sonnet loop stays `10 3`.
+- **The 21-row CI table, every command run locally with Linux node** (exit codes): rows 1, 2, 4, 6, 7, 9 (prints a `TBD` WARN, exit 0), 10-18, 20, 21 = 0; row 8 (new validator) = 0 after B2. Row 3 `validate-eval-coverage` = 1 ("Coverage map is empty"; expected red). Row 19 `validate-risk-artifacts` on the evidence-pack pass directory = 1 (expected red). **Row 5 as written in the table (directory form) = 1 with `EISDIR`; with `.../validate-phase-reports/pass/umbrella.md` = 0** (R1-a). So: 18 zero, 3 non-zero as written.
 
 ### Plan updates applied
 
-None in this pass (validate-agent writes the contract only). No plan edit is required: the one wrong cell found (R1-a) is bounded and is resolved by Execute-agent instruction E9, which overrides the plan text and does not change the Exit Gate.
+None to the plan body. This pass writes only the contract and refreshes the one stale status line in "Resume and Execution Handoff" (it still said the inner PVL must re-run). The defects found (R1-a, R1-b, R1-c) are bounded and are resolved by the Execute-agent instructions below, which override the plan text and do not change the Exit Gate.
 
 ### Execute-agent instructions
 
-- E1. Runtime: use `node.exe` (no `node` in WSL); keep fixtures and commands runtime-neutral.
-- E2. Write the red state first: run the new validator on the real agents and on the fail fixture, confirm non-zero, save the output; then edit.
-- E3. Per agent file touch only the `model:` and `effort:` lines; run the R1.7 diff gate after editing; any other changed line means revert that file and stop.
-- E4. Do NOT touch `.codex/**`; gate R1.8 proves it.
-- E5. Compute N with the `find` command AFTER the new script exists; write the same N in all 40 sites; do not hand-count.
-- E6. For each validator added to `validate.yml`, run the exact command locally first. A step that fails locally is added as `continue-on-error: true` with a comment naming the cause (so the R1.4 name check still passes and CI is not broken), and listed in the phase report; never add a failing step silently and never remove or weaken an existing step. Write the comment so that it does NOT contain the text `continue-on-error: true` (the Exit Gate counts that text).
-- E7. The new validator is additive only; never edit another validator's checks.
-- E8. Save `P1_START` to `process/general-plans/active/vibebelt-rebrand_29-10-26/baseline/p1_start.txt` as well as the phase report, so a spawned tester shell can read it.
-- E9. R1-a (E2 table row 5 correction): the CI command for `validate-phase-reports.mjs` takes the umbrella FILE: `node .claude/skills/vc-audit-plans/scripts/validate-phase-reports.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-phase-reports/pass/umbrella.md` (exit 0 on this tree). Use that, not the directory form in the table. Row 19 and row 3 are expected red and take the E6 `continue-on-error` rule; row 9 exits 0 and gets a normal step. In all rows trust the exit code you measure, not the plan's expectation.
+- E1. Runtime: Linux `node` (v22.23.4) or `node.exe`; record which ran in the phase report. Gate commands that say `node.exe` may use `node`.
+- E2. Red first (A1 re-read, B1, C1): before any edit re-read all 15 front-matters (a mismatch with the A1 table = stop and ask) and re-read `implementation-standards.md` §Agent Frontmatter Conventions (`max` / `low` rows). Write fixtures, run the new validator on the fail fixture and (once it exists) on the real agents BEFORE the effort edit: expect exit 1 with exactly 3 messages (execute, fast-mode, quick-fix effort) and no model message; save the output in the report.
+- E3. Agent files: touch ONLY the `effort:` line of `vc-execute-agent.md`, `vc-fast-mode-agent.md`, `vc-quick-fix-agent.md` (`low` -> `max`). No `model:` line anywhere, no other agent file, no `.codex/**`, no `AGENTS.md`, no `06-innovate.md` / `09-execute.md` / `autopilot.md`. Run the R1.7 gates after editing; any other changed line means revert that file and stop.
+- E4. `P1_START` is written to `baseline/p1_start.txt` (Entry Gate) before any edit AND copied into the phase report; read it back in every diff gate (a spawned tester shell has no variables).
+- E5. Compute N with the `find` command AFTER the new script exists (expect 38; do not hand-count). Replace in all 40 sites with a pattern that does NOT use `\b` (GNU `sed -E ...\b` leaves the `docs/i18n/README.ja-JP.md` and `README.ko-KR.md` sites untouched because `36` is followed by a CJK character; use `s/(<h3>|\*\*|🛡️ )36/\1N/g` or a short Python replace). The grep gates are authoritative: `36` -> no output, `N` -> 40 lines.
+- E6. CI: add `push: branches: [main]` keeping `pull_request`. For each of the 21 rows run the exact command locally with its own `echo $?`, record the 21 exit codes in the report; exit 0 -> normal step; non-zero -> same step with `continue-on-error: true` plus a cause comment on the line above. The comment MUST NOT contain the text `continue-on-error: true` (the Exit Gate counts that text; the plan's example comment `# continue-on-error: needs harness ...` is fine because it is followed by `needs`). Never remove or weaken an existing step; each step name contains the script base name. Trust the exit code you measure: rows 3 and 19 were red here, row 9 was green.
+- E7. R1-a (E2 row 5 correction, overrides the table): use `node .claude/skills/vc-audit-plans/scripts/validate-phase-reports.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-phase-reports/pass/umbrella.md` (exit 0 here), not the directory form.
+- E8. R1-b (README feature cell vs the R1.11 gate): the plan's target feature-cell wording contains the literal `(sonnet)`, which matches the R1.11 regex alternative `\(sonnet\)` over `README.md`. Write it as "...; the lighter model, sonnet, handles requirements, option comparison, closeout, review and commits." (no parentheses around the model name; `(opus)` is fine). Re-run the R1.11 grep after the README edit; it must print nothing. Keep the facts (7 opus / 8 sonnet) identical in the 9 translations; do not write `(sonnet)` there either.
+- E9. Step F: replace with the exact F-TEXT-1..7 and keep headings as they are; re-grep every line number first (a site that says something different from the plan = stop and ask). For the agent-table rows in the 10 README files write `**opus**` (bold, like the execute rows) for research, plan, validate only; spec, innovate, update-process stay `sonnet`. Remove the `60-70%` claim in all 10 files (EN bullet and the 9 translations).
+- E10. The new validator is additive only: never edit another validator's checks; it enforces only the documented rows (15 models; `effort: max` x3; `effort: low` for vc-git-manager); error text names agent + field + expected value.
+- E11. Commits (umbrella rule: one execution commit per phase, process commits separate): ONE `fix:` commit on `main` for the execution changes (3 agent effort lines, validator + fixtures, `vc-audit-vc/SKILL.md`, README x10, `validate.yml`, Step F docs); a SEPARATE `process:` commit for the task-folder evidence (`baseline/p1_start.txt`, the `validators.list` line, the phase report, umbrella state, backlog stub). Phase 2's Entry Gate depends on the `fix:` commit existing. The gates diff against `P1_START`, so they stay valid after the commits.
+- E12. K1-1 stub: `mkdir -p process/general-plans/backlog` then write `process/general-plans/backlog/model-effort-validator-registry_NOTE_29-10-26.md` at UPDATE PROCESS (frontmatter plus `NEW PLAN REQUIRED`).
+- E13. R1-e (UPDATE PROCESS, not a Phase 1 gate): after the phase, `process/context/all-context.md` (lines 158 and 205 say "37 validators") and `process/context/tests/all-tests.md` (line 83 describes CI as `pull_request` only with 21 steps) become stale; vc-update-process-agent reconciles them with `vc-audit-context` (the phase's own gates do not check them).
+- E14. The phase report states the token-cost impact in plain words (execute, fast-mode, quick-fix move from effort low to max: more tokens per run, higher quality; nothing else changes in cost terms because no `model:` changes), lists old/new for all 15 agents, lists the 21 CI exit codes and "CI steps allowed to fail", and says Decision B (keep opus, fix docs) was applied and that the sonnet-versus-opus measurement is a deferred follow-up outside this program.
+- E15. If the Phase 1 inner RESEARCH or PLAN-SUPPLEMENT (steps 1-3, still unchecked) adds a newer `## Inner Loop Refresh Note`, this contract must be re-run from V1.
 
 ### Test gates
 
-Test context: `process/context/tests/all-tests.md` does not exist until Phase 0; tiers come from the real validator scripts. Re-check against the generated doc at execution time.
+Test context: `process/context/tests/all-tests.md` (created by Phase 0; validators, CI, baseline `compare.sh`) was read; every Fully-Automated gate below is a validator, a grep or a diff run from the repo root, each with its own exit code and an expected value.
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
-| C-P1 (R1.1) | new policy validator accepts a correct agent set and rejects a drifted one | Fully-Automated | `node.exe .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs --root .claude/skills/vc-audit-vc/scripts/fixtures/model-effort-pass; echo $?` = `0`; same with `.../model-effort-fail` = `1` and the message names agent + field + expected value | B |
-| C-P1 (R1.2) | the real agents follow the policy | Fully-Automated | `node.exe .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs; echo $?` = `0` | B |
-| C-P1 (R1.3) | front-matter valid and Claude/Codex names match | Fully-Automated | `node.exe .../validate-agent-parity.mjs; echo $?` = `0` and `node.exe .../validate-agent-frontmatter.mjs; echo $?` = `0` (each with its own `echo $?`) | A (both 0 today and after the A1 values, dry run) |
-| C-P1 (R1.4) | CI names every validator that exists | Fully-Automated | the missing-name loop over `validate.yml` prints nothing | B (E2 table and E3 rule; row 5 corrected by E9) |
-| C-P1 (R1.5) | CI triggers on the branch we commit to, YAML still valid | Fully-Automated | `python3 -c "import yaml; d=yaml.safe_load(open('.github/workflows/validate.yml')); o=d.get('on', d.get(True)); assert 'push' in o and 'pull_request' in o and o['push']['branches']==['main']; print('ok')"` = `ok` | B |
-| C-P1 (R1.6) | validator count is the same real number everywhere | Fully-Automated | `N=$(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' \| wc -l)` = 38; `grep -rnE '(<h3>\|\*\*\|🛡️ )36\b' README.md docs/i18n/README.*.md` prints nothing; the same regex with `$N` counts 40 lines | A (regex verified on the real files) |
-| C-P1 (R1.7) | only `model:` / `effort:` lines moved in agent files | Fully-Automated | `git diff -U0 $P1_START -- .claude/agents \| grep -E '^[+-]' \| grep -vE '^(\+\+\+\|---)' \| grep -vE '^[+-](model\|effort):'` prints nothing | A (dry run) |
-| C-P1 (R1.8) | Codex agent set untouched | Fully-Automated | `git diff --stat $P1_START -- .codex` prints nothing | A |
-| C-P1 (R1.9) | whole suite not worse than the Phase 0 baseline | Fully-Automated | `bash process/general-plans/active/vibebelt-rebrand_29-10-26/baseline/compare.sh; echo $?` = `0` (prints `NOTE new validator` for the new script) and `git diff --check $P1_START -- . ':!process/general-plans/active/vibebelt-rebrand_29-10-26'` prints nothing | A (Phase 0 `compare.sh` behaviour reproduced) |
-| C-P1 (R1.10) | effort table and cost impact documented and match the docs | Agent-Probe | reviewer reads the phase report: 15-agent old/new table, execute effort change, token-cost note, citation of `implementation-standards.md` §Agent Frontmatter Conventions | A |
-| C-P1 (R1.4 residual) | the added CI steps actually pass on an ubuntu runner | Agent-Probe | cannot run here; needs a real push (Phase 8) | D (backlog stub; named residual, not a proof) |
+| C-P1 (R1.1) | new policy validator accepts a correct agent set and rejects a drifted one | Fully-Automated | `node $V/validate-model-effort-policy.mjs --root $V/fixtures/model-effort-pass; echo $?` = `0`; same with `.../model-effort-fail` = `1` and output names agent + field + expected value | B |
+| C-P1 (R1.2) | the real agents follow the policy (7 opus / 8 sonnet, effort max x3, git-manager low) | Fully-Automated | `node $V/validate-model-effort-policy.mjs; echo $?` = `0` (was 1 with exactly 3 effort messages before C1: dry run) | A (reproduced) |
+| C-P1 (R1.3) | front-matter valid and Claude/Codex names match | Fully-Automated | `node $V/validate-agent-parity.mjs; echo $?` = `0` and `node $V/validate-agent-frontmatter.mjs; echo $?` = `0` (each its own `echo $?`) | A (reproduced after the edit) |
+| C-P1 (R1.4) | CI names every validator that exists | Fully-Automated | the missing-name loop over `validate.yml` prints nothing (21-row table E2 + E3/E6/E7) | B |
+| C-P1 (R1.5) | CI triggers on the branch we commit to, YAML still valid | Fully-Automated | `python3 -c "import yaml; d=yaml.safe_load(open('.github/workflows/validate.yml')); o=d.get('on', d.get(True)); assert 'push' in o and 'pull_request' in o and o['push']['branches']==['main']; print('ok')"` = `ok`; `grep -c 'continue-on-error: true' .github/workflows/validate.yml` = the "CI steps allowed to fail" count in the report | A (reproduced) |
+| C-P1 (R1.6) | validator count is the same real number everywhere | Fully-Automated | `N=$(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*' \| wc -l)` = 38; `grep -rnE '(<h3>\|\*\*\|🛡️ )36\b' README.md docs/i18n/README.*.md` prints nothing; the same regex with `$N` counts 40 lines | A (reproduced) |
+| C-P1 (R1.7) | only 3 `effort:` lines moved in agent files; no `model:` line | Fully-Automated | diff gate (`grep -vE '^[+-]effort:'`) prints nothing; `grep -cE '^[+-]model:'` = `0`; `git diff --name-only $P1_START -- .claude/agents` = exactly the 3 execution agents; `grep -c '^effort: max'` = 1 each; 7 then 8 | A (reproduced) |
+| C-P1 (R1.8) | Codex untouched | Fully-Automated | `git diff --stat $P1_START -- .codex` prints nothing | A |
+| C-P1 (R1.9) | whole suite not worse than the Phase 0 baseline | Fully-Automated | `bash $B/compare.sh; echo $?` = `0` (prints `NOTE new validator validate-model-effort-policy`); `git diff --check $P1_START -- . ":!$P"` prints nothing | A (reproduced twice) |
+| C-P1 (R1.10) | effort table and cost impact documented | Agent-Probe | reviewer reads the phase report: 15-agent old/new table (models unchanged, 3 efforts low -> max), token-cost note, citation of `implementation-standards.md` §Agent Frontmatter Conventions, Decision B statement | A |
+| C-P1 (R1.11) | English docs state the real model policy | Fully-Automated | `grep -rnIE "$R" CLAUDE.md AGENTS.md ... README.md` prints nothing (14 hits today; 0 after Step F with E8 applied) | A (reproduced) |
+| C-P1 (R1.12) | agent-table facts correct in all 10 README files | Fully-Automated | the research/plan/validate loop prints nothing (30 RED today); the sonnet-row loop prints `10 3` | A (reproduced on README.md; the other 9 have the same row shape) |
+| C-P1 (R1.13) | translated prose, diagram, feature cell and bullet in 9 translations state 7 opus / 8 sonnet and drop the percentage | Agent-Probe | reviewer reads the 9 translated sites against the EN target facts; the R1.12 loop and `grep -c '60.70'` = 0 per file are the mechanical backstop; named residual, never the sole proof | D (named residual) |
+| C-P1 (R1.4 residual) | the added CI steps pass on a real ubuntu runner | Agent-Probe | cannot run here; needs a real push (Phase 8) | D (named residual) |
 
 Failing stubs (Fully-Automated rows only; red-first starting points, not on-disk test files):
 
@@ -379,8 +417,8 @@ test("should state the same validator count in README and all 9 translations", (
   throw new Error("NOT IMPLEMENTED — TDD stub: should state the same validator count in README and all 9 translations")
 })
 Failing stub (R1.7):
-test("should change only model and effort lines in agent files", () => {
-  throw new Error("NOT IMPLEMENTED — TDD stub: should change only model and effort lines in agent files")
+test("should change only the effort line of the three execution agents and no model line", () => {
+  throw new Error("NOT IMPLEMENTED — TDD stub: should change only the effort line of the three execution agents and no model line")
 })
 Failing stub (R1.8):
 test("should leave the Codex agent files untouched", () => {
@@ -390,51 +428,72 @@ Failing stub (R1.9):
 test("should not be worse than the Phase 0 validator baseline", () => {
   throw new Error("NOT IMPLEMENTED — TDD stub: should not be worse than the Phase 0 validator baseline")
 })
+Failing stub (R1.11):
+test("should state the real model policy in the English docs", () => {
+  throw new Error("NOT IMPLEMENTED — TDD stub: should state the real model policy in the English docs")
+})
+Failing stub (R1.12):
+test("should show opus for research, plan and validate in the agent table of all 10 README files", () => {
+  throw new Error("NOT IMPLEMENTED — TDD stub: should show opus for research, plan and validate in the agent table of all 10 README files")
+})
 ```
 
 Legacy line form (kept for existing consumers):
-- policy validator: [Fully-automated: `node.exe .../validate-model-effort-policy.mjs --root <pass-fixture>` exit 0 | fail-fixture exit 1]
+- policy validator: [Fully-automated: `node $V/validate-model-effort-policy.mjs --root <pass-fixture>` exit 0 | fail-fixture exit 1]
 - agents match policy: [Fully-automated: validate-model-effort-policy.mjs + validate-agent-parity.mjs + validate-agent-frontmatter.mjs]
+- diff gate: [Fully-automated: effort-only diff, no model line, 3 files, `.codex` empty]
 - CI coverage: [Fully-automated: missing-name loop over validate.yml + PyYAML trigger check]
-- README counts: [Fully-automated: regex count 40 of N]
-- cost / effort table: [agent-probe: phase report review]
+- README counts and model facts: [Fully-automated: regex count 40 of N; R1.11 claim grep; R1.12 table loop]
+- suite not worse: [Fully-automated: compare.sh exit 0]
+- cost / effort table, translations: [agent-probe: phase report review; 9-language wording]
 - CI passes on ubuntu: [known-gap: documented as NEW PLAN REQUIRED, Phase 8]
 
-High-risk class: none (no auth, billing, schema, public API, secrets). The change alters runtime behavior of spawned agents (model and effort), which is the intended effect; the quality effect of the opus-to-sonnet move is measured by the Phase 3 golden comparison. No evidence pack needed.
+High-risk class: none (no auth, billing, schema, public API, secrets). The only runtime-behavior change is `effort` on three agents (more tokens per run, intended); no model changes. No evidence pack needed.
 
 ### Dimension findings
 
-- Infra fit: PASS — Codex scope correct (no model/effort fields); `push` trigger planned; policy table matches both source documents and the frontmatter validator accepts `max`; dry run shows the fixtures and the A1 values disturb no other validator and no resolver output.
-- Test coverage: PASS — every developed behavior has a Fully-Automated gate; all 21 CI commands were run: the two expected reds (rows 3, 19) take the E6 rule; the one wrong argument form (row 5, R1-a) is corrected by instruction E9.
-- Breaking changes: PASS — the only behavior change is agent model/effort, documented with a cost note; the diff gate proves nothing else moves; Codex untouched; prose and signal strings unchanged.
-- Security surface: PASS — no auth, secrets or data; the new validator is read-only.
-- Section A (Policy table): PASS — explicit table, verified against the docs and the 15 real front-matter blocks.
-- Section B (New validator, test first): PASS — TDD order, `--root` convention verified, registry line in `vc-audit-vc/SKILL.md` verified harmless.
-- Section C (Fix agents): PASS — drift confirmed for exactly the agents the plan names; two-line diff gate valid and empty in the dry run.
-- Section D (README count): PASS — regex, 40 sites and N=38 verified on the real files.
-- Section E (CI): PASS — 20 absent validators exactly as listed; commands run; R1.4 vs "no silently failing step" reconciled by E3/E6/E9.
+- Infra fit: PASS — only front-matter `effort:` lines move; `.codex/` untouched; `push` trigger planned and parses; the new validator follows the `--root` convention of `validate-kit-portability.mjs`; fixtures are inert for every validator and the resolver; `max` is accepted by the frontmatter validator.
+- Test coverage: PASS — every developed behavior has a Fully-Automated gate, each runnable with an expected value and reproduced in the dry run; the two Agent-Probe rows (R1.10, R1.13) are judgment-only with a mechanical backstop or a named residual; CI-on-ubuntu is a named residual with a backlog stub.
+- Breaking changes: PASS — no `model:` changes, no tool grants, signals or prose touched; the diff gate proves it; the README/docs now state the real policy (7 opus / 8 sonnet); the documented ownership hand-off (Phase 4 preserves F1/F3/F4/F5 text, Phase 5 front-matter only, Phase 7 keeps the facts) is in the registry.
+- Security surface: PASS — no auth, secrets or data; the validator is read-only; CI keeps `permissions: contents: read`; `push` on `main` adds no new secret exposure.
+- Section A (Policy table): PASS — equals the 15 real front-matters and both source documents; the validator enforces documented rows only.
+- Section B (New validator, test first): PASS — red-first ordering reproduced (3 effort messages, 0 model messages); B4 baseline interplay reproduced (`NOTE new validator`, exit 0).
+- Section C (Fix agents): PASS — exactly 3 files, effort-only; diff gates empty/0/3 reproduced.
+- Section D (README count and model facts): PASS — 40 sites, N=38; model-fact sites exist in all 10 files (one `🧮`, one `60.70`, 3 agent rows, 18 opus/sonnet lines each); tooling trap R1-c and wording trap R1-b carried as instructions.
+- Section E (CI): PASS — 21-row table verified, 3 rows non-zero as written (3, 5, 19) all covered by E3/E6/E7; trigger and name loop reproduced.
+- Section F (Model-fact docs): PASS — all 9 cited sites verified, 14 hits today, 0 after the edit (with E8); no other stale claim exists in the repo.
 
-Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 5 PASS. MUST-FIX count: 0. RESIDUAL (bounded, named): 1 wrong table cell resolved by instruction (R1-a) and 2 Known-Gaps (K1-1, K1-2). Net gate: PASS.
-Vacuous-green check: every developed behavior has a Fully-Automated gate; R1.10 is Agent-Probe for judgment only; CI-on-ubuntu is a named residual with a backlog stub and never the sole proof. No behavior rests on a residual alone.
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 6 PASS. MUST-FIX count: 0. RESIDUAL (bounded, each resolved by an instruction above): R1-a, R1-b, R1-c, R1-d (commit split, E11), R1-e (stale Phase 0 context counts, E13). Known-Gaps (named residuals): K1-1, K1-2. Net gate: PASS.
+Vacuous-green check: every developed behavior has a Fully-Automated gate (R1.1-R1.9, R1.11, R1.12); R1.10 and R1.13 are Agent-Probe for judgment only; CI-on-ubuntu is a named residual with a backlog stub and never the sole proof. No behavior rests on a residual alone.
 
 ### Open gaps
 
-- R1-a (RESIDUAL, resolved by instruction E9): E2 table row 5 passes a directory; the validator takes the umbrella file.
-- K1-1: orchestration.md §Regression Gate Validators and the validator registry docs will not list the new validator until Phase 4 (it owns those files): known-gap: documented as NEW PLAN REQUIRED — see backlog stub to be written by this phase's UPDATE PROCESS (`process/general-plans/backlog/model-effort-validator-registry_NOTE_29-10-26.md`; run `mkdir -p process/general-plans/backlog` first)
+- R1-a (RESIDUAL, E7): E2 table row 5 passes a directory; `validate-phase-reports.mjs` takes the umbrella FILE (directory form exits 1 with `EISDIR`).
+- R1-b (RESIDUAL, E8): the plan's README feature-cell target wording contains `(sonnet)`, which the plan's own R1.11 regex flags; reword without parentheses.
+- R1-c (RESIDUAL, E5): `sed -E '...\b'` skips the ja-JP and ko-KR count sites; use a pattern without `\b`; the 0/40 grep gates catch it.
+- R1-d (RESIDUAL, E11): the plan names no execution-commit step; the umbrella rule (execution commit separate from process commits) is carried as an instruction.
+- R1-e (RESIDUAL, E13): `all-context.md:158,205` ("37 validators") and `tests/all-tests.md:83` (CI description) go stale after this phase; UPDATE PROCESS reconciles them.
+- K1-1: `orchestration.md` §Regression Gate Validators and the validator registry docs will not list the new validator until Phase 4 (it owns those files): known-gap: documented as NEW PLAN REQUIRED — see backlog stub to be written by this phase's UPDATE PROCESS (`process/general-plans/backlog/model-effort-validator-registry_NOTE_29-10-26.md`; run `mkdir -p process/general-plans/backlog` first)
 - K1-2: added CI steps passing on ubuntu: known-gap: documented as NEW PLAN REQUIRED — Phase 8 (needs a real push)
 
 ### What This Coverage Does NOT Prove
 
-- R1.1/R1.2 prove the validator enforces the table written in it; they do not prove the table is the right policy (R1.10 and the user's recorded Q5 decision cover that).
+- R1.1/R1.2 prove the validator enforces the table written in it; they do not prove the table is the right policy (the user's recorded decision B and R1.10 cover that), nor that opus or sonnet is the better choice for any agent (deferred, unmeasured).
 - R1.3 proves the front-matter is well formed and Claude/Codex names match; it does not prove model behavior or cost changes.
-- R1.4 proves the NAME of each validator appears in `validate.yml`; it does not prove each step passes on ubuntu or that arguments are right (E6/E9 and the Phase 8 push cover that). Fixture-based steps test the validator, not the kit.
+- R1.4 proves the NAME of each validator appears in `validate.yml`; it does not prove each step passes on ubuntu or that arguments are right (E6/E7 and the Phase 8 push cover that). Fixture-based steps test the validator, not the kit.
 - R1.5 proves the trigger block parses and contains `push` on `main` and `pull_request`; not that GitHub accepts the whole workflow.
-- R1.6 proves the number is the same at the 40 matched sites; not that prose elsewhere (for example "14 VC-system behavior validators") is accurate.
-- R1.7/R1.8 compare against `P1_START` and prove nothing about earlier phases.
-- Nothing here measures answer quality of the re-modeled agents (Phase 3 golden comparison, for the model change separately from the slimming).
+- R1.6 proves the number is the same at the 40 matched sites; not that prose elsewhere (for example "14 VC-system behavior validators", or the Phase 0 context docs, R1-e) is accurate.
+- R1.7/R1.8 compare against `P1_START` and prove nothing about earlier phases; R1.7 proves effort values moved, not the quality effect of `effort: max`.
+- R1.11 is a regex over 10 files: it proves the known wrong phrasings are gone, not that no differently worded wrong claim exists elsewhere (a repo-wide scan in this pass found none); R1.12 proves the table cells, not the surrounding prose.
+- R1.13 (translations) rests on judgment and the mechanical backstop; native-speaker quality is Phase 7's concern.
+- Nothing here measures answer quality of any agent (no `model:` changed; the program-level equivalence gate is Phase 8, C-EQ).
+- This contract is not valid evidence for Phase 1 inner steps 1-3 (RESEARCH, INNOVATE, PLAN-SUPPLEMENT), which are still unchecked; a newer Inner Loop Refresh Note from them re-triggers V1 (E15).
 
-Gate: PASS (0 FAIL, 0 MUST-FIX; 1 wrong table cell resolved by contract instruction and 2 named Known-Gaps carried). Not subject to the first-pass CONDITIONAL rule: PVL cycles 1 and 2 are recorded in `results.tsv`.
-Accepted by: not required for PASS; Known-Gaps K1-1 and K1-2 are recorded above as named residuals (session: outer-pvl cycle 3, autonomous /goal execution).
+Gate: PASS (0 FAIL, 0 MUST-FIX; 5 RESIDUAL items resolved by contract instruction and 2 named Known-Gaps carried). Not subject to the first-pass CONDITIONAL rule. PVL cycles 1-4 are recorded in `results.tsv` (6 lines); this inner pass adds no plan supplement, so the orchestrator's bookkeeping row for it is a plain confirmation row.
+Accepted by: not required for PASS; Known-Gaps K1-1 and K1-2 and residuals R1-a..R1-e are recorded above as named items (session: inner-pvl phase-1, autonomous /goal execution).
+
+History note: the "Supplement cycle 1", "Supplement cycle 2", "PVL cycle 3 note" and "Supplement (user decisions 2026-10-29 ...)" sections below were written against earlier contracts; where they say "validate-contract above kept unchanged" they refer to that earlier text, which is replaced by this contract (git history, HEAD 7845316).
+
 
 ### Supplement cycle 1 (29-10-26)
 
