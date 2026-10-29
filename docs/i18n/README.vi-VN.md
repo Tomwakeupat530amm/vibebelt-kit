@@ -1689,7 +1689,7 @@ Chúng tôi hoan nghênh đóng góp! Xem [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ### 🙏 Ghi Nhận
 
-Dựa trên [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) của các tác giả gốc (MIT). <!-- upstream-attribution -->
+vibebelt-kit là bản fork (nhánh phát triển riêng) của [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) do các tác giả gốc tạo ra, được dùng theo giấy phép MIT. Thông báo bản quyền gốc vẫn được giữ nguyên trong [LICENSE](../../LICENSE). <!-- upstream-attribution -->
 
 vibebelt-kit tập trung vào khung phát triển theo đặc tả và tổ chức ngữ cảnh tự cải thiện, mà không làm bạn nặng nề với 80+ kỹ năng. Ít công cụ hơn, nhiều cấu trúc hơn.
 

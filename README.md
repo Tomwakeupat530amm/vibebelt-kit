@@ -1693,7 +1693,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### 🙏 Credits
 
-Based on [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) by its original authors (MIT). <!-- upstream-attribution -->
+vibebelt-kit is a fork of [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) by its original authors, used under the MIT License. The original copyright notice is kept in [LICENSE](LICENSE). <!-- upstream-attribution -->
 
 vibebelt-kit focuses on the spec-driven development framework and self-improving context organization, without bloating you with 80+ skills. Fewer tools, more structure.
 

@@ -20,7 +20,7 @@ By participating in this project, please be respectful and constructive in all i
 - **GitHub Issues:** Bug reports, feature requests, and task tracking
 - **GitHub Discussions:** Questions, ideas, and general conversation
 
-> This is our only community channel -- we do not use Discord, Slack, or other platforms.
+> GitHub is our only community channel -- we do not use Discord, Slack, or other platforms.
 
 ---
 

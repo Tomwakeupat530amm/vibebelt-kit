@@ -353,7 +353,8 @@ Missing hooks most likely absent from your v2.x install:
   Stop                 → stop-validator-sweep.cjs      — runs core validators on session end
   SubagentStart        → subagent-init.cjs             — injects compact context into every subagent
 
-Paste-ready hooks block: see the 1.0.0 entry of CHANGELOG.md (https://github.com/Tomwakeupat530amm/vibebelt-kit/blob/main/CHANGELOG.md)
+Paste-ready hooks block: see the section "Hooks block to paste into .claude/settings.json"
+in the 1.0.0 entry of CHANGELOG.md (https://github.com/Tomwakeupat530amm/vibebelt-kit/blob/main/CHANGELOG.md)
 or diff .claude/settings.json .vibecode-backup/.claude/settings.json
 ```
 

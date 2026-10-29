@@ -8,7 +8,104 @@ All notable changes to vibebelt-kit are documented in this file.
 
 - vibebelt-kit is a fork of [vibecode-pro-max-kit](https://github.com/withkynam/vibecode-pro-max-kit) by its original authors (MIT), started from upstream version 3.2.5. <!-- upstream-attribution -->
 - The exact upstream code the fork started from is tagged `upstream-baseline` in this repository's git history.
-- The version number starts again at 1.0.0. If you installed the upstream kit (version 3.x) and run the update skill against this kit, it prints a downgrade warning (`v1.0.0 → v3.x`) and asks you to confirm. That is expected for a fork: the kit is not older, its version numbers restarted. Confirm to switch to vibebelt-kit.
+- The version number starts again at 1.0.0. This is a fork, so the kit is not older: its numbers restarted at 1.0.0. If you installed the upstream kit (version 3.x) and update with its own update skill, you stay on upstream, because that skill clones the upstream repository. To switch to vibebelt-kit, run the install command from the README, or run the update skill with VC_KIT_SOURCE=https://github.com/Tomwakeupat530amm/vibebelt-kit.git; the update skill then prints a downgrade warning (v1.0.0 vs v3.x) and asks you to confirm. The install command itself prints no such warning.
+
+### Hooks block to paste into .claude/settings.json (if your settings were not merged automatically)
+
+The block below is the value of the `hooks` key in the kit's `.claude/settings.json`: merge its entries into the `hooks` key of your own `.claude/settings.json`, keeping the hooks and other settings you already have instead of replacing them.
+
+```json
+{
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-init.cjs"
+        }
+      ]
+    }
+  ],
+  "SubagentStart": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/subagent-init.cjs"
+        }
+      ]
+    }
+  ],
+  "PreToolUse": [
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/descriptive-name.cjs"
+        }
+      ]
+    },
+    {
+      "matcher": "Bash|Glob|Grep|Read|Edit|Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scout-block.cjs"
+        },
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/privacy-block.cjs"
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Edit|Write|MultiEdit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-state.cjs"
+        },
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-simplify-reminder.cjs"
+        }
+      ]
+    },
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-write-plan-check.mjs"
+        }
+      ]
+    },
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-commit-lint.mjs"
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-validator-sweep.cjs"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## Upstream history
 
