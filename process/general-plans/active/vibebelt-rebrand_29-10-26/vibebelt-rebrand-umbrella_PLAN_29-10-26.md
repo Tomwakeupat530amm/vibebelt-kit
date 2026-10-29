@@ -66,6 +66,10 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 | Mixed git binaries (inner 1b) | Gates run with WSL git; `node.exe` validators call Windows git against the same repo (one cross-read verified in research). Phase 0 adds a gate that `git.exe status` and WSL `git status` both print nothing after C3. |
 | QUALITY EQUIVALENCE (user decision A, 2026-10-29, LOCKED, HARD program requirement) | The new kit must keep the same behaviour, ways of working and output quality as the old kit, at least equal. Recorded as north star + definition-of-done item 8 + criterion C-EQ + a Charter hard safety constraint. Mechanism: Phase 3 FREEZES the golden task definitions (3 tasks: small feature, bug fix, multi-phase program; prompts, expected artifacts, rubric, judge protocol, exact old-kit sandbox recipe) in `golden/tasks/` with a sha256 manifest; Phase 8 step B4 (FINAL EQUIVALENCE GATE) re-runs the SAME frozen tasks, same judge protocol (blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced) on (i) the `upstream-baseline` tag tree built as an identically prepared sandbox with original models and (ii) the final v1.0.0 candidate tree, plus the mechanical evidence re-run on the final tree (Phase 0 validator baseline not worse via `compare-vb.sh`, signal census 1:1 after the VC-/VB- mapping, e2e trials, guardrail-section identity modulo the rename). ANY reproduced WORSE blocks every release step (no tag, no push) until fixed or until the user explicitly accepts it in chat. The exact run count and cost are reported and acknowledged by the user before the gate starts (same hard stop as Phase 3 A0). Fully-Automated parts: scripted rubric items, validator baseline, signal census, guardrail identity; Hybrid: e2e trials; Agent-Probe: the blind judge verdict, a NAMED RESIDUAL that is never the sole proof |
 | MODEL DIRECTION (user decision B, 2026-10-29, LOCKED) | KEEP the models on disk: opus on 7 agents (`vc-execute-agent`, `vc-fast-mode-agent`, `vc-quick-fix-agent`, `vc-plan-agent`, `vc-research-agent`, `vc-tester`, `vc-validate-agent`), sonnet on 8 (`vc-code-reviewer`, `vc-code-simplifier`, `vc-debugger`, `vc-git-manager`, `vc-innovate-agent`, `vc-spec-agent`, `vc-ui-ux-designer`, `vc-update-process-agent`); verified by grep 2026-10-29. Phase 1 changes NO `model:` line; it fixes the DOCUMENTATION that says only the code-writing leg uses opus (CLAUDE.md, strategy-compare SKILL.md, implementation-standards.md, orchestration.md, vc-system-behavior 04/07/08, all-context.md line 179, and the README claim sites in 10 files; wording rewritten later by Phase 7). The Phase 1 validator enforces this real table (documented rows only). Ad-hoc helper agents with no vc-agent file default to sonnet. The Codex model stays global in `.codex/config.toml` |
+| CLEAN FINAL TREE (user decision C, 2026-10-29, LOCKED, hard criterion C-CLEAN) | The FINAL state on git (the tagged v1.0.0 tree) is a complete, working kit with NOTHING extra: no program plans, reports, baselines, golden/eq evidence, generated project context, internal maintainer docs or unneeded translations. Mechanism: Phase 8 CLEANUP STEP C0b (section `## Clean Final Tree (C-CLEAN)`) = ONE commit `chore: prepare clean release tree`, placed AFTER B4 (verdict commit stays in history as a `process:` commit) and BEFORE the local tag C2a; the tag points at that commit. Gate: the tracked files at the tag must equal the ALLOWED LIST in that section |
+| Git history (user decision C1, LOCKED) | KEEP the FULL history: every working commit stays, nothing is squashed, rebased or rewritten (no force-push). Only the final TREE is cleaned, by the dedicated cleanup commit. The task folder is dropped from the index with `git rm -r --cached` (files stay on disk, ignored through `.git/info/exclude`) so the C0 evidence (`eq/verdict.md`) and the history stay intact |
+| Documentation kept MINIMAL (user decision C2, LOCKED) | Final docs: README.md (English), `docs/i18n/README.vi-VN.md` (Vietnamese, synced with English), LICENSE, CHANGELOG.md, SECURITY.md (English), CONTRIBUTING.md (English), with NO separate QUICKSTART/GLOSSARY files (user decision, LOCKED 2026-10-29: Phase 7 folds a short 'Quick start' section and a plain-language glossary table INTO README.md and docs/i18n/README.vi-VN.md; both stay concise and navigable). REMOVED at C0b: `docs/GITHUB-LABELS.md`, `docs/GITHUB-SETTINGS.md`, `docs/GOOD-FIRST-ISSUES.md`, `MIGRATION.md`, the 8 other READMEs (`docs/i18n/README.{de,es,fr,hi,ja-JP,ko-KR,pt-BR,zh-CN}.md`) and every `docs/i18n/CONTRIBUTING.*` and `docs/i18n/SECURITY.*` translation. README language switchers in README.md, README.vi-VN.md and CONTRIBUTING.md are cut to existing files; the Vietnamese README stays in sync with English |
+| DOOMED SET (derived from C2, LOCKED) | Paths that exist during Phases 1-8 but are deleted by C0b (list in the C-CLEAN section). Edits to them are throw-away: Phases 2 and 7 skip the 8 languages (and the other doomed docs) at their own PVL; Phase 1 still edits all 10 READMEs as validated; Phase 6 runs on them automatically (zero effort). The sweeps (Phase 2 R2.1, Phase 6 G5/G7) may exclude the DOOMED SET before C0b; at the tag it no longer exists, so DoD 3 holds on the final tree without exclusions |
 | Deferred, optional follow-up (NOT in this program unless the user asks) | Measure sonnet versus opus on the golden tasks and only then consider lowering any agent's model for cost |
 
 ---
@@ -76,7 +80,7 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 vibebelt-kit Rebrand and Hardening — Program Goal Charter
 
 North star:
-- Ship vibebelt-kit v1.0.0: the same proven RIPER-5 workflow, rebranded, internally consistent, leaner, and installable by a non-coder from the README alone, and proven (by the same golden tasks run on old and new kit) to keep the old kit's behaviour, ways of working and output quality, at least equal.
+- Ship vibebelt-kit v1.0.0: the same proven RIPER-5 workflow, rebranded, internally consistent, leaner, and installable by a non-coder from the README alone, and proven (by the same golden tasks run on old and new kit) to keep the old kit's behaviour, ways of working and output quality, at least equal. The tagged tree contains the kit and nothing else (C-CLEAN); the full working history stays in git.
 
 Definition of done (an unattended agent must be able to do all of these):
 1. Show a git history with tag `upstream-baseline` and a saved before/after validator comparison.
@@ -84,9 +88,10 @@ Definition of done (an unattended agent must be able to do all of these):
 3. Show that grep for `withkynam|flowser` finds only attribution lines and grep for `vc-` finds only legacyDeletions and changelog history, using ONE program-wide sweep rule. SWEEP RULE (canonical wording lives here; Phase 2 and Phase 6 implement it, see their gates): search the whole repo EXCLUDING `.git`, the program task folder `process/general-plans/active/vibebelt-rebrand_29-10-26/` (and its archived copy), `baseline/`, `golden/`, the rename script + its fixtures, `CHANGELOG.md` and `MIGRATION.md` (WHOLE-FILE protection: Phase 6 implements the history rule as a protected set, not as marker regions; in Phase 2 their old-identity lines are instead tagged `upstream-attribution`), and `legacyDeletions`. Old-identity lines that legitimately remain are only: (1) lines carrying the literal tag `upstream-attribution`; (2) the brand-detection lines in `.claude/skills/vc-audit-vc/scripts/validate-kit-portability.mjs`, `.claude/skills/vc-publish/SKILL.md` and `.claude/skills/vc-publish/references/vc-publish.md`. Phase 2 may additionally exclude the whole `process/` directory ONLY because at Phase 2 time `process/` holds no kit text beyond the task folder and Phase 0 generated context; its gate adds `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` and expects no output. Phase 2 (gate R2.1 plus the `process/` grep) and Phase 6 (protected set + allowlist diffs G5/G7) implement this rule; they do not repeat the text verbatim.
 4. Show per-agent before/after size plus golden-baseline comparison proving output equal or better, signal strings intact, Claude/Codex parity green.
 5. Show 33 skills intact with tuned triggers, a regenerated catalog, an agent-browser size explanation, and a proposed-new-skills list (none added).
-6. Show README top + quickstart + glossary in plain language, EN and VI synced, other 8 languages marked "may be outdated".
-7. Show an install-test matrix (fresh + existing project; Windows Git Bash, WSL, macOS/Linux; untested ones documented) and a local tag `v1.0.0` with plain-language release notes.
+6. Show README top + the Quick start section + the glossary table (both inside README.md and README.vi-VN.md, no separate files) in plain language, EN and VI synced; the 8 other languages are NOT shipped (removed at C0b; C-CLEAN), and README language switchers link only to files that exist.
+7. Show an install-test matrix (fresh + existing project; Windows Git Bash, WSL, macOS/Linux; untested ones documented) and a local tag `v1.0.0` (on the cleanup commit) with plain-language release notes.
 8. Show the FINAL EQUIVALENCE GATE verdict (Phase 8 step B4, last line of `eq/verdict.md` = `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER`): the frozen golden tasks re-run on the old (`upstream-baseline`) and the final tree with no reproduced WORSE, plus the mechanical equivalence evidence (validator baseline not worse, signal census 1:1 after the VC-/VB- mapping, e2e trials, guardrail-section identity). No release step happens before this.
+9. Show the CLEAN FINAL TREE verdict (C-CLEAN, Phase 8 step C0b): `git ls-tree -r --name-only v1.0.0` equals the ALLOWED LIST (section `## Clean Final Tree (C-CLEAN)`); no program artifacts; no dead README/CONTRIBUTING/CHANGELOG/SECURITY link; code paths byte-identical to the B4 FINAL commit; full history preserved.
 
 What "verified" means (program level):
 - A phase is VERIFIED only when: its exit-gate commands exit as expected, the full validator suite is not worse than the Phase 0 baseline (pre-existing reds are not blamed on us), the regression checkpoint against earlier verified surfaces passes, and a validate-contract exists (or a documented skip reason).
@@ -107,6 +112,7 @@ Hard safety constraints (non-negotiable, per phase):
 - No phase proceeds on a red validator, where 'red' means worse than the Phase 0 baseline (recorded before AND after vc-setup).
 - Commit each phase's execution changes to `main` before the next phase. Keep process/plan/context commits separate from execution commits.
 - Pushing, tagging remotely, GitHub release, billed model runs beyond the approved golden set: ask the user first.
+- No tag, push or GitHub release while the C-CLEAN gate fails (tracked files at the tag differ from the ALLOWED LIST, a dead link, or code paths differ from the B4 FINAL commit). Git history is never rewritten, squashed or force-pushed.
 - No release step (release notes finalisation, local tag, push, GitHub release) while the FINAL EQUIVALENCE GATE has a reproduced WORSE or a mechanical failure, unless the user explicitly accepts it in chat; the exact run count and cost of the gate are acknowledged by the user before it starts.
 ```
 
@@ -121,9 +127,10 @@ Hard safety constraints (non-negotiable, per phase):
 | C-P4 | single source for shared docs, wiring/sync/parity green | Phase 4 Exit Gate | Fully-Automated |
 | C-P5 | 33 skills, validators green, proposals listed | Phase 5 Exit Gate | Fully-Automated + Hybrid |
 | C-P6 | one idempotent dry-run-capable script, no stray `vc-`, all validators green | Phase 6 Exit Gate | Fully-Automated + Hybrid |
-| C-P7 | non-coder can install from README unaided; EN+VI synced | Phase 7 Exit Gate | Fully-Automated + Agent-Probe |
-| C-P8 | FINAL EQUIVALENCE GATE (C-EQ) passed first; clean install on tested environments; tag v1.0.0 | Phase 8 Exit Gate | Fully-Automated + Hybrid (macOS/Windows native = Known Gap, CONDITIONAL, backlog stub) |
+| C-P7 | non-coder can install from README unaided; EN+VI synced (the 8 other languages are skipped and removed at C0b; the former '8 banners' check is replaced by 'README switchers link only to existing files') | Phase 7 Exit Gate | Fully-Automated + Agent-Probe |
+| C-P8 | FINAL EQUIVALENCE GATE (C-EQ) passed first; cleanup commit C0b (C-CLEAN) passed second; clean install on tested environments; tag v1.0.0 on the cleanup commit | Phase 8 Exit Gate | Fully-Automated + Hybrid (macOS/Windows native = Known Gap, CONDITIONAL, backlog stub) |
 | C-EQ | the final v1.0.0 kit keeps the same behaviour, ways of working and output quality as the old kit, at least equal (user decision A) | Phase 8 step B4: frozen golden tasks re-run on `upstream-baseline` vs final tree (blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced) + validator baseline + signal census + e2e + guardrail identity; last line of `eq/verdict.md` | Fully-Automated (scripted rubric, validator baseline, signal census, guardrail identity) + Hybrid (e2e) + Agent-Probe (blind judge; named residual, never the sole proof) |
+| C-CLEAN | the tagged v1.0.0 tree is a complete working kit with nothing extra (user decision C): tracked files at the tag = ALLOWED LIST; no program/plan/report/baseline/golden/eq/generated-context/internal docs/extra translations; no dead relative link in README.md, README.vi-VN.md, CONTRIBUTING.md, CHANGELOG.md, SECURITY.md; code paths byte-identical to the B4 FINAL commit; full history preserved | Phase 8 step C0b + gate `harness/clean-check.sh` (allowed-list diff, deny-pattern grep, link check, B4.8 pathspec diff, validators on the cleaned tree, install smoke, history ancestry) | Fully-Automated (allowed-list diff, deny patterns, link check, byte-identity, ancestry) + Hybrid (install smoke + e2e on the cleaned tree) |
 | C-SAFE-1 | never delete user content | Phase 6 B1 + Phase 8 B1 | Hybrid |
 | C-SAFE-2 | MIT notice and original copyright kept | both LICENSE greps run after every phase by Phase 0 `baseline/compare.sh` (Global Constraints) | Fully-Automated |
 
@@ -136,31 +143,32 @@ SESSION GOAL: vibebelt-kit rebrand + hardening to v1.0.0 for non-coder vibecoder
 Ref: process/general-plans/active/vibebelt-rebrand_29-10-26/vibebelt-rebrand-umbrella_PLAN_29-10-26.md
 
 TARGET: all 9 phases (0-8, strict order) done, each exit gate green:
-- QUALITY (hard, C-EQ): new kit = old kit's behaviour, ways of working, output quality, at least equal; Phase 8 re-runs Phase 3's frozen golden tasks old vs final BEFORE any release step
+- QUALITY (hard, C-EQ): new kit >= old kit in behaviour, ways of working, output quality; Phase 8 re-runs Phase 3's frozen golden tasks old vs final BEFORE any release step
+- CLEAN (hard, C-CLEAN): v1.0.0 tag tree = umbrella ALLOWED LIST only (no program, generated or internal files); history kept; Phase 8 C0b cleanup after B4, before tag
 - no validator worse than Phase 0 baseline (red = worse than baseline), git diff --check clean
-- grep withkynam|flowser = attribution only; grep vc- = legacyDeletions/CHANGELOG/MIGRATION only (sweep allowlist in umbrella)
+- grep withkynam|flowser = attribution only; grep vc- = legacyDeletions/CHANGELOG only (sweep rule in umbrella)
 - 33 skills kept, RIPER-5 unchanged, Claude+Codex parity, clean install tested, tag v1.0.0
-- tiers: automated (iterate-until-green) / hybrid (fix-if-in-blast-radius) / agent-probe (record-judgment)
+- tiers: automated / hybrid / agent-probe
 
-AUTONOMY: before ANY spawn read umbrella Current Execution State, then the phase plan Phase Loop Progress (first unchecked box = next agent). Phases 4+5 = agent team (TeamCreate, TaskCreate, SendMessage, TaskList), disjoint per phase-blast-radius-registry.md; orchestrator only sequences the join: spawned execute-agent merges + catalog --write, spawned tester runs --check + suite.
+AUTONOMY: before ANY spawn read umbrella Current Execution State, then the phase plan Phase Loop Progress (first unchecked box = next agent). Phases 4+5 = agent team (TeamCreate, TaskCreate, SendMessage, TaskList), disjoint per phase-blast-radius-registry.md; orchestrator only sequences the join (spawned execute-agent merges + catalog --write; spawned tester checks).
 
-PER-PHASE LOOP (7-step, never skip/reorder, SKIPS SPEC): 1 RESEARCH, 2 INNOVATE, 3 PLAN-SUPPLEMENT, 4 PVL, 5 EXECUTE, 6 EVL, 7 UPDATE-PROCESS. PVL never skipped; placeholder or partial contract = blocked. Every subagent FIRST ACTION: vc-context-discovery + vc-plan-discovery. Every phase-END: vc-agent-strategy-compare. Each vc-agent keeps its own model (7 opus, 8 sonnet; none changed). After Phase 6 use vb- names (restart Claude Code between Phase 6 and 7).
+PER-PHASE LOOP (7-step, never skip/reorder, SKIPS SPEC): 1 RESEARCH, 2 INNOVATE, 3 PLAN-SUPPLEMENT, 4 PVL, 5 EXECUTE, 6 EVL, 7 UPDATE-PROCESS. PVL never skipped; placeholder or partial contract = blocked. Every subagent FIRST ACTION: vc-context-discovery + vc-plan-discovery. Every phase-END: vc-agent-strategy-compare. Models: 7 opus, 8 sonnet, none changed. After Phase 6 use vb- names (restart Claude Code between Phase 6 and 7).
 
 HARD STOPS (pause for user):
 - push, remote tag, GitHub release, publish
 - any deletion of user content; billed model runs beyond approved golden set
 - Phase 8 EQUIVALENCE GATE: reproduced WORSE vs old kit blocks release until fixed or user accepts; user acks run count+cost first
-- a validator worse than baseline (never advance), cascade BLOCKED, unresolvable placeholder contract
+- C0b: harness/clean-check.sh must exit 0 (tree = ALLOWED LIST, links, code = B4 FINAL) before the tag; never rewrite history
+- a validator worse than baseline (never advance), cascade BLOCKED, placeholder contract
 - Linux Node install = user action
-- user needed in Phase 0 (confirm real git e-mail; interactive vb-setup) and cost OK before Phase 3 A0, Phase 4 0.5a, Phase 8 B4.1 runs
-- after Phase 6 rename commit: stop, ask user to restart Claude Code
+- user acks exact run/probe count+cost before Phase 3 A0, Phase 4 0.5a, Phase 8 B4.1
+- after Phase 6 rename commit: stop, user restarts Claude Code
 
 SAFETY (never override):
 - never delete user content; keep MIT notice + "Copyright (c) 2026 vibecode"
-- signal strings verbatim (PHASE_COMPLETE:, Gate: PASS, SUPPLEMENT_APPLIED:, QUICK_FIX_ABORT:) until Phase 6 rename rule
-- Phase 3: revert only the agent whose output drops vs golden
-- commit each phase on main before the next (Phase 3: one commit per agent); process commits separate
-- VC-/VC_ signals+env vars renamed to VB-/VB_ in Phase 6 (not residuals)
+- signal strings verbatim until the Phase 6 rename rule
+- Phase 3: revert only the agent that drops vs golden
+- commit each phase on main before the next (Phase 3: one commit per agent); process commits separate; VC-/VC_ signals+env vars become VB-/VB_ in Phase 6
 
 TEST GATES (every phase exit; compare to baseline):
   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
@@ -175,8 +183,9 @@ TEST GATES (every phase exit; compare to baseline):
   node .claude/skills/vc-audit-plans/scripts/validate-plan-inventory.mjs
   (after Phase 6 paths read vb-audit-*; plus git diff --check)
   LICENSE (via baseline/compare.sh, every phase): grep -c "Copyright (c) 2026 vibecode" LICENSE = 1; grep -c Tomwakeupat530amm LICENSE = 1
+  C-CLEAN (Phase 8 C0b/C2a): bash harness/clean-check.sh = 0
 
-VALIDATE CONTRACT: per-phase, written by vc-validate-agent into each phase plan before EXECUTE.
+VALIDATE CONTRACT: per phase, by vc-validate-agent, before EXECUTE.
 
 START: Phase 1, step 1 RESEARCH (Phase 0 DONE). Spawn vc-research-agent (opus).
 ```
@@ -194,8 +203,8 @@ START: Phase 1, step 1 RESEARCH (Phase 0 DONE). Spawn vc-research-agent (opus).
 | 4 — Doc de-duplication | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_PLAN_29-10-26.md` | single source for CLAUDE.md/AGENTS.md, remove unjustified "superseded"/legacy leftovers (allowlist diff) | Phase 3 |
 | 5 — Tune skills | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_PLAN_29-10-26.md` | keywords/descriptions, oversize files, agent-browser 15MB, proposals | Phase 3 |
 | 6 — Prefix rename | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-06-prefix-rename_PLAN_29-10-26.md` | vc- to vb- by one idempotent script, legacyDeletions | Phases 4 + 5 |
-| 7 — Vibecoder docs | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-07-vibecoder-docs_PLAN_29-10-26.md` | README top, quickstart, glossary, plain messages, EN+VI | Phase 6 |
-| 8 — Install test and release | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md` | FINAL EQUIVALENCE GATE, real installs, update/publish flows, v1.0.0 | Phase 7 |
+| 7 — Vibecoder docs | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-07-vibecoder-docs_PLAN_29-10-26.md` | README top, Quick start section, glossary table (inside README.md and README.vi-VN.md), plain messages, EN+VI | Phase 6 |
+| 8 — Install test and release | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md` | FINAL EQUIVALENCE GATE, real installs, update/publish flows, cleanup commit C0b (clean tree), v1.0.0 | Phase 7 |
 
 Ordering rationale (checked step by step): the baseline tag must precede every edit (0); the policy validator and CI must exist before big edits so later phases are guarded (1); identity changes touch installer constants the rename (6) must carry along (2 before 6); slimming (3) before dedup/skills so the rename and docs act on the final text; 4 and 5 touch disjoint files (see registry) so they may run as a team; the rename (6) needs both done so one script sees the final file set; docs (7) must use final `vb-` names; install testing (8) must test the final build. No phase depends on a later phase's output.
 
@@ -244,8 +253,8 @@ Phase plans' own Strategy sections are authoritative if this table and a phase p
 | 4 | Phase 3 exit met | protocol-wiring, guide-sync, agent-parity green; no unjustified "superseded"/legacy leftovers (line-anchored allowlist diff; the Phase 4 plan is authoritative) |
 | 5 | Phase 3 exit met (parallel with Phase 4) | 33 skills; validate-skills, skill-routing, confusable-skills green; catalog regenerated |
 | 6 | Phases 4 and 5 exit met, join step green, resolve-manifest precondition | script idempotent; no stray `vc-`; all validators and e2e green |
-| 7 | Phase 6 exit met, Claude Code restarted, `golden/signal-census.mjs` + `golden/signal-census-phase3.txt` present | non-coder install walkthrough passes; EN+VI synced; 8 banners |
-| 8 | Phase 7 exit met | `e2e-kit-flows.test.mjs` `.pathname` Windows bug fixed first (Phase 8 owns it); FINAL EQUIVALENCE GATE B4 (`eq/verdict.md` last line `EQ gate: PASS` or `ACCEPTED-BY-USER`) BEFORE any release step; clean install on tested environments; 6 user-run known-gaps listed; local tag v1.0.0; release notes |
+| 7 | Phase 6 exit met, Claude Code restarted, `golden/signal-census.mjs` + `golden/signal-census-phase3.txt` present | non-coder install walkthrough passes; EN+VI synced; the 8 other languages are not touched (throw-away, C-CLEAN); README switcher links resolve |
+| 8 | Phase 7 exit met | `e2e-kit-flows.test.mjs` `.pathname` Windows bug fixed first (Phase 8 owns it); FINAL EQUIVALENCE GATE B4 (`eq/verdict.md` last line `EQ gate: PASS` or `ACCEPTED-BY-USER`) BEFORE any release step; cleanup step C0b AFTER B4 and BEFORE the tag (`harness/clean-check.sh` exit 0: tracked files = ALLOWED LIST, links resolve, code byte-identical to B4 FINAL); clean install on tested environments; 6 user-run known-gaps listed; local tag v1.0.0 on the cleanup commit; release notes |
 
 ---
 
@@ -278,12 +287,13 @@ Checked against `phase-blast-radius-registry.md`. Phases 4 and 5 are `parallel-s
 | `CHANGELOG.md` | 2 (new `## [1.0.0]` fork-origin entry, upstream history tagged), 6 (whole-file PROTECTED, no rewrite), 8 (hand-written release entry; must extend, not duplicate, the Phase 2 `## [1.0.0]` entry, see contradiction C4) | 8 for the release text; 2 for the fork-origin entry |
 | `LICENSE` | 0 only (checked after EVERY phase by `baseline/compare.sh`) | 0 |
 | `SECURITY.md`, `.github/FUNDING.yml` | 2 only | 2 |
-| `docs/i18n/README.*.md` (9 files; Vietnamese is `README.vi-VN.md`) | 1 (counts), 2 (identity + images), 6 (rename), 7 (banner / VI sync) | 7 (final); Phase 2 group C owns identity + images; Phase 1 owns the count and the model FACTS (7 opus / 8 sonnet), which Phase 7 must keep |
-| `MIGRATION.md` | 2 (identity lines, history lines tagged), 6 (whole-file PROTECTED; one hand-added banner line, step B6, pointing to `docs/RELEASE-NOTES-1.0.0.md`) | 2; Phase 8 does NOT claim it |
-| `docs/GOOD-FIRST-ISSUES.md`, `docs/GITHUB-*.md` | 2, 6, 7 (docs) | 7 for wording; 2 identity; 6 rename only |
+| `docs/i18n/README.*.md` (9 files; Vietnamese is `README.vi-VN.md`) | 1 (counts, all 9 files), 2 (identity + images: `README.vi-VN.md` ONLY), 6 (rename, automatic), 7 (VI sync; no banners), 8 C0b (deletes the 8 other files) | 7 for `README.vi-VN.md` (final); Phase 2 group C owns identity + images for `README.vi-VN.md` only (the 8 others are DOOMED, throw-away); Phase 1 owns the count and the model FACTS (7 opus / 8 sonnet), which Phase 7 must keep |
+| `MIGRATION.md` | DOOMED: deleted by Phase 8 C0b. Phase 2 identity tagging and Phase 6 banner step B6 are throw-away (skip B6 and residual R4) | 8 (C0b) |
+| `docs/GOOD-FIRST-ISSUES.md`, `docs/GITHUB-LABELS.md`, `docs/GITHUB-SETTINGS.md` | DOOMED: deleted by Phase 8 C0b; Phases 2, 6, 7 spend no effort on them | 8 (C0b) |
 | `.claude/skills/vc-setup/**` | 2 (identity), 5 (front-matter only), 6 (rename) | 2 |
 | `.claude/skills/vc-audit-vc/SKILL.md` | 1 (new validator listing), 5 (front-matter only), 6 (rename) | 1 |
 | `.github/workflows/validate.yml` | 1 (new validator listing), 6 (rename) | 1 |
+| `.github/workflows/release.yml` (R1-f) | 1 (ADDITIONS ONLY: the new validator steps), 2 (display-name line, AFTER Phase 1), 6 (rename), 8 (kept; release notes via `gh`) | 2 for the display-name line; 1's claim is additions only, strictly ordered 1 then 2; Phase 1 must list this file in its claim and the registry |
 | `CLAUDE.md` (§Model Selection Policy), `process/development-protocols/{implementation-standards,orchestration}.md`, `vc-system-behavior/{04-research,07-plan,08-validate}.md`, `.claude/skills/vc-agent-strategy-compare/SKILL.md` (§Model Selection Policy), `process/context/all-context.md` line 179 (model-policy paragraph) | 1 (model-fact correction, decision B), 4 (CLAUDE.md/protocols dedup), 5 (strategy-compare front-matter only), 6 (rename) | 1 for the model facts; 4 MUST PRESERVE the corrected model text (its gate re-runs Phase 1's claim grep); 5 and 6 do not alter the facts; `AGENTS.md` has no model text and is Phase 4's alone |
 | `eq/**` (task folder: FINAL EQUIVALENCE GATE evidence) and read access to `golden/tasks/**` | 8 (author of `eq/**`); 3 (author of `golden/tasks/**`, frozen after its step A5) | 8 for `eq/**`; 3 for `golden/tasks/**` (Phase 8 only reads, never edits) |
 | `resolve-manifest.mjs` | 2 (manifest-shape fix), 6 (rename) | 2 |
@@ -291,8 +301,9 @@ Checked against `phase-blast-radius-registry.md`. Phases 4 and 5 are `parallel-s
 | `program-goal-charter-template.md` (mirror pair under `process/development-protocols/references/` and `.claude/skills/vc-generate-phase-program/references/`) | 6 (rename only) | FROZEN in Phases 4 and 5 (neither edits either copy); join step runs `diff -q`/`cmp` on the pair (expected no output) |
 | `.codex/agents/vb-*.toml` mirrors | 3 (content), 6 (rename), 7 (prose) | 3; Phase 1 does NOT claim `.codex/` (Codex toml has no model/effort fields) |
 | `e2e-kit-flows.test.mjs` | 2 (comment/display name only), 6 (rename; keep-regions for Trial C seed block and `vc-team`-removed assertion), 8 (A0 BEFORE install tests: `fileURLToPath`, `os.tmpdir()` instead of `/tmp`, quoted forward-slash `bash` path) | 8 for the fix; 2 and 6 text only |
-| `CONTRIBUTING.md` + `docs/i18n/CONTRIBUTING.{ja-JP,ko-KR,pt-BR,vi-VN,zh-CN}.md`, `.github/ISSUE_TEMPLATE/**` (incl. `1.bug_report.yml`), `.github/workflows/{welcome,release}.yml` | 2 (identity), 6 (rename) | 2; Phase 7 does NOT own the CONTRIBUTING translations' display name |
-| `docs/QUICKSTART.md`, `docs/GLOSSARY.md`, `docs/i18n/README.vi-VN.md`, `docs/i18n/{QUICKSTART,GLOSSARY}.vi-VN.md`, `scripts/check-docs.mjs`, `scripts/fixtures/check-docs/**`, `harness/phase7-*` helpers, `process/general-plans/backlog/vi-native-review_NOTE_29-10-26.md` | 7 | 7 (Phase 7 edits `docs/i18n/README.*.md` after Phase 2 and the Phase 6 rename; strictly ordered) |
+| `CONTRIBUTING.md` (+ switcher block cut to nothing at C0b), `docs/i18n/CONTRIBUTING.{ja-JP,ko-KR,pt-BR,vi-VN,zh-CN}.md` and `docs/i18n/SECURITY.*.md` (DOOMED, deleted by C0b), `.github/ISSUE_TEMPLATE/**` (`5.translation.yml` DOOMED), `.github/workflows/welcome.yml` | 2 (identity: English files only), 6 (rename), 8 C0b (deletions + CONTRIBUTING switcher) | 2; Phase 7 does NOT own the CONTRIBUTING translations' display name |
+| `harness/clean-check.sh`, `harness/check-links.mjs` (task folder; C-CLEAN gate) and the C0b cleanup commit (deletions, README/README.vi-VN/CONTRIBUTING switcher cuts, CHANGELOG dead-link fix, `.gitignore`/`.git/info/exclude` entry) | 8 only (after B4 and its verdict commit, before C2a) | 8 |
+| `README.md` Quick start + glossary sections (never separate files), `docs/i18n/README.vi-VN.md`, `scripts/check-docs.mjs`, `scripts/fixtures/check-docs/**`, `harness/phase7-*` helpers, `process/general-plans/backlog/vi-native-review_NOTE_29-10-26.md` | 7 | 7 (Phase 7 edits `docs/i18n/README.*.md` after Phase 2 and the Phase 6 rename; strictly ordered) |
 | `golden/**` (task folder): scripts (`size-check.mjs`, `signal-census.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `gen-guardrails.mjs`, `run-record.mjs`), snapshots, `signal-census-phase3.txt`, `guardrails.json`, `runs/`, `old/`, `phase1/`; plus new `.codex/agents/references/` and backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` | 3 (author; includes the frozen `golden/tasks/**`), 7 (reads `signal-census.mjs` + `signal-census-phase3.txt`), 8 (reads `tasks/**`, `run-record.mjs`, `gen-guardrails.mjs`, `guardrails.json`, `signal-census*.txt`, `start.sha`) | 3 |
 | `p4-tools/**` (incl. `claim.globs`, `baseline.sha`), `dedup-allowlist*.txt`, Phase 4 report / `p5-tools/**` (incl. `claim.globs`, `baseline.sha`), `proposed-new-skills.md`, Phase 5 report, backlog note `process/general-plans/backlog/vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md` | 4 / 5 | 4 / 5 respectively (teammate branches `p4-docs-dedup` / `p5-skills-tune`) |
 | `baseline/**` (task folder) | 0 (author); 1 adds `p1_start.txt` + one `validators.list` line; 2 adds `p2_start.txt` + `resolved_p2_start.<runtime>.txt`; all later phases read | 0 (Phase 6 never writes here) |
@@ -324,6 +335,8 @@ Planner's note (kept for reference): shared files are README.md (phases 1, 2, 6,
 - Never lower or delete a validator check; only add.
 - QUALITY EQUIVALENCE (decision A): the golden task definitions in `golden/tasks/` are frozen after Phase 3 step A5 and are reused verbatim by Phase 8 step B4; no release step happens before `eq/verdict.md` ends with `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER` for the commit being tagged.
 - MODEL DIRECTION (decision B): no phase changes any agent's `model:`; no phase lowers any `effort:`; the only effort edit is execute, fast-mode, quick-fix `low` -> `max` in Phase 1.
+- C-CLEAN (user decision C): the tagged tree equals the ALLOWED LIST (section `## Clean Final Tree (C-CLEAN)`); the cleanup commit C0b changes ONLY non-code paths (code paths byte-identical to the B4 FINAL commit); history is never rewritten; no commit lands on `main` after C0b except a fix followed by a full re-run of the C0b gate.
+- SWEEP RULE corollary (C-CLEAN): before C0b the sweeps (Phase 2 R2.1, Phase 6 G5/G7) may exclude the DOOMED SET (list in the C-CLEAN section); the canonical SWEEP RULE wording is unchanged. After C0b the DOOMED SET does not exist, so DoD 3 holds without exclusions on the tagged tree.
 - LICENSE guard (mandatory line of EVERY phase exit gate, carried by Phase 0 `baseline/compare.sh` so one place runs it after every phase): `grep -c "Copyright (c) 2026 vibecode" LICENSE` = 1 and `grep -c "Copyright (c) 2026 Tomwakeupat530amm" LICENSE` = 1. Proves C-SAFE-2 after each phase. Realization: Phases 0, 1, 2, 6, 7, 8 call `compare.sh`/`compare-vb.sh` in their exit-gate blocks and Phase 4 in its verification table; Phases 3 and 5 do not claim LICENSE and get the explicit `bash $B/compare.sh` line at their own PVL (residual R1); the goal-block TEST GATES apply the greps at every phase exit and the check is cumulative (the next `compare.sh` run catches any earlier damage).
 - SWEEP RULE (canonical wording lives here; Phase 2 and Phase 6 implement it, see their gates): search the whole repo EXCLUDING `.git`, the program task folder `process/general-plans/active/vibebelt-rebrand_29-10-26/` (and its archived copy), `baseline/`, `golden/`, the rename script + its fixtures, `CHANGELOG.md` and `MIGRATION.md` (WHOLE-FILE protection: Phase 6 implements the history rule as a protected set, not as marker regions; in Phase 2 their old-identity lines are instead tagged `upstream-attribution`), and `legacyDeletions`. Old-identity lines that legitimately remain are only: (1) lines carrying the literal tag `upstream-attribution`; (2) the brand-detection lines in `.claude/skills/vc-audit-vc/scripts/validate-kit-portability.mjs`, `.claude/skills/vc-publish/SKILL.md` and `.claude/skills/vc-publish/references/vc-publish.md`. Phase 2 may additionally exclude the whole `process/` directory ONLY because at Phase 2 time `process/` holds no kit text beyond the task folder and Phase 0 generated context; its gate adds `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` and expects no output.
 - SWEEP RULE corollary (PVL cycle 5; the canonical wording above is unchanged): the Phase 2 `process/` grep expects NO output, but the Phase 0 generated `process/context/all-context.md` holds 2 old-identity lines (154 and 210, measured 2026-10-29). Phase 2 therefore OWNS those two lines (ownership table) and edits them before its `process/` grep. Until the Phase 2 plan carries that claim its exit gate is unsatisfiable; the Phase 2 PLAN-SUPPLEMENT / inner PVL must add it (hand-off H1).
@@ -333,6 +346,78 @@ Planner's note (kept for reference): shared files are README.md (phases 1, 2, 6,
 - Vacuous-green ban: a developed behavior proven only by Known-Gap is never PASS; write a backlog stub and keep the gate CONDITIONAL.
 - Test planning must load `process/context/tests/all-tests.md` (created by Phase 0 vc-setup) and its routing chain before assigning tiers; if it is empty or missing, emit `TIER_ASSIGNMENTS_BLOCKED` and return to RESEARCH.
 - Commit each phase's execution changes before starting the next phase. Keep process/plan/context commits separate from execution commits.
+
+---
+
+## Clean Final Tree (C-CLEAN)
+
+User decision C (2026-10-29, LOCKED): the tagged v1.0.0 tree is a complete, working kit with NOTHING extra. Full history is kept (no squash, no rebase, no force-push); only the final TREE is cleaned, by one dedicated commit `chore: prepare clean release tree` (step C0b, owned by Phase 8). Measured 2026-10-29 at HEAD 7845316: 561 tracked files; the original kit (`upstream-baseline`) shipped only `process/context/generated-skills-catalog.json` under `process/context/` and `.gitkeep` files under `process/features` and `process/general-plans`, so everything else under `process/` that is tracked today is Phase 0/program output.
+
+### Step order inside Phase 8 (the Phase 8 plan must carry this verbatim)
+
+`A0 -> A -> B1-B3 -> B4 (verdict commit `process: ...` stays in history) -> B4.8 -> C0 (EQ verdict line) -> C1 (release notes, CHANGELOG) -> C0a (write harness/clean-check.sh + harness/check-links.mjs, red first) -> C0b (cleanup commit) -> C0c (clean-check.sh + validators + smoke on the cleaned tree) -> C2-pre -> C2a (local tag on the cleanup commit) -> C2b -> C2c`. After C0b no commit lands on `main` unless it is a fix followed by a full re-run of C0a-C0c (then the tag is created or re-created on the final cleanup commit). Phase 8 UPDATE PROCESS bookkeeping after the tag stays on disk in the (untracked) task folder; it is not committed to `main` (CONCERN for the user: the final Phase 8 report then lives only on disk and in earlier `process:` commits).
+
+C0b commands (executed by a spawned vc-execute-agent; gate run by a spawned vc-tester):
+
+- `git rm -r --cached process/general-plans/active/vibebelt-rebrand_29-10-26` (and any archived copy under `process/general-plans/completed/`), then add the folder to `.git/info/exclude` (local only; files stay on disk; C0 evidence stays readable).
+- `git rm` (work tree + index) of every other DOOMED path below.
+- Edits (non-code, text only): cut the language-switcher block in `README.md`, `docs/i18n/README.vi-VN.md` and `CONTRIBUTING.md` to links that exist (README: English + Vietnamese only; VI README: English link + Vietnamese; CONTRIBUTING: remove the block); fix `CHANGELOG.md` line 125 (`See [MIGRATION.md](MIGRATION.md)...`, a dead link once MIGRATION.md is gone) to plain text without a link; keep the Vietnamese README in sync with English after these edits.
+- Re-run `harness/clean-check.sh` (below) and the validators; fix in the same commit until green; ONE commit.
+
+### DOOMED SET (deleted by C0b; throw-away until then)
+
+| Path / glob | Reason |
+|---|---|
+| `process/general-plans/active/vibebelt-rebrand_29-10-26/**` (plans, reports, `baseline/`, `golden/`, `eq/`, `harness/`, `p4-tools/`, `p5-tools/`, `results.tsv`, registry; plus any archived copy in `process/general-plans/completed/`) | program artifacts; stay in history and on disk |
+| `process/general-plans/backlog/*_NOTE_*.md` (Phase 3/5/7/8 stubs) | internal maintainer notes; the user-run checklist must be in the release notes |
+| `process/context/all-context.md`, `process/context/*.seed`, `process/context/planning/**`, `process/context/tests/**` | Phase 0 `vc-setup` output for THIS repo; the manifest excludes `all-context.md`, installed projects generate their own; the original kit did not track them |
+| `process/features/_GUIDE.md`, `process/features/_feature-template/**`, `process/general-plans/{active,backlog,completed}/_GUIDE.md` | copies of `process/_seeds/**` (which ships) |
+| `docs/GITHUB-LABELS.md`, `docs/GITHUB-SETTINGS.md`, `docs/GOOD-FIRST-ISSUES.md`, `MIGRATION.md` | user decision C2 (minimal docs) |
+| `docs/i18n/README.{de,es,fr,hi,ja-JP,ko-KR,pt-BR,zh-CN}.md` | user decision C2 (8 languages removed) |
+| `docs/i18n/CONTRIBUTING.*.md` (5), `docs/i18n/SECURITY.*.md` (5) | user decision C2 (translations removed) |
+| `.github/ISSUE_TEMPLATE/5.translation.yml` | translation contributions no longer offered (only English and Vietnamese ship) |
+| `scripts/rename-prefix.mjs`, `scripts/rename-prefix.*.txt`, `scripts/test-rename-prefix.mjs`, `scripts/fixtures/**`, `scripts/check-docs.mjs`, `docs/RELEASE-NOTES-1.0.0.md` | one-time maintainer tooling / evidence; release notes are written to `$TF/RELEASE-NOTES-1.0.0.md` instead of `docs/` and C2c uses `gh release create v1.0.0 -F $TF/RELEASE-NOTES-1.0.0.md` |
+
+### ALLOWED LIST (the tracked files at the tag; anything else FAILS the gate)
+
+Names are the final `vb-` names. Group A is mechanical (computed), B is a path rule, C is enumerated.
+
+| Group | Item | One-line reason |
+|---|---|---|
+| A | every path in `node resolve-manifest.mjs --json` `.files` (include minus exclude of `vb-manifest.json`: `.claude/agents|skills|hooks/**`, `.claude/settings.json`, `.codex/**`, `CLAUDE.md`, `AGENTS.md`, `process/development-protocols/**`, `process/context/generated-skills-catalog.json`, `process/_seeds/**`; 415 files today) | this is what the installer copies |
+| B | any tracked path under `.claude/**` or `.codex/**` that the manifest excludes from install (kit regression tests `__tests__/`, `tests/`, `*.test.*`, `package-lock.json`, `.gitignore`/`package.json` of the sequential-thinking skill; 48 such tracked paths at HEAD) provided it is not a DOOMED/deny-pattern path; plus `.agents/skills` (manifest `symlinks`, index mode 120000) | the original kit tracked them; they are kit source, not program artifacts |
+| C | `README.md` | English front door |
+| C | `docs/i18n/README.vi-VN.md` | Vietnamese README (user decision C2) |
+| C | `LICENSE`, `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md` | user decision C2 (English only) |
+| C | `install.sh`, `resolve-manifest.mjs`, `compute-sync-plan.mjs`, `vb-manifest.json`, `legacy-hashes.json` | installer, resolver, updater, manifest, updater hash table (read at runtime from the kit; manifest `kitOnly`) |
+| C | `e2e-kit-flows.test.mjs`, `scripts/test-compute-sync-plan.mjs` | tests of the shipped installer/updater (kept only if standalone: the gate runs both on the cleaned tree) |
+| C | `.gitignore`, `.gitattributes`, `.markdownlint.json` | repository hygiene present in the original kit |
+| C | `.github/workflows/validate.yml`, `.github/workflows/release.yml`, `.github/release.yml` | CI validator suite; release workflow and notes categories |
+| C | `.github/workflows/labeler.yml`, `.github/labeler.yml` | path-based PR labels; verified independent of the removed docs (globs `.claude/skills/**`, `*.md`, `docs/**` only, no file names) so KEPT |
+| C | `.github/workflows/welcome.yml` | greets first-time contributors; links only `CONTRIBUTING.md` (kept) once Phase 2 removes the WhatsApp link, so KEPT |
+| C | `.github/pull_request_template.md`, `.github/ISSUE_TEMPLATE/{1.bug_report,2.feature_request,3.skill_submission,4.agent_submission}.yml`, `.github/ISSUE_TEMPLATE/config.yml` | contribution intake for a published repo |
+| C | `assets/<files>` that `README.md` or `docs/i18n/README.vi-VN.md` reference (the Phase 2 local images; today `assets/flowser-logo.svg`, whose replacement is a Phase 2 matter) | images the README actually shows; any unreferenced asset FAILS |
+| C | `process/features/.gitkeep`, `process/general-plans/{active,backlog,completed}/.gitkeep` | empty skeleton the original kit shipped |
+
+### Gate `harness/clean-check.sh` (written by C0a red-first; run on HEAD after C0b, again on the tag; exit 0 required)
+
+1. CC1 allowed-list diff: `git ls-files | sort` minus (Group A resolver output + Group B rule + Group C list) must be EMPTY, and every Group A and Group C path must be tracked (no MISSING).
+2. CC2 deny patterns over `git ls-files` outside `.claude/` and `.codex/`: no `vibebelt-rebrand`, no `results.tsv`, no `(^|/)(golden|baseline|eq|harness|p4-tools|p5-tools)/`, no `process/context/` path except `generated-skills-catalog.json`, no `*.seed` under `process/context`, no `process/general-plans/backlog/*_NOTE_*`, no `docs/i18n/` file other than `README.vi-VN.md`; and no `QUICKSTART`/`GLOSSARY` path anywhere (never created).
+3. CC3 link check (`harness/check-links.mjs`): every relative `](target)`, `href="target"` and `src="target"` in `README.md`, `docs/i18n/README.vi-VN.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `SECURITY.md` (skip http(s)/mailto/#anchors, strip `#fragment`) resolves, relative to the file, to a tracked file (`git ls-files --error-unmatch`). Switcher blocks: README.md lists no `docs/i18n/README.` link other than `README.vi-VN.md`.
+4. CC4 byte identity of code: `git diff --name-only $(cat $EQ/final-sha.txt) HEAD -- .claude .codex CLAUDE.md AGENTS.md process/development-protocols process/_seeds install.sh resolve-manifest.mjs compute-sync-plan.mjs vb-manifest.json legacy-hashes.json` prints nothing (the B4.8 pathspec plus `legacy-hashes.json`; reuse B4.8); and `git diff --name-only --diff-filter=ACMRT $(cat $EQ/final-sha.txt) HEAD` lists only non-code paths (`README.md`, `docs/**`, `CONTRIBUTING.md`, `CHANGELOG.md`, `.github/**`).
+5. CC5 validators on the cleaned tree: the Phase 8 validator suite via `compare-vb.sh` against the BARE-KIT reference (`validators_before`, mapped), because the cleaned tree carries no `vb-setup` output; `validate-all-context` must still exit 0 in bare-kit mode; plus `git diff --check`. After C0b the validators on the cleaned tree compare against the bare-kit baseline `validators_before` (Linux node), mapped. Phase 8 MUST pin the exact `compare-vb.sh` argument/CLI after Phase 6 creates it (no guessing before then); not worse than the bare-kit baseline is the rule.
+6. CC6 smoke: re-run the Phase 8 fresh-install trial (B1) from the cleaned tree (`VB_KIT_SOURCE=<path>`) and `node --test e2e-kit-flows.test.mjs` plus `node scripts/test-compute-sync-plan.mjs` under Linux Node 22; failures not worse than the B3 results.
+7. CC7 history: `git merge-base --is-ancestor $(cat $EQ/final-sha.txt) HEAD` true; `git rev-list --count HEAD` is at least the count recorded at B4.7 plus 1; `git tag -l upstream-baseline` still present; no `git push --force` anywhere.
+8. CC8 tag: after C2a, `git ls-tree -r --name-only v1.0.0 | sort` equals `git ls-files | sort` at HEAD and passes CC1-CC3.
+
+Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-CC6). Known-Gap rows: none; native Windows/macOS install of the cleaned tree stays inside C-P8r.
+
+### Phase-plan wording needed (owners add at their own PVL; this umbrella does not edit them)
+
+- Phase 2: identity, image and WhatsApp edits cover `README.md`, `docs/i18n/README.vi-VN.md`, English `CONTRIBUTING.md`, `SECURITY.md`, `.github/**` (except `5.translation.yml`); SKIP the 8 other README languages, the 10 CONTRIBUTING/SECURITY translations, `docs/GITHUB-*.md`, `docs/GOOD-FIRST-ISSUES.md` and `MIGRATION.md` (DOOMED). Gate R2.1 excludes the DOOMED SET by explicit path list; WhatsApp gate R2.14 keeps working because the sweep still scans `.github/workflows/welcome.yml` (kept).
+- Phase 6: no edit effort for doomed files (the script processes them automatically); drop step B6 (MIGRATION banner) and residual R4; keep `legacy-hashes.json` in `kitOnly`.
+- Phase 7: README.md and README.vi-VN.md only; QUICKSTART/GLOSSARY files are NEVER created (user decision): a short 'Quick start' section and a plain-language glossary table go INTO both READMEs, concise so the README stays navigable; `check-docs.mjs` checks apply to those README sections (EN/VI heading parity for them, term coverage, exactly one install command, signal census); remove the 8 "may be outdated" banners from scope and `check-docs.mjs` check for them; replace with "switcher links resolve to existing files"; Phase 1 still edits all 10 READMEs as validated.
+- Phase 8: add steps C0a, C0b, C0c as above between C1 and C2-pre; C1 writes release notes to `$TF/RELEASE-NOTES-1.0.0.md`, not `docs/`; C2c uses `-F $TF/RELEASE-NOTES-1.0.0.md`; C2a tags the cleanup commit; Exit Gate adds `bash harness/clean-check.sh` (exit 0) and `git ls-tree` equality at the tag; the user-run known-gap checklist is copied into the release notes body because the backlog stubs leave the tree.
 
 ---
 
@@ -382,6 +467,7 @@ Status values: ⏳ PLANNED | 🔨 CODE DONE | 🧪 TESTING | ✅ VERIFIED | 🚧
 | Parity validator blocks the new `references/` location | Medium | decide location in Phase 3 RESEARCH; never relax the validator |
 | Baseline already red (`.agents/skills` plain file; Linux node v22.23.4 is installed, so WSL gates are runnable) | High | red = worse than Phase 0 baseline; Phase 0 repairs `.agents/skills`; node.exe fallback; e2e recorded baseline-red / NOT TESTED with cause |
 | Final kit is worse than the old kit in behaviour or output quality (any phase, esp. slimming, rename, doc rewording) | Medium | Phase 3 golden compare per slimmed agent (revert that agent only); Phase 8 FINAL EQUIVALENCE GATE re-runs the same frozen tasks on old vs final before any release step; mechanical evidence re-run; reproduced WORSE blocks release |
+| Cleanup (C0b) deletes something the kit needs, or leaves a dead link / program artifact in the tag | Medium | explicit ALLOWED LIST + mechanical `clean-check.sh` (allowed-list diff, deny patterns, link check), code byte-identity against the B4 FINAL commit, validators + install smoke + e2e re-run on the cleaned tree, tag only after the gate; history untouched so any deletion is revertible |
 | Golden tasks drift between Phase 3 and Phase 8, or the old-kit sandbox cannot be rebuilt | Medium | definitions frozen with sha256 in `golden/tasks/` (Phase 3 A5); exact sandbox recipe recorded (A2b); Phase 8 checks the freeze before starting; both kits re-run at Phase 8 time |
 | Phase 4 breaks references from 44 skill files and 32 agent/codex files | Medium | stub-or-SendMessage rule, protocol-wiring before reporting, join step |
 | Renamed agents not spawnable in the same session | Medium | restart checkpoint before Phase 7 |
@@ -395,7 +481,7 @@ Status values: ⏳ PLANNED | 🔨 CODE DONE | 🧪 TESTING | ✅ VERIFIED | 🚧
 - Phase 2: install/update/publish scripts, community docs, README header, assets, manifest/CHANGELOG
 - Phase 3: agent prompts + references + Codex mirrors; Phase 4: CLAUDE.md, AGENTS.md, protocols
 - Phase 5: skill front-matters, catalog; Phase 6: whole kit via one script
-- Phase 7: README top, quickstart, glossary, message wording; Phase 8: FINAL EQUIVALENCE GATE (`eq/**`), temp sandboxes, release docs, tag
+- Phase 7: README top, Quick start section and glossary table inside README (no separate files), message wording; Phase 8: FINAL EQUIVALENCE GATE (`eq/**`), temp sandboxes, release docs, tag
 
 ---
 
@@ -424,6 +510,8 @@ Program-level: essentially the whole kit repository. Per-phase claims live in `p
 | FINAL EQUIVALENCE GATE (Phase 8 B4): scripted rubric, `compare-vb.sh` exit 0, signal census diff after VC-/VB- mapping, guardrail identity | Fully-Automated | C-EQ |
 | FINAL EQUIVALENCE GATE e2e trials (Linux Node) | Hybrid | C-EQ |
 | FINAL EQUIVALENCE GATE blind pairwise judge, old vs final, 3 tasks x 2 replicates | Agent-Probe (judgement; named residual, never the sole proof) | C-EQ |
+| C-CLEAN gate (Phase 8 C0b): allowed-list diff (`git ls-files` vs resolver output + enumerated set), deny-pattern grep, link check on 5 docs, B4.8 pathspec diff, `git merge-base --is-ancestor` history check | Fully-Automated | C-CLEAN |
+| C-CLEAN smoke on the cleaned tree: validators not worse than the bare-kit baseline, fresh-install trial and e2e re-run | Hybrid | C-CLEAN, C-EQ (no code drift) |
 | Non-coder README walkthrough (Phase 7) | Agent-Probe | C-P7 |
 | Install matrix + updater safety (Phase 8, Phase 6 B1) | Hybrid | C-P8, C-SAFE-1 |
 | macOS and native Windows installs | Known gap (named residual); backlog stub = user-run checklist; gate CONDITIONAL | C-P8 residual |
@@ -547,7 +635,7 @@ Test gates (C3 5-column table; developed behaviors and the gate that proves each
 | C-P4 | one source for shared docs, wiring intact, no unjustified leftovers, Phase 1 model text preserved | Fully-Automated | `validate-protocol-wiring.mjs`, `validate-guide-sync.mjs`, `validate-agent-parity.mjs`, line-anchored allowlist diff, Phase 1 claim grep R (no output), pointer and signal checks in `p4-tools` | B (built by Phase 4) |
 | C-P5 | 33 skills kept, trigger routing reaches each skill, catalog fresh at the join, strategy-compare body untouched | Fully-Automated + Hybrid (routing phrase run) | `ls -d .claude/skills/*/ \| wc -l` = 33; `validate-skills.mjs` (not worse), `validate-skill-routing.mjs`, `validate-confusable-skills.mjs`, `validate-skill-keywords.mjs`, `validate-skill-cross-refs.mjs`; join by spawned agents: `generate-skills-catalog.mjs --write` (execute-agent) then `--check`, charter-template `cmp`, joint suite (tester) | B (built by Phase 5) |
 | C-P6 | one idempotent, dry-run-capable rename script; no stray `vc-`; upgrader keeps user-edited files and the four old state names; uppercase signals and env vars renamed with fallbacks | Fully-Automated + Hybrid | Phase 6 Exit Gate: `scripts/rename-prefix.mjs --dry-run` 0 edits, allowlist diffs G5/G7 empty, `vb-manifest.json` only, uppercase-signal census diff, `bash $H/compare-vb.sh` exit 0; Hybrid: `compute-sync-plan.mjs` on a tree with a modified legacy file and old state files | B (built by Phase 6) |
-| C-P7 | non-coder can install from README alone; EN and VI synced; 8 outdated banners; Phase 1 facts kept | Fully-Automated + Agent-Probe | `scripts/check-docs.mjs` (5 checks incl. signal census and agent-edit invariants), `validate-guide-sync.mjs`, `grep -c "may be outdated"`, Phase 1 claim grep, `bash $H/compare-vb.sh`; fresh-agent walkthrough in the report (Agent-Probe, named residual) | B (built by Phase 7); R5 hand-off |
+| C-P7 | non-coder can install from README alone (Quick start + glossary sections inside README.md and README.vi-VN.md); EN and VI synced; 8 outdated banners; Phase 1 facts kept | Fully-Automated + Agent-Probe | `scripts/check-docs.mjs` (5 checks incl. signal census and agent-edit invariants), `validate-guide-sync.mjs`, `grep -c "may be outdated"`, Phase 1 claim grep, `bash $H/compare-vb.sh`; fresh-agent walkthrough in the report (Agent-Probe, named residual) | B (built by Phase 7); R5 hand-off |
 | C-P8 | clean install and update on WSL/Linux; local tag `v1.0.0` after the equivalence gate | Hybrid | `node --test e2e-kit-flows.test.mjs` (after Phase 8 A0 path fix, Linux Node 22 present), install matrix (fresh + existing project), `git tag -l v1.0.0`, `git status --porcelain` empty | B (built by Phase 8) |
 | C-P8r | install on native Windows and macOS; 6 user-run items | Hybrid | user-run command list in the Phase 8 report and release notes (NOT run here, LOCKED Q6); Known-Gap rows, never a proof | D (backlog stubs written by Phase 8; gate stays CONDITIONAL) |
 | C-EQ | final v1.0.0 kit keeps old behaviour, ways of working and output quality, at least equal (decision A); no release step before the verdict | Fully-Automated + Hybrid + Agent-Probe | Phase 8 B4: scripted rubric on 12 outputs (`eq/scripted.tsv`), `bash $H/compare-vb.sh` exit 0, signal census diff after the VC-/VB- mapping empty, guardrail-section identity modulo rename, FROZEN re-check; Hybrid e2e trials copied from B3 (Linux node v22.23.4 is installed, WSL install gates are runnable; only native Windows/macOS remain NOT TESTED); Agent-Probe blind pairwise judge old vs final (named residual, never the sole proof); last line of `eq/verdict.md` = `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER`, enforced by C0 before any release step; user acknowledges 12 task runs + 6 judge calls and the cost first | B (built by Phases 3 and 8); judge = named residual, gap D |
@@ -578,7 +666,7 @@ Failing stub (C-P6):
 test("should rename vc- to vb- idempotently with a no-op second apply", () => { throw new Error("NOT IMPLEMENTED - TDD stub: rename script") })
 
 Failing stub (C-P7):
-test("should have QUICKSTART, GLOSSARY, synced EN/VI README and 8 outdated banners", () => { throw new Error("NOT IMPLEMENTED - TDD stub: vibecoder docs") })
+test("should have README Quick start + glossary sections, synced EN/VI README and 8 outdated banners", () => { throw new Error("NOT IMPLEMENTED - TDD stub: vibecoder docs") })
 
 Failing stub (C-EQ):
 test("should end eq/verdict.md with EQ gate: PASS or ACCEPTED-BY-USER before any release step", () => { throw new Error("NOT IMPLEMENTED - TDD stub: final equivalence gate") })
@@ -594,7 +682,7 @@ Legacy line form (retained so existing validate-contract consumers still parse):
 - Phase 4: [Fully-automated: wiring, guide-sync, parity, leftovers allowlist diff, claim grep] | [hybrid: probe calls after cost acknowledgement] | [agent-probe: cold read] | [known-gap: none; explicit compare.sh line is R1]
 - Phase 5: [Fully-automated: skill count, 4 skill validators, catalog join] | [hybrid: routing phrase run] | [agent-probe: agent-browser report] | [known-gap: none; explicit compare.sh line is R1]
 - Phase 6: [Fully-automated: fixture test, idempotence, allowlist diff, validators via compare-vb.sh] | [hybrid: updater with modified file and old state files; e2e needs Linux node] | [agent-probe: none] | [known-gap: computed vc- strings (backlog if found)]
-- Phase 7: [Fully-automated: file presence, banners, guide-sync, census, agent-edit invariants, compare-vb.sh] | [hybrid: none] | [agent-probe: non-coder walkthrough] | [known-gap: VI native review; R5]
+- Phase 7: [Fully-automated: README Quick start/glossary section presence + EN/VI heading parity, banners, guide-sync, census, agent-edit invariants, compare-vb.sh] | [hybrid: none] | [agent-probe: non-coder walkthrough] | [known-gap: VI native review; R5]
 - Phase 8: [Fully-automated: equivalence scripted evidence, validators, tag] | [hybrid: WSL/Linux install matrix, e2e] | [agent-probe: blind equivalence judge] | [known-gap: native Windows and macOS, 6 user-run items: documented checklist]
 
 Dimension findings:
@@ -741,3 +829,19 @@ Applied from Phase 0 research findings and user decisions 1-3: Locked Decisions 
 Supplement (ripple of 2026-10-29 decisions): locked-decision row for git identity now names the confirmed address `minhnguyentuan31103@gmail.com`; nothing else changed.
 
 - Supplement 29-10-26 (tiny): Linux node v22.23.4 installed; only native Windows/macOS NOT TESTED.
+
+## Supplement (user decisions 2026-10-29: clean final tree)
+
+PLAN-SUPPLEMENT on the umbrella only; the Validate Contract above is kept unchanged. Phase plans, `phase-blast-radius-registry.md` and `results.tsv` were NOT edited (other agents are re-validating Phases 1, 2, 4, 6, 7, 8).
+
+- Recorded: user decision C (clean final tree, hard criterion C-CLEAN), C1 (full history kept; only the final tree is cleaned), C2 (documentation minimal; 8 languages and the listed docs removed) in Locked Decisions (4 new rows incl. the DOOMED SET), Charter (north star, DoD items 6, 7 and new 9, hard safety constraint), Acceptance criteria (new C-CLEAN row; C-P7 and C-P8 reworded), Stable Program Goal (TARGET bullet, HARD STOPS bullet, TEST GATES line; re-counted 3984 characters, limit 4000, the 7 required sections still in order), Phase Ordering (Phase 8 scope), Per-Phase Entry / Exit Gates (rows 7 and 8), Pre-PVL ownership table (rows for README i18n, MIGRATION.md, docs/GITHUB-*, CONTRIBUTING translations; new row for `harness/clean-check.sh` and the C0b commit), Global Constraints (C-CLEAN line and a SWEEP RULE corollary), Risk Predictions, Verification Evidence, and the new section `## Clean Final Tree (C-CLEAN)` (step order, DOOMED SET, ALLOWED LIST with a one-line reason per item, gate CC1-CC8, phase-plan wording).
+- Contract status: the Validate Contract above predates this supplement. Statements in it about "8 outdated banners" (C-P7 row, failing stub, Phase 7 legacy line) and about Phase 8 steps ending at C2a/C2c are SUPERSEDED by this section. The orchestrator must re-run the umbrella PVL (V1 onward) before the next EXECUTE so the contract covers C-CLEAN; the first-pass verdict for the new content is not claimed here.
+- Phase plans needing wording (owners add at their own PVL): Phase 2 (skip the 8 languages and the other DOOMED docs; R2.1 excludes the DOOMED SET), Phase 6 (drop B6 and residual R4), Phase 7 (README.md and README.vi-VN.md only; no banners; switcher links), Phase 8 (steps C0a/C0b/C0c, release notes in `$TF`, tag on the cleanup commit, Exit Gate adds the clean-check). Registry: new lines for C0b and the scope reductions. Phase 1 is unchanged (still edits all 10 READMEs).
+
+## Supplement 2026-10-29 (QUICKSTART/GLOSSARY folded into README; R1-f; cleanup compare)
+
+- LOCKED user decision: QUICKSTART and GLOSSARY (4 files: `docs/QUICKSTART.md`, `docs/GLOSSARY.md`, `docs/i18n/QUICKSTART.vi-VN.md`, `docs/i18n/GLOSSARY.vi-VN.md`) are never created. Removed from the ALLOWED LIST, CC2 deny pattern, C-P7, DoD 6, ownership rows and Clean Final Tree wording. Stable Program Goal unchanged by this supplement (does not mention them); the Validate Contract text above is kept unchanged and stays stale on "8 outdated banners"/QUICKSTART until phase PVLs re-run.
+- R1-f: `.github/workflows/release.yml` added to the Pre-PVL ownership table (Phase 1 additions only, Phase 2 display-name line afterwards).
+- Wording needed in Phase 7: fold a short 'Quick start' section and glossary table into README.md and README.vi-VN.md (concise); `check-docs.mjs` checks (heading parity EN/VI for these sections, term coverage, one install command, signal census) apply to README sections; drop all QUICKSTART/GLOSSARY file steps, fixtures and gates.
+- Wording needed in Phase 8: C0b/CC1-CC2 use the shorter ALLOWED LIST (no QUICKSTART/GLOSSARY); CC5 pins the exact `compare-vb.sh` argument vs `validators_before` (Linux node) after Phase 6 creates it.
+- Registry: Phase 7 drops the 4 files; Phase 1 gains `.github/workflows/release.yml` (additions only); Phase 2 keeps it for the display-name line.

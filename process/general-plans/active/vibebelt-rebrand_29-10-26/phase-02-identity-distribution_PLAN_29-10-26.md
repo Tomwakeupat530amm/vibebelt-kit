@@ -256,95 +256,78 @@ instructions / Test gates) is treated as a placeholder.
 
 ## Validate Contract
 
-Status: CONDITIONAL
+Status: PASS
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 3 PASS) — same-day re-validation from V1 (PVL cycle 5). The cycle-3 PASS and the "PVL cycle 3 note" below predate the Phase 0 completion (git repo, HEAD 7845316, Linux node, `process/context/**`) and the 2026-10-29 ripple supplement, so this contract replaces BOTH in full (the old note and supplement logs stay below as history only). The date is the same calendar day, so ordering rests on this explicit statement and on the "PVL cycle 5" label.
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 5, Gate: CONDITIONAL, 2 MUST-FIX M2-1 and M2-2) — PVL cycle 6 re-validated from V1 against the real repo after the cycle-5 supplement; this contract REPLACES the cycle-5 contract entirely (same calendar date, ordering is by PVL cycle: 6 follows 5). M2-1 and M2-2 are verified CLOSED; 0 NEW MUST-FIX; 6 RESIDUALs carried. The sentence "Validate-contract status" in Resume and Execution Handoff still quotes the cycle-5 text; this contract governs.
 
-V1 line: `V1 RE-VALIDATE TRIGGERED: ripple supplement dated 2026-10-29 (model labels, Phase 1 claim-grep gate) and the Phase 0 completion facts postdate the existing PASS contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the same-day ripple as newer. V1 AUTO-PROCEED does not apply.`
+V1 line: `V1 RE-VALIDATE TRIGGERED: the cycle-5 supplement (new step B7, gate lines R2.1b, escaped agent-table loop, release.yml ordering gate, WhatsApp count, runtime wording) was applied after the cycle-5 CONDITIONAL contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the supplement as newer. V1 AUTO-PROCEED does not apply.`
 
 Parallel strategy: parallel-subagents (4 disjoint groups a-d, resolver fix first)
-Rationale: score 3/7 (S4 phase program, S6 installer/update distribution contract, S7 about 45 files); dominant signal S7. Group (c)/(d) version text waits for the resolver fix (C1). Models: research/plan/validate/tester run on their front-matter (opus), innovate/update-process sonnet, implementing subagents opus. Fan-out cost if used: 4 (Layer 1) + 6 (Layer 2: Steps A-E + Exit Gate) + 4 implementers = 14, under the 30-agent guard. This pass was ONE fire-and-forget validate-agent (no spawn tool) with direct repo inspection and throw-away checks in a scratch clone (Layer 1 and Layer 2 run inline; prior verdicts not trusted).
+Rationale: score 3/7 (S4 phase program, S6 installer/update distribution contract, S7 about 45 files); dominant signal S7. Group (c)/(d) version text waits for the resolver fix (C1). Models: research/plan/validate/tester run on their front-matter (opus), innovate/update-process sonnet, implementing subagents opus. Fan-out cost if used: 4 (Layer 1) + 6 (Layer 2) + 4 implementers = 14, under the 30-agent guard. This pass was ONE fire-and-forget validate-agent (no spawn tool): Layer 1 and Layer 2 ran inline with direct repo inspection and throw-away checks in a scratch clone of HEAD 41b24eb under the scratchpad (project tree not modified); prior verdicts were not trusted.
 
-### Real-repo facts checked (V1-V7, cycle 5)
+### Real-repo facts checked (V1-V7, cycle 6)
 
-- **Phase 0 state:** git repo exists, HEAD 7845316 (`process: close phase 0 ...`), tag `upstream-baseline`. Kit text outside `process/` is byte-identical to the tag except `LICENSE` (+1 line), `.gitignore` (+1 line) and the `.agents/skills` mode (`git diff --stat upstream-baseline HEAD -- . ':!process'` = 3 files, 2 insertions). So the cycle-3 counts still hold: `grep -rIn "withkynam\|flowser" . --exclude-dir=.git --exclude-dir=process` = 245 hits in 27 files; 36 files hold untagged display-name hits; all paths named in the plan resolve on disk (checked one by one; 9 README translations, 5 SECURITY, 5 CONTRIBUTING translations present).
-- **Runtime facts:** Linux `node` v22.23.4 exists (`~/.local/bin/node`) next to `node.exe`; the Phase 0 baseline is saved for both (`validators_*.tsv` = Linux node, `*.node-exe.*` = node.exe) and `compare.sh` defaults to the Linux reference. `claude` 2.1.312 exists locally; no `codex` binary.
-- **Resolver claim (C1 then C2) reproduced with Linux node in a scratch clone:** list at 3.2.5 = 415 lines; after changing line 68 to `const useGlob = Array.isArray(manifest.include);` the list is identical at 3.2.5 AND identical at `1.0.0`; `--json` `files.length>0` = `true`. Phase 1's new managed script adds exactly 1 line to the list under BOTH runtimes (`diff ... | grep -c '^[<>]'` = 1 and the `validate-model-effort-policy.mjs$` count = 1); the Phase 1 fixtures `fixtures/model-effort-{pass,fail}/.claude/agents/*.md` sit under dot-directories and are NOT listed. On the real tree today the Phase 0 node.exe list (492 lines) and the Linux list both reproduce with delta 0 (the node.exe list includes 53 screenshot paths because the node.exe exclude filter is broken and the PNGs are on disk; Phase 2 cannot change that).
-- **R2.6 under Linux node (scratch clone, native fs):** `node --test e2e-kit-flows.test.mjs` = Trial A ok, B ok, D ok, C not ok (AC-5 `legacyDeletions` predicate, Phase 6 task B4), exit 1, BOTH before and after the C1+C2 edits (3 pass / 1 fail unchanged). So "Expected: 0 where runnable" cannot be reached in this program before Phase 6; the plan's own fallback ("else recorded baseline-red / NOT TESTED, judged by compare.sh") is the operative rule (Phase 0 saved the `e2e-kit-flows` row as 1).
-- **Other gates re-run in the clone:** `bash -n install.sh` = 0; `REPO=` line 11 has the form R2.7 expects and line 16 (`REPO="${VC_KIT_SOURCE:-$REPO}"`) does not match the exact-string grep, so the count is 1; PyYAML 6.0.3 parses `welcome.yml`, `release.yml`, `1.bug_report.yml` (`ok`); the portability validator exits 0 under both runtimes; `validate-plan-artifact.mjs` on this plan: exit 0, 0 failures, 2 advisory legacy-shape warnings.
-- **WhatsApp (B2c, R2.14):** the invite appears on 8 link lines in 7 files (`CONTRIBUTING.md:20`, five translations line 18, `welcome.yml:25` and `:32`) plus the doc mention at `docs/GITHUB-SETTINGS.md:104`; the plan says "9 link lines" (miscount, cosmetic). The B2c edits are well-formed against the real `welcome.yml` blocks and R2.14 is satisfiable.
-- **MUST-FIX M2-1 (found now, did not exist in cycle 3):** `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` prints 2 lines today: `process/context/all-context.md:154` (`assets/ -- flowser-logo.svg`) and `:210` ("installer and README still point at upstream `withkynam/vibecode-pro-max-kit`"). Cycle 3 saw 0 hits because Phase 0 had not yet written `process/context/`. B0b, E9 and the umbrella SWEEP RULE promise this grep prints nothing and describe `process/` as holding "no kit text beyond the task folder and Phase 0 generated context", but `all-context.md` is not in the Phase 2 Blast Radius or in the registry's Phase 2 claim (Phase 0 owns the file, Phase 1 owns line 179 only). The gate is therefore unsatisfiable as written, or Phase 2 would have to edit a file it does not own. The umbrella PVL (cycle 5) found the same thing independently (hand-off H1) and its ownership table already assigns lines 154 and 210 to Phase 2, but the Phase 2 plan does not carry that claim yet. The same file also states facts Phase 2 turns false: `vc-manifest.json -- version 3.2.5` (line 137) and "version tracked by `vc-manifest.json` (`3.2.5`)" (line 168); per the umbrella ownership row those two are not Phase 2's lines and are refreshed at UPDATE PROCESS (not gate-bearing).
-- **MUST-FIX M2-2 (found now):** the Phase 1 claim-grep supplement gate added to this plan's Exit Gate contains a shell syntax error. Line 2 of that block, `for f in README.md docs/i18n/README.*.md; do ...; grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" $f ...`, has three unescaped backticks inside double quotes. `bash -n` on the extracted Exit Gate blocks fails with `unexpected EOF while looking for matching` backtick (exit 2); typed line by line the shell waits for a closing backtick. Phase 1's original (R1.12, plan line 188) escapes them as `\``; with that escaping the loop runs and prints 30 `RED` lines today (10 files x 3 agents), i.e. it is meaningful and goes to zero when Phase 1 is done. The first line of the supplement gate (the `R=...` grep) is valid and prints 14 hits today (Phase 1 removes them). After deleting only the broken line, every other Exit Gate line passes `bash -n`.
-
-### Prior gaps and Known Gaps: re-check
-
-- F2-A, F2-B, F2-C, G2-12, G2-13 stay CLOSED (resolver delta proof, 11 brand-detection lines, 9 added display-name files, FUNDING wording, same-runtime rule): reproduced above.
-- K2-1 (R2.6 e2e install/update) stays a named residual: still red for a reason Phase 2 does not own (Trial C = Phase 6 B4; Trial D = drvfs clone link error, passes on native fs).
-- K2-2 (GitHub-side settings and live links) unchanged. K2-3 stays closed by the user decision (WhatsApp removal, R2.14).
-- Codex `references/` loading is a Phase 3 Known-Gap, not carried here.
+- **Structure and paths:** `validate-plan-artifact.mjs` exit 0, 0 failures (2 advisory legacy-shape warnings); every path named in the plan resolves; registry Phase 2 claim already lists `process/context/all-context.md` lines 154 and 210 ONLY (registry line 30 and the cycle-5 note line 130), still disjoint from Phases 1 (line 179), 4 and 5.
+- **Exit Gate blocks:** both fenced blocks extracted and run through `bash -n`: rc 0 each (the cycle-5 syntax error M2-2 is gone). The supplement block run read-only in the clone: claim grep `R` prints 14 hits (Phase 1 removes them); the escaped agent-table loop prints exactly 30 `RED` lines (10 README files x 3 agents). Positive control: after rewriting the three README agent rows to `opus` in the clone, RED drops to 27, so the loop is meaningful and reaches 0 once Phase 1 lands on all ten files.
+- **M2-1 closed:** `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` prints exactly two lines today: `process/context/all-context.md:154` (`assets/ -- flowser-logo.svg`) and `:210` (the `withkynam/vibecode-pro-max-kit` URL note). Simulating B7 in the clone (line 154 -> "no vendored media", line 210 -> new repo URL): the grep prints nothing, `validate-all-context.mjs` exit 0, `discover-context.mjs --check-routing` exit 0. Lines 137/168 (`3.2.5`) and 179 are left alone as the plan says. `assets/` holds only `flowser-logo.svg` today, so after B3 it is empty (B7 wording covers it).
+- **Counts:** `grep -rIn "withkynam\|flowser" . --exclude-dir=.git --exclude-dir=process` = 245 hits in 27 files (unchanged); WhatsApp invite = 8 link lines in 7 files (`CONTRIBUTING.md:20`, five translations line 18, `welcome.yml:25` and `:32`) plus the doc phrase at `docs/GITHUB-SETTINGS.md:104`, matching the corrected plan text; `FUNDING.yml` appears only in `docs/GITHUB-SETTINGS.md` lines 66 and 125.
+- **Runtime and e2e baseline (saved text):** Linux `node` v22.23.4 present; `baseline/validators_before.tsv` row `e2e-kit-flows` = 1 (Linux node), and `validators_before.txt` records `# pass 2 / # fail 2` (A, B ok; C fails AC-5; D fails the cross-device clone on the drvfs checkout), i.e. the 2-of-4 baseline. In a native-fs scratch clone Trials A, B, D pass and C fails AC-5 (3/1). R2.6 is judged by the `compare.sh` row (rc 1, not worse), so both views are consistent.
+- **Resolver and other gates (unchanged, re-checked):** `bash -n install.sh` 0; REPO exact-string grep = 1; scratch resolver list identical at 3.2.5 and 1.0.0 after the shape rule; PyYAML parses the three workflow/template files; portability validator exit 0; Phase 1's workflow name loop exists in the Phase 1 Exit Gate (`for w in validate release ...`) so the Phase 2 ordering gate (B2b) reuses a real command.
 
 ### MUST-FIX / RESIDUAL classification
 
-MUST-FIX (2): M2-1 (process grep unsatisfiable, the two all-context.md lines are not in the Phase 2 claim), M2-2 (Exit Gate supplement line is not valid shell).
+MUST-FIX: 0 (M2-1 closed, M2-2 closed).
 RESIDUAL (6, none blocks a gate):
-- RES-1 Stale runtime wording: Entry Gate "Runtime: `node.exe` in this WSL unless the user installed Linux Node 22 (user action)", Exit Gate "`node` = `node.exe` without a Linux node", the R2.6 note and Verification row, and the Public Contracts line that sends the Linux re-run of R2.5 to the Phase 8 user-run list. Linux node now exists. The plan's own "unless" branch makes either runtime valid, so no gate breaks (see E1).
-- RES-2 R2.6 expected value (see above): judged by `compare.sh`, not by `echo $?` = 0.
-- RES-3 WhatsApp count "9" should read 8 link lines in 7 files plus the doc line.
-- RES-4 Verification row R2.12/R2.13 are Agent-Probe by nature (judgment); unchanged.
-- RES-5 `resolved_p2_start.node-exe.txt` proves the file set within node.exe only (Windows paths, broken exclude); a Linux list closes this now (E1).
-- RES-6 GitHub-side settings (K2-2).
+- RES-1 The R2.6 note and the Verification row say Trials A, B, D pass; on this drvfs checkout Trial D also fails (cross-device clone, Phase 8 A0 edit 4). No gate depends on it: R2.6 is judged by the `compare.sh` row (rc 1, not worse).
+- RES-2 The release.yml display-name ordering gate lives in B2b prose, not as a line of the Exit Gate block. Run it explicitly: `for f in $(find .claude -name 'validate-*.mjs' -not -path '*/fixtures/*'); do b=$(basename $f); grep -q "$b" .github/workflows/release.yml || echo "MISSING release $b"; done` must print nothing after the display-name edit.
+- RES-3 B7 targets lines 154 and 210 by number; Phase 1 rewrites line 179 (one paragraph) before Phase 2 starts, so re-read both lines by content (`sed -n '154p;210p'`) before editing, as B7 already says.
+- RES-4 Stale-version facts in `all-context.md` (lines 137 and 168, `3.2.5`) stay for UPDATE PROCESS; not gate-bearing.
+- RES-5 R2.12/R2.13 are Agent-Probe by nature (license and attribution review); R2.5 proves the file set within one runtime only (the real ubuntu install is Phase 8).
+- RES-6 Backlog notes written by this phase (`github-settings-user-run_NOTE`, and `upstream-community-links_NOTE` at UPDATE PROCESS) live under `process/`: they must not contain `withkynam`, `flowser` or the WhatsApp URL, or the R2.1b and R2.14 greps (and a later re-run) would print them.
 
 ### Plan updates applied
 
-None in this pass (validate-agent writes the contract only; MUST-FIX items go to the supplement request below).
+None (validate-agent writes the contract only; no MUST-FIX remained).
 
 ### Execute-agent instructions
 
-- E1. Runtime: both `node` (Linux 22.23.4) and `node.exe` exist. At the Entry Gate regenerate BOTH reference lists (`resolved_p2_start.node.txt` and `resolved_p2_start.node-exe.txt`) and run R2.5 for both pairs, never across runtimes; this proves the Linux file set now and retires the "Linux re-run belongs to Phase 8" hand-off for the resolver part (Phase 8 still owns the real ubuntu install). Any gate written as `node.exe` may be run with `node` against the matching file; record the runtime next to every result.
-- E2. Entry Gate order unchanged: after the Phase 1 commit and before any edit, write `baseline/p2_start.txt` and the resolver lists; record the delta proof (`1` and `1`).
+- E1. Runtime: both `node` (Linux 22.23.4) and `node.exe` exist. At the Entry Gate regenerate BOTH reference lists (`resolved_p2_start.node.txt`, `resolved_p2_start.node-exe.txt`), run R2.5 per pair, never across runtimes; record the runtime next to every result.
+- E2. Entry Gate order: after the Phase 1 commit and before any edit write `baseline/p2_start.txt` and the resolver lists; record the delta proof (`1` and `1`).
 - E3. Do NOT edit brand-detection lines (validator lines 8, 93, 97, 106, 118; vc-publish SKILL 216, 220, 238; vc-publish reference 134, 140, 163). Replace only URLs and handles.
 - E4. Tag every other intentionally remaining old-name line `upstream-attribution` (HTML comment in Markdown, `#` in shell/yaml, `//` in mjs).
 - E5. Do not vendor the tenor GIF or the Flowser logo; skillicons become a plain text list unless each icon's license is recorded.
-- E6. Delete `.github/FUNDING.yml`; fix `docs/GITHUB-SETTINGS.md` lines 66 and 125 in the same commit WITHOUT writing `FUNDING.yml` back ("no funding file").
+- E6. Delete `.github/FUNDING.yml`; fix `docs/GITHUB-SETTINGS.md` lines 66 and 125 in the same commit WITHOUT writing `FUNDING.yml` back.
 - E7. One regex replacement script (not line-number based) for the 9 README translations and the 5 CONTRIBUTING translations; no hand translation. Phase 1 owns the model-fact sites in README/i18n; leave them untouched.
 - E8. No GitHub API calls. Private reporting, Discussions and Sponsorship-off are user-run items in `docs/GITHUB-SETTINGS.md` and the backlog stub (`mkdir -p process/general-plans/backlog` first).
-- E9. Order C1 -> C2: never bump the version before the resolver fix is green at 3.2.5 (reproduced: bumping first empties the list).
-- E10. WhatsApp (B2c): remove the 6 bullets, the 2 `welcome.yml` passages and the `docs/GITHUB-SETTINGS.md:104` phrase; list the removal under "user decisions" in the report; write `process/general-plans/backlog/upstream-community-links_NOTE_29-10-26.md` at UPDATE PROCESS (replacement channel = user backlog item).
-- E11. Run the CORRECTED supplement gate (block under the Test gates table), not the broken line of the plan, until the plan is fixed.
-- E12. R2.6: run `node --test e2e-kit-flows.test.mjs`, record the TAP counts (`# pass` / `# fail`) and which Trial failed; baseline = Trial C only (A, B, D pass on native fs; D also fails on drvfs). Judge by the `compare.sh` row `e2e-kit-flows` (must not get worse than 1).
-- E13. If the supplement cycle adds `process/context/all-context.md` to the Phase 2 claim (M2-1), edit ONLY lines 154 and 210 (drop the deleted logo mention, replace the "URL not yet set" sentence with the new repo URL), and do it before running the `process/` grep; Phase 1's line 179 edit is committed before Phase 2 starts, and the stale `3.2.5` facts (lines 137, 168) are refreshed by the UPDATE PROCESS agent.
+- E9. Order C1 -> C2: never bump the version before the resolver fix is green at 3.2.5.
+- E10. WhatsApp (B2c): remove the 6 bullets, the 2 `welcome.yml` passages and the `docs/GITHUB-SETTINGS.md:104` phrase; list the removal under "user decisions" in the report; replacement channel is a user backlog item.
+- E11. B7: edit ONLY the two `all-context.md` lines, before the `process/` grep, then run the `process/` grep, `validate-all-context.mjs` and `--check-routing`.
+- E12. R2.6: run `node --test e2e-kit-flows.test.mjs`, record `# pass` / `# fail` and which Trial failed; judge by the `compare.sh` row `e2e-kit-flows` (must not get worse than 1).
+- E13. Run the release.yml ordering gate of RES-2 after the display-name edit; run both Exit Gate blocks with `bash -n` first.
 
-### Test gates
+### Test gates (C3 5-column table)
 
-Test context: `process/context/tests/all-tests.md` now exists (Phase 0); tiers re-checked against it and the saved baselines. Expected values are for AFTER the phase.
+Test context: `process/context/tests/all-tests.md`; tiers re-checked against it and the saved baselines. Expected values are for AFTER the phase.
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
-| C-P2 (R2.1) | old identity replaced everywhere except tagged attribution and the 11 brand-detection lines; `process/` stays clean | Fully-Automated | the R2.1 pipeline in the Exit Gate prints nothing (5 markers incl. `flowser\|tRPC`); PLUS `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` prints nothing. The second command prints 2 lines TODAY (all-context.md:154, :210) and is satisfiable only after M2-1 is fixed | B (M2-1 MUST-FIX open) |
-| C-P2 (R2.2) | display name `vibecode-pro-max-kit` gone outside attribution | Fully-Automated | Exit Gate R2.2 pipeline prints nothing (36 hit files all owned) | A |
-| C-P2 (R2.3) | no tenor/skillicons hotlinks, referenced local assets exist, logo gone | Fully-Automated | Exit Gate R2.3 lines (nothing; nothing; `gone`) | A |
-| C-P2 (R2.4) | version 1.0.0 in manifest, README badge, CHANGELOG with fork origin | Fully-Automated | manifest version = `1.0.0`; `grep -c 'version-1.0.0' README.md` = 1; `grep -c '^## \[1.0.0\]' CHANGELOG.md` = 1; `grep -c 'upstream-baseline' CHANGELOG.md` >= 1 | A |
-| C-P2 (R2.5) | version reset does not change which files the installer ships (within one runtime) | Fully-Automated | resolver list of the SAME runtime diffed against `resolved_p2_start.<runtime>.txt` prints nothing; `--json` `files.length>0` = `true` (reproduced with Linux node in the scratch clone: identical at 3.2.5 and at 1.0.0) | A |
-| C-P2 (R2.6) | installer and updater work end to end | Hybrid | `node --test e2e-kit-flows.test.mjs`; precondition bash, git, node 22; baseline = 3 pass / 1 fail (Trial C, Phase 6 B4); judged by `compare.sh` row `e2e-kit-flows` not worse than 1; R2.5 + R2.7 carry the automated part | D (residual; Phase 6 fixes Trial C, Phase 8 native-Linux run) |
-| C-P2 (R2.7) | installer points to the new repo and stays valid shell | Fully-Automated | exact-string REPO grep = 1; `bash -n install.sh` = 0; new URL count >= 1 in the 3 skill files | A |
-| C-P2 (R2.8) | portability validator green and unchanged | Fully-Automated | validator exit 0 (both runtimes today); `git diff $P2_START -- $VAL` prints nothing | A |
-| C-P2 (R2.9) | security reporting uses the GitHub advisory link in 6 files, no `mailto:` | Fully-Automated | Exit Gate R2.9 loops print nothing | A |
-| C-P2 (R2.10) | FUNDING file gone, nothing points at it | Fully-Automated | `gone`; `grep -rn "FUNDING.yml" . --exclude-dir=.git --exclude-dir=process` prints nothing (2 hits today: GITHUB-SETTINGS 66, 125) | A |
-| C-P2 (R2.11) | workflow YAML parses; whitespace clean; suite not worse than the Phase 0 baseline | Fully-Automated | PyYAML `ok` for the 3 files; `git diff --check $P2_START -- . ":!$P"` prints nothing; `bash $B/compare.sh; echo $?` = `0` | A |
+| C-P2 (R2.1, R2.1b) | old identity replaced except tagged attribution and the 11 brand-detection lines; `process/` stays clean | Fully-Automated | R2.1 pipeline prints nothing (5 markers incl. `flowser\|tRPC`); `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` prints nothing after B7 (2 lines today, simulated to 0); `validate-all-context.mjs` and `--check-routing` exit 0 | B (B7 closes M2-1) |
+| C-P2 (R2.2) | display name `vibecode-pro-max-kit` gone outside attribution | Fully-Automated | R2.2 pipeline prints nothing | A |
+| C-P2 (R2.3) | no tenor/skillicons hotlinks, local assets exist, logo gone | Fully-Automated | R2.3 lines (nothing; nothing; `gone`) | A |
+| C-P2 (R2.4) | version 1.0.0 in manifest, README badge, CHANGELOG with fork origin | Fully-Automated | manifest `1.0.0`; `grep -c 'version-1.0.0' README.md` = 1; `grep -c '^## \[1.0.0\]' CHANGELOG.md` = 1; `grep -c 'upstream-baseline' CHANGELOG.md` >= 1 | A |
+| C-P2 (R2.5) | version reset does not change the shipped file set (per runtime) | Fully-Automated | resolver list diffed against `resolved_p2_start.<runtime>.txt` prints nothing; `--json` `files.length>0` = `true` | A |
+| C-P2 (R2.6) | installer and updater work end to end | Hybrid | `node --test e2e-kit-flows.test.mjs`; baseline 2 pass / 2 fail on the drvfs checkout (C = Phase 6 B4, D = Phase 8 A0 edit 4); judged by `compare.sh` row `e2e-kit-flows` not worse than 1; R2.5 + R2.7 carry the automated part | D (residual; Phase 6 fixes C, Phase 8 fixes D and runs the native-Linux proof) |
+| C-P2 (R2.7) | installer points to the new repo, valid shell | Fully-Automated | REPO exact-string grep = 1; `bash -n install.sh` = 0; new URL count >= 1 in the 3 skill files | A |
+| C-P2 (R2.8) | portability validator green and unchanged | Fully-Automated | validator exit 0; `git diff $P2_START -- $VAL` prints nothing | A |
+| C-P2 (R2.9) | security reporting uses the GitHub advisory link in 6 files, no `mailto:` | Fully-Automated | R2.9 loops print nothing | A |
+| C-P2 (R2.10) | FUNDING file gone, nothing points at it | Fully-Automated | `gone`; `grep -rn "FUNDING.yml" . --exclude-dir=.git --exclude-dir=process` prints nothing (2 hits today) | A |
+| C-P2 (R2.11) | workflow YAML parses; whitespace clean; suite not worse than baseline | Fully-Automated | PyYAML `ok`; `git diff --check $P2_START -- . ":!$P"` prints nothing; `bash $B/compare.sh; echo $?` = 0; release.yml ordering gate (RES-2) prints nothing | A |
 | C-P2 (R2.14) | the old owner's WhatsApp invite is gone | Fully-Automated | `grep -rn "chat.whatsapp.com" . --exclude-dir=vibebelt-rebrand_29-10-26 --exclude-dir=.git` prints nothing (8 lines in 7 files today) | A |
-| C-P2 (Phase 1 text kept) | this phase does not restore Phase 1's corrected model claims | Fully-Automated | the CORRECTED supplement gate block below prints nothing at phase exit; the plan's own line 2 is invalid shell (M2-2) | B (M2-2 MUST-FIX open) |
-| C-P2 (R2.12) | replaced images are legally safe, README and translations look right | Agent-Probe | reviewer opens README and each translation header, no broken image, lists the license of every file added to `assets/` (or "none vendored") | A |
-| C-P2 (R2.13) | remaining old-name lines are real attribution | Agent-Probe | reviewer reads every `upstream-attribution` line in the report; lists the removed WhatsApp lines for the user | A |
-
-Corrected supplement gate (use this until the plan block is fixed; first line is unchanged, second line escapes the backticks; paste into a script file, `bash -n` passes):
-
-```bash
-R='EXECUTE = opus; every other phase|only (the )?(EXECUTE|coding|code-writing)|every other phase = sonnet|all other vc-agents sonnet|EXECUTE only|only (the )?\*coding\* agent|opus ONLY|\(sonnet\)|expensive model only writes|premium AI model only'
-grep -rnIE "$R" CLAUDE.md AGENTS.md process/development-protocols/orchestration.md process/development-protocols/implementation-standards.md process/development-protocols/*system-behavior/0[478]-*.md .claude/skills/v[cb]-agent-strategy-compare/SKILL.md process/context/all-context.md README.md   # Expected: no output
-for f in README.md docs/i18n/README.*.md; do for a in research plan validate; do grep -E "^\| [^|\`]*\`v[cb]-${a}-agent\` \|" $f | grep -qE "^\| [^|]*\| \*{0,2}opus\*{0,2} \|" || echo "RED $f $a"; done; done   # Expected: no output
-```
+| C-P2 (Phase 1 text kept) | this phase does not restore Phase 1's corrected model claims | Fully-Automated | the Exit Gate supplement block prints nothing at phase exit (runs; claim grep 14 hits and 30 RED today, both go to 0 with Phase 1) | A (M2-2 closed) |
+| C-P2 (R2.12) | replaced images legal, README and translations look right | Agent-Probe | reviewer opens README and each translation header; no broken image; lists the license of every file in `assets/` (or "none vendored") | A |
+| C-P2 (R2.13) | remaining old-name lines are real attribution | Agent-Probe | reviewer reads every `upstream-attribution` line; lists the removed WhatsApp lines for the user | A |
 
 Failing stubs (Fully-Automated rows; red-first starting points, not on-disk test files):
 
@@ -364,10 +347,10 @@ test("should keep the Phase 1 model-claim grep empty at phase exit", () => { thr
 ```
 
 Legacy line form (kept for existing consumers):
-- identity grep: [Fully-automated: R2.1 pipeline + `process/` grep print nothing; the `process/` grep needs M2-1 fixed]
+- identity grep: [Fully-automated: R2.1 pipeline + R2.1b `process/` grep print nothing after B7]
 - images: [Fully-automated: R2.3] | [agent-probe: licenses recorded]
 - version: [Fully-automated: manifest/README/CHANGELOG 1.0.0 + resolver equivalence per runtime]
-- installer contract: [hybrid: `node --test e2e-kit-flows.test.mjs` judged by compare.sh + `bash -n install.sh`] | [known-gap: e2e Trial C (Phase 6 B4) and native-Linux/macOS/Windows runs, Phase 8 user-run]
+- installer contract: [hybrid: `node --test e2e-kit-flows.test.mjs` judged by compare.sh + `bash -n install.sh`] | [known-gap: e2e Trial C (Phase 6 B4), Trial D (Phase 8 A0), native Linux/macOS/Windows runs (Phase 8 user-run)]
 - security/funding/whatsapp: [Fully-automated: R2.9, R2.10, R2.14]
 - known-gap: GitHub-side settings (Discussions, private reporting, sponsorship off) and live badges/links cannot be tested before the repo exists: known-gap: documented as NEW PLAN REQUIRED — see backlog stub `process/general-plans/backlog/github-settings-user-run_NOTE_29-10-26.md` (Phase 8 user-run steps)
 
@@ -375,42 +358,38 @@ High-risk class: yes (installer/update distribution contract and the legal notic
 
 ### Dimension findings
 
-- Infra fit: CONCERN — runtime and resolver mechanics verified (Linux and node.exe), but `process/context/all-context.md` holds 2 old-identity hits (lines 154, 210) that no Phase 2 claim covers (M2-1).
-- Test coverage: CONCERN — R2.1..R2.14 reproduce as satisfiable except the `process/` grep (M2-1) and the Phase 1 supplement gate, whose second line is not valid shell (M2-2); R2.6 is a named Hybrid residual.
-- Breaking changes: PASS — resolver chosen by manifest shape is behavior-neutral at 3.2.5 and at 1.0.0 (reproduced); manifest schema, flags and file set unchanged; downgrade warning for upstream 3.x users is recorded in the CHANGELOG plan.
+- Infra fit: PASS — runtime, resolver, workflow files and `all-context.md` lines 154/210 match the plan; B7 simulated clean (validate-all-context 0, check-routing 0).
+- Test coverage: PASS — every gate runs (both Exit Gate blocks pass `bash -n`; escaped loop prints 30 RED with a positive control); R2.6 is a named Hybrid residual.
+- Breaking changes: PASS — resolver chosen by manifest shape is behavior-neutral at 3.2.5 and 1.0.0; manifest schema, flags and file set unchanged; downgrade warning recorded for upstream 3.x users.
 - Security surface: PASS — GitHub private advisories, no invented email, `@withkynam` mentions replaced, WhatsApp invite removed, no vendored media, no API calls.
-- Section A (Inventory): PASS — 245 hits / 27 files and 36 display-name files match the Blast Radius.
-- Section B (Replace identity): CONCERN — scope is complete for kit files but misses `process/context/all-context.md` lines 154 and 210 (M2-1).
-- Section C (Resolver, version, origin): PASS — C1 before C2 verified by reproduction.
-- Section D (User-only settings): PASS — three items in GITHUB-SETTINGS and a backlog stub.
-- Section E (Report): PASS — attribution list, asset licenses, hand-off lines, user-decision list.
-- Exit Gate: CONCERN — supplement block line 2 is not runnable (M2-2).
+- Section A (Inventory): PASS — 245 hits / 27 files and the display-name files match the Blast Radius.
+- Section B (Replace identity, incl. B7): PASS — scope now complete including the two `all-context.md` lines.
+- Section C (Resolver, version, origin): PASS — C1 before C2.
+- Section D (User-only settings): PASS.
+- Section E (Report): PASS.
+- Exit Gate: PASS — runnable end to end.
 
-Net gate derivation: Layer 1 = 0 FAIL / 2 CONCERN / 2 PASS; Layer 2 = 0 FAIL / 2 CONCERN / 4 PASS. Totals 0 FAIL / 4 CONCERN (2 distinct MUST-FIX: M2-1, M2-2) / 6 PASS. MUST-FIX count: 2. RESIDUAL: 6 (RES-1..RES-6) plus Known-Gaps K2-1, K2-2. Net gate: CONDITIONAL. Vacuous-green check: every developed behavior has a Fully-Automated or Hybrid gate; R2.12/R2.13 are Agent-Probe for judgment only; R2.6 is a named residual, never the sole proof (R2.5 and R2.7 prove the distribution contract).
-
-SUPPLEMENT REQUEST:
-- Gap 1: Section blast-radius (also implementation-checklist, step B0b/E9 and the registry Phase 2 claim) | Concern: `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` prints 2 lines (`process/context/all-context.md:154` and `:210`) the file is Phase 0 output and is not in the Phase 2 claim, so the promised "prints nothing" gate is unsatisfiable or forces an out-of-claim edit (the umbrella ownership table already gives lines 154 and 210 to Phase 2, hand-off H1) | Severity: MUST-FIX | Suggested addition: add `process/context/all-context.md` (lines 154 and 210 ONLY) to the Phase 2 group (b) claim in the plan and the registry, add checklist item B7 "edit those two lines before the `process/` grep: drop the deleted `flowser-logo.svg` mention (line 154), replace the 'URL not yet set / still point at upstream' sentence (line 210) with the new repo URL" (the version facts at lines 137 and 168 stay for UPDATE PROCESS), and put the `process/` grep into the Exit Gate code block as an explicit R2.1b line.
-- Gap 2: Section exit-gate | Concern: the Phase 1 claim-grep supplement block copied into the Exit Gate has unescaped backticks inside double quotes on its second line (`for f in README.md ...; grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" ...`); `bash -n` fails (`unexpected EOF while looking for matching`), so the block cannot run as pasted | Severity: MUST-FIX | Suggested addition: replace that line with the corrected line in the contract (backticks escaped as `\``, identical to Phase 1's R1.12 line); note the same defect exists in the Phase 4 and Phase 7 plans.
-- Gap 3 (RESIDUAL, fix in the same edit, not a gate): Section entry-gate / exit-gate / public-contracts / verification-evidence | Concern: stale runtime wording ("`node.exe` in this WSL unless the user installed Linux Node 22 (user action)", "Linux Node 22 is a user action", "the Linux re-run of R2.5 belongs to Phase 8") although Linux node v22.23.4 is installed; "9 link lines" for WhatsApp is 8 link lines in 7 files | Severity: CONCERN (RESIDUAL) | Suggested addition: state that Linux `node` exists, that R2.5 is run per runtime (E1), and correct the count.
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 6 PASS. MUST-FIX 0; RESIDUAL 6 (RES-1..RES-6) plus Known Gaps K2-1, K2-2. Net gate: PASS. Vacuous-green check: every developed behavior has a Fully-Automated or Hybrid gate; R2.12/R2.13 are Agent-Probe for judgment only; R2.6 is a named residual, never the sole proof (R2.5 and R2.7 prove the distribution contract).
 
 Open gaps:
-- M2-1 and M2-2 (MUST-FIX, in the SUPPLEMENT REQUEST above).
-- K2-1: R2.6 e2e install/update: known-gap: documented as NEW PLAN REQUIRED — covered by Phase 6 B4 (Trial C) and the Phase 8 user-run list (native Linux, macOS, Windows), see the Phase 0 report K0-1
+- none blocking.
+- K2-1: R2.6 e2e install/update: known-gap: documented as NEW PLAN REQUIRED — covered by Phase 6 B4 (Trial C), Phase 8 A0 edit 4 (Trial D) and the Phase 8 user-run list (native Linux, macOS, Windows)
 - K2-2: GitHub-side settings and live links: known-gap: documented as NEW PLAN REQUIRED — see backlog stub `process/general-plans/backlog/github-settings-user-run_NOTE_29-10-26.md`
-- K2-3: CLOSED by user decision (WhatsApp invite removed, R2.14). Residual: no replacement community channel; backlog item for the user in `process/general-plans/backlog/upstream-community-links_NOTE_29-10-26.md` (written at UPDATE PROCESS)
+- K2-3: CLOSED by user decision (WhatsApp invite removed, R2.14); a replacement community channel is a user backlog item (`upstream-community-links_NOTE_29-10-26.md`, written at UPDATE PROCESS)
 
 What This Coverage Does NOT Prove:
-- R2.1/R2.2 prove no untagged old-name line remains; not that the new links resolve (the GitHub repo does not exist yet; badges, advisories and Discussions stay dead until Phase 8 and the user's push). They do not find other upstream identity carrying neither name.
+- R2.1/R2.2 prove no untagged old-name line remains; not that the new links resolve (the GitHub repo does not exist yet). They do not find other upstream identity carrying neither name.
 - R2.3 proves local files exist; not that they render or are legally reusable (R2.12 samples that by judgment).
-- R2.5 proves the resolver output is unchanged within one runtime; it does not prove a real ubuntu install ships the same files (Phase 8 install test and CI do).
-- R2.6 in this environment is red for an unrelated reason (Trial C); nothing here proves Windows Git Bash, macOS, or a real network install.
+- R2.5 proves the resolver output is unchanged within one runtime; it does not prove a real ubuntu install ships the same files (Phase 8 and CI do).
+- R2.6 here proves nothing beyond the baseline (2 of 4 on drvfs); nothing proves Windows Git Bash, macOS, or a real network install.
 - R2.7 proves syntax and the URL string, not that `curl ... | bash` from GitHub works.
 - R2.9 proves the link text; not that GitHub private reporting is switched on.
 - R2.11 depends on the Phase 0 compare script and its `.agents/skills` handling (validate-skills and validate-context-discovery stay red under drvfs in both baselines).
 - The Phase 1 claim grep proves the quoted phrases are absent, not that no other false model claim exists.
 
-Gate: CONDITIONAL (0 FAIL / 2 MUST-FIX open / 6 RESIDUAL; PVL cycle 5). EXECUTE is NOT legal on this contract until the MUST-FIX items are closed by a supplement cycle and a re-validation from V1 returns 0 MUST-FIX. Signal: do NOT emit `PHASE_COMPLETE: VALIDATE`; emit the SUPPLEMENT REQUEST above and the handoff block (`Gate: CONDITIONAL`). The orchestrator spawns vc-plan-agent (PVL-supplement) and appends the iteration-5 row to `results.tsv` (the mechanical count `wc -l < results.tsv` = 6 would otherwise satisfy gate (b) numerically, but open MUST-FIX items outrank it).
-Accepted by: not accepted; no user acceptance is claimed. Known-Gaps K2-1 and K2-2 and RES-1..RES-6 are recorded as named residuals.
+Autonomous Goal Block: not written here (BRANCH B: the umbrella plan carries `## Stable Program Goal`, so the umbrella /goal governs).
+Gate: PASS (0 FAIL / 0 MUST-FIX / 6 RESIDUAL; PVL cycle 6). Signal: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 5 validate-fix loop(s)). Proceed to EXECUTE.` is legal (condition (a) Gate = PASS; `results.tsv` also has the cycle rows). EXECUTE still starts only after the Phase 1 exit gate is green and the user's EXECUTE command / the /goal block.
+Accepted by: not applicable (PASS, no CONDITIONAL concerns); Known-Gaps K2-1, K2-2 and RES-1..RES-6 are recorded as named residuals.
 
 ### Supplement cycle 1 (29-10-26)
 

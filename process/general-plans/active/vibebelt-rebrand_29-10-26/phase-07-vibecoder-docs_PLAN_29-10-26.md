@@ -243,21 +243,22 @@ instructions / Test gates) is treated as a placeholder.
 
 ## Validate Contract
 
-Status: CONDITIONAL
+Status: PASS
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 4, Gate: PASS, 0 MUST-FIX) — PVL cycle 5 re-validated from V1 against the real repo after the 2026-10-29 ripple supplement (model-fact claim-grep gate, model labels); this contract and its notes REPLACE the cycle-4 contract entirely (same calendar date, ordering is by PVL cycle: 5 follows 4); M7-1 stays closed; 1 NEW MUST-FIX (M7-2); 6 RESIDUALs carried
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 5, Gate: CONDITIONAL, 1 MUST-FIX M7-2) — PVL cycle 6 re-validated from V1 against the real repo after the cycle-5 supplement; this contract REPLACES the cycle-5 contract entirely (same calendar date, ordering is by PVL cycle: 6 follows 5). M7-1 and M7-2 are verified CLOSED; 0 NEW MUST-FIX; 6 RESIDUALs carried. The "Validate-contract status" line in Resume and Execution Handoff still quotes the cycle-5 CONDITIONAL text; this contract governs.
+
+V1 line: `V1 RE-VALIDATE TRIGGERED: the cycle-5 supplement (escaped README agent-table loop in the Exit Gate, vb- agent names in Phase Loop Progress steps 1 and 3) was applied after the cycle-5 CONDITIONAL contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the supplement as newer. V1 AUTO-PROCEED does not apply.`
 
 Parallel strategy: sequential chain (a-EN -> b -> a-VI) with group (c) and the banners beside it
-Rationale: Signals S4 and S7 = 2/7 (MEDIUM), dominant signal S7. The ordering is sound: fire-and-forget subagents cannot share the term list or the final English text, so the dependent chain stays sequential; agent wording and the 8 banners run in parallel on disjoint files. Models: named agents run on their own front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet); opus for the implementer of group (c). Note on this run: Layer 1 + Layer 2 checks were executed inline and sequentially by one validate agent (no spawn tool available); every finding comes from real greps, `bash -n` runs of the plan's gate blocks and reads on the real repo with Linux Node v22.23.4; the repo was not modified.
+Rationale: Signals S4 and S7 = 2/7 (MEDIUM), dominant signal S7. Fire-and-forget subagents cannot share the term list or the final English text, so the dependent chain stays sequential; agent wording and the 8 banners run in parallel on disjoint files. Models: named agents run on their own front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet); opus for the implementer of group (c). Note on this run: Layer 1 + Layer 2 checks ran inline and sequentially by one validate agent (no spawn tool); findings come from real greps, `bash -n` runs of the plan's gate blocks and read-only runs in a scratch clone of HEAD 41b24eb under the scratchpad; the project tree was not modified. Prior verdicts were not trusted.
 
-Evidence re-gathered in cycle 5 (29-10-26; prior verdicts not trusted):
-- NEW defect M7-2 (an Exit Gate command cannot run): the agent-table loop added by the ripple supplement, `grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" $f`, puts unescaped backticks inside a double-quoted string, so bash treats them as command substitution. Extracting the Exit Gate code blocks and running `bash -n` gives `unexpected EOF while looking for matching ``'` (exit 2) on that line; the Phase 6 and Phase 8 exit blocks pass `bash -n`. Phase 1's identical gate (R1.12) escapes them (`[^|\`]*\`vc-${a}-agent\``). With the backticks escaped the gate is satisfiable: it prints 30 RED lines today (10 README files x 3 agents), exactly Phase 1's number, so it goes to zero once Phase 1 lands. The cycle-4 PASS predates this block.
-- Rest of the new supplement gate re-run on the real tree: the claim grep `R` over the listed files prints 14 hits today (Phase 1's number; Phase 1 removes them); the glob `*system-behavior/0[478]-*.md` and `v[cb]-agent-strategy-compare` match both spellings; the cost-percentage grep matches all ten README files today, including the Japanese `60〜70%` (via `60.70`), so it is a real check, expected to be empty after Phase 1; the facts it guards are correct on disk: 7 agents `model: opus`, 8 `model: sonnet`.
-- Unchanged facts re-checked: `install.sh` line 11 `REPO=` matches the check-3 regex (line 16 does not); README lines 148 and 221 and `README.vi-VN.md` lines 146 and 219 hold the bare `curl -fsSL ... | bash` lines (still the old owner today, Phase 2 rewrites them); no `may be outdated` anywhere; the 9 translated READMEs exist with the pinned names; `docs/QUICKSTART.md`, `docs/GLOSSARY.md` and the two VI docs do not exist yet (new files); `## Plain-Language Gate Rendering` occurs once in `orchestration.md` and the Entry Gate awk extracts 24 lines; Linux Node 22.23.4 is available, so the F1 walkthrough sandbox on the Linux filesystem and `install.sh`'s Node >= 22 preflight both work (verified by a scratch install from the real checkout).
-- Cross-plan: the Phase 3 plan still pins `$G/signal-census.mjs` and `$G/signal-census-phase3.txt` with prefix-stripped keys; Phase 6 C3b still produces `harness/compare-vb.sh`; the registry Phase 7 line still lists the VI files, `scripts/check-docs.mjs`, its fixtures and `harness/phase7-*`; no file claimed here is claimed by another phase. Phase 6 keeps the Phase 1 model facts and README rows intact (protected task folder holds `golden/`, `eq/`, `baseline/`, `harness/`).
-- Plan structure validator on this plan: 0 failures (2 advisory legacy-shape warnings).
+Evidence gathered in cycle 6 (29-10-26):
+- **Structure:** `validate-plan-artifact.mjs` exit 0, 0 failures (2 advisory legacy-shape warnings).
+- **M7-2 closed:** all three Exit Gate fenced blocks of the supplement gate (claim grep + escaped README agent-table loop; cost-percentage grep; main gate block) and the other Exit Gate blocks pass `bash -n` (rc 0 for each of the 3 blocks). Run read-only in the clone: the claim grep prints 14 hits (Phase 1 removes them), the escaped loop prints exactly 30 `RED` lines (10 files x 3 agents) and drops to 27 after rewriting the three README agent rows to `opus` (positive control), so it is a real check that reaches 0 after Phase 1. The loop line is the same as in the Phase 2 and Phase 4 plans and accepts both `vc-` and `vb-` (`v[cb]-`).
+- **Phase Loop Progress:** steps 1 and 3 now name `vb-research-agent` / `vb-plan-agent` (R7-5 resolved in text); the validate-contract boilerplate paragraph still names `vc-validate-agent` (cosmetic, protected-task-folder text).
+- **Cross-plan coherence re-read:** the Phase 3 plan still pins `$G/signal-census.mjs`, `$G/signal-census-phase3.txt`, `$G/pointer-check.mjs` in the task folder; Phase 6 C3b still produces `harness/compare-vb.sh`; the registry Phase 7 line lists the VI files, `scripts/check-docs.mjs`, its fixtures and `harness/phase7-*`; no file claimed here is claimed by another phase. `install.sh` line 11 `REPO=` matches the check-3 regex (line 16 does not).
 
 Test gates (C3 5-column table):
 
@@ -269,7 +270,7 @@ Test gates (C3 5-column table):
 | C-P7-d | One identical install command everywhere, no untagged old-owner string | Fully-Automated | `check-docs.mjs` check 3 (tagged `upstream-attribution` line exempt; fixture pair in `--self-test`) | B |
 | C-P7-e | Signal strings untouched (agent prompts via the Phase 3 census; `orchestration.md` section by multiset) | Fully-Automated | `check-docs.mjs` check 4 (a) and (b) | B |
 | C-P7-f | Quick start <= 1000 words and every term defined | Fully-Automated | `check-docs.mjs` check 2 | B |
-| C-P7-model | Phase 1 model facts kept and no unmeasured cost percentage reintroduced (7 opus / 8 sonnet, research/plan/validate README rows = opus, claim grep empty) | Fully-Automated | Exit Gate supplement block: claim grep `R` over 9 files (no output), README agent-table loop over 10 files (no output; backticks MUST be escaped), cost-percentage grep (no output) | B - see SUPPLEMENT REQUEST M7-2 |
+| C-P7-model | Phase 1 model facts kept and no unmeasured cost percentage reintroduced (7 opus / 8 sonnet, research/plan/validate README rows = opus, claim grep empty) | Fully-Automated | Exit Gate supplement blocks: claim grep `R` over 9 files (no output), escaped README agent-table loop over 10 files (no output), cost-percentage grep (no output) | A (M7-2 closed) |
 | C-P7-h | Agent prose edits keep behavior (mechanical invariants + pointers) | Fully-Automated | `check-docs.mjs` check 5 + `$NODE $G/pointer-check.mjs` | B |
 | C-P7-h2 | Reworded agent sentences mean the same | Agent-Probe | saved diffs read by a fresh `vb-code-reviewer`; verdict in the report | C (judgment only) |
 | C-P7-scope | Nothing outside the claimed files changed (committed + staged + untracked) | Fully-Automated | Exit Gate scope gate vs `$H/phase7-base-sha.txt`, 12-file floor | B |
@@ -297,26 +298,27 @@ Legacy line form (retained so existing consumers still parse):
 
 Dimension findings:
 - Infra fit: PASS — census paths, helper reuse, kitOnly placement and Linux Node availability match the other plans and the real host.
-- Test coverage: CONCERN — M7-2 (the README agent-table loop in the new supplement gate is a bash syntax error, so one model-fact gate cannot run). Checks 1-5, scope gate and banner loop are sound; M7-1 stays closed.
+- Test coverage: PASS — M7-2 closed (the supplement gate runs); checks 1-5, scope gate and banner loop sound.
 - Breaking changes: PASS — documentation and prose only; install command, flags and signal strings unchanged.
 - Security surface: PASS — a pure-script checker; the only security-relevant text is the `curl | bash` line, pinned by check 3.
-- Section A/B (README top, quick start, glossary): PASS — markers, term list format and install-line derivation are mechanical.
+- Section A/B (README top, quick start, glossary): PASS.
 - Section C (messages): PASS — invariants, pointer-check, reviewer pass (cross-phase note R7-6).
-- Section D (languages): PASS — banner loop verified runnable against the real file names.
+- Section D (languages): PASS.
 - Section E/F (Vietnamese, walkthrough): PASS — pinned names; residuals named with a backlog stub.
-- Exit Gate supplement block (model facts): CONCERN — M7-2 only; the claim grep and the percentage grep run and behave as stated.
+- Exit Gate supplement block (model facts): PASS — claim grep, escaped loop and percentage grep run and behave as stated.
+
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 5 PASS. MUST-FIX 0. RESIDUAL 6 (R7-1..R7-4, R7-6, RES-A). Net gate: PASS. Vacuous-green check: every developed behavior has a Fully-Automated gate or a probe; the Vietnamese wording and real-user walkthrough are named Known Gaps, never the sole proof.
 
 Open gaps:
-- MUST-FIX: M7-2 escape the backticks in the README agent-table loop of the Exit Gate (copy Phase 1's R1.12 form).
-- RESIDUAL (not counted as CONCERN/FAIL; carried as Known Gaps below): R7-1, R7-2, R7-3 (resolved in text), R7-4, R7-5, R7-6.
+- none blocking; Known Gaps below.
 
 Known Gaps (RESIDUAL, bounded, each with a backlog stub or named owner; excluded from the gate count):
-- R7-1 known-gap: Vietnamese wording is not native-reviewed (structure is machine-checked only); backlog stub `vi-native-review_NOTE_29-10-26.md` (step E1); English is not blocked.
+- R7-1 known-gap: Vietnamese wording is not native-reviewed (structure machine-checked only); backlog stub `vi-native-review_NOTE_29-10-26.md` (step E1); English is not blocked.
 - R7-2 known-gap: an agent walkthrough is not a real non-coder and uses a local source; the real public-URL install is proven only in Phase 8 after the user approves publishing.
-- R7-3 known-gap (resolved in text, kept for the record): GLOSSARY files need no install line; only README top and QUICKSTART (EN and VI) must have one; the executor records the choice in the report.
-- R7-4 known-gap (NEW): the claim grep alternative `all other vc-agents sonnet` matches only the `vc-` spelling, so after the rename that one phrase is no longer guarded (the other nine alternatives are spelling-neutral; the Phase 1 gate covers the pre-rename tree). Cosmetic; widen to `v[cb]-agents` when the plan is next edited.
-- R7-5 known-gap (NEW): Phase Loop Progress steps 1 and 3 name `vc-research-agent` / `vc-plan-agent` and the boilerplate names `vc-validate-agent`, although this phase runs after the Phase 6 restart (steps 4-7 correctly use `vb-*`; the task folder is rename-protected, so the text stays). The orchestrator spawns the `vb-*` equivalents; cosmetic.
-- R7-6 known-gap (NEW, cross-phase): C1 allows rewording sentences in agents; check 5 guards backticks, paths, numbers and headings but not the plain sentences inside the guardrail sections that Phase 3's `guardrails.json` freezes. If a guardrail section body is reworded, Phase 8 B4.6(d) (guardrail identity modulo the rename) will report a mechanical difference, which the user can accept in chat per B4.7. Mitigation to keep in mind at EXECUTE: leave sections whose headings appear in `golden/guardrails.json` untouched, or record each such change in the phase report.
+- R7-3 known-gap (resolved in text): GLOSSARY files need no install line; only README top and QUICKSTART (EN and VI) must have one.
+- R7-4 known-gap: the claim grep alternative `all other vc-agents sonnet` matches only the `vc-` spelling, so after the rename that one phrase is no longer guarded (nine other alternatives are spelling-neutral); cosmetic, widen to `v[cb]-agents` when the plan is next edited.
+- R7-6 known-gap (cross-phase): C1 allows rewording sentences in agents; check 5 guards backticks, paths, numbers and headings but not plain sentences inside the guardrail sections that Phase 3's `guardrails.json` freezes. A reworded guardrail section shows as a Phase 8 B4.6(d) difference the user can accept in chat (B4.7). Mitigation: leave sections whose headings appear in `golden/guardrails.json` untouched or record each change.
+- RES-A (new, cosmetic): the validate-contract boilerplate paragraph in Phase Loop Progress and the handoff status line still name `vc-validate-agent` / quote the cycle-5 CONDITIONAL text; the orchestrator spawns the `vb-*` equivalents and this contract governs.
 
 What This Coverage Does NOT Prove:
 - Heading-parity script: equal structure, not that the Vietnamese is accurate or natural.
@@ -333,18 +335,13 @@ Execute-agent instructions:
 - E3: When editing an agent `.md`, edit its `.codex/agents/vb-*.toml` mirror in the same step and run the parity validator before moving on.
 - E4: Mark the install command "verified in Phase 8" until Phase 8 proves it.
 - E5: Record the Phase 6 (post Phase-6 UPDATE PROCESS) HEAD SHA at entry and use it as the scope-gate base.
-- E6: Run the README agent-table loop with escaped backticks (`\``) exactly as Phase 1 R1.12 writes it; run `bash -n` on the gate block before relying on it.
-- E7: Do not reword the sections listed for an agent in `golden/guardrails.json` unless the phase report records it (see R7-6).
+- E6: Run `bash -n` on each Exit Gate block before relying on it (all pass today); the README agent-table loop keeps its escaped backticks.
+- E7: Do not reword the sections listed for an agent in `golden/guardrails.json` unless the phase report records it (R7-6).
 
-Plan updates applied: none (outer PVL; changes requested through the SUPPLEMENT REQUEST below).
+Plan updates applied: none (no MUST-FIX remained).
 Autonomous Goal Block: not written here (BRANCH B: the umbrella plan carries `## Stable Program Goal`, so the umbrella /goal governs).
-Gate: CONDITIONAL (0 FAILs; 1 MUST-FIX CONCERN M7-2; 6 RESIDUAL known-gaps)
-Accepted by: none — no concern is accepted; PHASE_COMPLETE: VALIDATE is not emitted. Named concern: M7-2 the README agent-table loop in the Exit Gate has unescaped backticks inside double quotes (bash syntax error).
-
-SUPPLEMENT REQUEST:
-- Gap M7-2: Section exit-gate (supplement gate block, the README agent-table `for` loop) | Concern: `grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" $f` uses unescaped backticks inside a double-quoted string; `bash -n` fails with `unexpected EOF while looking for matching ``'`, so the gate cannot run at all (Phase 1's R1.12 version escapes them and is satisfiable: 30 RED today, 0 after Phase 1) | Severity: CONCERN (MUST-FIX) | Suggested addition: write the loop as in Phase 1 R1.12, `grep -E "^\| [^|\`]*\`v[cb]-${a}-agent\` \|" $f`, and state that the block was checked with `bash -n`
-
-Next step: PVL supplement cycle (vc-plan-agent PVL-supplement mode, one gate-text edit), then re-validate from V1. Not routed to EXECUTE.
+Gate: PASS (0 FAIL / 0 MUST-FIX / 6 RESIDUAL known-gaps; PVL cycle 6; M7-1 and M7-2 verified closed). Signal: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 5 validate-fix loop(s)). Proceed to EXECUTE.` is legal (condition (a) Gate = PASS). EXECUTE still waits for the Phase 6 exit gate and the Claude Code restart.
+Accepted by: not applicable (PASS, no CONDITIONAL concerns); R7-1..R7-4, R7-6 and RES-A are recorded as named residuals.
 
 ---
 

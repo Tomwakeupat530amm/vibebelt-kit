@@ -303,39 +303,39 @@ instructions / Test gates) is treated as a placeholder.
 
 ## Validate Contract
 
-Status: CONDITIONAL
+Status: PASS
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 4, Gate: CONDITIONAL, 1 MUST-FIX M6-3) — PVL cycle 5 re-validated from V1 against the real repo; this contract and its notes REPLACE the cycle-4 contract entirely (same calendar date, ordering is by PVL cycle: 5 follows 4); M6-3 is verified CLOSED; 1 NEW MUST-FIX (M6-4); 7 RESIDUALs carried
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 5, Gate: CONDITIONAL, 1 MUST-FIX M6-4) — PVL cycle 6 re-validated from V1 against the real repo after the cycle-5 supplement; this contract REPLACES the cycle-5 contract entirely (same calendar date, ordering is by PVL cycle: 6 follows 5). M6-3 and M6-4 are verified CLOSED; 0 NEW MUST-FIX; 8 RESIDUALs carried. The "Phase status" header and the "Validate-contract status" line in Resume and Execution Handoff still quote the cycle-5 CONDITIONAL text; this contract governs.
+
+V1 line: `V1 RE-VALIDATE TRIGGERED: the cycle-5 supplement (M6-4 Trial D carve-out in G15 / C-P6-f, --list-scan-files excluding gitignored paths, release.yml command count read from the file, refreshed Test Infra notes) was applied after the cycle-5 CONDITIONAL contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the supplement as newer. V1 AUTO-PROCEED does not apply.`
 
 Parallel strategy: sequential
-Rationale: Signals S1, S2, S4, S6, S7 = 5/7 (HIGH label), dominant signal S6 (destructive updater/installer behavior). Sequential still fits: one deterministic script over a closed file set, fan-out only adds risk. Models: named agents run on their own front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet; EXECUTE = opus). Note on this run: Layer 1 + Layer 2 checks were executed inline and sequentially by one validate agent (no spawn tool available); every finding comes from real greps and runs on the real repo with Linux Node v22.23.4 (`/home/tom/.local/bin/node`) plus scratch copies under the scratchpad; the repo was not modified.
+Rationale: Signals S1, S2, S4, S6, S7 = 5/7 (HIGH label), dominant signal S6 (destructive updater/installer behavior). Sequential still fits: one deterministic script over a closed file set, fan-out only adds risk. Models: named agents on their own front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet; EXECUTE = opus). Note on this run: Layer 1 + Layer 2 checks ran inline and sequentially by one validate agent (no spawn tool); every finding comes from real greps and runs with Linux Node v22.23.4 on the real tree (read-only) and on a scratch clone of HEAD 41b24eb under the scratchpad; the project tree was not modified. Prior verdicts were not trusted.
 
-Evidence re-gathered in cycle 5 (29-10-26, task folder excluded, prior verdicts not trusted):
-- M6-3 CLOSED (verified by running G18): scratch tree with one real `SKILL.md` (new text), `scripts/fixtures/rename-prefix/in` (old spelling) and `.../out` (new spelling): G18 with `--exclude-dir=fixtures` exits 0 (old=0, new=1=before-count). No existing `fixtures` directory in the repo holds an author line (0 of the 19 hits are under `fixtures`), so the unexcluded P2 before-count (19) and the excluded after-counts agree.
-- Rename-scope greps re-run on the real tree: `vc-` = 5084 hits in 231 files (plan: about 5016 / 227; the delta is the Phase 0 context files, not material for the C1 stop rule); `vc-*` / `.vc-*` / `.vc.json` paths = 73 (plan: about 73, exact); the four uppercase signals = 43 + 40 + 13 + 9 = 105 in committed text (plan: 105, exact); a first unfiltered `grep -r` returned 114 because it also read the gitignored runtime log `.claude/hooks/.logs/hook-log.jsonl`, excluding that directory gives 105; `VC_*` env names: `VC_KIT_SOURCE` 16, `VC_UPDATE_TMPDIR` 17, `VC_INSTALL_TMPDIR` 11, `VC_USAGE_CACHE_PATH` 6, plus the JS constant `VC_TOKEN_RE` 2; `vc:` colon forms = 23 hits in 5 files, none in `CHANGELOG.md`/`MIGRATION.md`, so the P2 whole-repo before census equals the G10 scan-list after census; `author: vibecode-pro-max-kit` = 19 files with the indentation-tolerant pattern, 0 with the column-0 pattern (all 19 are indented), 0 files already hold `author: vibebelt-kit`.
-- Gate mechanics re-run: G11 command on the real resolver prints files=415, bad=0, exit 0 (accumulate-until-end parse works); Entry Gate 2 recipe reproduced (1.0.0 copy resolves 0 files, current tree 415: Phase 2 / B0 owns the fix); G15b predicate: 0 offenders (new predicate), 6 offenders under the old Trial C predicate (the AC-5 failure message in the baseline e2e output is `process/general-plans/reports`); the exit-gate and entry-gate code blocks pass `bash -n`; G5 on the live tree finds the 73 paths and is not blocked by the scout hook; `install.sh` 472 lines, `rm -rf "$legacy_path"` on line 365, e2e lines 21/34/330 as cited, `legacyDeletions` has 22 entries (none on disk: snapshotGated class), `.claude/skills/vc-audit-vc/scripts/export-benchmark-kit.mjs` is the real path (R6-5).
-- Linux Node now exists (Phase 0 decision 6): the whole e2e file was run on Linux Node against a scratch copy of the repo: Trials A and B pass, Trial C fails only on AC-5 (the M6-2 predicate, fixed by B4), Trial D passes on a same-device copy. On the real checkout (`/mnt/c`, drvfs) Trial D fails: see M6-4.
-- NEW defect M6-4 (G15 is unsatisfiable as written): see SUPPLEMENT REQUEST. The Phase 0 baseline output (`baseline/validators_after_setup.txt`, Linux `node`, e2e row) records `ok 1`, `ok 2`, `not ok 3` (AC-5) and `not ok 4` (Trial D: `fatal: failed to create link ... Invalid cross-device link`). Reproduced here: `git clone --local` from the repo into the Linux scratch dir exits 128; `git clone --local --no-hardlinks` exits 0. The repo is on drvfs and `/tmp` is tmpfs, so Trial D fails regardless of the rename. The program decision assigns the Trial D fix to Phase 8 A0, so Phase 6 cannot print "all trials pass".
-- Model facts (decision B) re-verified: 7 agents `model: opus`, 8 `model: sonnet` on disk; the Phase 6 plan labels (research/plan/validate/tester = opus, innovate/update-process = sonnet, EXECUTE = opus) are correct; the rename cannot change those facts and the Phase 1 validator row appended to `validators.list` rides through G13 via the `vb-` mapping; the protected task folder holds `golden/`, `eq/`, `baseline/`, `harness/` as the plan states (Blast Radius, protected-set item 1).
-- Plan structure validator on this plan: 0 failures (2 advisory legacy-shape warnings).
+Evidence gathered in cycle 6 (29-10-26):
+- **Structure:** `validate-plan-artifact.mjs` exit 0, 0 failures (2 advisory legacy-shape warnings). The Exit Gate fenced block (one block) passes `bash -n` (rc 0). The registry Phase 6 and Phase 8 lines agree with the plan on the e2e file (Phase 6 AC-5 lines only, Trial D untouched; Phase 8 A0 incl. the `--no-hardlinks` clone).
+- **M6-4 closed (G15 / C-P6-f):** G15, C-P6-f, the Verification row and the C-P6-f matrix row now expect Trials A, B, E to pass and Trial C to pass after B4, with Trial D carved out (cross-device clone, Phase 8 A0 edit 4). Reproduced: `git clone --local` from the `/mnt/c` checkout to tmpfs exits 128, `--local --no-hardlinks` exits 0. Saved baseline text (Linux node, drvfs checkout): `# pass 2 / # fail 2` (A, B ok; C = AC-5, D = cross-device). In a native-fs scratch clone the file runs 3 pass / 1 fail (A, B, D ok; C fails AC-5). Applying the B4 predicate (the `isKitOwned` namespaces in both spellings plus the two exact `process/general-plans/{reports,references}` dirs) to the clone's `e2e-kit-flows.test.mjs` makes Trial C pass (1/1), so "C passes after B4" is true. G15b one-liner on the current manifest: 0 offenders (6 under the old predicate).
+- **`--list-scan-files` definition (R6-6 resolved in text):** a stand-in scan list (`git ls-files -co --exclude-standard`, minus the task folder, `CHANGELOG.md`, `MIGRATION.md`, `.agents/skills`) has 531 files and the four named signals count 43 + 40 + 13 + 9 = 105 (plus stray `VC-` tokens: `VC-` 9, `VC-S` 1, `VC-PREDICT` 1), so the 105 claim holds without the gitignored log; `.claude/hooks/.logs/` and the screenshots directory are gitignored (`git check-ignore` confirms both lines).
+- **Other counts re-run:** `author: vibecode-pro-max-kit` with the indentation-tolerant pattern = 19 files (non-vacuous before-count); G11 command on the real resolver prints 415 files, 0 bad, rc 0; `grep -c 'run: node' .github/workflows/release.yml` = 17 today (read at run time, about 40 after Phase 1); e2e file cites (lines 21, 34, 330, 333, 267-277) match.
+- Model facts (decision B) unchanged by the rename; the protected task folder holds `golden/`, `eq/`, `baseline/`, `harness/` as the plan states.
 
 Test gates (C3 5-column table):
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
-| C-P6-a | Rename tool: dry-run writes nothing; apply matches expected tree; second apply prints `RESULT edits=0 renames=0`; all stray-form rows and protection mechanisms behave as decided | Fully-Automated | `$NODE scripts/test-rename-prefix.mjs` (G3); `$NODE scripts/rename-prefix.mjs --dry-run \| tail -1` (G0) | B (A1-A3) |
+| C-P6-a | Rename tool: dry-run writes nothing; apply matches expected tree; second apply prints `RESULT edits=0 renames=0`; stray-form rows and protection mechanisms behave as decided | Fully-Automated | `$NODE scripts/test-rename-prefix.mjs` (G3); `$NODE scripts/rename-prefix.mjs --dry-run \| tail -1` (G0) | B (A1-A3) |
 | C-P6-b | Tool refuses a dirty tree, never follows symlinks, never leaves the root | Fully-Automated | fixture safety cases inside G3 | B (A2/A3) |
-| C-P6-c | Resolver independent of manifest version | Fully-Automated | G11 accumulate-until-end parse (runs today: 415 files) | B (B0, Entry Gate 2) |
-| C-P6-d | Four uppercase signals mapped 1:1 `VC-` to `VB-` (105 named hits today) | Fully-Automated | G9 census diff after `sed 's/VC-/VB-/'` | B (C1) |
+| C-P6-c | Resolver independent of manifest version | Fully-Automated | G11 accumulate-until-end parse (415 files today, 0 bad) | B (B0, Entry Gate 2) |
+| C-P6-d | Four uppercase signals mapped 1:1 `VC-` to `VB-` (105 named hits today) | Fully-Automated | G9 census diff after `sed 's/VC-/VB-/'` on the scan list | B (C1) |
 | C-P6-e | Validators not worse than baseline under `vb-` paths; no stray prefix | Fully-Automated | G13 `bash $H/compare-vb.sh`, G18b, G14, G5 + G7 allowlist diffs | B (C3b) |
 | C-P6-h | Hook config and env fallbacks still honored | Fully-Automated | G12 `legacy-config-fallback.test.cjs` x2 | B (B2) |
 | C-P6-i | Updater hash gate: matching deleted; modified/unknown/no-snapshot kept and reported | Fully-Automated | G4 `scripts/test-compute-sync-plan.mjs` | B (B4) |
 | C-P6-j | Stray forms decided and proven | Fully-Automated | G3 fixtures + G10 colon census | B (A1, Purpose table) |
-| C-P6-author | `author: vibecode-pro-max-kit` renamed in every SKILL.md, indented form included | Fully-Automated | G18 (before-count 19 > 0; after-greps exclude `fixtures`; verified satisfiable) | A (M6-3 closed) |
-| C-P6, C-SAFE-1 | Old install to new install: unmodified old files removed, modified kept and reported, custom skills kept, state files migrated | Hybrid | Trial E via G15; Linux Node 22.23.4 is available | B (B5) |
-| C-P6-f | Install/update/publish flows incl. Trial C (AC-5 via G15b, AC-7) | Hybrid | `$NODE e2e-kit-flows.test.mjs` (G15) for Trials A, B, C, E; G15b; Trial D is baseline-red (cross-device clone) | B - see SUPPLEMENT REQUEST M6-4; C (Trial D fix is Phase 8 A0) |
+| C-P6-author | `author: vibecode-pro-max-kit` renamed in every SKILL.md, indented form included | Fully-Automated | G18 (before-count 19 > 0; after-greps exclude `fixtures`) | A |
+| C-P6, C-SAFE-1 | Old install to new install: unmodified old files removed, modified kept and reported, custom skills kept, state files migrated | Hybrid | Trial E via G15; Linux Node 22.23.4 available | B (B5) |
+| C-P6-f | Install/update flows incl. Trial C (AC-5 via G15b, AC-7) | Hybrid | `$NODE e2e-kit-flows.test.mjs` (G15): Trials A, B, E pass and C passes after B4; Trial D carved out (baseline-red cross-device clone, Phase 8 A0 edit 4, must not get worse); G15b = 0 offenders | B (B4/B5); C (Trial D fix in Phase 8) |
 | C-P6-g | Fresh session resolves renamed `vb-*` agents and skills | Agent-Probe | after restart: spawn `vb-research-agent`, invoke `vb-context-discovery` | C (restart checkpoint C7); D if unreachable |
 | C-P6 + C-SAFE-1 | Destructive-write evidence pack complete | Hybrid | five artifacts in `harness/` (P3, C6) | B |
 
@@ -356,60 +356,58 @@ Legacy line form (retained so existing consumers still parse):
 - Signal census and colon census: [Fully-automated: G9/G10 on the `--list-scan-files` set]
 - Validators: [Fully-automated: `bash $H/compare-vb.sh`, label-keyed]
 - compute-sync-plan hash gate: [Fully-automated: `scripts/test-compute-sync-plan.mjs`]
-- Upgrader safety and e2e flows: [hybrid: Trial E / `e2e-kit-flows.test.mjs` Trials A, B, C, E on Linux Node 22]
+- Upgrader safety and e2e flows: [hybrid: Trial E / `e2e-kit-flows.test.mjs` Trials A, B, C, E on Linux Node 22; Trial D carved out]
 - Renamed agents resolvable: [agent-probe: new session after restart] | [known-gap: documented until the restart is done]
 
 Dimension findings:
-- Infra fit: PASS — resolver, hooks, state files, manifest chain, AC-5 predicate, Trial C seed and the cited line numbers all match the real files.
-- Test coverage: CONCERN — M6-4 (G15 expects every e2e trial to pass; Trial D is red on this host and no Phase 6 step fixes it). M6-3 is closed.
+- Infra fit: PASS — resolver, hooks, state files, manifest chain, AC-5 predicate (simulated: Trial C passes), Trial C seed and cited line numbers match the real files.
+- Test coverage: PASS — M6-4 closed: G15 expectation is satisfiable and honest about Trial D; M6-3 stays closed; the Exit Gate block passes `bash -n`.
 - Breaking changes: PASS — hook/env/state fallbacks, hash gate and snapshot gate are designed and tested; pre-baseline kit versions are a named residual.
 - Security surface: PASS — lstat, root confinement, dirty-tree refusal, hash gate at four sites, protected set, evidence pack.
-- Entry Gate / Preflight: PASS — P2 before-count is non-vacuous (19); scan-scope residual R6-6.
-- Section A (build the tool): PASS — rule 7 and the G18 fixture exclusion are correct.
+- Entry Gate / Preflight: PASS — P2 before-count non-vacuous (19); scan definition stated (R6-6 resolved in text).
+- Section A (build the tool): PASS.
 - Section B (upgrade safety): PASS — G15b satisfiable after the apply; Trial E runnable on Linux Node.
-- Section C (apply): CONCERN — C4/G15 inherits M6-4; commit-then-tag order, crash recovery, C3b mapping and restart checkpoint are sound.
+- Section C (apply): PASS — commit-then-tag order, crash recovery, C3b mapping, C4 count read from the file, restart checkpoint sound.
+
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 4 PASS. MUST-FIX 0. RESIDUAL 8 (R6-1..R6-5, R6-7 carried, plus RES-A and RES-B below; R6-6 resolved in text). Net gate: PASS. Vacuous-green check: every developed behavior has a Fully-Automated or Hybrid gate; C-P6-g is an Agent-Probe for the restart; none rests on Known-Gap alone; Trial D is a named carve-out owned by Phase 8, never counted as proof here.
 
 Open gaps:
-- MUST-FIX: M6-4 G15 / C-P6-f must carve Trial D out (or fix it) because it is baseline-red on this host and the fix is assigned to Phase 8 A0.
-- RESIDUAL (not counted as CONCERN/FAIL; carried as Known Gaps below): R6-1, R6-2, R6-3 (updated), R6-4, R6-5, R6-6, R6-7.
+- none blocking; RESIDUALs below (bounded, carried as Known Gaps).
 
 Known Gaps (RESIDUAL, bounded, each with a backlog stub; excluded from the gate count):
 - R6-1 known-gap: installs from kit versions OTHER than `upstream-baseline` keep any locally different `vc-*` file next to the new `vb-*` one (kept + reported, never deleted); proven only for the baseline content; backlog stub, release-note sentence in Phase 8.
-- R6-2 known-gap: cosmetic residuals not matched by any rule: `subagent-init.cjs` line 61 "Fallback: if `vc` unavailable" (bare `vc`), prose `VC harness` (5), identifiers `vcTeamDir`/`hasVcSkills`, `author: vibecode` (3 skills); list them in the phase report; no behavior depends on them.
-- R6-3 known-gap (UPDATED): Linux Node 22.23.4 is installed (`/home/tom/.local/bin/node`, Phase 0 decision 6), so Trial E, the e2e run and file-list comparisons are runnable; the NOT TESTED branch is only a contingency if the execute agent's shell lacks `node`. Stale wording to refresh when the supplement for M6-4 is applied: Test Infra Improvement Notes bullet 1 ("No Linux Node in WSL") and bullet 2 ("0/4 via node.exe"; the measured Linux-Node baseline is 2/4: A and B pass, C and D red).
-- R6-4 known-gap: `compare-vb.sh` must be run with the repo root as the working directory or via its own-directory lookup (the copied Phase 0 `compare.sh` resolves siblings from its own directory, then `git rev-parse --show-toplevel`); note it in the helper header; macOS/native Windows behavior of the renamed installer is carried by Phase 8.
-- R6-5 known-gap: cosmetic wording: the G15b comment "adjust the manifest path to the real file" and the Blast Radius mention of `export-benchmark-kit.mjs` at the repo root (the real path is `.claude/skills/vc-audit-vc/scripts/export-benchmark-kit.mjs`, covered by the apply); no gate depends on it.
-- R6-6 known-gap (NEW): gitignored runtime text files (for example `.claude/hooks/.logs/hook-log.jsonl`, which holds `vc-` agent names and is appended by the hooks while the apply and EVL run) are not mentioned by the scan-list definition; the gate counts agree only if `--list-scan-files` has ONE stated behavior for them (recommended: examine tracked plus untracked-not-ignored files only; the ignored screenshots directory still moves with its directory rename). If the log is scanned, G7 can show it as an unlisted file after the pre-restart session writes `vc-` names; the executor fixes it in the allowlist review (C1b) or by the scan definition. Not unsatisfiable.
-- R6-7 known-gap (NEW): the decision-B requirement "rename keeps the model docs intact" is stated in prose only (Blast Radius); no dedicated Phase 6 gate. It is mechanically safe (the rename cannot change 7 opus / 8 sonnet or the README rows), covered by the Phase 1 model/effort validator row inside G13 and by the Phase 7 claim-grep gate; no action needed unless Phase 7 shows a diff.
+- R6-2 known-gap: cosmetic residuals not matched by any rule: `subagent-init.cjs` line 61 "Fallback: if `vc` unavailable" (bare `vc`), prose `VC harness` (5), identifiers `vcTeamDir`/`hasVcSkills`, `author: vibecode` (3 skills); list them in the phase report.
+- R6-3 known-gap: if the execute agent's shell lacks `node`, Trial E, the e2e run and file-list comparisons are NOT TESTED (contingency only; Linux Node 22.23.4 is installed). Native Windows / macOS belong to Phase 8.
+- R6-4 known-gap: `compare-vb.sh` must be run with the repo root as working directory or via its own-directory lookup; note it in the helper header.
+- R6-5 known-gap: cosmetic wording: the G15b comment "adjust the manifest path to the real file" and the Blast Radius mention of `export-benchmark-kit.mjs` (real path `.claude/skills/vc-audit-vc/scripts/export-benchmark-kit.mjs`, covered by the apply); no gate depends on it.
+- R6-7 known-gap: the decision-B requirement "rename keeps the model docs intact" is prose only; mechanically safe and covered by the Phase 1 validator row inside G13 and the Phase 7 claim-grep gate.
+- RES-A (new, no gate affected): on the `/mnt/c` checkout `$NODE e2e-kit-flows.test.mjs` exits 1 by design because Trial D is red (cross-device clone). The tester judges G15 by the per-trial result lines (A, B, E, C ok; D listed as the carved-out baseline-red), for example `node --test --test-name-pattern 'Trial [ABCE]' e2e-kit-flows.test.mjs` exit 0, and records the D line separately; the `compare.sh` row stays at rc 1 (not worse).
+- RES-B (new): the Phase Loop Progress and handoff boilerplate still name `vc-` agent names for steps 1-5 (correct before the rename); the "Phase status" header and the handoff status line quote the cycle-5 CONDITIONAL text. This contract governs.
 
 What This Coverage Does NOT Prove:
 - Fixture test: does not prove the real repo has no computed `vc-` strings (concatenation); only the reviewed dry-run and the sweeps cover that.
 - Sweeps and censuses: prove text, not that a Claude Code or Codex session loads `vb-` agents (Agent-Probe row, after restart).
-- compute-sync-plan unit test and Trial E: prove behavior for `upstream-baseline` content only, not installs from other historic kit versions, and not Windows/macOS.
+- compute-sync-plan unit test and Trial E: prove behavior for `upstream-baseline` content only, not other historic kit versions, and not Windows/macOS.
 - Validator suite on Linux Node: structure and wiring on Linux paths; native Windows paths are not exercised.
 - Hash gate: byte-identity to the baseline blob, not that a kept (modified) legacy file still works beside its `vb-` replacement.
 - G18: author lines outside the protected fixtures, not whether any other metadata field still carries the old brand.
-- G15 (as it will read after M6-4): Trials A, B, C, E only; the publish-flow clone of Trial D is not proven until Phase 8 A0.
+- G15: Trials A, B, C, E only; the publish-flow clone of Trial D is not proven until Phase 8 A0 edit 4.
 - G15b: the shape of the legacy entries (namespace prefix), not that each entry is safe to delete (that is the hash/snapshot gate, G4 and Trial E).
 
 Execute-agent instructions:
-- E1: Do not start EXECUTE until the SUPPLEMENT REQUEST item (M6-4) is in the plan and this contract is re-issued with PASS (or an accepted CONDITIONAL after at least one more supplement cycle).
+- E1: Start EXECUTE only after the Phase 5 exit gate is green (Phases 4 and 5 finished, team disbanded).
 - E2: Commit the tool, fixtures, B-step edits and allowlists as their own commit BEFORE `--apply`; tag `pre-vb-rename` on that commit; never run `--apply` before the reviewed `--dry-run` output is saved to the phase report.
 - E3: Use sandboxes on the Linux filesystem (not `/mnt/c`) for Trial E; run e2e and file-list comparisons with Linux Node (`node --version` must print v22.x; do not install anything).
 - E4: Never edit `legacyDeletions` or `legacy-hashes.json` by hand; generate both from `git ls-tree -r upstream-baseline` and the pre-existing manifest entries.
 - E5: Do not lower or edit a validator to make the rename pass; do not touch `baseline/` files; use the `harness/` mapping layer.
-- E6: Take the author-line before-count with the indentation-tolerant pattern before the tool exists and assert it is greater than 0 (expected 19); any after-count must not include `scripts/fixtures/**` or the tool sources.
-- E7: Do not edit Trial D in this phase unless the supplement for M6-4 says so; record its baseline-red state in the report.
+- E6: Take the author-line before-count with the indentation-tolerant pattern before the tool exists and assert it is greater than 0 (expected 19); after-counts exclude `scripts/fixtures/**` and the tool sources.
+- E7: Do not edit Trial D in this phase (Phase 8 A0 edit 4 owns it); record its baseline-red state and the per-trial lines in the report (RES-A).
+- E8: `--list-scan-files` examines tracked plus untracked-not-ignored text files only (gitignored `.claude/hooks/.logs/` and the screenshots directory are not listed); run the stand-in check `git ls-files -co --exclude-standard` against the tool's list once to confirm.
 
-Plan updates applied: none (outer PVL; changes requested through the SUPPLEMENT REQUEST below).
+Plan updates applied: none (no MUST-FIX remained).
 Autonomous Goal Block: not written here (BRANCH B: the umbrella plan carries `## Stable Program Goal`, so the umbrella /goal governs).
-Gate: CONDITIONAL (0 FAILs; 1 MUST-FIX CONCERN M6-4; 7 RESIDUAL known-gaps; M6-3 verified closed)
-Accepted by: none — no concern is accepted; PHASE_COMPLETE: VALIDATE is not emitted. Named concern: M6-4 G15 expects Trial D to pass but it is baseline-red on this host (cross-device `git clone --local`).
-
-SUPPLEMENT REQUEST:
-- Gap M6-4: Section exit-gate (G15), acceptance criterion C-P6-f, Verification Evidence row for `node e2e-kit-flows.test.mjs`, Test Infra Improvement Notes | Concern: G15 expects "all trials pass incl. Trial C (AC-7) and Trial E" but Trial D (`e2e-kit-flows.test.mjs` line ~333, `git clone --local` of the checkout into a `/tmp/...` dir) fails on this host with `Invalid cross-device link` because the checkout is on `/mnt/c` and `/tmp` is tmpfs; it is baseline-red (recorded in `baseline/validators_after_setup.txt`), reproduced here (`git clone --local` rc 128, `--no-hardlinks` rc 0), no Phase 6 step fixes it, and the program assigns its fix to Phase 8 A0, so G15 can never print all-pass in Phase 6 EVL | Severity: CONCERN (MUST-FIX) | Suggested addition: reword G15, C-P6-f and the Verification row to "Trials A, B, C, E pass; Trial D is the recorded baseline-red cross-device clone, not worse than baseline, fixed in Phase 8 A0" (or, alternatively, add the one-line `--no-hardlinks` fix to Phase 6 and tell Phase 8 A0), and refresh the Test Infra notes (Linux Node 22.23.4 exists; baseline e2e on Linux Node is 2/4, not 0/4)
-
-Next step: PVL supplement cycle (vc-plan-agent PVL-supplement mode, one gate-wording edit), then re-validate from V1. Not routed to EXECUTE.
+Gate: PASS (0 FAIL / 0 MUST-FIX / 8 RESIDUAL known-gaps; PVL cycle 6; M6-3 and M6-4 verified closed). Signal: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 5 validate-fix loop(s)). Proceed to EXECUTE.` is legal (condition (a) Gate = PASS). EXECUTE still waits for Phase 5 and the restart checkpoint rules of this phase.
+Accepted by: not applicable (PASS, no CONDITIONAL concerns); R6-1..R6-5, R6-7, RES-A and RES-B are recorded as named residuals.
 
 ---
 

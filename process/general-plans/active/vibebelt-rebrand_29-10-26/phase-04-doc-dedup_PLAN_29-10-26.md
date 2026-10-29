@@ -230,61 +230,55 @@ instructions / Test gates) is treated as a placeholder.
 
 ## Validate Contract
 
-Status: CONDITIONAL
+Status: PASS
 Date: 29-10-26
 date: 2026-10-29
 generated-by: outer-pvl
-supersedes: 2026-10-29 (outer-pvl, PVL cycle 3 PASS) — same-day re-validation from V1 (PVL cycle 5). The cycle-3 PASS predates the Phase 0 completion facts and the 2026-10-29 ripple supplement (model-text preservation and the Phase 1 claim-grep gate), so this contract replaces it in full; the supplement logs below stay as history only. The date is the same calendar day, so ordering rests on this explicit statement and on the "PVL cycle 5" label.
+supersedes: 2026-10-29 (outer-pvl, PVL cycle 5, Gate: CONDITIONAL, 1 MUST-FIX M4-1) — PVL cycle 6 re-validated from V1 against the real repo after the cycle-5 supplement; this contract REPLACES the cycle-5 contract entirely (same calendar date, ordering is by PVL cycle: 6 follows 5). M4-1 is verified CLOSED; 0 NEW MUST-FIX; 7 RESIDUALs and 3 Known Gaps carried. The "Validate-contract status" line in Resume and Execution Handoff still quotes the cycle-5 text; this contract governs.
 
-V1 line: `V1 RE-VALIDATE TRIGGERED: ripple supplement dated 2026-10-29 (model labels, Phase 1 model-text preservation, claim-grep gate) postdates the existing PASS contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the same-day ripple as newer. V1 AUTO-PROCEED does not apply.`
+V1 line: `V1 RE-VALIDATE TRIGGERED: the cycle-5 supplement (escaped agent-table loop, Strategy Recommendation model wording, runtime wording) was applied after the cycle-5 CONDITIONAL contract; this file has no Inner Loop Refresh Note, the orchestrator instruction treats the supplement as newer. V1 AUTO-PROCEED does not apply.`
 
 Parallel strategy: vc-team (agent team with Phase 5)
-Rationale: the plan mandates an agent team with Phase 5 (TeamCreate "vibebelt-p4-p5", teammates `p4-docs-dedup` and `p5-skills-tune`, TaskCreate per teammate, SendMessage, TaskList; NOT parallel subagents); sequential 4-then-5 is the valid fallback. Score 3/7, dominant signal: shared-file risk with concurrent overlap. Models: named vc-agents on their front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet), the cold-read probe agents and ad-hoc helpers sonnet, the editing leg opus. This pass was ONE fire-and-forget validate-agent (no spawn tool): Layer 1 (4) and Layer 2 (Step 0, A, B, C, D, Exit Gate) inline with throw-away checks in a scratch clone. Prior verdicts were not trusted.
+Rationale: the plan mandates an agent team with Phase 5 (TeamCreate "vibebelt-p4-p5", teammates `p4-docs-dedup` and `p5-skills-tune`, TaskCreate per teammate, SendMessage, TaskList; NOT parallel subagents); sequential 4-then-5 is the valid fallback. Score 3/7, dominant signal: shared-file risk with concurrent overlap. Models: named vc-agents on their front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet), cold-read probe agents and ad-hoc helpers sonnet, the editing leg opus. This pass was ONE fire-and-forget validate-agent (no spawn tool): Layer 1 (4) and Layer 2 (Step 0, A, B, C, D, Exit Gate) ran inline with throw-away checks in a scratch clone of HEAD 41b24eb under the scratchpad (project tree not modified). Prior verdicts were not trusted.
 
-### Real-repo facts and checks (V1-V7, cycle 5)
+### Real-repo facts and checks (V1-V7, cycle 6)
 
-- **Entry and baselines:** Phase 0 done (HEAD 7845316); Phase 1 (planned) changes no `model:` and corrects the model text in CLAUDE.md, orchestration.md, implementation-standards.md, `vc-system-behavior` 04/07/08, the strategy-compare SKILL body and all-context.md line 179. Real facts today: 7 opus / 8 sonnet; the claim grep (`R=...`, first line of the Exit Gate supplement) prints 14 hits today (Phase 1 removes them) so it is non-vacuous; the agent-table loop, once its backticks are escaped, prints 30 `RED` lines today (10 files x 3 agents) and goes to zero after Phase 1.
-- **MUST-FIX M4-1 (new):** the Exit Gate supplement block (plan line 115) has three unescaped backticks inside double quotes: `grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" $f`. `bash -n` on the extracted block fails (`unexpected EOF while looking for matching` backtick, exit 2) and typed line by line the shell hangs waiting for a closing backtick. Phase 1's original gate (R1.12, plan line 188) escapes them (`\``) and works. The same defect is in the Phase 2 and Phase 7 plans. The preservation rule itself (Exit Gate preface) is correct and present.
-- **Baseline facts re-run on the real files:** the leftover grep (`LC_ALL=C grep -rniE "superseded|compatibility note|legacy" process/development-protocols CLAUDE.md AGENTS.md | sed -E 's/:[0-9]+:/:/' | LC_ALL=C sort`) = 50 hits today; `grep -ci "bootstrap guard"` = 1 in CLAUDE.md and 1 in AGENTS.md; `grep -c '@process' AGENTS.md` = 0; `AGENTS.md` has one "Skill Registry" heading; both charter-template copies are byte-identical (`cmp` exit 0). The overlap baseline reproduces: with the planned normalisation 257 vs 403 normalized lines, 10.9 percent of the smaller file shared; 8-token shingles 11.0 percent. The floor (<= 50 percent of baseline, about 5.5 percent) is reachable by pointer replacement but is the tightest gate of the phase; the plan's rule for recording a numeric justification in A1 stays the escape hatch (E4).
-- **Team design rehearsed in a scratch clone (git on this machine):** two worktrees `git worktree add ../wt-p4 -b p4-docs-dedup <sha>` and `../wt-p5 -b p5-skills-tune <sha>`, one disjoint commit each, `git merge --no-ff` of both into main, then `git revert -m 1 --no-commit <p4-merge-commit>` changed exactly the Phase 4 file (`git diff --cached --name-only` = `CLAUDE.md`) and `git revert --abort` left `git status --porcelain` empty. So D1 (per-branch claim-check, revert rehearsal) and D2 (join) are mechanically sound. D2 is correct on protocol: the ORCHESTRATOR ONLY SEQUENCES; a spawned `vc-execute-agent` (opus) merges and runs `generate-skills-catalog.mjs --write`; a spawned `vc-tester` (opus, front-matter) runs `--check`, the `cmp` of the charter-template pair and the joint suite. Strategy text names TeamCreate, TaskCreate, SendMessage, TaskList and contrasts with parallel subagents. The registry Phase 4 and Phase 5 entries are disjoint and the charter-template pair is frozen in both.
-- **Pointer scope facts:** `.claude/hooks/lib/context-builder.cjs` maps `implementation-standards.md` and `orchestration.md` by file name (lines 34-35, 767); `process/_seeds/`, `docs/`, `.github/labeler.yml`, `compute-sync-plan.mjs`, `e2e-kit-flows.test.mjs` exist; `archive/vc-system-behavior-reference_ARCHIVED_09-06-26.md` is absent (the dangling pointer at `all-development-protocols.md` lines 21 and 38 the plan fixes in C2). Catalog `routedFrom` is a substring match over the canonical routing surfaces, so it stays non-empty after the registry table is replaced.
-- **Structural check:** `validate-plan-artifact.mjs` on this plan: exit 0, 0 failures, 2 advisory legacy-shape warnings.
+- **Structure:** `validate-plan-artifact.mjs` exit 0, 0 failures (2 advisory legacy-shape warnings). Registry Phase 4 / Phase 5 claims unchanged and disjoint; neither claims `process/context/all-context.md`.
+- **M4-1 closed:** both Exit Gate fenced blocks extracted and run through `bash -n`: rc 0 each. Run read-only in the clone: claim grep `R` prints 14 hits (Phase 1 removes them), the escaped agent-table loop prints exactly 30 `RED` lines (10 README files x 3 agents); positive control (README agent rows rewritten to `opus` in the clone) drops it to 27, so it is a real check that reaches 0 after Phase 1. The loop line is byte-identical to the Phase 2 and Phase 7 copies.
+- **Unchanged mechanics:** the cycle-5 rehearsal of two worktrees, `git merge --no-ff` of both branches and `git revert -m 1 --no-commit` / `--abort` (changed set inside the Phase 4 claim, clean status after abort) was not touched by the supplement; the leftover grep (50 hits), `grep -ci "bootstrap guard"` chain (1 and 1), `@process` count in AGENTS.md (0), charter-template pair (`cmp` 0) and the overlap baseline (about 11 percent) are as recorded in cycle 5 and the plan text for them is unchanged.
+- **Strategy and runtime wording fixed:** Strategy Recommendation now says research/plan/validate = opus (front-matter), innovate/spec/update-process = sonnet, editing teammate = opus; the runtime paragraph states Linux `node` v22.23.4 is installed and is the default baseline, one runtime per comparison.
 
 ### MUST-FIX / RESIDUAL classification
 
-MUST-FIX (1): M4-1 (Exit Gate supplement line is not valid shell).
-RESIDUAL (8 + 3 Known Gaps, none blocks a gate):
-- RES-1 Stale model label in the Strategy Recommendation: "Research/plan/validate teammates = sonnet" (plan line 45). Real front-matter: research, plan, validate, tester = opus. Not a gate; the Phase Loop Progress lines and the D2 join text are already correct. Fix in the same edit that fixes M4-1.
-- RES-2 Runtime wording: gates are written `node.exe ...` with "`node` may replace `node.exe` where available"; Linux node exists. `validate-context-discovery` shows 4 spurious failures under node.exe that do not occur under Linux node (Phase 0 report), so compare baseline-compared validators with the SAME runtime as the saved reference (E7).
-- RES-3 E1-E5 from the cycle-3 contract (worktree/baseline ordering, tools-commit serialisation, joint suite = union, overlap baseline, worktree cleanup): re-read, still valid.
-- KG1-KG3 from cycle 3 carried.
+MUST-FIX: 0 (M4-1 closed).
+RESIDUAL (7 + 3 Known Gaps, none blocks a gate):
+- RES-1 Runtime: gates are written `node.exe ...` with "`node` may replace `node.exe`"; compare baseline-compared validators with the SAME runtime as the saved reference (E7). `validate-context-discovery` differs between runtimes (Phase 0 report).
+- RES-2 E1 step 0.7 ordering (baseline outputs after `baseline.sha` must be committed or copied into the worktree).
+- RES-3 E2 path-limited commits serialised by `SendMessage` (index.lock races).
+- RES-4 E3 joint suite at the join is the UNION of the Phase 4 and Phase 5 Exit Gate lists.
+- RES-5 E4 overlap floor (about 5.5 percent) is the tightest gate; numeric justification in A1 is the escape hatch.
+- RES-6 E5 worktree cleanup after the join.
+- RES-7 Resume-and-Handoff status line quotes the cycle-5 CONDITIONAL text; this contract supersedes it.
+- KG1-KG3 below.
 
 ### Plan updates applied
 
-None in this pass except the handoff status line (validate-agent writes the contract only).
+None (validate-agent writes the contract only; no MUST-FIX remained).
 
 ### Test gates (C3 5-column table)
 
 | criterion id | behavior | strategy | proving test | gap-resolution |
 |---|---|---|---|---|
-| C-P4 | wiring, guide-sync, parity, protocol-discovery, context-discovery, skill-routing, invocation-wiring not worse than Phase 0 baseline | Fully-Automated | the seven validators at the JOIN by a spawned vc-tester, same runtime as the saved reference (protocol-wiring, guide-sync, agent-parity, skill-routing, invocation-wiring exit 0 today; context-discovery red = baseline) | A (commands) + B (join ordering) |
-| C-P4 | no unjustified leftovers | Fully-Automated | the 50-hit leftover grep (reproduced) vs sorted `dedup-allowlist.txt` (file-to-file `diff`), plus sidecar key diff | A (50 hits verified) + B (allowlist files) |
+| C-P4 | wiring, guide-sync, parity, protocol-discovery, context-discovery, skill-routing, invocation-wiring not worse than Phase 0 baseline | Fully-Automated | the seven validators at the JOIN by a spawned vc-tester, same runtime as the saved reference (context-discovery red = baseline) | A (commands) + B (join ordering) |
+| C-P4 | no unjustified leftovers | Fully-Automated | the 50-hit leftover grep vs sorted `dedup-allowlist.txt` (file-to-file `diff`), plus sidecar key diff | A (50 hits reproduced) + B |
 | C-P4 | every file/anchor pointer still resolves across the WHOLE repo | Fully-Automated | `node.exe $T/p4-tools/pointer-check.mjs` vs `pointer-baseline.json`, archive pointer fixed | B |
-| C-P4 | nothing normative lost (signals, mode markers, status codes, Bootstrap guard, `@process` imports, find-gate text, skill and agent names) | Fully-Automated | `node.exe $T/p4-tools/signal-census.mjs --check`; `grep -ci "bootstrap guard" CLAUDE.md && grep -ci "bootstrap guard" AGENTS.md` | A (chain exits 0 today) + B |
-| C-P4 | duplication actually dropped | Fully-Automated | `node.exe $T/p4-tools/overlap-check.mjs`: both metrics <= 50 percent of baseline (baseline about 11 percent each, reproduced) | B |
-| C-P4 | each teammate touched only its claim; rollback unit exists | Fully-Automated | branch diff through `claim-check.mjs <claim.globs>`, empty `comm -12`, merge revert rehearsal (mechanics rehearsed in scratch) | A (mechanics) + B |
-| C-P4 | AGENTS.md pointers are plain repo paths | Fully-Automated | `test "$(grep -c '@process' AGENTS.md)" = 0` (0 today) plus pointer-check on AGENTS.md | A + B |
-| C-P4 | Phase 1 model text preserved (7 opus / 8 sonnet; no "only EXECUTE uses opus" in any form) | Fully-Automated | the CORRECTED supplement gate block below prints nothing at the join; the plan's own agent-table line is invalid shell (M4-1) | B (M4-1 MUST-FIX open) |
-| C-P4 | a fresh agent finds each applicable rule in exactly one source | Agent-Probe | cold-read per `$T/p4-tools/cold-read.md`, baselined first, AGENTS.md entry from a copy without CLAUDE.md; exact call count (4) acknowledged at 0.5a BEFORE any call | B (CONDITIONAL if baseline already single-source or no cost ack; then `overlap-check.mjs` carries the claim) |
-| C-P4 | charter-template mirror pair identical after both phases | Fully-Automated | `cmp` of the two copies at the join (identical today) and sha256 equal to `mirror.sha256` | A + B |
-
-Corrected supplement gate (use this until the plan block is fixed; backticks escaped as in Phase 1's R1.12; `bash -n` passes and the loop runs):
-
-```bash
-R='EXECUTE = opus; every other phase|only (the )?(EXECUTE|coding|code-writing)|every other phase = sonnet|all other vc-agents sonnet|EXECUTE only|only (the )?\*coding\* agent|opus ONLY|\(sonnet\)|expensive model only writes|premium AI model only'
-grep -rnIE "$R" CLAUDE.md AGENTS.md process/development-protocols/orchestration.md process/development-protocols/implementation-standards.md process/development-protocols/*system-behavior/0[478]-*.md .claude/skills/v[cb]-agent-strategy-compare/SKILL.md process/context/all-context.md README.md   # Expected: no output
-for f in README.md docs/i18n/README.*.md; do for a in research plan validate; do grep -E "^\| [^|\`]*\`v[cb]-${a}-agent\` \|" $f | grep -qE "^\| [^|]*\| \*{0,2}opus\*{0,2} \|" || echo "RED $f $a"; done; done   # Expected: no output
-```
+| C-P4 | nothing normative lost (signals, mode markers, status codes, Bootstrap guard, `@process` imports, find-gate text, skill and agent names) | Fully-Automated | `signal-census.mjs --check`; `grep -ci "bootstrap guard" CLAUDE.md && grep -ci "bootstrap guard" AGENTS.md` | A + B |
+| C-P4 | duplication actually dropped | Fully-Automated | `overlap-check.mjs`: both metrics <= 50 percent of baseline | B |
+| C-P4 | each teammate touched only its claim; rollback unit exists | Fully-Automated | branch diff through `claim-check.mjs <claim.globs>`, empty `comm -12`, merge revert rehearsal | A (mechanics) + B |
+| C-P4 | AGENTS.md pointers are plain repo paths | Fully-Automated | `test "$(grep -c '@process' AGENTS.md)" = 0` plus pointer-check on AGENTS.md | A + B |
+| C-P4 | Phase 1 model text preserved (7 opus / 8 sonnet; no "only EXECUTE uses opus" in any form) | Fully-Automated | the Exit Gate supplement block prints nothing at the join (claim grep 14 hits and 30 RED today, both reach 0 with Phase 1) | A (M4-1 closed) |
+| C-P4 | a fresh agent finds each applicable rule in exactly one source | Agent-Probe | cold-read per `$T/p4-tools/cold-read.md`, baselined first, AGENTS.md entry from a copy without CLAUDE.md; exact call count (4) acknowledged at 0.5a BEFORE any call | B (CONDITIONAL if baseline already single-source or no cost ack; `overlap-check.mjs` then carries the claim) |
+| C-P4 | charter-template mirror pair identical after both phases | Fully-Automated | `cmp` of the two copies at the join and sha256 equal to `mirror.sha256` | A + B |
 
 Failing stubs (Fully-Automated rows, red-first for execute-agent):
 - test("should keep wiring, sync and parity validators not worse than baseline at the join", () => { throw new Error("NOT IMPLEMENTED — TDD stub: should keep wiring, sync and parity validators not worse than baseline at the join") })
@@ -301,7 +295,7 @@ Legacy line form:
 - validators: [Fully-automated: validate-protocol-wiring + validate-guide-sync + validate-agent-parity + validate-protocol-discovery + validate-context-discovery + validate-skill-routing + validate-skill-invocation-wiring, at the join, baseline-compared, same runtime]
 - leftovers: [Fully-automated: sorted grep allowlist diff in bash]
 - pointers/census/overlap/disjointness: [Fully-automated: pointer-check + signal-census + overlap-check + claim-check]
-- model text preserved: [Fully-automated: corrected supplement gate prints nothing]
+- model text preserved: [Fully-automated: Exit Gate supplement block prints nothing]
 - single source: [agent-probe: baselined cold read of the applicable rules]
 
 ### Known Gaps (named residuals, excluded from the CONCERN/FAIL count; bounded measurement limits)
@@ -312,40 +306,35 @@ Legacy line form:
 
 ### Execute-agent instructions (RESIDUAL, no plan edit needed)
 
-- E1 Step 0.7 order: baseline outputs written after `baseline.sha` (`pointer-baseline.json`, `census-before.txt`, `overlap-baseline.json`, `leftovers-before.txt`, `mirror.sha256`, later `registry-exempt.txt`) do not exist in a worktree created from `baseline.sha`. Commit them in a second path-limited `process:` commit and create the worktree from that HEAD (keep `baseline.sha` = the tools commit), or copy them into the worktree untracked; never leave the same path untracked on `main` while the branch also adds it (the join merge would abort).
-- E2 The step-0 tools commits of the two teammates share the `main` working tree: path-limited commits (`git commit -- <paths>`), serialised with a `SendMessage` "tools committed", to avoid `index.lock` races and cross-staging.
-- E3 The joint suite at the join is the UNION of the Phase 4 and Phase 5 Exit Gate lists (including `validate-skills`, `validate-skill-keywords` after `--write`, confusable, cross-refs, `routing-check`, `conservation-check`), run once by the spawned vc-tester after the catalog `--write`.
-- E4 Record the script's own overlap baseline in A1 (reproduced here at about 11 percent for both metrics); do not add new identical pointer lines to BOTH files (they count as shared); if the 5.5 percent floor proves unreachable without losing a rule, record the numeric justification in A1 before editing (the plan allows it).
-- E5 After the join and all Exit Gate commands, `git worktree remove` the two teammate worktrees (branches stay until the gate has run); in the sequential fallback the join is just the catalog `--write` then `--check` on `main`.
-- E6 Use the corrected supplement gate above, not the plan's broken agent-table line, until the plan is fixed; the first line (`R=` grep) is valid as written.
-- E7 Run baseline-compared validators with the runtime that wrote the saved reference (Linux `node` for `baseline/validators_before.tsv`, `node.exe` for the `.node-exe.` pair); never mix. Linux `node` is the default of `compare.sh`.
-- E8 The Strategy line "Research/plan/validate teammates = sonnet" is stale: spawn those with their front-matter model (opus); only ad-hoc probe/helper agents are sonnet.
+- E1 Step 0.7 order: baseline outputs written after `baseline.sha` (`pointer-baseline.json`, `census-before.txt`, `overlap-baseline.json`, `leftovers-before.txt`, `mirror.sha256`, later `registry-exempt.txt`) do not exist in a worktree created from `baseline.sha`. Commit them in a second path-limited `process:` commit and create the worktree from that HEAD (keep `baseline.sha` = the tools commit), or copy them in untracked; never leave the same path untracked on `main` while the branch also adds it (the join merge would abort).
+- E2 The step-0 tools commits of the two teammates share the `main` working tree: path-limited commits (`git commit -- <paths>`), serialised with a `SendMessage` "tools committed".
+- E3 The joint suite at the join is the UNION of the Phase 4 and Phase 5 Exit Gate lists, run once by the spawned vc-tester after the catalog `--write`.
+- E4 Record the script's own overlap baseline in A1; do not add new identical pointer lines to BOTH files; if the floor proves unreachable without losing a rule, record the numeric justification in A1 before editing.
+- E5 After the join and all Exit Gate commands, `git worktree remove` the two teammate worktrees.
+- E6 Run both Exit Gate blocks with `bash -n` first (both pass today).
+- E7 Run baseline-compared validators with the runtime that wrote the saved reference (Linux `node` for `baseline/validators_before.tsv`, `node.exe` for the `.node-exe.` pair); never mix.
+- E8 Spawn research/plan/validate teammates with their front-matter model (opus); only ad-hoc probe/helper agents are sonnet.
 
 Open gaps:
-- M4-1 (MUST-FIX, in the SUPPLEMENT REQUEST below).
-- KG1-KG3 above (bounded residuals).
+- none blocking; KG1-KG3 above (bounded residuals).
 
 ### Dimension findings
 
-- Infra fit: PASS — every gate command exists or is created before use; worktree/branch/merge/revert mechanics rehearsed; baselines (50 hits, bootstrap chain, `@process` count, overlap 11 percent, mirror pair) reproduced.
-- Test coverage: CONCERN — the Phase 1 preservation gate cannot run as pasted (M4-1); all other gates are satisfiable; the cold-read stays a bounded Agent-Probe (KG2).
-- Breaking changes: PASS — HARD RULE covers anything cited from outside `process/development-protocols/`; pointer-check is repo-wide; the Skill Registry replacement loses no data (catalog carries trigger keywords for all 33 skills).
+- Infra fit: PASS — every gate command exists or is created before use; worktree/branch/merge/revert mechanics rehearsed in cycle 5 and untouched; baselines reproduce.
+- Test coverage: PASS — the Phase 1 preservation gate now runs (`bash -n` rc 0; 30 RED with positive control); cold-read stays a bounded Agent-Probe (KG2).
+- Breaking changes: PASS — HARD RULE covers anything cited from outside `process/development-protocols/`; pointer-check is repo-wide; the Skill Registry replacement loses no data.
 - Security surface: PASS — documentation only; no tool grants or secrets; hard-stop wording protected by the census and the cold-read.
-- Step 0 (gates first) feasibility: PASS — E1, E2.
+- Step 0 (gates first) feasibility: PASS.
 - Section A/B (map, pick sources) feasibility: PASS.
-- Section C (leftovers) feasibility: PASS — targets confirmed (`orchestration.md:203`, dangling archive pointer, `09-execute.md:214` legitimate).
-- Section D (validate and join) feasibility: PASS — join sequenced by the orchestrator and executed by spawned agents.
-- Exit Gate: CONCERN — supplement block line is not valid shell (M4-1).
+- Section C (leftovers) feasibility: PASS.
+- Section D (validate and join) feasibility: PASS — join sequenced by the orchestrator, executed by spawned agents.
+- Exit Gate: PASS — runnable (both blocks).
 
 Disjointness verdict (Phase 4 vs Phase 5): file-level claims DISJOINT (registry re-read); runtime coupling limited to the join and covered; the charter-template pair is frozen in both.
 
-Net gate derivation: Layer 1 = 0 FAIL / 1 CONCERN / 3 PASS; Layer 2 = 0 FAIL / 1 CONCERN / 5 PASS. MUST-FIX 1; RESIDUAL 8 execute-agent instructions + 3 Known Gaps. Net gate: CONDITIONAL. Vacuous-green check: every developed behavior has a Fully-Automated gate or a probe; none rests on Known-Gap alone.
+Net gate derivation: Layer 1 = 0 FAIL / 0 CONCERN / 4 PASS; Layer 2 = 0 FAIL / 0 CONCERN / 6 PASS. MUST-FIX 0; RESIDUAL 7 items (RES-1..RES-7) + 3 Known Gaps. Net gate: PASS. Vacuous-green check: every developed behavior has a Fully-Automated gate or a probe; none rests on Known-Gap alone.
 
-SUPPLEMENT REQUEST:
-- Gap 1: Section exit-gate | Concern: the Phase 1 claim-grep supplement block has unescaped backticks inside double quotes on the agent-table loop line (`grep -E "^\| [^|`]*`v[cb]-${a}-agent` \|" $f`); `bash -n` fails (`unexpected EOF while looking for matching`), so the preservation gate cannot run as pasted | Severity: MUST-FIX | Suggested addition: replace that line with the corrected line in the contract (backticks escaped as `\``, identical to Phase 1's R1.12 line); the same defect exists in the Phase 2 and Phase 7 plans.
-- Gap 2 (RESIDUAL, fix in the same edit, not a gate): Section strategy-recommendation | Concern: "Research/plan/validate teammates = sonnet" contradicts the real front-matter (research, plan, validate = opus) | Severity: CONCERN (RESIDUAL) | Suggested addition: "Research/plan/validate run on their front-matter model (opus); ad-hoc probe and helper agents sonnet; the editing leg opus".
-
-What This Coverage Does NOT Prove (What this coverage does NOT prove):
+What This Coverage Does NOT Prove:
 - Validators and pointer scripts prove references resolve, not that a reader (Claude or Codex) finds and applies the rule from its new location; the cold read samples only 10 rules.
 - No gate proves Codex behavior; AGENTS.md was never executed under Codex here.
 - Disjointness proof is post-hoc (diff vs claim) and does not prove no race on shared reads mid-run.
@@ -353,8 +342,9 @@ What This Coverage Does NOT Prove (What this coverage does NOT prove):
 - The Phase 1 claim grep proves the quoted phrases are absent, not that no other false model claim exists.
 - Validators were exercised under Linux node and node.exe on a drvfs checkout; macOS and native-Windows behavior is unproven.
 
-Gate: CONDITIONAL (0 FAIL / 1 MUST-FIX open / 8 RESIDUAL + 3 Known Gaps; PVL cycle 5). EXECUTE is NOT legal on this contract until M4-1 is closed by a supplement cycle and a re-validation from V1 returns 0 MUST-FIX. Signal: do NOT emit `PHASE_COMPLETE: VALIDATE`; emit the SUPPLEMENT REQUEST above and the handoff block (`Gate: CONDITIONAL`). The orchestrator spawns vc-plan-agent (PVL-supplement) and appends the iteration-5 row to `results.tsv` (`wc -l < results.tsv` = 6 would numerically satisfy gate (b), but an open MUST-FIX outranks it).
-Accepted by: not accepted; no user acceptance is claimed. KG1-KG3 and the RESIDUAL items are recorded as named residuals.
+Autonomous Goal Block: not written here (BRANCH B: the umbrella plan carries `## Stable Program Goal`, so the umbrella /goal governs).
+Gate: PASS (0 FAIL / 0 MUST-FIX / 7 RESIDUAL + 3 Known Gaps; PVL cycle 6). Signal: `PHASE_COMPLETE: VALIDATE — validate-contract written (after 5 validate-fix loop(s)). Proceed to EXECUTE.` is legal (condition (a) Gate = PASS). EXECUTE still waits for the Phase 3 exit gate.
+Accepted by: not applicable (PASS, no CONDITIONAL concerns); KG1-KG3 and the RESIDUAL items are recorded as named residuals.
 
 ---
 
