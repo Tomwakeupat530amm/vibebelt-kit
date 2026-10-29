@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ Seletor inteligente de estratégia</strong><br>Antes de cada fase, avalia um agente vs. vários vs. uma equipe coordenada — com estimativas de custo — e escolhe o mais econômico que atende ao caso.</td>
-<td valign="top"><strong>🧮 Uso inteligente de modelos</strong><br>O modelo mais caro só escreve código; o mais barato faz todo o resto. Menor custo, mesma qualidade.</td>
+<td valign="top"><strong>🧮 Uso inteligente de modelos</strong><br>O modelo mais forte (opus) constrói, planeja, pesquisa, valida e testa; o modelo mais leve, sonnet, cuida de requisitos, comparação de opções, fechamento, revisão e commits.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 Esclarecimento de intenção</strong><br>Quando um pedido é vago, o agente faz algumas perguntas objetivas logo de início em vez de adivinhar e construir a coisa errada.</td>
-<td valign="top"><strong>🛡️ 36 validadores</strong><br>Verificações mecânicas de correção — não opiniões — protegem a estrutura do kit e detectam desvios antes de entrarem em produção.</td>
+<td valign="top"><strong>🛡️ 38 validadores</strong><br>Verificações mecânicas de correção — não opiniões — protegem a estrutura do kit e detectam desvios antes de entrarem em produção.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ Programas de fases</strong><br>Projetos grandes são divididos em fases independentes com portões de qualidade entre elas, para que trabalhos grandes não desmoronem.</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>Protocolos</strong><br><sub>Regras compartilhadas que todos os agentes seguem</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>Validadores</strong><br><sub>Verificações automáticas que detectam erros antes de entrarem em produção</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>Validadores</strong><br><sub>Verificações automáticas que detectam erros antes de entrarem em produção</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>Ferramentas</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>Idiomas</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>Instalação</strong><br><sub>Um comando, depois seu agente guia o restante</sub></td>
@@ -851,8 +851,8 @@ flowchart TD
     WF["Workflow\netapas roteirizadas\nem uma lista"]
     TEAM["Equipe de agentes\nTeamCreate + TaskCreate\n+ SendMessage\n(must coordinate mid-run)"]
     MC{"qual fase?"}
-    OPUS["🔴 opus\n(somente EXECUTE)"]
-    SONNET["🔵 sonnet\n(todas as outras fases)"]
+    OPUS["🔴 opus\n(7 agentes: construir, planejar,\npesquisar, validar, testar)"]
+    SONNET["🔵 sonnet\n(8 agentes: requisitos, opções,\nfechamento, depurar, revisar,\nsimplificar, UI, commits)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -860,8 +860,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -880,10 +880,10 @@ flowchart TD
 
 | Fase | Modelo | Por quê |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, quick-fix com código real) | 🔴 **opus** | Edições reais no código-fonte, builds, migrações |
-| Research · Spec · Innovate · Plan · Validate · Update · todos os revisores/pesquisadores | 🔵 **sonnet** | Planejamento e análise — mais econômico e suficientemente capaz |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | Edições de código, builds, migrações; planejamento, pesquisa, validação e execução de testes, onde um erro custa mais |
+| Spec · Innovate · Update · debugger · revisores · UI/UX · git-manager | 🔵 **sonnet** | Requisitos, comparação de opções, fechamento, revisão e commits — mais econômico e suficientemente capaz |
 
-> Quando o trabalho é dividido entre vários agentes, apenas o agente de *codificação* usa o opus. Todos os revisores, pesquisadores, validadores e planejadores usam o sonnet. O agente principal indica o modelo toda vez que aciona um agente trabalhador.
+> Cada agente nomeado usa o modelo definido no próprio arquivo (7 no opus, 8 no sonnet). Um agente auxiliar sem nome usa o sonnet por padrão e só usa o opus quando escreve código ou executa um build. O agente principal indica o modelo toda vez que aciona um agente trabalhador.
 
 ---
 
@@ -1003,9 +1003,9 @@ Quando SPEC, INNOVATE ou VALIDATE encontra uma hipótese-chave que não pode con
 
 Cada veredicto vem com uma nota de design em 3 partes: **o que o resultado permite · o que ele exclui · o que ainda é incerto** — passada palavra por palavra de volta à fase pausada. As sondagens têm **classificação de custo** (`cheap-local` / `needs-container` / `needs-live-provider` → dupla confirmação / `needs-browser` / `needs-cf`) para que nenhuma sondagem faturada ou que use recursos compartilhados seja executada silenciosamente.
 
-### 🛡️ 36 validadores — correção mecânica, não opinião
+### 🛡️ 38 validadores — correção mecânica, não opinião
 
-O kit inclui **36 scripts de validação** que transformam "o agente seguiu as regras?" em um resultado claro de aprovado/reprovado. Eles são executados após qualquer fase que toque nos arquivos do sistema, e como checkpoints obrigatórios no UPDATE PROCESS:
+O kit inclui **38 scripts de validação** que transformam "o agente seguiu as regras?" em um resultado claro de aprovado/reprovado. Eles são executados após qualquer fase que toque nos arquivos do sistema, e como checkpoints obrigatórios no UPDATE PROCESS:
 
 | Família de validadores | Verifica |
 |---|---|
@@ -1517,11 +1517,11 @@ Grupos são criados automaticamente quando um tópico atinge 3+ docs ou um únic
 
 | Agente | Modelo | Papel |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | Pesquisa de base de código + web, somente leitura. Rastreamento de contradições integrado |
+| 🔍 `vc-research-agent` | **opus** | Pesquisa de base de código + web, somente leitura. Rastreamento de contradições integrado |
 | 📝 `vc-spec-agent` | sonnet | Documento de requisitos de descoberta de produto antes do INNOVATE. Produz `*_SPEC_*.md` |
 | 💡 `vc-innovate-agent` | sonnet | Compara 2-3 abordagens. Resumo de decisão (escolhida + rejeitadas) antes do PLAN |
-| 📋 `vc-plan-agent` | sonnet | Escreve o plano com proteções anti-atalho. "Já sei como" não é um plano |
-| ✅ `vc-validate-agent` | sonnet | Transforma plano → lista de verificação acordada (V1–V7). Ponto de controle: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | Escreve o plano com proteções anti-atalho. "Já sei como" não é um plano |
+| ✅ `vc-validate-agent` | **opus** | Transforma plano → lista de verificação acordada (V1–V7). Ponto de controle: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | Implementa conforme o plano. Notas de progresso no relatório de fase, protocolo de desvio, auto-revisão |
 | ⏩ `vc-fast-mode-agent` | **opus** | R→S→I→P→V comprimidos com uma pausa de segurança obrigatória antes do EXECUTE |
 | 🔧 `vc-quick-fix-agent` | **opus** | Raia QUICK FIX: uma edição pequena e de baixo risco + verificação de escopo, sem plano/validação |
@@ -1676,7 +1676,7 @@ Muitos padrões inteligentes e pequenos somam menos supervisão e menor custo.
 
 - **Cada papel só recebe as ferramentas de que precisa.** Durante o planejamento, o agente literalmente não pode editar código — essas ferramentas estão desativadas. Isso impede o agente de pular etapas e alterar coisas antes que o plano seja aprovado. O sistema simplesmente não permite.
 
-- **Ele usa o modelo de IA premium apenas onde importa.** A escrita de código usa o modelo principal. Planejamento, pesquisa, revisão e verificação usam um modelo mais barato e rápido. O resultado: custo aproximadamente 60–70% menor em comparação com usar o modelo principal para tudo — sem perda de qualidade no que importa.
+- **Ele usa o modelo certo para cada tarefa.** 7 agentes rodam no modelo mais forte (os três que escrevem código, mais planejamento, pesquisa, validação e testes); 8 rodam no modelo mais leve e barato. A economia depende da combinação do seu trabalho; nenhuma porcentagem é prometida até ser medida.
 
 - **Ele testa suposições arriscadas antes de construir com base nelas.** Quando o agente não tem certeza se algo vai funcionar — um comportamento específico de API, uma funcionalidade de biblioteca, uma suposição de infraestrutura — ele executa um pequeno experimento real primeiro. O resultado é claro: funciona, não funciona ou incerto. Esse veredicto e uma nota em linguagem simples são incorporados diretamente ao plano. O agente não passa horas construindo sobre uma suposição errada.
 

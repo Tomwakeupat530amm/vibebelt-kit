@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ Smart strategy picker</strong><br>Before each phase it weighs one agent vs. many vs. a coordinated team — with cost estimates — and picks the cheapest that fits.</td>
-<td valign="top"><strong>🧮 Smart model use</strong><br>The expensive model only writes code; the cheaper model does everything else. Lower cost, same quality.</td>
+<td valign="top"><strong>🧮 Smart model use</strong><br>The strongest model (opus) builds, plans, researches, validates and tests; the lighter model, sonnet, handles requirements, option comparison, closeout, review and commits.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 Intent clarification</strong><br>When a request is vague, the agent asks a few sharp questions up front instead of guessing and building the wrong thing.</td>
-<td valign="top"><strong>🛡️ 36 validators</strong><br>Mechanical correctness checks — not opinions — guard the kit's own structure and catch drift before it ships.</td>
+<td valign="top"><strong>🛡️ 38 validators</strong><br>Mechanical correctness checks — not opinions — guard the kit's own structure and catch drift before it ships.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ Phase programs</strong><br>Large projects are split into independent phases with quality gates between them, so big work doesn't fall apart.</td>
@@ -267,7 +267,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>Protocols</strong><br><sub>Shared rules every agent follows</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>Validators</strong><br><sub>Automated checks that catch errors before they ship</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>Validators</strong><br><sub>Automated checks that catch errors before they ship</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>Tools</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>Languages</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>Install</strong><br><sub>One command, then your agent guides the rest</sub></td>
@@ -854,8 +854,8 @@ flowchart TD
     WF["Workflow\nscripted steps\nacross a list"]
     TEAM["Agent team\nTeamCreate + TaskCreate\n+ SendMessage\n(must coordinate mid-run)"]
     MC{"which phase?"}
-    OPUS["🔴 opus\n(EXECUTE only)"]
-    SONNET["🔵 sonnet\n(every other phase)"]
+    OPUS["🔴 opus\n(7 agents: build, plan,\nresearch, validate, test)"]
+    SONNET["🔵 sonnet\n(8 agents: spec, innovate,\nupdate, debug, review,\nsimplify, UI, commits)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -863,8 +863,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -883,10 +883,10 @@ flowchart TD
 
 | Phase | Model | Why |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, quick-fix doing real code) | 🔴 **opus** | Real source edits, builds, migrations |
-| Research · Spec · Innovate · Plan · Validate · Update · all reviewers/researchers | 🔵 **sonnet** | Planning and analysis — cheaper, plenty capable |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | Code edits, builds, migrations; planning, research, validation and test runs, where a miss costs most |
+| Spec · Innovate · Update · debugger · reviewers · UI/UX · git-manager | 🔵 **sonnet** | Requirements, option comparison, closeout, review and commits — cheaper, plenty capable |
 
-> When work is split across several agents, only the *coding* agent uses opus. Every reviewer, researcher, validator, and planner uses sonnet. The lead agent names the model each time it spawns a worker.
+> Each named agent uses the model set in its own file (7 on opus, 8 on sonnet). An unnamed helper agent defaults to sonnet and uses opus only when it writes code or runs a build. The lead agent names the model each time it spawns a worker.
 
 ---
 
@@ -1006,9 +1006,9 @@ When SPEC, INNOVATE, or VALIDATE hits a key assumption it cannot confirm by read
 
 Each verdict comes with a 3-part design note: **what the result allows · what it rules out · what is still uncertain** — fed word-for-word back into the paused phase. Probes are **cost-classed** (`cheap-local` / `needs-container` / `needs-live-provider` → double opt-in / `needs-browser` / `needs-cf`) so a billed or shared-resource probe never runs silently.
 
-### 🛡️ 36 validators — mechanical correctness, not opinion
+### 🛡️ 38 validators — mechanical correctness, not opinion
 
-The kit ships **36 validator scripts** that turn "did the agent follow the rules?" into a clear pass/fail result. They run after any phase that touches harness files, and as required checkpoints in UPDATE PROCESS:
+The kit ships **38 validator scripts** that turn "did the agent follow the rules?" into a clear pass/fail result. They run after any phase that touches harness files, and as required checkpoints in UPDATE PROCESS:
 
 | Validator family | Checks |
 |---|---|
@@ -1521,11 +1521,11 @@ Groups are created automatically when a topic reaches 3+ docs or a single file g
 
 | Agent | Model | Role |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | Codebase + web research, read-only. Contradiction tracking built in |
+| 🔍 `vc-research-agent` | **opus** | Codebase + web research, read-only. Contradiction tracking built in |
 | 📝 `vc-spec-agent` | sonnet | Product-discovery requirements doc before INNOVATE. Produces `*_SPEC_*.md` |
 | 💡 `vc-innovate-agent` | sonnet | Compare 2-3 approaches. Decision summary (chosen + rejected) before PLAN |
-| 📋 `vc-plan-agent` | sonnet | Write the plan with anti-shortcut guards. "I already know how" is not a plan |
-| ✅ `vc-validate-agent` | sonnet | Turn plan → agreed checklist (V1–V7). Checkpoint: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | Write the plan with anti-shortcut guards. "I already know how" is not a plan |
+| ✅ `vc-validate-agent` | **opus** | Turn plan → agreed checklist (V1–V7). Checkpoint: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | Implement per plan. Progress notes to phase report, deviation protocol, self-review |
 | ⏩ `vc-fast-mode-agent` | **opus** | Compressed R→S→I→P→V with a required safety pause before EXECUTE |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX lane: one small low-risk edit + scoped check, no plan/validate |
@@ -1680,7 +1680,7 @@ Many small, smart defaults add up to less babysitting and lower cost.
 
 - **Each role only gets the tools it needs.** During planning, the agent literally cannot edit code — those tools are turned off. This stops the agent from jumping ahead and changing things before the plan is approved. The system simply does not allow it.
 
-- **It uses the premium AI model only where it matters.** Code-writing uses the top model. Planning, research, review, and checking all use a cheaper, faster model. The result: roughly 60–70% lower cost compared to running the top model for everything — with no quality loss on the work that counts.
+- **It matches the model to the job.** Seven agents run on the strongest model (the three that write code, plus plan, research, validate and test); eight run on the lighter, cheaper model. The saving depends on your mix of work; no percentage is claimed until it is measured.
 
 - **It tests risky guesses before building on them.** When the agent is not sure something will work — a specific API behavior, a library feature, an infrastructure assumption — it runs a tiny real experiment first. The result is clear: works, does not work, or unclear. That verdict and a plain-English note get fed straight into the plan. The agent does not spend hours building on a wrong assumption.
 

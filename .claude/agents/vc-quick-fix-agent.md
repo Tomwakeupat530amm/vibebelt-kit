@@ -8,7 +8,7 @@ skills:
   - vc-scout
   - vc-context-discovery
 disallowedTools: []
-effort: low
+effort: max
 hooks:
   PreToolUse:
     - matcher: "Write"

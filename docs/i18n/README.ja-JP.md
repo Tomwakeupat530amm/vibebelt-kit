@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ スマート戦略選択</strong><br>各フェーズ前に、1エージェントか複数か協調チームかをコスト見積もり付きで比較し、最安値の適切な選択をします。</td>
-<td valign="top"><strong>🧮 スマートなモデル活用</strong><br>高コストモデルはコード作成のみ。それ以外はすべて安価なモデルが担当。コストを下げつつ品質を維持。</td>
+<td valign="top"><strong>🧮 スマートなモデル活用</strong><br>最も強力なモデル（opus）が構築・計画・調査・検証・テストを担当し、より軽量なモデルであるsonnetが要件定義・選択肢の比較・クローズアウト・レビュー・コミットを担当。</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 インテント明確化</strong><br>リクエストが曖昧な場合、エージェントは推測して間違ったものを作る代わりに、事前にいくつかの的確な質問をします。</td>
-<td valign="top"><strong>🛡️ 36バリデーター</strong><br>意見ではなく機械的な正確性チェック——キット自体の構造を守り、問題が出荷前にドリフトを検出します。</td>
+<td valign="top"><strong>🛡️ 38バリデーター</strong><br>意見ではなく機械的な正確性チェック——キット自体の構造を守り、問題が出荷前にドリフトを検出します。</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ フェーズプログラム</strong><br>大規模プロジェクトを品質ゲート付きの独立フェーズに分割するので、大きな作業が途中で崩壊しません。</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>プロトコル</strong><br><sub>全エージェントが従う共有ルール</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>バリデーター</strong><br><sub>出荷前にエラーを検出する自動チェック</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>バリデーター</strong><br><sub>出荷前にエラーを検出する自動チェック</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>ツール</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>言語</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>インストール</strong><br><sub>1コマンド、あとはエージェントが案内</sub></td>
@@ -852,8 +852,8 @@ flowchart TD
     WF["Workflow\nscripted steps\nacross a list"]
     TEAM["Agent team\nTeamCreate + TaskCreate\n+ SendMessage\n(must coordinate mid-run)"]
     MC{"which phase?"}
-    OPUS["🔴 opus\n(EXECUTE only)"]
-    SONNET["🔵 sonnet\n(every other phase)"]
+    OPUS["🔴 opus\n(7 agents: build, plan,\nresearch, validate, test)"]
+    SONNET["🔵 sonnet\n(8 agents: spec, innovate,\nupdate, debug, review,\nsimplify, UI, commits)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -861,8 +861,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -881,10 +881,10 @@ flowchart TD
 
 | フェーズ | モデル | 理由 |
 |---|---|---|
-| **EXECUTE**（＋fast-mode、実際のコードを書くquick-fix） | 🔴 **opus** | 実際のソース編集、ビルド、マイグレーション |
-| Research · Spec · Innovate · Plan · Validate · Update · すべてのレビュアー/リサーチャー | 🔵 **sonnet** | プランニングと分析——安価で十分な能力 |
+| **EXECUTE**（＋fast-mode、quick-fix） · Plan · Research · Validate · tester（EVL） | 🔴 **opus** | コード編集、ビルド、マイグレーション、および計画・調査・検証・テスト実行——見落としの代償が最も大きい作業 |
+| Spec · Innovate · Update · debugger · レビュアー · UI/UX · git-manager | 🔵 **sonnet** | 要件定義、選択肢の比較、クローズアウト、レビュー、コミット——安価で十分な能力 |
 
-> 作業を複数のエージェントに分割する場合、*コーディング*エージェントのみがopusを使用します。すべてのレビュアー、リサーチャー、バリデーター、プランナーはsonnetを使用します。リードエージェントはワーカーを起動するたびにモデルを明示します。
+> 名前付きの各エージェントは、自身のファイルに設定されたモデルを使用します（opusが7、sonnetが8）。名前のない補助エージェントはデフォルトでsonnetを使い、コードを書くかビルドを実行するときだけopusを使います。リードエージェントはワーカーを起動するたびにモデルを明示します。
 
 ---
 
@@ -1004,9 +1004,9 @@ SPEC、INNOVATE、またはVALIDATEが読み取りだけでは確認できない
 
 各判定には3部構成の設計ノートが付きます：**結果が許可するもの · 禁止するもの · まだ不確かなもの**——一字一句そのまま一時停止したフェーズに戻されます。プローブは**コストクラス分け**されています（`cheap-local` / `needs-container` / `needs-live-provider` → ダブルオプトイン / `needs-browser` / `needs-cf`）ので、有料または共有リソースのプローブが無音で実行されることはありません。
 
-### 🛡️ 36バリデーター——機械的な正確性、意見ではない
+### 🛡️ 38バリデーター——機械的な正確性、意見ではない
 
-このキットには**36のバリデータースクリプト**が付属し、「エージェントはルールに従ったか？」を明確なパス/フェイル結果に変えます。ハーネスファイルに触れるあらゆるフェーズの後、およびUPDATE PROCESSの必須チェックポイントとして実行されます：
+このキットには**38のバリデータースクリプト**が付属し、「エージェントはルールに従ったか？」を明確なパス/フェイル結果に変えます。ハーネスファイルに触れるあらゆるフェーズの後、およびUPDATE PROCESSの必須チェックポイントとして実行されます：
 
 | バリデーターファミリー | チェック内容 |
 |---|---|
@@ -1519,11 +1519,11 @@ process/context/
 
 | エージェント | モデル | 役割 |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | コードベース＋Webリサーチ、リードオンリー。矛盾追跡内蔵 |
+| 🔍 `vc-research-agent` | **opus** | コードベース＋Webリサーチ、リードオンリー。矛盾追跡内蔵 |
 | 📝 `vc-spec-agent` | sonnet | INNOVATE前のプロダクトディスカバリー要件ドキュメント。`*_SPEC_*.md`を生成 |
 | 💡 `vc-innovate-agent` | sonnet | 2〜3のアプローチを比較。PLAN前に意思決定サマリー（選択・却下） |
-| 📋 `vc-plan-agent` | sonnet | ショートカット防止ガード付きでプランを作成。「やり方はもう分かってる」はプランではない |
-| ✅ `vc-validate-agent` | sonnet | プラン→合意済みチェックリストに変換（V1〜V7）。チェックポイント：PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | ショートカット防止ガード付きでプランを作成。「やり方はもう分かってる」はプランではない |
+| ✅ `vc-validate-agent` | **opus** | プラン→合意済みチェックリストに変換（V1〜V7）。チェックポイント：PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | プラン通りに実装。フェーズレポートへの進捗ノート、逸脱プロトコル、セルフレビュー |
 | ⏩ `vc-fast-mode-agent` | **opus** | EXECUTE前に必須の安全一時停止付きでR→S→I→P→Vを圧縮 |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIXレーン：1つの小さな低リスク編集＋スコープ内チェック、プラン/バリデート不要 |
@@ -1678,7 +1678,7 @@ flowchart TD
 
 - **各ロールは必要なツールだけを持ちます。** プランニング中、エージェントは文字通りコードを編集できません——そのツールがオフになっています。これはエージェントがプランが承認される前に先走って変更するのを防ぎます。システムが単純にそれを許しません。
 
-- **プレミアムAIモデルを本当に重要な場所だけに使います。** コード作成には最高モデルを使用。プランニング、リサーチ、レビュー、チェックはすべてより安価で速いモデルを使用します。結果：すべてに最高モデルを使う場合と比べて約60〜70%のコスト削減——重要な作業の品質は失わずに。
+- **仕事に合わせてモデルを使い分けます。** 7つのエージェントが最も強力なモデルで動きます（コードを書く3つに加え、計画、調査、検証、テスト）。8つはより軽量で安価なモデルで動きます。節約の度合いは作業の組み合わせ次第で、測定するまで割合は示しません。
 
 - **構築前にリスクのある推測をテストします。** エージェントが何かが動作するか確信が持てない場合——特定のAPI動作、ライブラリの機能、インフラの前提——最初に小さな実際の実験を実行します。結果は明確です：動作する、動作しない、または不明。その判定と平易な英語のノートがプランに直接フィードバックされます。エージェントは間違った前提の上に何時間も費やしません。
 

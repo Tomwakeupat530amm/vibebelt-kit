@@ -176,7 +176,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
 
 **Agent parity:** each Markdown agent in `.claude/agents/` has a same-named `.toml` mirror in `.codex/agents/`. Change both together; `validate-agent-parity.mjs` enforces it.
 
-**Model policy:** CLAUDE.md says only the EXECUTE leg uses opus, but on disk today opus is set on 7 agents (`vc-execute-agent`, `vc-fast-mode-agent`, `vc-quick-fix-agent`, `vc-plan-agent`, `vc-research-agent`, `vc-tester`, `vc-validate-agent`) and sonnet on the other 8; Phase 1 of the active rebrand program (`phase-01-fix-inconsistencies_PLAN_29-10-26.md`) reconciles this.
+**Model policy:** each Claude agent runs on the model in its own `.claude/agents/*.md` front-matter: opus on 7 (`vc-execute-agent`, `vc-fast-mode-agent`, `vc-quick-fix-agent`, `vc-plan-agent`, `vc-research-agent`, `vc-tester`, `vc-validate-agent`), sonnet on the other 8; `effort: max` on the three execution agents. Codex uses the single model in `.codex/config.toml`. `validate-model-effort-policy.mjs` enforces the model table; the documents were aligned to the files in the rebrand program Phase 1 (user decision 2026-10-29: keep opus as set).
 
 **Plans:** task-folder convention `{slug}_{dd-mm-yy}/` holding `{slug}_PLAN_{dd-mm-yy}.md` plus colocated reports; flat plan files are legacy and read-only.
 

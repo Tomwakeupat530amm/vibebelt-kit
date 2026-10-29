@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ 智能策略选择器</strong><br>每个阶段前，自动权衡单个 agent、多个 agent 还是协作团队——带成本估算，选最便宜的合适方案。</td>
-<td valign="top"><strong>🧮 智能模型选择</strong><br>昂贵的模型只负责写代码，便宜的模型处理其他一切。降低成本，不降质量。</td>
+<td valign="top"><strong>🧮 智能模型选择</strong><br>最强的模型（opus）负责构建、规划、调研、验证和测试；较轻的模型 sonnet 负责需求、方案比较、收尾、审阅和提交。</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 意图确认</strong><br>请求模糊时，agent 会提前问几个关键问题，而不是乱猜然后做错东西。</td>
-<td valign="top"><strong>🛡️ 36 个验证器</strong><br>机械式正确性检查——不是凭感觉——保护 kit 自身结构，在上线前捕获漂移。</td>
+<td valign="top"><strong>🛡️ 38 个验证器</strong><br>机械式正确性检查——不是凭感觉——保护 kit 自身结构，在上线前捕获漂移。</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ 阶段程序</strong><br>大型项目拆分为独立阶段，阶段之间有质量门，让大任务不会半途崩掉。</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>协议</strong><br><sub>每个 agent 遵循的共享规则</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>验证器</strong><br><sub>自动检查，在上线前捕获错误</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>验证器</strong><br><sub>自动检查，在上线前捕获错误</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>工具</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>语言</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>安装</strong><br><sub>一条命令，然后 agent 引导你完成其余步骤</sub></td>
@@ -852,8 +852,8 @@ flowchart TD
     WF["工作流\n脚本化步骤\n跨列表"]
     TEAM["Agent 团队\nTeamCreate + TaskCreate\n+ SendMessage\n（必须在运行中协调）"]
     MC{"哪个阶段？"}
-    OPUS["🔴 opus\n（仅 EXECUTE）"]
-    SONNET["🔵 sonnet\n（其他每个阶段）"]
+    OPUS["🔴 opus\n（7 个 agent：构建、规划、\n调研、验证、测试）"]
+    SONNET["🔵 sonnet\n（8 个 agent：需求、方案比较、\n收尾、调试、审阅、\n简化、UI、提交）"]
 
     SS --> SC
     SC -->|"低 / 依赖"| SEQ
@@ -861,8 +861,8 @@ flowchart TD
     SC -->|"可预测拆分"| WF
     SC -->|"高 / 必须协调\n或 3+ 阶段计划"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix（真实代码）"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\n所有审阅者"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix（真实代码）\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\n所有审阅者\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -881,10 +881,10 @@ flowchart TD
 
 | 阶段 | 模型 | 原因 |
 |---|---|---|
-| **EXECUTE**（+ fast-mode、quick-fix 做真实代码） | 🔴 **opus** | 真实源码编辑、构建、迁移 |
-| Research · Spec · Innovate · Plan · Validate · Update · 所有审阅者/研究员 | 🔵 **sonnet** | 规划和分析——更便宜，完全够用 |
+| **EXECUTE**（+ fast-mode、quick-fix） · Plan · Research · Validate · tester（EVL） | 🔴 **opus** | 代码编辑、构建、迁移；以及规划、调研、验证和测试运行——这些环节出错代价最高 |
+| Spec · Innovate · Update · debugger · 审阅者 · UI/UX · git-manager | 🔵 **sonnet** | 需求、方案比较、收尾、审阅和提交——更便宜，完全够用 |
 
-> 当工作被分配给多个 agent 时，只有*编码* agent 使用 opus。每个审阅者、研究员、验证者和规划者都使用 sonnet。主 agent 在每次启动工作 agent 时都会指定模型。
+> 每个具名 agent 都使用其自身文件中设定的模型（7 个用 opus，8 个用 sonnet）。没有名字的辅助 agent 默认使用 sonnet，只有在写代码或运行构建时才使用 opus。主 agent 在每次启动工作 agent 时都会指定模型。
 
 ---
 
@@ -1004,9 +1004,9 @@ You: "autopilot full: add team invitations with email + role management"
 
 每份裁定都附带一个 3 部分设计注释：**结果允许什么 · 结果排除什么 · 什么仍然不确定**——逐字喂回暂停的阶段。探针有**成本分类**（`cheap-local` / `needs-container` / `needs-live-provider` → 需要双重确认 / `needs-browser` / `needs-cf`），因此付费或共享资源的探针绝不会静默运行。
 
-### 🛡️ 36 个验证器——机械式正确性，不是感觉
+### 🛡️ 38 个验证器——机械式正确性，不是感觉
 
-Kit 附带 **36 个验证器脚本**，把"agent 是否遵循了规则？"变成明确的通过/失败结果。它们在任何触碰 harness 文件的阶段后运行，并作为 UPDATE PROCESS 中的必要关卡：
+Kit 附带 **38 个验证器脚本**，把"agent 是否遵循了规则？"变成明确的通过/失败结果。它们在任何触碰 harness 文件的阶段后运行，并作为 UPDATE PROCESS 中的必要关卡：
 
 | 验证器家族 | 检查内容 |
 |---|---|
@@ -1506,11 +1506,11 @@ process/context/
 
 | Agent | 模型 | 角色 |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | 代码库 + 网络调研，只读。内置矛盾追踪 |
+| 🔍 `vc-research-agent` | **opus** | 代码库 + 网络调研，只读。内置矛盾追踪 |
 | 📝 `vc-spec-agent` | sonnet | INNOVATE 前的产品发现需求文档。产出 `*_SPEC_*.md` |
 | 💡 `vc-innovate-agent` | sonnet | 比较 2-3 种方案。PLAN 前的决策总结（选中 + 被拒绝） |
-| 📋 `vc-plan-agent` | sonnet | 带防走捷径守卫地写计划。"我已经知道怎么做"不是一个计划 |
-| ✅ `vc-validate-agent` | sonnet | 把计划转化为约定清单（V1–V7）。关卡：PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | 带防走捷径守卫地写计划。"我已经知道怎么做"不是一个计划 |
+| ✅ `vc-validate-agent` | **opus** | 把计划转化为约定清单（V1–V7）。关卡：PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | 按计划实现。进度记录到阶段报告，偏离协议，自审 |
 | ⏩ `vc-fast-mode-agent` | **opus** | 压缩 R→S→I→P→V，EXECUTE 前有强制安全暂停 |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX 通道：一个小低风险编辑 + 限定范围检查，无需计划/验证 |
@@ -1665,7 +1665,7 @@ flowchart TD
 
 - **每个角色只获得它需要的工具。** 规划期间，agent 字面上不能编辑代码——那些工具被关掉了。这阻止了 agent 提前跳过去在计划批准前修改东西。系统根本不允许这样做。
 
-- **只在重要的地方使用高端 AI 模型。** 写代码使用顶级模型。规划、调研、审阅和检查都使用更便宜、更快的模型。结果：与对一切都用顶级模型相比，成本大约降低 60–70%——而在重要的工作上没有质量损失。
+- **按任务匹配模型。** 7 个 agent 运行在最强的模型上（写代码的 3 个，加上规划、调研、验证和测试）；8 个运行在更轻、更便宜的模型上。节省多少取决于你的工作组合；在实际测量之前，不声称任何百分比。
 
 - **在基于猜测构建之前先测试。** 当 agent 不确定某事是否会工作——特定 API 行为、库功能、基础设施假设——它先进行一个小型真实实验。结果很清楚：有效、无效，或不确定。那个裁定和一段简单说明被直接喂入计划。agent 不会在错误假设上花几个小时构建。
 

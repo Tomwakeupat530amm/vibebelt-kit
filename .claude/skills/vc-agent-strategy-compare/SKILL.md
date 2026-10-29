@@ -21,17 +21,19 @@ All strategies use the existing vc-system agents and skills. The question is onl
 
 ## Model Selection Policy
 
-Every spawned agent — across ALL four strategies (sequential, parallel subagents, dynamic workflow, agent team) — defaults to **sonnet**. Spawn opus ONLY when the agent is carrying out real source-code or build execution (writing/editing code, running builds, applying migrations). Planning, research, analysis, validation, review, and synthesis all run on sonnet.
+Every named vc-agent uses the model set in its own `.claude/agents/*.md` front-matter — under ALL four strategies (sequential, parallel subagents, dynamic workflow, agent team). `validate-model-effort-policy.mjs` enforces this table:
+
+- **opus — 7 agents:** `vc-execute-agent`, `vc-fast-mode-agent`, `vc-quick-fix-agent` (write code, run builds), plus `vc-plan-agent`, `vc-research-agent`, `vc-validate-agent`, `vc-tester` (planning, research, validation and independent test runs).
+- **sonnet — 8 agents:** `vc-innovate-agent`, `vc-spec-agent`, `vc-update-process-agent`, `vc-debugger`, `vc-code-reviewer`, `vc-code-simplifier`, `vc-ui-ux-designer`, `vc-git-manager`.
 
 Concrete rules:
 
-- **Default = sonnet** for any teammate, parallel subagent, or `agent()` call in a workflow. State the model explicitly when spawning.
-- **opus ONLY for execution work**: the agent that actually implements code (the vc-execute-agent leg, or a workflow `agent()` step whose job is to modify source / run a build). The RIPER-5 phase that runs on opus is EXECUTE; all other phases (RESEARCH, SPEC, INNOVATE, PLAN, VALIDATE, UPDATE PROCESS) run on sonnet.
-- **Agent-team members**: assign sonnet to reviewers, researchers, validators, and planners; assign opus only to the teammate doing real code execution.
-- **Dynamic workflows**: pass `model: 'sonnet'` on `agent()` calls by default; pass `model: 'opus'` only on the execution stage that writes code or runs builds.
-- **Parallel subagents**: fan-out investigation/review subagents are sonnet; only an implementing subagent is opus.
+- **Named vc-agent** (teammate, parallel subagent, or workflow step `agent(..., {agentType: 'vc-...'})`): runs on that agent's own front-matter model. State the model explicitly when spawning.
+- **Ad-hoc agent** (no vc-agent file: an unnamed parallel subagent or a workflow `agent()` helper): **sonnet** by default; **opus** only when it writes code or runs builds/migrations.
+- **Dynamic workflows**: pass `model: 'sonnet'` on ad-hoc `agent()` calls; pass `model: 'opus'` only for an ad-hoc stage that writes code or runs a build.
+- **Codex**: uses the single model in `.codex/config.toml`.
 
-Rationale: opus is reserved for the one place judgment-under-execution materially changes code quality. Everything upstream is sonnet-cheap without quality loss, and this keeps fan-outs (which multiply agent count) on the cost-efficient tier. This mirrors the live agent frontmatter: `vc-execute-agent`, `vc-fast-mode-agent`, and `vc-quick-fix-agent` are opus; every other vc-agent is sonnet.
+Rationale: the agents whose misses cost the most (code execution, planning, research, validation and independent testing) stay on opus; the rest run on the cheaper tier, which also keeps fan-outs (which multiply agent count) cost-efficient. Whether sonnet is good enough for some of the 7 is NOT measured; measure on golden tasks before lowering any.
 
 ---
 
@@ -183,7 +185,7 @@ After computing the score and filling the table, output a single recommendation 
 Score: [N]/7 — signals: [list present signal IDs]
 Recommended strategy: [Sequential (one agent at a time) | Parallel subagents (independent work, no coordination) | Workflow (automated pipeline) | Agent team (specialists coordinating live)]
 Agent count: [explicit math per row above]
-Model: [sonnet for all spawned agents; opus ONLY for the code-execution leg — see §Model Selection Policy]
+Model: [front-matter model for named vc-agents; sonnet for ad-hoc agents, opus only for ad-hoc code/build execution — see §Model Selection Policy]
 Cost guard: [triggered / not triggered]
 Rationale: [one sentence on dominant signal and why this strategy fits]
 ```

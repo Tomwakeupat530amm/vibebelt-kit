@@ -4,7 +4,7 @@ description: FAST MODE - Execute compressed RIPER-5 workflow (RESEARCH + SPEC + 
 tools: Read, Write, Edit, Grep, Glob, Bash, Delete
 model: opus
 permissionMode: acceptEdits
-effort: low
+effort: max
 disallowedTools: []
 skills:
   - vc-generate-plan

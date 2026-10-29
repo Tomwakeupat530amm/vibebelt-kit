@@ -68,6 +68,73 @@ jobs:
       - name: Validate skill keywords
         run: node .claude/skills/vc-audit-context/scripts/validate-skill-keywords.mjs
 
+      - name: Validate strategy compare output (validate-strategy-compare-output.mjs)
+        run: node .claude/skills/vc-agent-strategy-compare/scripts/validate-strategy-compare-output.mjs .claude/skills/vc-agent-strategy-compare/scripts/fixtures/validate-strategy-compare-output/pass.md
+
+      - name: Validate backlog notes (validate-backlog-notes.mjs)
+        run: node .claude/skills/vc-audit-plans/scripts/validate-backlog-notes.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-backlog-notes/pass
+
+      - name: Validate eval coverage (validate-eval-coverage.mjs)
+        # continue-on-error: needs runtime-harness scenarios under apps/ (absent in this kit); exits 1 on a bare kit checkout
+        continue-on-error: true
+        run: node .claude/skills/vc-audit-plans/scripts/validate-eval-coverage.mjs
+
+      - name: Validate phase plan completeness (validate-phase-plan-completeness.mjs)
+        run: node .claude/skills/vc-audit-plans/scripts/validate-phase-plan-completeness.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-phase-plan-completeness/pass.md
+
+      - name: Validate phase reports (validate-phase-reports.mjs)
+        run: node .claude/skills/vc-audit-plans/scripts/validate-phase-reports.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-phase-reports/pass/umbrella.md
+
+      - name: Validate umbrella state (validate-umbrella-state.mjs)
+        run: node .claude/skills/vc-audit-plans/scripts/validate-umbrella-state.mjs .claude/skills/vc-audit-plans/scripts/fixtures/validate-umbrella-state/pass.md
+
+      - name: Validate agent frontmatter (validate-agent-frontmatter.mjs)
+        run: node .claude/skills/vc-audit-vc/scripts/validate-agent-frontmatter.mjs
+
+      - name: Validate model effort policy (validate-model-effort-policy.mjs)
+        run: node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs
+
+      - name: Validate autopilot goal block (validate-autopilot-goal-block.mjs)
+        run: node .claude/skills/vc-autopilot/scripts/validate-autopilot-goal-block.mjs .claude/skills/vc-autopilot/fixtures/pass-autopilot-goal-block.md
+
+      - name: Validate autoresearch log (validate-autoresearch-log.mjs)
+        run: node .claude/skills/vc-autoresearch/scripts/validate-autoresearch-log.mjs .claude/skills/vc-autoresearch/scripts/fixtures/validate-autoresearch-log/pass.tsv
+
+      - name: Validate context discovery output (validate-context-discovery-output.mjs)
+        run: node .claude/skills/vc-context-discovery/scripts/validate-context-discovery-output.mjs .claude/skills/vc-context-discovery/scripts/fixtures/validate-context-discovery-output/pass.md
+
+      - name: Validate feasibility verdict (validate-feasibility-verdict.mjs)
+        run: node .claude/skills/vc-feasibility-test/scripts/validate-feasibility-verdict.mjs .claude/skills/vc-feasibility-test/scripts/fixtures/validate-feasibility-verdict/pass.md
+
+      - name: Validate closeout output (validate-closeout-output.mjs)
+        run: node .claude/skills/vc-generate-closeout/scripts/validate-closeout-output.mjs .claude/skills/vc-generate-closeout/scripts/fixtures/validate-closeout-output/pass.md
+
+      - name: Validate phase stub (validate-phase-stub.mjs)
+        run: node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs .claude/skills/vc-generate-phase-program/scripts/fixtures/validate-phase-stub/pass.md
+
+      - name: Validate umbrella artifact (validate-umbrella-artifact.mjs)
+        run: node .claude/skills/vc-generate-phase-program/scripts/validate-umbrella-artifact.mjs .claude/skills/vc-generate-phase-program/scripts/fixtures/validate-umbrella-artifact/pass.md
+
+      - name: Validate intent clarify output (validate-intent-clarify-output.mjs)
+        run: node .claude/skills/vc-intent-clarify/scripts/validate-intent-clarify-output.mjs .claude/skills/vc-intent-clarify/scripts/fixtures/validate-intent-clarify-output/pass.md
+
+      - name: Validate plan discovery output (validate-plan-discovery-output.mjs)
+        run: node .claude/skills/vc-plan-discovery/scripts/validate-plan-discovery-output.mjs .claude/skills/vc-plan-discovery/scripts/fixtures/validate-plan-discovery-output/pass.md
+
+      - name: Validate evidence pack (validate-evidence-pack.mjs)
+        run: node .claude/skills/vc-risk-evidence-pack/scripts/validate-evidence-pack.mjs .claude/skills/vc-risk-evidence-pack/scripts/fixtures/validate-evidence-pack/pass
+
+      - name: Validate risk artifacts (validate-risk-artifacts.mjs)
+        # continue-on-error: ships no fixtures of its own; the evidence-pack stand-in dir has no pack files at its top level (and uses another field schema), so it exits 1
+        continue-on-error: true
+        run: node .claude/skills/vc-risk-evidence-pack/scripts/validate-risk-artifacts.mjs .claude/skills/vc-risk-evidence-pack/scripts/fixtures/validate-evidence-pack/pass
+
+      - name: Validate test coverage output (validate-test-coverage-output.mjs)
+        run: node .claude/skills/vc-test-coverage-plan/scripts/validate-test-coverage-output.mjs .claude/skills/vc-test-coverage-plan/scripts/fixtures/validate-test-coverage-output/pass.md
+
+      - name: Validate findings output (validate-findings-output.mjs)
+        run: node .claude/skills/vc-validate-findings/scripts/validate-findings-output.mjs .claude/skills/vc-validate-findings/scripts/fixtures/validate-findings-output/pass.md
+
       - name: Validate plan artifacts (if any)
         run: |
           PLANS=$(find process/general-plans/active process/features/*/active -name '*_PLAN_*' -type f 2>/dev/null)

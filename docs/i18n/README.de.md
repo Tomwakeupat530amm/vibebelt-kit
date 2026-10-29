@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ Smarter Strategiewähler</strong><br>Vor jeder Phase wägt er einen Agenten gegen viele oder ein koordiniertes Team ab — mit Kostenschätzungen — und wählt die günstigste passende Option.</td>
-<td valign="top"><strong>🧮 Smarter Modelleinsatz</strong><br>Das teure Modell schreibt nur Code; das günstigere erledigt alles andere. Niedrigere Kosten, gleiche Qualität.</td>
+<td valign="top"><strong>🧮 Smarter Modelleinsatz</strong><br>Das stärkste Modell (opus) baut, plant, recherchiert, validiert und testet; das leichtere Modell, sonnet, übernimmt Anforderungen, Variantenvergleich, Abschluss, Review und Commits.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 Absichtsklärung</strong><br>Bei einer vagen Anfrage stellt der Agent einige gezielte Fragen vorab, anstatt zu raten und das Falsche zu bauen.</td>
-<td valign="top"><strong>🛡️ 36 Validatoren</strong><br>Mechanische Korrektheitsprüfungen — keine Meinungen — bewachen die eigene Struktur des Kits und erkennen Abweichungen, bevor sie veröffentlicht werden.</td>
+<td valign="top"><strong>🛡️ 38 Validatoren</strong><br>Mechanische Korrektheitsprüfungen — keine Meinungen — bewachen die eigene Struktur des Kits und erkennen Abweichungen, bevor sie veröffentlicht werden.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ Phasenprogramme</strong><br>Große Projekte werden in unabhängige Phasen mit Qualitäts-Gates dazwischen aufgeteilt, damit umfangreiche Arbeit nicht auseinanderfällt.</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>Protokolle</strong><br><sub>Gemeinsame Regeln, die alle Agenten befolgen</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>Validatoren</strong><br><sub>Automatisierte Prüfungen, die Fehler vor der Veröffentlichung abfangen</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>Validatoren</strong><br><sub>Automatisierte Prüfungen, die Fehler vor der Veröffentlichung abfangen</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>Tools</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>Sprachen</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>Installation</strong><br><sub>Ein Befehl, dann führt dein Agent den Rest durch</sub></td>
@@ -851,8 +851,8 @@ flowchart TD
     WF["Workflow\nscripted steps\nacross a list"]
     TEAM["Agent-Team\nTeamCreate + TaskCreate\n+ SendMessage\n(must coordinate mid-run)"]
     MC{"welche Phase?"}
-    OPUS["🔴 opus\n(EXECUTE only)"]
-    SONNET["🔵 sonnet\n(every other phase)"]
+    OPUS["🔴 opus\n(7 agents: build, plan,\nresearch, validate, test)"]
+    SONNET["🔵 sonnet\n(8 agents: spec, innovate,\nupdate, debug, review,\nsimplify, UI, commits)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -860,8 +860,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -880,10 +880,10 @@ flowchart TD
 
 | Phase | Modell | Warum |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, quick-fix mit echtem Code) | 🔴 **opus** | Echte Quelltextbearbeitung, Builds, Migrationen |
-| Research · Spec · Innovate · Plan · Validate · Update · alle Prüfer/Forscher | 🔵 **sonnet** | Planung und Analyse — günstiger, völlig ausreichend |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | Codeänderungen, Builds, Migrationen; Planung, Recherche, Validierung und Testläufe, wo ein Fehler am teuersten ist |
+| Spec · Innovate · Update · debugger · Prüfer · UI/UX · git-manager | 🔵 **sonnet** | Anforderungen, Variantenvergleich, Abschluss, Review und Commits — günstiger, völlig ausreichend |
 
-> Wenn Arbeit auf mehrere Agents verteilt wird, verwendet nur der *codierende* Agent opus. Jeder Prüfer, Forscher, Validator und Planer verwendet sonnet. Der Lead-Agent nennt das Modell jedes Mal, wenn er einen Worker-Agent startet.
+> Jeder benannte Agent verwendet das Modell, das in seiner eigenen Datei festgelegt ist (7 auf opus, 8 auf sonnet). Ein unbenannter Hilfs-Agent verwendet standardmäßig sonnet und nur dann opus, wenn er Code schreibt oder einen Build ausführt. Der Lead-Agent nennt das Modell jedes Mal, wenn er einen Worker-Agent startet.
 
 ---
 
@@ -1003,9 +1003,9 @@ Wenn SPEC, INNOVATE oder VALIDATE auf eine Kernannahme trifft, die durch reines 
 
 Jedes Ergebnis enthält eine dreiteilige Designnotiz: **was das Ergebnis erlaubt · was es ausschließt · was noch unklar ist** — wortgenau zurück in die pausierte Phase eingespielt. Prüfungen sind **kostenmäßig klassifiziert** (`cheap-local` / `needs-container` / `needs-live-provider` → doppeltes Opt-in / `needs-browser` / `needs-cf`), sodass eine kostenpflichtige oder eine gemeinsam genutzte Ressourcenprüfung nie stillschweigend ausgeführt wird.
 
-### 🛡️ 36 Validatoren — mechanische Korrektheit, keine Meinung
+### 🛡️ 38 Validatoren — mechanische Korrektheit, keine Meinung
 
-Das Kit enthält **36 Validatorskripte**, die aus „Hat der Agent die Regeln befolgt?" ein klares Bestanden/Nicht-bestanden-Ergebnis machen. Sie laufen nach jeder Phase, die Harness-Dateien berührt, und als verpflichtende Prüfpunkte in UPDATE PROCESS:
+Das Kit enthält **38 Validatorskripte**, die aus „Hat der Agent die Regeln befolgt?" ein klares Bestanden/Nicht-bestanden-Ergebnis machen. Sie laufen nach jeder Phase, die Harness-Dateien berührt, und als verpflichtende Prüfpunkte in UPDATE PROCESS:
 
 | Validator-Familie | Prüft |
 |---|---|
@@ -1517,11 +1517,11 @@ Gruppen werden automatisch erstellt, wenn ein Thema 3+ Docs erreicht oder eine e
 
 | Agent | Modell | Rolle |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | Codebase- und Web-Recherche, nur-lesend. Widerspruchsverfolgung eingebaut |
+| 🔍 `vc-research-agent` | **opus** | Codebase- und Web-Recherche, nur-lesend. Widerspruchsverfolgung eingebaut |
 | 📝 `vc-spec-agent` | sonnet | Product-Discovery-Anforderungsdokument vor INNOVATE. Produziert `*_SPEC_*.md` |
 | 💡 `vc-innovate-agent` | sonnet | 2-3 Ansätze vergleichen. Entscheidungszusammenfassung (gewählt + abgelehnt) vor PLAN |
-| 📋 `vc-plan-agent` | sonnet | Plan mit Anti-Abkürzungs-Wächtern schreiben. „Ich weiß schon wie" ist kein Plan |
-| ✅ `vc-validate-agent` | sonnet | Plan → vereinbarte Checkliste (V1–V7). Prüfpunkt: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | Plan mit Anti-Abkürzungs-Wächtern schreiben. „Ich weiß schon wie" ist kein Plan |
+| ✅ `vc-validate-agent` | **opus** | Plan → vereinbarte Checkliste (V1–V7). Prüfpunkt: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | Gemäß Plan umsetzen. Fortschrittsnotizen zum Phasenbericht, Abweichungsprotokoll, Selbstprüfung |
 | ⏩ `vc-fast-mode-agent` | **opus** | Komprimiertes R→S→I→P→V mit einer erforderlichen Sicherheitspause vor EXECUTE |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX lane: eine kleine, risikoarme Änderung + eingeschränkte Prüfung, kein Plan/Validate |
@@ -1676,7 +1676,7 @@ Viele kleine, kluge Standardeinstellungen ergeben weniger Überwachungsaufwand u
 
 - **Jede Rolle erhält nur die Werkzeuge, die sie braucht.** Während der Planung kann der Agent buchstäblich keinen Code bearbeiten — diese Werkzeuge sind abgeschaltet. Das hindert den Agenten daran, vorzupreschen und Dinge zu ändern, bevor der Plan genehmigt ist. Das System lässt es schlicht nicht zu.
 
-- **Das Premium-KI-Modell wird nur dort eingesetzt, wo es zählt.** Das Schreiben von Code nutzt das Top-Modell. Planung, Recherche, Überprüfung und Prüfungen verwenden alle ein günstigeres, schnelleres Modell. Das Ergebnis: etwa 60–70 % niedrigere Kosten im Vergleich zum Einsatz des Top-Modells für alles — ohne Qualitätsverlust bei der wichtigen Arbeit.
+- **Das Modell passt zur Aufgabe.** 7 Agents laufen auf dem stärksten Modell (die drei, die Code schreiben, dazu Planung, Recherche, Validierung und Test); 8 laufen auf dem leichteren, günstigeren Modell. Die Ersparnis hängt von Ihrer Arbeitsmischung ab; eine Prozentzahl wird erst genannt, wenn sie gemessen ist.
 
 - **Riskante Annahmen werden getestet, bevor darauf aufgebaut wird.** Wenn der Agent nicht sicher ist, ob etwas funktioniert — ein bestimmtes API-Verhalten, ein Bibliotheks-Feature, eine Infrastrukturannahme — führt er zuerst ein kleines echtes Experiment durch. Das Ergebnis ist klar: funktioniert, funktioniert nicht, oder unklar. Dieses Urteil und eine klartextliche Notiz fließen direkt in den Plan ein. Der Agent verbringt keine Stunden damit, auf einer falschen Annahme aufzubauen.
 

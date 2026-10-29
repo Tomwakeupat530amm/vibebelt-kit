@@ -51,6 +51,7 @@ For context routing, grouping, and discoverability audits, use the `audit-contex
    ```bash
    node .claude/skills/vc-audit-vc/scripts/validate-agent-frontmatter.mjs
    ```
+   Then the agent model/effort policy validator: `node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs`
 9. If any script reports failures, inspect the referenced files and patch the smallest
    relevant surface.
 10. Re-run the failed validators until they pass.

@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ Smart strategy picker</strong><br>हर phase से पहले यह तय करता है — एक agent, कई agents, या एक coordinated team — cost estimates के साथ — और सबसे सस्ता सही option चुनता है।</td>
-<td valign="top"><strong>🧮 Smart model use</strong><br>महंगा model सिर्फ code लिखता है; सस्ता model बाकी सब करता है। कम लागत, वही quality।</td>
+<td valign="top"><strong>🧮 Smart model use</strong><br>सबसे शक्तिशाली model (opus) build, plan, research, validate और test करता है; हल्का model, sonnet, requirements, विकल्पों की तुलना, closeout, review और commits संभालता है।</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 Intent clarification</strong><br>जब request अस्पष्ट हो, agent अंदाज़ा लगाने और गलत चीज़ बनाने की बजाय पहले कुछ सटीक सवाल पूछता है।</td>
-<td valign="top"><strong>🛡️ 36 validators</strong><br>Mechanical correctness checks — opinions नहीं — kit की अपनी structure की रक्षा करते हैं और ship होने से पहले drift को पकड़ते हैं।</td>
+<td valign="top"><strong>🛡️ 38 validators</strong><br>Mechanical correctness checks — opinions नहीं — kit की अपनी structure की रक्षा करते हैं और ship होने से पहले drift को पकड़ते हैं।</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ Phase programs</strong><br>बड़े projects को independent phases में बांटा जाता है जिनके बीच quality gates होते हैं, ताकि बड़ा काम बिखरे नहीं।</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>Protocols</strong><br><sub>Shared rules जो हर agent follow करता है</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>Validators</strong><br><sub>Automated checks जो ship होने से पहले errors पकड़ते हैं</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>Validators</strong><br><sub>Automated checks जो ship होने से पहले errors पकड़ते हैं</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>Tools</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>Languages</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>Install</strong><br><sub>एक command, फिर आपका agent बाकी guide करता है</sub></td>
@@ -851,8 +851,8 @@ flowchart TD
     WF["Workflow\nscripted steps\nacross a list"]
     TEAM["Agent team\nTeamCreate + TaskCreate\n+ SendMessage\n(must coordinate mid-run)"]
     MC{"which phase?"}
-    OPUS["🔴 opus\n(EXECUTE only)"]
-    SONNET["🔵 sonnet\n(every other phase)"]
+    OPUS["🔴 opus\n(7 agents: build, plan,\nresearch, validate, test)"]
+    SONNET["🔵 sonnet\n(8 agents: spec, innovate,\nupdate, debug, review,\nsimplify, UI, commits)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -860,8 +860,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -880,10 +880,10 @@ flowchart TD
 
 | चरण | मॉडल | क्यों |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, quick-fix वास्तविक कोड करते समय) | 🔴 **opus** | वास्तविक स्रोत संपादन, बिल्ड, माइग्रेशन |
-| Research · Spec · Innovate · Plan · Validate · Update · सभी समीक्षक/शोधकर्ता | 🔵 **sonnet** | योजना और विश्लेषण — सस्ता, काफी सक्षम |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | कोड संपादन, बिल्ड, माइग्रेशन; योजना, रिसर्च, सत्यापन और टेस्ट रन, जहाँ चूक सबसे महंगी पड़ती है |
+| Spec · Innovate · Update · debugger · समीक्षक · UI/UX · git-manager | 🔵 **sonnet** | आवश्यकताएँ, विकल्पों की तुलना, समापन, समीक्षा और commits — सस्ता, काफी सक्षम |
 
-> जब काम कई एजेंटों में विभाजित हो, केवल *कोडिंग* एजेंट opus का उपयोग करता है। हर समीक्षक, शोधकर्ता, सत्यापनकर्ता, और योजनाकार sonnet का उपयोग करता है। मुख्य एजेंट हर बार कार्यकर्ता बुलाते समय मॉडल का नाम बताता है।
+> हर नामित एजेंट अपनी फ़ाइल में तय मॉडल का उपयोग करता है (7 opus पर, 8 sonnet पर)। बिना नाम का सहायक एजेंट डिफ़ॉल्ट रूप से sonnet का उपयोग करता है और opus का उपयोग केवल तब करता है जब वह कोड लिखता है या बिल्ड चलाता है। मुख्य एजेंट हर बार कार्यकर्ता बुलाते समय मॉडल का नाम बताता है।
 
 ---
 
@@ -1003,9 +1003,9 @@ You: "autopilot full: add team invitations with email + role management"
 
 प्रत्येक निर्णय के साथ 3-भाग का डिज़ाइन नोट आता है: **परिणाम क्या अनुमति देता है · क्या नकारता है · क्या अभी भी अनिश्चित है** — शब्द-दर-शब्द रुके हुए चरण में वापस डाला जाता है। जाँच **लागत-वर्गीकृत** हैं (`cheap-local` / `needs-container` / `needs-live-provider` → दोहरी सहमति / `needs-browser` / `needs-cf`) ताकि कोई भुगतान या साझा-संसाधन जाँच चुपचाप न चले।
 
-### 🛡️ 36 सत्यापनकर्ता — यांत्रिक सटीकता, राय नहीं
+### 🛡️ 38 सत्यापनकर्ता — यांत्रिक सटीकता, राय नहीं
 
-किट **36 सत्यापनकर्ता स्क्रिप्ट** के साथ आती है जो "क्या एजेंट ने नियमों का पालन किया?" को स्पष्ट पास/फेल परिणाम में बदलती है। ये किसी भी चरण के बाद चलती हैं जो हार्नेस फ़ाइलें छूता है, और UPDATE PROCESS में आवश्यक जाँच बिंदुओं के रूप में:
+किट **38 सत्यापनकर्ता स्क्रिप्ट** के साथ आती है जो "क्या एजेंट ने नियमों का पालन किया?" को स्पष्ट पास/फेल परिणाम में बदलती है। ये किसी भी चरण के बाद चलती हैं जो हार्नेस फ़ाइलें छूता है, और UPDATE PROCESS में आवश्यक जाँच बिंदुओं के रूप में:
 
 | सत्यापनकर्ता परिवार | जाँच करता है |
 |---|---|
@@ -1517,11 +1517,11 @@ process/context/
 
 | Agent | Model | भूमिका |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | कोडबेस + वेब रिसर्च, केवल पढ़ना। अंतर्निर्मित विरोधाभास ट्रैकिंग |
+| 🔍 `vc-research-agent` | **opus** | कोडबेस + वेब रिसर्च, केवल पढ़ना। अंतर्निर्मित विरोधाभास ट्रैकिंग |
 | 📝 `vc-spec-agent` | sonnet | INNOVATE से पहले उत्पाद-खोज आवश्यकता दस्तावेज़। `*_SPEC_*.md` बनाता है |
 | 💡 `vc-innovate-agent` | sonnet | 2-3 दृष्टिकोण तुलना। PLAN से पहले निर्णय सारांश (चुना + अस्वीकृत) |
-| 📋 `vc-plan-agent` | sonnet | एंटी-शॉर्टकट गार्ड के साथ योजना लिखता है। "मुझे पहले से पता है" कोई योजना नहीं है |
-| ✅ `vc-validate-agent` | sonnet | योजना → सहमत जाँच-सूची (V1–V7)। चेकपॉइंट: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | एंटी-शॉर्टकट गार्ड के साथ योजना लिखता है। "मुझे पहले से पता है" कोई योजना नहीं है |
+| ✅ `vc-validate-agent` | **opus** | योजना → सहमत जाँच-सूची (V1–V7)। चेकपॉइंट: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | योजना के अनुसार लागू करें। चरण रिपोर्ट में प्रगति नोट, विचलन प्रोटोकॉल, स्व-समीक्षा |
 | ⏩ `vc-fast-mode-agent` | **opus** | संकुचित R→S→I→P→V, EXECUTE से पहले ज़रूरी सुरक्षा विराम के साथ |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX लेन: एक छोटा कम-जोखिम संपादन + केवल छुई फ़ाइलों की जाँच, कोई योजना/validate नहीं |
@@ -1676,7 +1676,7 @@ flowchart TD
 
 - **हर भूमिका को केवल वही उपकरण मिलते हैं जो उसे चाहिए।** योजना बनाते समय एजेंट शाब्दिक रूप से कोड संपादित नहीं कर सकता — वे उपकरण बंद हैं। यह एजेंट को आगे कूदकर योजना मंजूर होने से पहले चीज़ें बदलने से रोकता है। सिस्टम बस इसकी अनुमति नहीं देता।
 
-- **यह premium AI model केवल वहाँ उपयोग करता है जहाँ ज़रूरी है।** कोड लिखने में शीर्ष model उपयोग होता है। योजना, रिसर्च, समीक्षा, और जाँच — सभी में एक सस्ता, तेज़ model। परिणाम: सब कुछ के लिए शीर्ष model चलाने की तुलना में लगभग 60–70% कम लागत — उस काम में कोई गुणवत्ता हानि नहीं जो मायने रखता है।
+- **यह हर काम के लिए सही model चुनता है।** 7 एजेंट सबसे शक्तिशाली model पर चलते हैं (कोड लिखने वाले तीन, साथ में plan, research, validate और test); 8 एजेंट हल्के, सस्ते model पर चलते हैं। बचत आपके काम के मिश्रण पर निर्भर करती है; जब तक मापा न जाए, कोई प्रतिशत दावा नहीं किया जाता।
 
 - **यह निर्माण से पहले जोखिम भरे अनुमानों का परीक्षण करता है।** जब एजेंट को यकीन न हो कि कुछ काम करेगा — एक विशिष्ट API व्यवहार, एक लाइब्रेरी फ़ीचर, एक अवसंरचना धारणा — तो पहले एक छोटा असली प्रयोग करता है। परिणाम स्पष्ट: काम करता है, काम नहीं करता, या अस्पष्ट। वह निर्णय और एक सरल-भाषा नोट सीधे योजना में जाते हैं। एजेंट गलत धारणा पर घंटों निर्माण नहीं करता।
 

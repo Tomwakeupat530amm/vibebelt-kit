@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ 스마트 전략 선택기</strong><br>각 단계 전에 에이전트 하나 vs. 여럿 vs. 팀을 — 비용 추정과 함께 — 따져보고 가장 저렴하게 맞는 걸 선택해요.</td>
-<td valign="top"><strong>🧮 스마트 모델 사용</strong><br>비싼 모델은 코드 작성에만 써요. 그 외 모든 작업은 저렴한 모델이 해요. 비용은 낮고, 품질은 동일.</td>
+<td valign="top"><strong>🧮 스마트 모델 사용</strong><br>가장 강력한 모델(opus)은 빌드, 계획, 리서치, 검증, 테스트를 맡아요. 더 가벼운 모델인 sonnet은 요구사항, 방안 비교, 마무리, 리뷰, 커밋을 맡아요.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 의도 명확화</strong><br>요청이 모호하면 에이전트가 추측하고 엉뚱한 걸 만들기 전에 몇 가지 핵심 질문을 먼저 해요.</td>
-<td valign="top"><strong>🛡️ 36개 검증기</strong><br>의견이 아닌 기계적 정확성 검사 — 킷 자체 구조를 지키고 출시 전 드리프트를 잡아요.</td>
+<td valign="top"><strong>🛡️ 38개 검증기</strong><br>의견이 아닌 기계적 정확성 검사 — 킷 자체 구조를 지키고 출시 전 드리프트를 잡아요.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ 페이즈 프로그램</strong><br>대형 프로젝트를 독립 페이즈로 나누고 사이에 품질 게이트를 두어, 큰 작업이 무너지지 않아요.</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>프로토콜</strong><br><sub>모든 에이전트가 따르는 공유 규칙</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>검증기</strong><br><sub>출시 전 오류를 잡는 자동화 검사</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>검증기</strong><br><sub>출시 전 오류를 잡는 자동화 검사</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>도구</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>언어</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30초</h3><strong>설치</strong><br><sub>명령 하나, 그다음은 에이전트가 안내해요</sub></td>
@@ -852,8 +852,8 @@ flowchart TD
     WF["워크플로우\n스크립트된 단계\n목록에 걸쳐"]
     TEAM["에이전트 팀\nTeamCreate + TaskCreate\n+ SendMessage\n(실행 중에 조율 필요)"]
     MC{"어느 단계?"}
-    OPUS["🔴 opus\n(EXECUTE만)"]
-    SONNET["🔵 sonnet\n(다른 모든 단계)"]
+    OPUS["🔴 opus\n(에이전트 7개: 빌드, 계획,\n리서치, 검증, 테스트)"]
+    SONNET["🔵 sonnet\n(에이전트 8개: 스펙, 방안 비교,\n업데이트, 디버그, 리뷰,\n단순화, UI, 커밋)"]
 
     SS --> SC
     SC -->|"낮음 / 의존적"| SEQ
@@ -861,8 +861,8 @@ flowchart TD
     SC -->|"예측 가능한 분할"| WF
     SC -->|"높음 / 조율 필요\n또는 3개 이상 페이즈 플랜"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (실제 코드)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\n모든 검토자"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (실제 코드)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\n모든 검토자\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -881,10 +881,10 @@ flowchart TD
 
 | 단계 | 모델 | 이유 |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, 실제 코드를 하는 quick-fix) | 🔴 **opus** | 실제 소스 편집, 빌드, 마이그레이션 |
-| Research · Spec · Innovate · Plan · Validate · Update · 모든 검토자/연구자 | 🔵 **sonnet** | 계획과 분석 — 더 저렴하고 충분히 유능함 |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | 코드 편집, 빌드, 마이그레이션, 그리고 계획, 리서치, 검증, 테스트 실행 — 실수의 대가가 가장 큰 작업 |
+| Spec · Innovate · Update · debugger · 검토자 · UI/UX · git-manager | 🔵 **sonnet** | 요구사항, 방안 비교, 마무리, 리뷰, 커밋 — 더 저렴하고 충분히 유능함 |
 
-> 여러 에이전트로 작업을 분할할 때 *코딩* 에이전트만 opus를 써요. 모든 검토자, 연구자, 검증자, 계획자는 sonnet을 써요. 리드 에이전트는 작업자를 실행할 때마다 모델을 명시해요.
+> 이름이 있는 각 에이전트는 자기 파일에 설정된 모델을 써요 (opus 7개, sonnet 8개). 이름 없는 보조 에이전트는 기본으로 sonnet을 쓰고, 코드를 작성하거나 빌드를 실행할 때만 opus를 써요. 리드 에이전트는 작업자를 실행할 때마다 모델을 명시해요.
 
 ---
 
@@ -1004,9 +1004,9 @@ SPEC, INNOVATE, 또는 VALIDATE가 읽기만으로는 확인할 수 없는 핵�
 
 각 판정에는 3부분 설계 노트가 따라와요: **결과가 허용하는 것 · 배제하는 것 · 여전히 불확실한 것** — 일시 정지된 단계로 그대로 피드백돼요. 프로브는 **비용 분류됨** (`cheap-local` / `needs-container` / `needs-live-provider` → 이중 옵트인 / `needs-browser` / `needs-cf`)되어 유료나 공유 자원 프로브가 조용히 실행되지 않아요.
 
-### 🛡️ 36개 검증기 — 의견이 아닌 기계적 정확성
+### 🛡️ 38개 검증기 — 의견이 아닌 기계적 정확성
 
-킷에 **36개 검증기 스크립트**가 포함되어 "에이전트가 규칙을 따랐나?"를 명확한 통과/실패 결과로 바꿔줘요. 하네스 파일을 건드리는 단계 후와 UPDATE PROCESS의 필수 체크포인트에서 실행돼요:
+킷에 **38개 검증기 스크립트**가 포함되어 "에이전트가 규칙을 따랐나?"를 명확한 통과/실패 결과로 바꿔줘요. 하네스 파일을 건드리는 단계 후와 UPDATE PROCESS의 필수 체크포인트에서 실행돼요:
 
 | 검증기 계열 | 검사 내용 |
 |---|---|
@@ -1519,11 +1519,11 @@ process/context/
 
 | 에이전트 | 모델 | 역할 |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | 코드베이스 + 웹 리서치, 읽기 전용. 모순 추적 내장 |
+| 🔍 `vc-research-agent` | **opus** | 코드베이스 + 웹 리서치, 읽기 전용. 모순 추적 내장 |
 | 📝 `vc-spec-agent` | sonnet | INNOVATE 전 프로덕트 디스커버리 요구사항 문서. `*_SPEC_*.md` 생성 |
 | 💡 `vc-innovate-agent` | sonnet | 2-3가지 접근 방식 비교. PLAN 전 결정 요약 (선택 + 거절) |
-| 📋 `vc-plan-agent` | sonnet | 지름길 방지 가드와 함께 플랜 작성. "이미 알아요"는 플랜이 아님 |
-| ✅ `vc-validate-agent` | sonnet | 플랜 → 합의된 체크리스트 (V1–V7). 체크포인트: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | 지름길 방지 가드와 함께 플랜 작성. "이미 알아요"는 플랜이 아님 |
+| ✅ `vc-validate-agent` | **opus** | 플랜 → 합의된 체크리스트 (V1–V7). 체크포인트: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | 플랜대로 구현. 페이즈 리포트에 진행 노트, 이탈 프로토콜, 셀프 리뷰 |
 | ⏩ `vc-fast-mode-agent` | **opus** | EXECUTE 전 필수 안전 일시 정지와 함께 압축 R→S→I→P→V |
 | 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX 레인: 소규모 저위험 편집 하나 + 범위 내 검사, 플랜/검증 없음 |
@@ -1678,7 +1678,7 @@ flowchart TD
 
 - **각 역할은 필요한 도구만 받아요.** 계획 중에는 에이전트가 말 그대로 코드를 편집할 수 없어요 — 그 도구들이 꺼져 있어요. 이것이 에이전트가 플랜이 승인되기 전에 앞서가서 것들을 바꾸는 걸 막아요. 시스템이 그냥 허용하지 않아요.
 
-- **프리미엄 AI 모델을 중요한 곳에만 써요.** 코드 작성은 최상위 모델을 사용해요. 계획, 리서치, 리뷰, 확인은 모두 더 저렴하고 빠른 모델을 사용해요. 결과: 모든 것에 최상위 모델을 사용하는 것에 비해 비용이 대략 60–70% 낮아져요 — 중요한 작업에서 품질 손실 없이.
+- **작업에 맞는 모델을 써요.** 에이전트 7개는 가장 강력한 모델로 동작해요 (코드를 작성하는 3개, 그리고 계획, 리서치, 검증, 테스트). 8개는 더 가볍고 저렴한 모델로 동작해요. 절감 폭은 작업 구성에 따라 달라지며, 측정하기 전까지는 퍼센트를 주장하지 않아요.
 
 - **만들기 전에 위험한 추측을 테스트해요.** 에이전트가 무언가 작동할지 확신하지 못할 때 — 특정 API 동작, 라이브러리 기능, 인프라 가정 — 먼저 작은 실제 실험을 실행해요. 결과가 명확해요: 동작, 동작 안 함, 또는 불명확. 그 판정과 평이한 영어 노트가 플랜으로 바로 피드백돼요. 에이전트가 틀린 가정에 기반해서 시간을 낭비하지 않아요.
 

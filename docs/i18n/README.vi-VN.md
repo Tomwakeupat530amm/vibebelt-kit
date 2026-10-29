@@ -54,11 +54,11 @@
 </tr>
 <tr>
 <td valign="top"><strong>🎛️ Chọn chiến lược thông minh</strong><br>Trước mỗi giai đoạn, đánh giá một agent hay nhiều agent hay một nhóm phối hợp — kèm ước tính chi phí — và chọn phương án rẻ nhất phù hợp.</td>
-<td valign="top"><strong>🧮 Dùng model thông minh</strong><br>Model đắt tiền chỉ viết code; model rẻ hơn làm mọi việc còn lại. Chi phí thấp hơn, chất lượng như cũ.</td>
+<td valign="top"><strong>🧮 Dùng model thông minh</strong><br>Model mạnh nhất (opus) viết code, lập kế hoạch, nghiên cứu, kiểm định và test; model nhẹ hơn, sonnet, lo phần yêu cầu, so sánh phương án, tổng kết, review và commit.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🤔 Làm rõ yêu cầu</strong><br>Khi yêu cầu mơ hồ, agent hỏi một vài câu ngắn gọn trước thay vì đoán và xây nhầm thứ.</td>
-<td valign="top"><strong>🛡️ 36 validator</strong><br>Kiểm tra tính chính xác theo cơ chế — không phải ý kiến chủ quan — bảo vệ cấu trúc của kit và phát hiện sai lệch trước khi xuất bản.</td>
+<td valign="top"><strong>🛡️ 38 validator</strong><br>Kiểm tra tính chính xác theo cơ chế — không phải ý kiến chủ quan — bảo vệ cấu trúc của kit và phát hiện sai lệch trước khi xuất bản.</td>
 </tr>
 <tr>
 <td valign="top"><strong>🏗️ Chương trình theo giai đoạn</strong><br>Các dự án lớn được chia thành các giai đoạn độc lập với cổng kiểm tra giữa chúng, để công việc lớn không sụp đổ giữa chừng.</td>
@@ -265,7 +265,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <td align="center" width="25%" valign="top"><h1>📜</h1><h3>22</h3><strong>Giao Thức</strong><br><sub>Quy tắc dùng chung mà mọi agent đều tuân theo</sub></td>
 </tr>
 <tr>
-<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>36</h3><strong>Validator</strong><br><sub>Kiểm tra tự động phát hiện lỗi trước khi xuất bản</sub></td>
+<td align="center" width="25%" valign="top"><h1>🛡️</h1><h3>38</h3><strong>Validator</strong><br><sub>Kiểm tra tự động phát hiện lỗi trước khi xuất bản</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔧</h1><h3>7</h3><strong>Công Cụ</strong><br><sub>Claude Code · Codex · Cursor · Windsurf · Antigravity · OpenCode · Copilot</sub></td>
 <td align="center" width="25%" valign="top"><h1>🌍</h1><h3>10</h3><strong>Ngôn Ngữ</strong><br><sub>EN · 中文 · 日本語 · 한국어 · VI · PT · DE · FR · ES · हिन्दी</sub></td>
 <td align="center" width="25%" valign="top"><h1>⚡</h1><h3>30s</h3><strong>Cài Đặt</strong><br><sub>Một lệnh, rồi agent hướng dẫn phần còn lại</sub></td>
@@ -851,8 +851,8 @@ flowchart TD
     WF["Workflow\ncác bước được lập trình\ntrên một danh sách"]
     TEAM["Agent team\nTeamCreate + TaskCreate\n+ SendMessage\n(phải phối hợp trong khi chạy)"]
     MC{"giai đoạn nào?"}
-    OPUS["🔴 opus\n(chỉ EXECUTE)"]
-    SONNET["🔵 sonnet\n(mọi giai đoạn khác)"]
+    OPUS["🔴 opus\n(7 agent: viết code, lập kế hoạch,\nnghiên cứu, kiểm định, test)"]
+    SONNET["🔵 sonnet\n(8 agent: spec, so sánh phương án,\ntổng kết, debug, review,\nđơn giản hóa, UI, commit)"]
 
     SS --> SC
     SC -->|"low / dependent"| SEQ
@@ -860,8 +860,8 @@ flowchart TD
     SC -->|"predictable split"| WF
     SC -->|"high / must coordinate\nor 3+ phase plans"| TEAM
     SS --> MC
-    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)"| OPUS
-    MC -->|"Research / Spec\nInnovate / Plan\nValidate / Update\nall reviewers"| SONNET
+    MC -->|"EXECUTE / fast-mode\nquick-fix (real code)\nPlan / Research\nValidate / tester"| OPUS
+    MC -->|"Spec / Innovate\nUpdate / debugger\nall reviewers\nUI/UX / git-manager"| SONNET
 
     style SS fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
     style SC fill:#E65100,stroke:#BF360C,color:#FFFFFF
@@ -880,10 +880,10 @@ flowchart TD
 
 | Giai đoạn | Model | Lý do |
 |---|---|---|
-| **EXECUTE** (+ fast-mode, quick-fix làm code thực) | 🔴 **opus** | Chỉnh sửa mã nguồn thực, build, migration |
-| Research · Spec · Innovate · Plan · Validate · Update · tất cả reviewer/researcher | 🔵 **sonnet** | Lập kế hoạch và phân tích — rẻ hơn, đủ năng lực |
+| **EXECUTE** (+ fast-mode, quick-fix) · Plan · Research · Validate · tester (EVL) | 🔴 **opus** | Sửa code, build, migration; lập kế hoạch, nghiên cứu, kiểm định và chạy test, nơi sai sót tốn kém nhất |
+| Spec · Innovate · Update · debugger · reviewer · UI/UX · git-manager | 🔵 **sonnet** | Yêu cầu, so sánh phương án, tổng kết, review và commit — rẻ hơn, đủ năng lực |
 
-> Khi công việc được chia cho nhiều agent, chỉ agent *coding* dùng opus. Mọi reviewer, researcher, validator và planner đều dùng sonnet. Agent dẫn dắt đặt tên model mỗi khi triển khai một agent.
+> Mỗi agent có tên dùng model được đặt trong file của chính nó (7 agent dùng opus, 8 agent dùng sonnet). Agent trợ giúp không có tên mặc định dùng sonnet và chỉ dùng opus khi viết code hoặc chạy build. Agent dẫn dắt đặt tên model mỗi khi triển khai một agent.
 
 ---
 
@@ -1003,9 +1003,9 @@ Khi SPEC, INNOVATE, hoặc VALIDATE gặp một giả định then chốt không
 
 Mỗi kết quả kèm theo ghi chú thiết kế 3 phần: **điều kết quả cho phép · điều nó loại trừ · điều còn không chắc** — được đưa nguyên văn trở lại giai đoạn đã tạm dừng. Các thăm dò được **phân loại chi phí** (`cheap-local` / `needs-container` / `needs-live-provider` → xác nhận kép / `needs-browser` / `needs-cf`) để thăm dò tốn tiền hoặc dùng tài nguyên chung không bao giờ chạy âm thầm.
 
-### 🛡️ 36 validator — tính đúng đắn cơ học, không phải ý kiến
+### 🛡️ 38 validator — tính đúng đắn cơ học, không phải ý kiến
 
-Bộ kit đi kèm **36 script validator** biến "agent có tuân theo quy tắc không?" thành kết quả pass/fail rõ ràng. Chúng chạy sau bất kỳ giai đoạn nào chạm vào file harness, và như các checkpoint bắt buộc trong UPDATE PROCESS:
+Bộ kit đi kèm **38 script validator** biến "agent có tuân theo quy tắc không?" thành kết quả pass/fail rõ ràng. Chúng chạy sau bất kỳ giai đoạn nào chạm vào file harness, và như các checkpoint bắt buộc trong UPDATE PROCESS:
 
 | Nhóm Validator | Kiểm tra |
 |---|---|
@@ -1517,11 +1517,11 @@ Các nhóm được tạo tự động khi một chủ đề đạt 3+ tài li�
 
 | AI | Mô hình | Vai trò |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | sonnet | Nghiên cứu codebase + web, chỉ đọc. Theo dõi mâu thuẫn tích hợp sẵn |
+| 🔍 `vc-research-agent` | **opus** | Nghiên cứu codebase + web, chỉ đọc. Theo dõi mâu thuẫn tích hợp sẵn |
 | 📝 `vc-spec-agent` | sonnet | Tài liệu yêu cầu khám phá sản phẩm trước INNOVATE. Tạo ra `*_SPEC_*.md` |
 | 💡 `vc-innovate-agent` | sonnet | So sánh 2-3 phương án. Tóm tắt quyết định (được chọn + bị từ chối) trước PLAN |
-| 📋 `vc-plan-agent` | sonnet | Viết kế hoạch với các biện pháp bảo vệ chống lối tắt. "Tôi đã biết cách làm" không phải là kế hoạch |
-| ✅ `vc-validate-agent` | sonnet | Chuyển kế hoạch → danh sách kiểm tra đã thỏa thuận (V1–V7). Điểm kiểm tra: PASS/CONDITIONAL/BLOCKED |
+| 📋 `vc-plan-agent` | **opus** | Viết kế hoạch với các biện pháp bảo vệ chống lối tắt. "Tôi đã biết cách làm" không phải là kế hoạch |
+| ✅ `vc-validate-agent` | **opus** | Chuyển kế hoạch → danh sách kiểm tra đã thỏa thuận (V1–V7). Điểm kiểm tra: PASS/CONDITIONAL/BLOCKED |
 | ⚡ `vc-execute-agent` | **opus** | Triển khai theo kế hoạch. Ghi chú tiến độ vào báo cáo giai đoạn, giao thức sai lệch, tự xem xét |
 | ⏩ `vc-fast-mode-agent` | **opus** | R→S→I→P→V nén với tạm dừng an toàn bắt buộc trước EXECUTE |
 | 🔧 `vc-quick-fix-agent` | **opus** | Làn QUICK FIX: một chỉnh sửa nhỏ ít rủi ro + kiểm tra có phạm vi, không kế hoạch/xác nhận |
@@ -1676,7 +1676,7 @@ Nhiều mặc định nhỏ, thông minh cộng lại giúp ít phải giám sá
 
 - **Mỗi vai trò chỉ nhận được các công cụ cần thiết.** Trong lúc lập kế hoạch, AI thực sự không thể chỉnh sửa code — các công cụ đó bị tắt. Điều này ngăn AI tiến lên và thay đổi mọi thứ trước khi kế hoạch được phê duyệt. Hệ thống đơn giản là không cho phép điều đó.
 
-- **Nó chỉ dùng mô hình AI cao cấp khi cần thiết.** Viết code dùng mô hình hàng đầu. Lập kế hoạch, nghiên cứu, xem xét, và kiểm tra đều dùng mô hình rẻ hơn, nhanh hơn. Kết quả: chi phí thấp hơn khoảng 60–70% so với chạy mô hình hàng đầu cho mọi thứ — mà không mất chất lượng ở công việc quan trọng.
+- **Nó chọn đúng model cho từng việc.** 7 agent chạy trên model mạnh nhất (ba agent viết code, cùng với lập kế hoạch, nghiên cứu, kiểm định và test); 8 agent chạy trên model nhẹ hơn, rẻ hơn. Mức tiết kiệm tùy vào loại công việc của bạn; chưa đưa ra con số phần trăm nào cho đến khi đo được.
 
 - **Nó kiểm thử các phỏng đoán rủi ro trước khi xây dựng trên đó.** Khi AI không chắc thứ gì đó sẽ hoạt động — một hành vi API cụ thể, tính năng thư viện, giả định hạ tầng — nó chạy một thí nghiệm thực nhỏ trước. Kết quả rõ ràng: hoạt động, không hoạt động, hoặc không chắc. Phán quyết đó và ghi chú tiếng thường được đưa thẳng vào kế hoạch. AI không mất hàng giờ xây dựng trên giả định sai.
 
