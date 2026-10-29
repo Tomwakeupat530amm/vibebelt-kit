@@ -26,3 +26,4 @@ validate-plan-artifact:phase-08-install-release_PLAN_29-10-26	node .claude/skill
 resolve-manifest	node resolve-manifest.mjs --json
 e2e-kit-flows	node --test e2e-kit-flows.test.mjs
 git-diff-check	git diff --check HEAD -- . ':!process/general-plans/active/vibebelt-rebrand_29-10-26'
+validate-model-effort-policy	node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs
