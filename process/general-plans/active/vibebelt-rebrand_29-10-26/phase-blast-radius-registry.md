@@ -11,12 +11,15 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - Mixed git binaries: gates use WSL git; node.exe validators use Windows git on the same repo; Phase 0 gates that `git.exe status` and WSL `git status` both print nothing after C3
 
 ## Phase 1
-- `.claude/agents/*.md` front-matter `model:`/`effort:` lines ONLY. `.codex/` is NOT claimed (Codex toml has no model/effort fields; `.codex/config.toml` unchanged)
+- `.claude/agents/vc-execute-agent.md`, `vc-fast-mode-agent.md`, `vc-quick-fix-agent.md`: the `effort:` line ONLY (`low` -> `max`). NO `model:` line in ANY agent file changes (user decision B, 2026-10-29: keep opus on plan/research/validate/tester as on disk; fix the docs). `.codex/` is NOT claimed (Codex toml has no model/effort fields; `.codex/config.toml` unchanged)
 - `.claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs` (new) + fixtures `.claude/skills/vc-audit-vc/scripts/fixtures/model-effort-pass/**` and `model-effort-fail/**`
 - `.claude/skills/vc-audit-vc/SKILL.md` (one line listing the new validator)
-- `README.md` + `docs/i18n/README.*.md` (9 files; validator count only, 4 sites per file, 40 total), `.github/workflows/validate.yml`
+- `README.md` + `docs/i18n/README.*.md` (9 files; (1) validator count, 4 sites per file, 40 total; (2) the model-fact claim sites: feature cell, model diagram + 2-row table + note, the agent-table model column for research/plan/validate, the "premium model" bullet; FACTS only, wording is Phase 7), `.github/workflows/validate.yml`
 - Task folder `baseline/`: `p1_start.txt` (new) and ONE appended line in `baseline/validators.list` (`validate-model-effort-policy<TAB>...`)
 - Order: Group (a) agents + validator + fixtures + SKILL.md before group (b) README/i18n/CI
+- Model-fact documentation (decision B; line numbers grep-verified 2026-10-29, re-grep before editing): `CLAUDE.md` §Model Selection Policy (lines 128-141); `process/development-protocols/implementation-standards.md` (lines 74-76); `process/development-protocols/orchestration.md` (line 35); `process/development-protocols/vc-system-behavior/04-research.md:23`, `07-plan.md:29`, `08-validate.md:23` and `:25`; `.claude/skills/vc-agent-strategy-compare/SKILL.md` (§Model Selection Policy lines 22-34 and line 186; body text only); `process/context/all-context.md:179` (one paragraph in a Phase 0 file). NO change: `AGENTS.md`, `06-innovate.md`, `09-execute.md`, `autopilot.md`
+- Order (3 groups): (a) effort lines + validator + fixtures + `vc-audit-vc/SKILL.md`; (b) README/i18n count + model facts + CI, starting after (a)'s validator exists; (c) model-fact docs, independent of (a)/(b)
+- Hand-off: Phase 4 (owner of CLAUDE.md, AGENTS.md, protocols) runs AFTER Phase 1 and MUST PRESERVE the corrected model text; Phase 5 edits skill front-matter only, so the strategy-compare body survives; Phase 7 rewrites README wording but keeps the facts (7 opus / 8 sonnet)
 
 ## Phase 2
 - Group (a): `install.sh` (REPO + banner), `resolve-manifest.mjs` (glob mode by `Array.isArray(manifest.include)`; gate `resolve-manifest --json` files.length > 0), `vc-manifest.json` (version), `.claude/skills/vc-update/SKILL.md` + `references/vc-update.md`, `.claude/skills/vc-publish/SKILL.md` + `references/vc-publish.md`, `.claude/skills/vc-setup/SKILL.md`, `e2e-kit-flows.test.mjs` (header comment/display name ONLY)
@@ -31,6 +34,7 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - `.claude/agents/vc-*.md` (15 files, ONE at a time, one commit per agent, `refactor(agents): slim <agent>`), `.codex/agents/*.toml` mirrors
 - New agent `references/` files: `.claude/agents/references/` (or the location decided in Phase 3 step 0.2, accepted by the parity validator and manifest globs) and `.codex/agents/references/` (plain .md; NEW path; `references/` subfolders are never agents)
 - Task folder `golden/**`: `size-check.mjs`, `signal-census.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `gen-guardrails.mjs`, `run-record.mjs`, `signal-census-phase3.txt`, snapshots (`sizes-before.json`, `slimmed.list`, `signal-census-before.txt`, `pointers-before.json`, `start.sha`, `agents-list-before.json`), `guardrails.json`, `runs/`, `old/` (original models, reported only), `phase1/` (same models, unslimmed; the revert baseline), `compare.md`. Phase 7 reads `signal-census.mjs` + `signal-census-phase3.txt` (hard dependency; Phase 3 must keep them; the census lists agents by directory listing and keys by prefix-stripped names)
+- Task folder `golden/tasks/**` (NEW, user decision A, FROZEN after Phase 3 step A5 with `FROZEN.sha256`): `tasks.md`, `task-N-<slug>/{prompt.md,fixture/,expected-artifacts.md}`, `rubric.md`, `judge.md`, `old-sandbox-recipe.md`, `FROZEN.md`. Phase 8 reads them verbatim and never edits them
 - Outside the task folder: ONE new backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` (step 0.2f)
 - User checkpoint: cost gate A0 (exact run count; user acknowledgement required before any model run)
 
@@ -41,6 +45,7 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - READ-ONLY for Phase 4: `.claude/agents/**`, `.codex/**`, `.claude/skills/**`, `process/context/generated-skills-catalog.json`
 - FROZEN in Phases 4 AND 5 (neither edits them; `diff -q`/`cmp` at the join): `process/development-protocols/references/program-goal-charter-template.md` and its skill-side mirror `.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md`
 - Rule: may not rename/delete any protocol file or heading cited from OUTSIDE `process/development-protocols/` (incl. `.claude/**`, `.codex/**`) without a stub or SendMessage to `p5-skills-tune`
+- MUST PRESERVE the Phase 1 model-fact text (decision B) in `CLAUDE.md` §Model Selection Policy, `orchestration.md` line 35, `implementation-standards.md` effort bullet, `vc-system-behavior/04-research.md`, `07-plan.md`, `08-validate.md`; its verification re-runs the Phase 1 claim grep (no output expected)
 - User checkpoint: cost gate 0.5a (exact probe-call count reported before any probe)
 - Fallback when team tooling is unavailable: Phase 4 then Phase 5 sequentially on `main`; claim-check on `git diff --name-only $(cat $T/p4-tools/baseline.sha)..HEAD`
 
@@ -54,6 +59,7 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - FROZEN: the skill-side charter-template mirror copy (and the protocol-side copy); see Phase 4
 - Handoff: after Phase 3 exit gate, parallel with Phase 4
 - NOT: `CLAUDE.md`, `AGENTS.md`, `process/development-protocols/**`
+- `.claude/skills/vc-agent-strategy-compare/SKILL.md`: front-matter only; its `## Model Selection Policy` body is Phase 1's (decision B) and must survive unchanged
 - The registry prose above is the human form of the machine-readable `claim.globs` of each phase (`$T/p4-tools/claim.globs`, `$P/claim.globs`); if they ever disagree, the globs file is fixed to match this registry in the same step.
 
 ## Phase 6
@@ -86,10 +92,12 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - Backlog stubs under `process/general-plans/backlog/`: native Windows/macOS user-run checklist, Linux-Node refusal (if it happens); possible backup-extension / JSON-merge candidates for `install.sh` (stub "to be written at EXECUTE" per Phase 8 notes; not in scope for v1.0.0)
 - Tag `v1.0.0` local only; push / remote tag / release = hard stops (C2a-C2c, one go each)
 - Precondition: `resolve-manifest --json` files.length > 0; uses Phase 6 `harness/compare-vb.sh`
+- FINAL EQUIVALENCE GATE (user decision A, step B4): task-folder evidence `eq/**` (`shas.txt`, `final-sha.txt`, `diff.txt`, `diff-excluded.txt`, `old/`, `final/`, `scripted.tsv`, `census-*.txt`, `guardrails-*.json`, `verdict.md`) is Phase 8 owned; READ-ONLY inputs `golden/tasks/**`, `golden/*.mjs`, `golden/guardrails.json`, `golden/signal-census-phase3.txt`, `golden/start.sha` (Phase 3); two throw-away worktrees outside the repo. User checkpoint: exact run count and cost acknowledged before any model run (B4.1). Gate result is the last line of `eq/verdict.md`; Step C0 stops on anything but `EQ gate: PASS` or `ACCEPTED-BY-USER`
 
 ## Potential Blast Radius Conflicts
 - Phase 4 vs 5: none (disjoint). Both regenerate nothing shared; catalog regeneration is the orchestrator-sequenced join step.
 - README.md: Phases 1, 2, 6, 7 touch it; safe only because those phases run strictly in order.
+- CLAUDE.md / protocols / strategy-compare SKILL.md / all-context.md (model-policy paragraph): Phase 1 (model facts, first), then Phase 4 (dedup, must preserve), Phase 5 (strategy-compare front-matter only), Phase 6 (rename); strictly ordered, single writer at a time.
 - `docs/i18n/README.*.md`: Phases 1, 2, 6, 7 in order.
 - Agents (`.claude/agents`, `.codex/agents`): Phases 1 (front-matter), 3 (content), 6 (rename), 7 (prose); strictly ordered; Phase 3 must not start while Phase 1 edits are uncommitted.
 - `e2e-kit-flows.test.mjs`: Phases 2 (text), 6 (rename), 8 (path fix).
@@ -111,3 +119,8 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - Registry aligned with the cycle-2 phase plans: added Phase 0 files and user checkpoints; Phase 1 `baseline/p1_start.txt` + validators.list line; Phase 2 baseline start files and CONTRIBUTING translations; Phase 3 `golden/**` (full list), `.codex/agents/references/`, codex backlog stub; Phase 4 `p4-tools/**`, dedup allowlists, report, frozen charter template, branch `p4-docs-dedup`; Phase 5 `p5-tools/**`, proposed-new-skills, report, backlog note, frozen skill-side mirror, branch `p5-skills-tune`; Phase 6 full tool/test/hook/harness list, `kitOnly`, `MIGRATION.md`/`CHANGELOG.md` whole-file protection; Phase 7 `scripts/fixtures/check-docs/**` and `harness/phase7-*`; Phase 8 e2e fixes and backlog stubs.
 - `resolved_before.txt` renamed to `resolved_before.<runtime>.txt` everywhere.
 - Still disjoint: Phase 4 vs Phase 5 (both freeze both charter-template copies).
+
+
+## Supplement (user decisions 2026-10-29: quality-equivalence + model direction)
+- Decision B: Phase 1 claim rewritten (no `model:` edits; effort lines of 3 execution agents; model-fact docs in CLAUDE.md, 5 protocol files, strategy-compare SKILL.md, all-context.md, README x10). Ownership conflict resolution: Phase 1 first, Phase 4 preserves, Phase 5 front-matter only, Phase 7 keeps the facts.
+- Decision A: Phase 3 now also owns the frozen `golden/tasks/**`; Phase 8 owns `eq/**` and only reads `golden/**`. Still disjoint: Phase 4 vs Phase 5.

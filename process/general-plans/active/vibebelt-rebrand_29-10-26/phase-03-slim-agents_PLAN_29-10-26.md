@@ -29,7 +29,7 @@ Complexity: COMPLEX
 
 ## Purpose
 
-Make the agent prompts smaller WITHOUT making their answers worse. Today the biggest are update-process 53KB, plan 38KB, execute 36KB, validate 36KB, research 27KB, fast-mode 26KB, innovate 24KB, spec 23KB. Core rules stay in the prompt; long examples and tables move into `references/` files the agent loads only when needed. Quality is measured, not assumed: a golden baseline from the OLD agents is captured first and every slimmed agent is compared against it.
+Make the agent prompts smaller WITHOUT making their answers worse. Today the biggest are update-process 53KB, plan 38KB, execute 36KB, validate 36KB, research 27KB, fast-mode 26KB, innovate 24KB, spec 23KB. Core rules stay in the prompt; long examples and tables move into `references/` files the agent loads only when needed. Quality is measured, not assumed: a golden baseline from the OLD agents is captured first and every slimmed agent is compared against it. This phase also FREEZES the golden task definitions (prompts, expected artifacts, rubric, judge protocol, old-kit sandbox recipe) under `$G/tasks/`; the Phase 8 FINAL EQUIVALENCE GATE (user decision A: the new kit must behave and answer at least as well as the old kit) re-uses them verbatim.
 
 ---
 
@@ -42,7 +42,7 @@ Make the agent prompts smaller WITHOUT making their answers worse. Today the big
 ## Strategy Recommendation (vc-agent-strategy-compare)
 
 - Signals: S6 no, S7 yes, quality-risk high — score about 3/7 but the work is inherently serial (one agent at a time, then compare).
-- Recommended: **Sequential**, one agent per cycle, heaviest first. Research/plan/validate and the comparison judge = sonnet; the editing leg (EXECUTE) = opus. Parallel slimming is rejected on purpose: a regression could not be attributed to one agent, and the rule is "revert that agent only".
+- Recommended: **Sequential**, one agent per cycle, heaviest first. Named vc-agents run on the model in their own front-matter (research, plan, validate, tester = opus; innovate, update-process = sonnet; Phase 1 changed none); the blind comparison judge is an ad-hoc sonnet agent; the editing leg (EXECUTE) = opus. Parallel slimming is rejected on purpose: a regression could not be attributed to one agent, and the rule is "revert that agent only".
 
 ---
 
@@ -51,6 +51,7 @@ Make the agent prompts smaller WITHOUT making their answers worse. Today the big
 - `.claude/agents/vc-*.md` (15 files, one at a time) and the mirrored `.codex/agents/*.toml` agent definitions
 - `.claude/agents/references/` or the location the research step finds valid for on-demand loading (NEW; must be allowed by the parity validator and the manifest `include` globs); `.codex/agents/references/` plain .md (NEW)
 - Task-folder evidence and tools under `$G` (see Path variables): `size-check.mjs`, `signal-census.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `gen-guardrails.mjs`, `run-record.mjs` (new scripts) plus snapshots, `guardrails.json`, `runs/`, `old/`, `phase1/`, `compare.md`
+- FROZEN golden task definitions (new, steps A1-A5): `$G/tasks/` (`tasks.md`, one `task-N-<slug>/` folder per task with `prompt.md`, `fixture/`, `expected-artifacts.md`; `rubric.md`; `judge.md`; `old-sandbox-recipe.md`; `FROZEN.md`; `FROZEN.sha256`). Read-only for every later phase; Phase 8 reads them verbatim. The task folder is excluded from the Phase 6 rename sweep, so they are never rewritten.
 - Outside the task folder: ONE new backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` (step 0.2f)
 
 ### Path variables and conventions (apply to every command in this plan)
@@ -94,11 +95,13 @@ G=$T/golden
 
 ### Step A - Golden baseline (before touching any agent)
 
-- [ ] A0. COST GATE: before starting any model run, compute and report to the user the exact run count, itemised: golden baseline runs on the original models (3 tasks x 2 replicates) PLUS Phase 1 same-model control runs (3 x 2) PLUS new-agent comparison runs (per slimmed agent, the tasks that exercise it x 2 replicates) PLUS judge calls (one pairwise judge call per task x replicate x compared pair, incl. the old-vs-phase1 pairs) PLUS probe calls (0.2a agent-list headless calls, at least 3), and the TOTAL. Golden baseline runs are APPROVED (user, LOCKED Q3); everything else and the total are NOT covered by that wording, so the total must be reported and acknowledged by the user (hard stop "beyond approved golden set") before starting. No ack: stop, do not run.
-- [ ] A1. Define 3 sample tasks in `$G/tasks.md`: (1) small feature, (2) bug fix, (3) multi-phase program (plan stage only is enough for #3). Fixed inputs, fixed expected artifacts.
-- [ ] A2. Build THREE sandboxes with `git worktree add` OUTSIDE this repo, constructed identically so ONLY `.claude/agents` and `.codex/agents` differ: (i) OLD = tag `upstream-baseline` with the Phase 0 `process/context/**` copied in (the tag tree has no `process/context/all-context.md`, so CLAUDE.md's Bootstrap Guard would otherwise fire and confound the run); (ii) PHASE1 = commit in `$G/start.sha` (post-Phase 2, same models, unslimmed); (iii) NEW = the commit under test, per agent (B4). Record in `$G/compare.md`: the baseline SHA, and the output of `diff -r` between each pair EXCLUDING `.claude/agents` and `.codex/agents` (known differences listed, so a non-agent confound is visible). Save outputs (plan files, validate-contract, final summaries) under `$G/old/` (original models, tag frontmatter) and `$G/phase1/` (same models as NEW, unslimmed). ROLES: `$G/phase1/` is the JUDGED control for the revert decision; `$G/old/` is reported ONLY as the Phase 1 model-change measurement (opus-to-sonnet), never as the revert criterion.
-- [ ] A3. Write the rubric `$G/rubric.md`: required sections present, every signal string present, validators green (scripted: `validate-plan-artifact.mjs` on produced plans; grep of contract headings), checklist atomic/specific, no lost gate. Same rubric for old, phase1 and new.
-- [ ] A4. Judge protocol in `$G/judge.md`: blind pairwise (judge does not know which output is which, order randomised), 2 replicates per task, sonnet judge; verdict per agent: tie = EQUAL; WORSE only if reproduced in BOTH replicates; scripted rubric items are scripted, not judged. The judge compares NEW vs PHASE1. The judge considers a run only if `$G/runs/<run-id>.json` exists and `run-record.mjs --verify <run-id>` passes (A2/B4); runs without a matching record are ignored.
+- [ ] A0. COST GATE: before starting any model run, compute and report to the user the exact run count, itemised: golden baseline runs on the original models (3 tasks x 2 replicates) PLUS Phase 1 same-model control runs (3 x 2) PLUS new-agent comparison runs (per slimmed agent, the tasks that exercise it x 2 replicates) PLUS judge calls (one pairwise judge call per task x replicate x compared pair, incl. the old-vs-phase1 pairs) PLUS probe calls (0.2a agent-list headless calls, at least 3), and the TOTAL. Golden baseline runs are APPROVED (user, LOCKED Q3); everything else and the total are NOT covered by that wording, so the total must be reported and acknowledged by the user (hard stop "beyond approved golden set") before starting. No ack: stop, do not run. Also report, for information only, the estimated run count and cost of the Phase 8 FINAL EQUIVALENCE GATE (same frozen tasks x 2 replicates x 2 kits = 12 task runs + 6 judge calls for 3 tasks); the user acknowledges that gate's exact count again at Phase 8 before it starts. The user may choose at this gate between the full OLD control (3 tasks x 2 replicates) and a recipe rehearsal only (1 task x 1 replicate on the OLD sandbox, to prove the recipe in `old-sandbox-recipe.md` works); the default is the full control as written.
+- [ ] A1. Define 3 sample tasks as FROZEN golden definitions under `$G/tasks/` (a stable folder; Phase 8 reuses them VERBATIM): `$G/tasks/tasks.md` (index) and, per task, a folder `$G/tasks/task-N-<slug>/` with `prompt.md` (the exact user prompt, in plain user language; it names NO kit agent or skill by `vc-`/`vb-` name, so the identical prompt works on the old kit and on the renamed kit), `fixture/` (the fixed starting project files, if any) and `expected-artifacts.md` (which artifacts must appear, by role, not by `vc-`/`vb-` file name: e.g. a plan file with named sections, validate-contract headings, a final summary). The tasks: (1) small feature, (2) bug fix, (3) multi-phase program (plan stage only is enough for #3). Fixed inputs, fixed expected artifacts.
+- [ ] A2. Build THREE sandboxes with `git worktree add` OUTSIDE this repo, constructed identically so ONLY `.claude/agents` and `.codex/agents` differ: (i) OLD = tag `upstream-baseline` with the Phase 0 `process/context/**` copied in (the tag tree has no `process/context/all-context.md`, so CLAUDE.md's Bootstrap Guard would otherwise fire and confound the run); (ii) PHASE1 = commit in `$G/start.sha` (post-Phase 2, same models, unslimmed); (iii) NEW = the commit under test, per agent (B4). Record in `$G/compare.md`: the baseline SHA, and the output of `diff -r` between each pair EXCLUDING `.claude/agents` and `.codex/agents` (known differences listed, so a non-agent confound is visible). Save outputs (plan files, validate-contract, final summaries) under `$G/old/` (original models, tag frontmatter) and `$G/phase1/` (same models as NEW, unslimmed). ROLES: `$G/phase1/` is the JUDGED control for the revert decision; `$G/old/` is reported ONLY as a pre-program control (all three trees now use the same agent models, because user decision B keeps opus as it is on disk and Phase 1 changes no `model:`), never as the revert criterion.
+- [ ] A2b. Write the exact OLD-kit sandbox recipe to `$G/tasks/old-sandbox-recipe.md` as runnable commands (Phase 8 follows it as written): (1) `git worktree add <path> upstream-baseline` outside this repo; (2) copy the Phase 0 `process/context/**` into it (so CLAUDE.md's Bootstrap Guard does not fire); (3) copy the task `fixture/` into the working directory and nothing else; (4) NO model override (original agent models); (5) each run is a NEW OS process: `claude -p "$(cat prompt.md)"` with the output format and flags used in B4, run from the sandbox root; (6) `run-record.mjs <sandbox> <run-id>` before each run and `--verify` before judging; (7) the `diff -r` check against the second tree EXCLUDING `.claude/agents` and `.codex/agents` for Phase 3 (for Phase 8: excluding the kit files that differ by design, listed in the recipe); (8) cleanup (`git worktree remove`). Include the values that must be recorded per run (sandbox path, baseline SHA, run-id, replicate number, start time).
+- [ ] A3. Write the rubric `$G/tasks/rubric.md`: required sections present, every signal string present, validators green (scripted: `validate-plan-artifact.mjs` on produced plans; grep of contract headings), checklist atomic/specific, no lost gate. Same rubric for old, phase1 and new. Signal-string checks for an output from the renamed kit apply the mapping `VC-` -> `VB-` (prefix-stripped agent keys), so the same rubric works for the Phase 8 final tree.
+- [ ] A4. Judge protocol in `$G/tasks/judge.md`: blind pairwise (judge does not know which output is which, order randomised), 2 replicates per task, sonnet judge; verdict per agent: tie = EQUAL; WORSE only if reproduced in BOTH replicates; scripted rubric items are scripted, not judged. The judge compares NEW vs PHASE1. The judge considers a run only if `$G/runs/<run-id>.json` exists and `run-record.mjs --verify <run-id>` passes (A2/B4); runs without a matching record are ignored. The protocol text in `judge.md` is written so that Phase 8 can apply it unchanged to the pair OLD vs FINAL (verdict per task: EQUAL / BETTER / WORSE; tie = EQUAL; WORSE only if reproduced in BOTH replicates).
+- [ ] A5. FREEZE (after A1-A4 and A2b, BEFORE the first model run): write `$G/tasks/FROZEN.md` ("These golden task definitions are frozen. Phase 8 reuses them verbatim. Any edit after the first model run invalidates the Phase 8 comparison; if a change is unavoidable, record why in the Phase 3 report and ask the user, because the Phase 3 and Phase 8 comparisons must use identical definitions.") and `$G/tasks/FROZEN.sha256` (`cd $G/tasks && find . -type f ! -name FROZEN.sha256 | LC_ALL=C sort | xargs sha256sum > FROZEN.sha256`). Verify with `cd $G/tasks && sha256sum -c FROZEN.sha256` (exit 0). Phase 8 re-verifies the same file before it starts. Record the hash of `FROZEN.sha256` itself in the Phase 3 report.
 
 ### Step B - Slim one agent at a time (repeat B1..B6 per agent; ONE commit per agent)
 
@@ -107,7 +110,7 @@ Order: update-process, plan, execute, validate, research, fast-mode, innovate, s
 - [ ] B1. Record the agent's snapshot ref with `git rev-parse HEAD > $G/snapshots/<agent>.ref` (NO snapshot commit: Phase 1 is already committed, so an empty commit would fail with exit 1) and its size and signal strings.
 - [ ] B2. Move examples/tables/long how-to into `references/<agent>-*.md` (location from 0.2); leave in the prompt: purpose, phase lock, mandatory-first actions, forbidden list, signal strings, status block, and a one-line pointer "read references/X when doing Y". Guardrail text (every heading in `guardrails.json` for that agent, tool grants, write guards) stays in the prompt.
 - [ ] B3. Mirror to the Codex definition (.toml); run `node.exe $G/signal-census.mjs --check`, `node.exe $G/conservation-check.mjs`, `node.exe $G/pointer-check.mjs`, `node.exe $G/size-check.mjs` (with this agent temporarily in `slimmed.list`), and the validators: `node.exe $G/parity-compare.mjs` (NOT-WORSE-than-baseline: exit 0 AND this agent's body-differs delta not larger AND warning count not higher; strict parity is red at baseline and is not used), frontmatter, protocol-wiring, skill-invocation-wiring.
-- [ ] B4. Re-run the sample task(s) that exercise this agent, each in a NEW OS PROCESS per run (fresh `claude -p`; a changed agent file may not be picked up by a running session), inside a NEW sandbox (A2 iii). BEFORE each run, `node.exe $G/run-record.mjs <sandbox> <run-id>` writes `$G/runs/<run-id>.json` containing sha256 of every sandbox agent `.md`/`.toml` plus `git rev-parse HEAD` (a model cannot hash its loaded prompt, so the proof is harness-side). Compare NEW vs `$G/phase1/` per `$G/judge.md`; write EQUAL / BETTER / WORSE. Also run `node.exe $G/run-record.mjs --verify <run-id>` before the judge sees the output.
+- [ ] B4. Re-run the sample task(s) that exercise this agent, each in a NEW OS PROCESS per run (fresh `claude -p`; a changed agent file may not be picked up by a running session), inside a NEW sandbox (A2 iii). BEFORE each run, `node.exe $G/run-record.mjs <sandbox> <run-id>` writes `$G/runs/<run-id>.json` containing sha256 of every sandbox agent `.md`/`.toml` plus `git rev-parse HEAD` (a model cannot hash its loaded prompt, so the proof is harness-side). Compare NEW vs `$G/phase1/` per `$G/tasks/judge.md`; write EQUAL / BETTER / WORSE. Also run `node.exe $G/run-record.mjs --verify <run-id>` before the judge sees the output.
 - [ ] B6. WORSE (reproduced) or any scripted check red -> `git revert` this agent only, record why, continue. Otherwise commit `refactor(agents): slim <agent>` and append the agent to `$G/slimmed.list`. EXCEPTION to the umbrella "one execution commit per phase" rule: this phase makes one commit PER AGENT (so a regression reverts alone); the report states this exception.
 - [ ] B5. Immediately after the FIRST B6 commit (update-process) on a clean tree (`git status --porcelain` empty): rehearse revert: `git revert --no-commit <agent-commit>`, assert `git diff --cached --name-only | LC_ALL=C sort` equals exactly that agent's md, toml and references files, then `git revert --abort` and assert `git status --porcelain` is empty again (verified working in a scratch repo with git 2.53). Record in `$G/compare.md`.
 
@@ -125,6 +128,9 @@ Hard dependency: `$G/signal-census.mjs` and `$G/signal-census-phase3.txt` MUST b
 ```bash
 T=process/general-plans/active/vibebelt-rebrand_29-10-26; G=$T/golden   # run everything from the repo root
 test -f $G/signal-census.mjs && test -f $G/signal-census-phase3.txt                       # Expected: exit 0
+test -f $G/tasks/tasks.md && test -f $G/tasks/rubric.md && test -f $G/tasks/judge.md && test -f $G/tasks/old-sandbox-recipe.md && test -f $G/tasks/FROZEN.md   # Expected: exit 0
+(cd $G/tasks && sha256sum -c FROZEN.sha256); echo $?                              # Expected: every line OK, then 0 (golden task definitions frozen for Phase 8)
+grep -rnE 'vc-|vb-' $G/tasks/task-*/prompt.md | wc -l                               # Expected: 0 (prompts name no kit agent/skill)
 node.exe $G/size-check.mjs                        # Expected: exit 0; per agent AND slimmed-set total drop >= 25 percent, table printed
 node.exe $G/signal-census.mjs --check             # Expected: exit 0; set diff vs signal-census-before.txt empty for .md and .toml prompt bodies
 node.exe $G/conservation-check.mjs                # Expected: exit 0; every removed line present verbatim in references; guardrails.json headings present and hashes identical (md and toml); frontmatter identical
@@ -140,7 +146,7 @@ git diff --check                                                          # Expe
 
 (Use `node` where `node.exe` is not needed. validate-skills and validate-context-discovery are compared to the Phase 0 baseline, not required absolute green. `e2e-kit-flows.test.mjs` is NOT TESTED here and is carried to Phase 8.)
 
-- `$G/compare.md` shows EQUAL or BETTER for every kept agent (NEW vs PHASE1, blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced), the baseline SHA, the `diff -r` outputs excluding agent files, the proven prompt version (`$G/runs/<run-id>.json`) per run, the references-location decision, the revert rehearsal result, and the OLD-vs-PHASE1 model-change measurement (reported only); reverted agents listed with reason.
+- `$G/compare.md` shows EQUAL or BETTER for every kept agent (NEW vs PHASE1, blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced), the baseline SHA, the `diff -r` outputs excluding agent files, the proven prompt version (`$G/runs/<run-id>.json`) per run, the references-location decision, the revert rehearsal result, and the OLD-vs-PHASE1 pre-program control (reported only; same models in both trees); reverted agents listed with reason.
 - Claude agent list unchanged: `$G/agents-list-before.json` equals `$G/agents-list-after.json` (no `references/*` listed as agents).
 - Signal-string census before == after.
 - Codex loading of `references/` stays a named residual: backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` exists; that Verification Evidence row remains CONDITIONAL.
@@ -174,6 +180,7 @@ git diff --check                                                          # Expe
 
 - Agent names, triggers, tool grants, status codes, and every signal string unchanged and verbatim.
 - Behavior contract: same artifacts produced, same phase locks, same gates.
+- The golden task definitions under `$G/tasks/` are frozen after A5 and are reused verbatim by the Phase 8 FINAL EQUIVALENCE GATE; any change after the first model run needs a recorded reason and the user's approval.
 
 ---
 
@@ -187,7 +194,8 @@ git diff --check                                                          # Expe
 | Conservation: `node.exe $G/conservation-check.mjs` (removed lines exist in references; per-agent `guardrails.json` headings present and hashes identical, md and toml) | Fully-Automated | C-P3: nothing lost, only moved |
 | Cross-agent pointers resolve: `node.exe $G/pointer-check.mjs` | Fully-Automated | C-P3: no dangling section pointer |
 | Parity/frontmatter/wiring/invocation-wiring + `node.exe $G/parity-compare.mjs` not worse than Phase 0 baseline | Fully-Automated | C-P3: Claude/Codex parity not worse |
-| Sample tasks NEW vs PHASE1 (same models; OLD reported only as the model-change measurement): blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced, prompt version proven harness-side by `golden/runs/<run-id>.json` | Agent-Probe | C-P3: output equal or better |
+| Sample tasks NEW vs PHASE1 (same models; OLD reported only as a pre-program control): blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced, prompt version proven harness-side by `golden/runs/<run-id>.json` | Agent-Probe | C-P3: output equal or better |
+| Golden task definitions frozen: `cd $G/tasks && sha256sum -c FROZEN.sha256` exit 0; prompts contain no `vc-`/`vb-` name (grep count 0); `old-sandbox-recipe.md` exists | Fully-Automated | C-P3: frozen inputs; C-EQ (input to the Phase 8 gate): the same tasks can be re-run verbatim |
 | Revert-on-worse: `git revert --no-commit` rehearsal right after the first B6 commit, then `--abort` | Hybrid (needs git from Phase 0 and per-agent commits) | C-P3: any drop -> revert that agent only |
 | references/ location: headless `claude -p` init `agents` array before == after; `node.exe resolve-manifest.mjs \| tr '\\' '/' \| grep -F agents/references`; e2e NOT TESTED (carried to Phase 8) | Hybrid (needs node and headless claude) | C-P3: references ship and are not mistaken for agents |
 | Codex loads/ignores `.codex/agents/references/*.md`: no codex binary here; named residual, backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md`; row stays CONDITIONAL (Known-Gap is never a proving strategy) | Known-Gap residual (CONDITIONAL) | C-P3: references not mistaken for agents (Codex side) |
@@ -199,10 +207,10 @@ git diff --check                                                          # Expe
 Orchestrator reads this before deciding which subagent to spawn next. The canonical 7-step inner loop
 `R → I → P → PVL → E → EVL → UP` SKIPS SPEC (the umbrella plan and the user brief act as the SPEC).
 
-- [ ] 1. RESEARCH — research-agent (sonnet): prior phase reports read; test context loaded; plan drift checked
+- [ ] 1. RESEARCH — vc-research-agent (opus, front-matter): prior phase reports read; test context loaded; plan drift checked
 - [ ] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written
-- [ ] 3. PLAN-SUPPLEMENT — plan-agent (sonnet): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
-- [ ] 4. PVL — vc-validate-agent (sonnet): full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
+- [ ] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus, front-matter): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean"); the 2026-10-29 Refresh Note below is already written
+- [ ] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7 from V1 (the 2026-10-29 Refresh Note invalidates the earlier contract); validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
 - [ ] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented)
 - [ ] 6. EVL — vc-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written
 - [ ] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main
@@ -224,11 +232,18 @@ instructions / Test gates) is treated as a placeholder.
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-slim-agents_PLAN_29-10-26.md`
 - Last completed step: not started
-- Validate-contract status: written 29-10-26 (CONDITIONAL, outer-pvl, PVL cycle 4 re-run: 0 FAIL, 0 MUST-FIX, 13 RESIDUAL incl. 2 named Known Gaps; EXECUTE legal via mechanical gate (b), 3 recorded fix cycles)
+- Validate-contract status: written 29-10-26 but PARTLY SUPERSEDED by the Inner Loop Refresh Note 2026-10-29 (golden tasks frozen under `$G/tasks/`, OLD role changed); the inner PVL must re-run from V1. Earlier text: written 29-10-26 (CONDITIONAL, outer-pvl, PVL cycle 4 re-run: 0 FAIL, 0 MUST-FIX, 13 RESIDUAL incl. 2 named Known Gaps; EXECUTE legal via mechanical gate (b), 3 recorded fix cycles)
 - Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, prior phase report (if any)
-- Next step: after PVL re-run, spawn vc-research-agent (sonnet) for step 1 RESEARCH (after Phase 2 exit gate is green). Phase 3 runs strictly before Phases 4/5.
+- Next step: after PVL re-run, spawn vc-research-agent (opus, front-matter) for step 1 RESEARCH (after Phase 2 exit gate is green). Phase 3 runs strictly before Phases 4/5.
 
 ---
+
+## Inner Loop Refresh Note: 2026-10-29 — changed sections: Purpose, Strategy Recommendation, Blast Radius, Implementation Checklist (A0, A1, A2, A2b, A3, A4, A5), Exit Gate, Public Contracts, Verification Evidence, Phase Loop Progress, Resume and Execution Handoff. Invalidates prior validate-contract.
+
+User decisions of 2026-10-29: (A) quality-equivalence is a hard program requirement, so the golden task definitions become a frozen, reusable asset for the Phase 8 FINAL EQUIVALENCE GATE; (B) models stay as on disk, so Phase 1 no longer changes any `model:` and `golden/old/` is only a pre-program control (not a model-change measurement). The Validate Contract below predates both and must be re-run from V1; its gate paths `$G/tasks.md`, `$G/rubric.md`, `$G/judge.md` are now `$G/tasks/tasks.md`, `$G/tasks/rubric.md`, `$G/tasks/judge.md`.
+
+---
+
 
 ## Validate Contract
 
@@ -372,3 +387,10 @@ Addressed 1 gap (MUST-FIX M1): the A0 cost gate is now the first item of Step 0 
 ## PVL cycle 4 note (29-10-26)
 
 vc-validate-agent re-ran V1-V7 (outer-pvl). The cycle-3 MUST-FIX (A0 cost gate order, now item 0.0) is closed and no new MUST-FIX was found. Validate-contract above supersedes the cycle-3 contract. No plan edit made in this pass.
+
+
+### Supplement (user decisions 2026-10-29: quality-equivalence + model direction)
+
+- Decision A: new step A5 freezes `$G/tasks/` (tasks.md, per-task prompt/fixture/expected-artifacts, rubric, judge, old-sandbox-recipe, FROZEN.md, FROZEN.sha256) before the first model run; new A2b records the exact old-kit sandbox recipe; rubric and judge written so Phase 8 applies them unchanged (signal mapping VC- -> VB-); prompts are kit-name-neutral; Exit Gate and Verification Evidence check the freeze; A0 also reports the Phase 8 gate's estimated run count for information and offers a full OLD control or a 1x1 recipe rehearsal.
+- Decision B: `golden/old/` is no longer the "Phase 1 model-change measurement" (no model changes); it is a pre-program control. Revert criterion unchanged (`golden/phase1/`).
+- Deferred, optional, NOT in this program: measure sonnet versus opus on the golden tasks before ever lowering a model.

@@ -29,7 +29,7 @@ Complexity: COMPLEX
 
 ## Purpose
 
-Prove it really installs and updates on the environments reachable from this machine, then release v1.0.0. This is the only phase that reaches outside the repo (creating the remote, pushing `main`, pushing the tag, GitHub release), so it contains the program's two outward-facing HARD STOPS. Native Windows and macOS are NOT TESTED here (LOCKED Q6).
+Prove it really installs and updates on the environments reachable from this machine, then release v1.0.0. It also owns the FINAL EQUIVALENCE GATE (step B4, user decision A, a hard program requirement): before ANY release step the final tree must be shown to keep the same behaviour, ways of working and output quality as the old kit, at least equal, by re-running the golden tasks that Phase 3 froze. This is the only phase that reaches outside the repo (creating the remote, pushing `main`, pushing the tag, GitHub release), so it contains the program's two outward-facing HARD STOPS. Native Windows and macOS are NOT TESTED here (LOCKED Q6).
 
 ---
 
@@ -51,13 +51,15 @@ SB=$HOME/vb-sandbox; KIT=$(pwd)        # sandboxes on the Linux filesystem; KIT 
   - P2 Tag `upstream-baseline` exists (`git tag -l upstream-baseline`) and the Phase 6 old-install fixture (Trial E) is reused for the update test.
   - P3 Sandboxes live on the Linux filesystem (for example `$HOME/vb-sandbox/<case>`), never under `/mnt/c`, because symlink behavior differs. They are deleted after each case; no install ever targets a real user project.
   - P4 Post-rename agent names: this phase runs after the Phase 6 rename and restart, so the agents are `vb-validate-agent`, `vb-execute-agent`, `vb-tester`, `vb-update-process-agent` (see Phase Loop Progress).
+  - P5 Frozen golden definitions from Phase 3 exist and are untouched: `(cd $TF/golden/tasks && sha256sum -c FROZEN.sha256)` exits 0; `$TF/golden/tasks/old-sandbox-recipe.md`, `$TF/golden/run-record.mjs`, `$TF/golden/signal-census.mjs`, `$TF/golden/signal-census-phase3.txt` and `$TF/golden/gen-guardrails.mjs` exist. If any is missing, the equivalence gate (B4) cannot run and release stays blocked (ask the user).
+  - P6 Model runs are billed: the exact run count and cost of B4 are reported and acknowledged by the user BEFORE any model run (B4.1; same hard stop as Phase 3 A0).
 
 ---
 
 ## Strategy Recommendation (vc-agent-strategy-compare)
 
 - Signals: S2, S6 and outward-facing steps — score 3/7 (MEDIUM), dominant signal S6.
-- Recommended: **Sequential** — 1 agent per step; each environment test depends on the previous fix and the outward steps are hard stops. Research/plan/validate = sonnet; tester runs = sonnet with `vb-tester`; execute (installer fixes) = opus. Untestable environments are documented, not simulated.
+- Recommended: **Sequential** — 1 agent per step; each environment test depends on the previous fix and the outward steps are hard stops. Named agents run on the model in their own front-matter (research, plan, validate, tester = opus; update-process = sonnet); the blind equivalence judge is an ad-hoc sonnet agent; execute (installer fixes) = opus. The equivalence gate (B4) is sequential and billed. Untestable environments are documented, not simulated.
 
 ---
 
@@ -65,6 +67,7 @@ SB=$HOME/vb-sandbox; KIT=$(pwd)        # sandboxes on the Linux filesystem; KIT 
 
 - `e2e-kit-flows.test.mjs` (Windows-safe edits, step A0: `fileURLToPath` at line ~21, `os.tmpdir()` instead of the hard-coded `/tmp` at lines ~34 and ~330, quoted and forward-slash `bash` path at every `bash ${INSTALL_SH}` call)
 - Temp directories on the Linux filesystem for install tests (deleted afterwards; never inside the user's real projects)
+- FINAL EQUIVALENCE GATE evidence (NEW, task folder, Phase 8 owned): `$TF/eq/**` (`shas.txt`, `final-sha.txt`, `diff.txt`, `diff-excluded.txt`, `old/`, `final/`, `scripted.tsv`, `census-*.txt`, `guardrails-*.json`, `verdict.md`). READ-ONLY inputs from Phase 3: `$TF/golden/tasks/**`, `$TF/golden/*.mjs`, `$TF/golden/guardrails.json`, `$TF/golden/signal-census-phase3.txt`, `$TF/golden/start.sha`. Two throw-away `git worktree` sandboxes outside the repo (deleted afterwards).
 - `CHANGELOG.md`, `docs/RELEASE-NOTES-1.0.0.md` (NEW), possible small installer fixes in `install.sh`
 - Backlog stubs under `process/general-plans/backlog/` (native Windows/macOS user-run checklist; Linux Node refusal if it happens)
 - Outward-facing (HARD STOPS, need the user's explicit go in this session): creating the remote repo, `git push` of `main`, `git push` of tag `v1.0.0`, GitHub release. Local annotated tag `v1.0.0` is local only.
@@ -94,13 +97,35 @@ Facts about the real `install.sh` (read 29-10-26, all 472 lines; the assertions 
 - [ ] B2. Publish flow, "dry-run" defined: follow the `vb-publish` SKILL.md steps up to the Step 6 confirm INSIDE A TEMP CLONE of the kit on the Linux filesystem and stop there (no Step 9a commit/tag, no push). Assert in the real repo that `git tag -l v1.0.0` is still empty and `git log -1 --format=%H` is unchanged. e2e Trial D remains the static text check.
 - [ ] B3. Run `$NODE e2e-kit-flows.test.mjs` (Linux Node, includes Trial E) and the full validator suite through `bash $H/compare-vb.sh` (Phase 6 vb- mapping, label-keyed; "not worse than baseline").
 
+### Step B4 — FINAL EQUIVALENCE GATE (HARD GATE: runs after B3 and BEFORE every Step C item, including the local tag)
+
+Why (user decision A, LOCKED): the new kit must keep the same behaviour, ways of working and output quality as the old kit, at least equal. Path variables: `EQ=$TF/eq; G=$TF/golden; GT=$G/tasks; mkdir -p $EQ`.
+
+- [ ] B4.0 Preconditions: P5 holds; B3 is green (or its NOT TESTED reason is recorded); `git status --porcelain` clean excluding the task folder.
+- [ ] B4.1 COST GATE (hard stop, same class as Phase 3 A0): compute and report the exact itemised count, then WAIT for the user's acknowledgement in chat. With the 3 frozen tasks: task runs = 3 tasks x 2 replicates x 2 kits (OLD, FINAL) = 12; judge calls = 3 tasks x 2 replicates = 6 (one blind pairwise call each); no other billed call = TOTAL 18. Add the cost estimate from the Phase 3 report's per-run cost. No acknowledgement: stop; the gate stays OPEN and release stays blocked. Phase 3 outputs (`golden/old/`) are NOT reused: both kits are re-run now so model drift cancels out.
+- [ ] B4.2 Build two sandboxes by `$GT/old-sandbox-recipe.md`, constructed identically so only the kit files differ: OLD = tag `upstream-baseline` (original agents, original models, plus the Phase 0 `process/context/**` copy exactly as the recipe says); FINAL = this repo's current `HEAD` commit (the candidate that C2a will tag). Write `$EQ/shas.txt` (both commit ids) and `$EQ/final-sha.txt` (the FINAL commit id). Write `$EQ/diff-excluded.txt` (the kit paths that differ by design, from the recipe) and `$EQ/diff.txt` = `diff -r OLD FINAL` outside those paths: expected empty or explained line by line.
+- [ ] B4.3 Runs: the 12 task runs, each a NEW OS process, prompt = `$GT/task-N-*/prompt.md` VERBATIM, fixture = the frozen fixture. Before each run `node $G/run-record.mjs <sandbox> <run-id>`; before judging `--verify <run-id>` must pass (a run without a matching record is ignored). OLD and FINAL for the same task and replicate run back to back. Outputs to `$EQ/old/` and `$EQ/final/`.
+- [ ] B4.4 Scripted rubric items (Fully-Automated): apply the scripted items of `$GT/rubric.md` to all 12 outputs (signal strings with the mapping `VC-` -> `VB-` for FINAL; plan structure through each tree's own `validate-plan-artifact.mjs`; contract headings by grep). Write `$EQ/scripted.tsv`. A scripted item that passes on OLD and fails on FINAL in BOTH replicates of a task makes that task WORSE.
+- [ ] B4.5 Judge (Agent-Probe, judgement): follow `$GT/judge.md` VERBATIM: blind pairwise (judge does not know which output is which, order randomised), 2 replicates per task, ad-hoc sonnet judge, one call per task x replicate. Verdict per task: EQUAL / BETTER / WORSE; tie = EQUAL; WORSE only if reproduced in BOTH replicates. A task that is WORSE in one replicate only is EQUAL by rule and is listed under "watch" in the report.
+- [ ] B4.6 Mechanical equivalence evidence, re-run now on the FINAL tree (not copied from earlier phases); all of it is part of the gate:
+  - (a) Validator baseline not worse: `bash $H/compare-vb.sh; echo $?` = 0 (Phase 0 baseline of 28 rows, plus rows added since, through the Phase 6 mapping). Fully-Automated.
+  - (b) Signal census 1:1 after the rename mapping: `node $G/signal-census.mjs > $EQ/census-final.txt; sed 's/VC-/VB-/g;s/vc-/vb-/g' $G/signal-census-phase3.txt > $EQ/census-expected.txt; diff $EQ/census-expected.txt $EQ/census-final.txt; echo $?` = empty diff, 0 (same check as Phase 7 B3 item 4a). Fully-Automated.
+  - (c) e2e trials: the B3 result line is copied into `$EQ/verdict.md`; "NOT TESTED" (no Linux Node) is recorded as NOT TESTED, never as PASS. Hybrid.
+  - (d) Guardrail-section identity modulo the rename: for every agent the guardrail headings and section-body hashes of FINAL equal those taken at the Phase 3 start. Procedure: back up the real file first (`cp $G/guardrails.json $EQ/guardrails-original.json`); make a temp copy of the agent files at `$(cat $G/start.sha)`; apply the Phase 6 rename (same script, same allowlist) to that temp copy ONLY, never to the repo (RESEARCH confirms the script's flags); run `node $G/gen-guardrails.mjs` against the temp copy and against `.` (RESEARCH confirms how to direct its output away from `$G/guardrails.json`; if it has no output option, run a copy of the script placed in `$EQ/`); compare the two lists with `diff`; afterwards `cmp $G/guardrails.json $EQ/guardrails-original.json` must show the real file untouched. Any difference is listed per agent and section and counts as a mechanical failure unless it traces to a deliberate change recorded in a phase report AND the user accepts it. Fully-Automated.
+- [ ] B4.7 Verdict. Write `$EQ/verdict.md` with the task table, the scripted table, (a)-(d), the run count and cost acknowledged, the FROZEN check result, and ONE last line: `EQ gate: PASS` (no task WORSE; (a), (b), (d) green; (c) green or recorded NOT TESTED; acknowledgement recorded), or `EQ gate: BLOCKED` (any reproduced WORSE or mechanical failure), or `EQ gate: ACCEPTED-BY-USER` (a WORSE or a mechanical failure the user explicitly accepted in chat; quote the user's words and the exact tasks or checks they cover). A reproduced WORSE or mechanical failure blocks release: NO Step C item runs and no outward action happens until the cause is fixed (new commit on `main`, then B4.2-B4.6 re-run for the affected tasks plus all mechanical evidence, with a fresh cost acknowledgement) OR the user explicitly accepts it in chat.
+- [ ] B4.8 Re-run rule: the verdict is bound to `$EQ/final-sha.txt`. Immediately before C2a run `git diff --name-only $(cat $EQ/final-sha.txt) HEAD -- .claude .codex CLAUDE.md AGENTS.md process/development-protocols process/_seeds install.sh resolve-manifest.mjs compute-sync-plan.mjs vb-manifest.json`; it must print nothing, otherwise re-run B4.2-B4.6 (fresh cost acknowledgement). Documentation-only changes (README, release notes, CHANGELOG, `docs/`) do not require a re-run. Cleanup: remove both worktrees (`git worktree remove`), keep `$EQ/`.
+- Strategy split, stated plainly: scripted rubric items and (a), (b), (d) are Fully-Automated; (c) is Hybrid; the blind judge verdict is Agent-Probe (judgement) and stays a NAMED RESIDUAL: it is never the sole proof, every Fully-Automated part must also be green, and 3 tasks x 2 replicates cannot prove equivalence on every possible task.
+
 ### Step C — Release
+
+- [ ] C0. Gate check, before any other Step C item: `grep -cE '^EQ gate: (PASS|ACCEPTED-BY-USER)' $TF/eq/verdict.md` must print `1`. Any other result (file missing, `EQ gate: BLOCKED`, zero or two matching lines) means STOP: no release notes finalisation, no local tag, no push, no release.
 
 - [ ] C1. Plain-language release notes `docs/RELEASE-NOTES-1.0.0.md` and an EXTENSION of the existing `## [1.0.0]` entry that Phase 2 C2 created in `CHANGELOG.md` (add the release-notes summary under that heading; never create a second `## [1.0.0]`; hand-written in `vb-` terms; `CHANGELOG.md` is protected from the rename tool): what it is, how to install, what changed from the original, and:
   - What the installer does to an existing project, in plain words: "kit files are overwritten, your own files stay, and the files most likely to matter (`.claude/`, `.codex/`, `.agents/`, `CLAUDE.md`, `AGENTS.md`, `GUIDE.md`) are copied into `.vibecode-backup/` first". Also state: your own skills and notes next to kit files are not removed; an existing `.claude/settings.json` is left untouched (so the kit's hook settings are not added automatically; say how to add them); the kit's own documents under `process/development-protocols/` and `process/_seeds/` are overwritten and are not part of the backup.
   - Original-kit users: worded from the B1 observation. Expected wording if B1 confirms it: running the vibebelt install command in an existing project replaces `.vc-version` with `.vb-version` (1.0.0) and later `vb-update` shows no downgrade warning; a downgrade warning (3.2.5 to 1.0.0) appears only if you point the OLD `vc-update` skill at this repository, and then it is expected and you answer yes.
   - Known limits: native Windows and macOS NOT TESTED (user-run commands included), Linux Node requirement, Vietnamese not native-reviewed.
   - User-only GitHub settings (cannot be set by the agent): repository description and topics, Issues/Discussions toggles, branch protection, Pages if used, release visibility.
+  - Quality check (from B4, plain words): which 3 tasks, 2 replicates each, how the old and new kit were compared (blind), the verdict per task, what the check does NOT prove (only 3 tasks; the judge is itself a model), and that the result was `PASS` or the user's explicit acceptance (quote it).
 - [ ] C2-pre. Leak detection BEFORE the tag and before any push, as standalone commands (the `vb-publish` Step 8 flow needs its Step 7 Apply first, so its checks are run directly): `$NODE .claude/skills/vb-audit-vc/scripts/validate-kit-portability.mjs; echo $?` → `0`; `grep -ri "flowser\|tRPC\|Prisma\|Supabase\|CloakBrowser\|OpenClaw" CLAUDE.md AGENTS.md | wc -l` → `0`; `git ls-files -z | grep -zv -e '^process/general-plans/active/vibebelt-rebrand' -e '/__tests__/' -e '^\.claude/skills/vb-publish/' | xargs -0 grep -Il '/Users/' | wc -l` → `0` (the 6 known benign tracked files are excluded explicitly: the 4 hook-test fixtures under `__tests__` in `.claude/hooks/lib` and `.codex/hooks/lib`, and `vb-publish/SKILL.md` + its reference, which document this check; verified by grep; any other hit stops the phase); badge counts, explicit commands (R8-4: the skill's own regex `[0-9]+-Agents` is stale): `actual_agents=$(ls .claude/agents/*.md | wc -l); actual_skills=$(ls -d .claude/skills/vb-*/ | wc -l); readme_agents=$(grep -oE 'badge/agents-[0-9]+' README.md | grep -oE '[0-9]+$'); readme_skills=$(grep -oE 'badge/skills-[0-9]+' README.md | grep -oE '[0-9]+$'); test "$actual_agents" = "$readme_agents" && test "$actual_skills" = "$readme_skills"; echo $?` → `0` (15 and 33 today; both variables must be non-empty). Backlog note: fix the stale regex in the `vb-publish` skill text. Any hit stops the phase (fix first, no tag).
 - [ ] C2a. Local annotated tag only: after the final commit on a clean `main` (task folder excluded), `git tag -a v1.0.0 -m "v1.0.0"`. Nothing is pushed. If any fix commit lands after the tag and before C2c, delete and re-create the LOCAL tag on the fixed commit (`git tag -d v1.0.0` then `git tag -a v1.0.0 -m "v1.0.0"`); the remote tag does not exist yet, so no remote tag is ever moved.
 - [ ] C2b. HARD STOP 1 (needs the user's explicit go in this session; the go covers THIS one push only): ask the user to approve (or perform) creating the remote repo (`Tomwakeupat530amm/vibebelt-kit`) and add `origin`; then push `main` only (`git push origin main`, plain push, never `--force`, `--force-with-lease`, `+ref` or `--tags`). Then verify the REAL raw-URL install in a fresh Linux-filesystem temp dir with the README's install command, and record the result. C2-pre has already passed.
@@ -109,6 +134,7 @@ Facts about the real `install.sh` (read 29-10-26, all 472 lines; the assertions 
 ### Hard-stop hygiene (applies to every push in this phase)
 
 - EVERY `git push` is its own hard stop with its own explicit go in this session. A re-push after a fix (for example after a failed raw-URL install) needs a FRESH go-ahead; the earlier go does not carry over.
+- The equivalence gate (B4) is a hard gate that sits BEFORE the first hard stop: HARD STOP 1 and HARD STOP 2 cannot be asked for while `EQ gate:` is not `PASS` or `ACCEPTED-BY-USER` for the commit being released. Model runs in B4 are billed and need the user's acknowledgement of the exact count first (B4.1).
 - Force-push in any form is FORBIDDEN, including during rollback. Fixes go forward as new commits on `main`.
 - The remote-tag expectation changes with the step: `git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l` is `0` until C2c, and `1` after C2c. The Exit Gate records which state the run ended in. Before C2b the remote does not exist at all (`git remote | grep -c '^origin$'` → `0`).
 
@@ -128,6 +154,9 @@ $NODE e2e-kit-flows.test.mjs                                          # Expected
 $NODE .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs; echo $?   # Expected: 0
 bash $H/compare-vb.sh; echo $?                                        # Expected: 0 (rest of the validator suite NOT WORSE than baseline/, via the Phase 6 vb- mapping; compare-vb.sh runs the Phase 0 compare.sh, so this includes the Phase 0 LICENSE RULE greps: both LICENSE lines = 1 and original line preserved, C-SAFE-2)
 $NODE .claude/skills/vb-audit-vc/scripts/validate-kit-portability.mjs; echo $?  # Expected: 0 (leak/portability standing check)
+grep -cE '^EQ gate: (PASS|ACCEPTED-BY-USER)' $TF/eq/verdict.md                   # Expected: 1 (FINAL EQUIVALENCE GATE; BLOCKED or missing = phase NOT done, no release)
+(cd $TF/golden/tasks && sha256sum -c FROZEN.sha256); echo $?                     # Expected: every line OK, then 0 (golden definitions unchanged since Phase 3)
+git diff --name-only $(cat $TF/eq/final-sha.txt) HEAD -- .claude .codex CLAUDE.md AGENTS.md process/development-protocols process/_seeds install.sh resolve-manifest.mjs compute-sync-plan.mjs vb-manifest.json   # Expected: no output (the verdict still describes the tree being tagged)
 test "$(grep -c '^## \[1.0.0\]' CHANGELOG.md)" = 1; echo $?          # Expected: 0 (exactly one 1.0.0 entry: Phase 8 extended the Phase 2 entry)
 git tag -l v1.0.0                                                     # Expected: v1.0.0 (local annotated)
 git cat-file -t v1.0.0                                                # Expected: tag
@@ -148,12 +177,14 @@ git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l                # Expected
 - Native Windows / macOS not reachable from this machine (LOCKED Q6: give the user exact commands; those gates stay CONDITIONAL with a backlog stub; not a BLOCKED reason).
 - Install works only with files not yet pushed to GitHub (needs user approval to publish; HARD STOP 1).
 - Linux Node refused: WSL gates become NOT TESTED and C-P8 stays CONDITIONAL (not BLOCKED, but the program cannot claim VERIFIED install proof).
+- FINAL EQUIVALENCE GATE shows a reproduced WORSE or a mechanical failure, or the user does not acknowledge the run count and cost: release is blocked (the phase is not VERIFIED, no tag, no push) until the cause is fixed and the gate re-run, or the user explicitly accepts the result in chat. Install testing (Step A, B1-B3) is not blocked by this.
 
 ---
 
 ## Phase Completion Rules
 
 - CODE DONE = checklist items done; VERIFIED = Exit Gate commands pass AND full validator suite is not worse than the Phase 0 baseline AND regression checkpoint passes AND validate-contract exists.
+- VERIFIED additionally requires `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER` in `$TF/eq/verdict.md` for the commit that is tagged (user decision A). The judge verdict (Agent-Probe) is a named residual and never the sole proof.
 - Known-Gap alone never makes a behavior PASS; write a backlog stub and keep that gate CONDITIONAL.
 
 ## Acceptance Criteria
@@ -166,6 +197,7 @@ git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l                # Expected
 - C-P8-e native Windows / macOS documented as NOT TESTED (named residual, gate CONDITIONAL, backlog stub). proven by: install matrix rows + backlog stub (no proving strategy; residual only).
 - C-P8-f installer behavior is described truthfully and asserted by command (managed files overwritten, unmanaged files in place, existing `settings.json` untouched, backups byte-identical, sandboxes deleted). proven by: A2(i)/(ii) command assertions. strategy: Hybrid
 - C-P8-g hard stops: each push has its own go, no force-push, remote-tag state recorded (0 before C2c, 1 after), leak detection run before tag. proven by: C2-pre commands + Exit Gate remote-tag line + protocol review of the session log. strategy: Fully-Automated (C2-pre commands, remote-tag count), Agent-Probe (go-ahead log)
+- C-EQ the final kit keeps the same behaviour, ways of working and output quality as the old kit, at least equal. proven by: B4 (frozen golden tasks re-run on OLD and FINAL, scripted rubric items, validator baseline via `compare-vb.sh`, signal census 1:1 after the VC-/VB- mapping, guardrail-section identity modulo the rename, e2e trials) and the last line of `$TF/eq/verdict.md`. strategy: Fully-Automated (scripted rubric, validator baseline, signal census, guardrail identity), Hybrid (e2e trials; needs Linux Node), Agent-Probe (blind pairwise judge; named residual, never the sole proof)
 
 ## Touchpoints
 
@@ -190,6 +222,9 @@ git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l                # Expected
 | Local annotated tag `v1.0.0` on clean `main` | Fully-Automated | C-P8-d: tag gate |
 | A2(i)/(ii) command assertions: `find` for `vc-*`, `test -f .vb-version`, `cmp` backups and in-place files, `settings.json` untouched, sandbox deleted | Hybrid (needs Linux Node >= 22) | C-P8-f and C-P8-b: installer behavior truthful and asserted |
 | C2-pre leak commands + remote-tag count (0 before C2c, 1 after) + one-go-per-push log | Fully-Automated (commands), Agent-Probe (log review) | C-P8-g: hard-stop hygiene |
+| FINAL EQUIVALENCE GATE B4: scripted rubric items on 12 outputs (`$EQ/scripted.tsv`), `compare-vb.sh` exit 0, signal census diff empty after VC-/VB- mapping, guardrail-section identity modulo the rename, frozen-definition `sha256sum -c`, `EQ gate:` last line | Fully-Automated | C-EQ: mechanical equivalence evidence |
+| B4 e2e trials result copied from B3 | Hybrid (needs Linux Node >= 22; NOT TESTED recorded if absent) | C-EQ: install/update behaviour unchanged |
+| B4 blind pairwise judge: 3 frozen tasks x 2 replicates, OLD (`upstream-baseline`, original models) vs FINAL, tie = EQUAL, WORSE only if reproduced | Agent-Probe (judgement; named residual, never the sole proof) | C-EQ: output quality at least equal |
 | Native Windows / macOS clean install | NOT TESTED (named residual; backlog stub with user-run commands; gate CONDITIONAL; no proving strategy) | C-P8-e: documented what was not tested |
 
 ---
@@ -199,10 +234,10 @@ git ls-remote --tags origin v1.0.0 2>/dev/null | wc -l                # Expected
 Orchestrator reads this before deciding which subagent to spawn next. The canonical 7-step inner loop
 `R → I → P → PVL → E → EVL → UP` SKIPS SPEC (the umbrella plan and the user brief act as the SPEC).
 
-- [ ] 1. RESEARCH — research-agent (sonnet): prior phase reports read; test context loaded; plan drift checked
+- [ ] 1. RESEARCH — vb-research-agent (opus, front-matter): prior phase reports read; test context loaded; plan drift checked; Phase 3 frozen golden definitions and Phase 6/7 rename artifacts located
 - [ ] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written
-- [ ] 3. PLAN-SUPPLEMENT — plan-agent (sonnet): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
-- [ ] 4. PVL — vb-validate-agent (sonnet; vb- names after the Phase 6 rename and restart): full V1-V7; validate-contract written per `.claude/skills/vb-validate-findings/references/example-validate-output.md`
+- [ ] 3. PLAN-SUPPLEMENT — vb-plan-agent (opus, front-matter): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean"); the 2026-10-29 Refresh Note below is already written
+- [ ] 4. PVL — vb-validate-agent (opus, front-matter; vb- names after the Phase 6 rename and restart): full V1-V7; validate-contract written per `.claude/skills/vb-validate-findings/references/example-validate-output.md`
 - [ ] 5. EXECUTE — vb-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented)
 - [ ] 6. EVL — vb-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written
 - [ ] 7. UPDATE PROCESS — vb-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main
@@ -225,11 +260,18 @@ instructions / Test gates) is treated as a placeholder.
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md`
 - Last completed step: not started (supplement cycle 2 applied to the plan, 29-10-26)
-- Validate-contract status: written (29-10-26, outer-pvl cycle 4: PASS, 0 MUST-FIX); EXECUTE allowed once the Phase 7 exit gate is green; hard stops need an explicit go per push
+- Validate-contract status: PARTLY SUPERSEDED by the Inner Loop Refresh Note 2026-10-29 (new Step B4 FINAL EQUIVALENCE GATE, C0, C-EQ); inner PVL must re-run from V1. Earlier text: written (29-10-26, outer-pvl cycle 4: PASS, 0 MUST-FIX); EXECUTE allowed once the Phase 7 exit gate is green; hard stops need an explicit go per push
 - Supporting context files: umbrella plan, `phase-blast-radius-registry.md`, Phase 6 and Phase 7 reports (if any), `baseline/`, `harness/validators.vb.list` and `harness/compare-vb.sh` (Phase 6)
 - Next step: re-run PVL (vb-validate-agent after the rename) from V1 on this plan; EXECUTE only after Phase 7 exit gate green and the gate is PASS or accepted CONDITIONAL. HARD STOP 1 and HARD STOP 2 need the user's explicit go-ahead, one go per push.
 
 ---
+
+## Inner Loop Refresh Note: 2026-10-29 — changed sections: Purpose, Entry Gate (P5, P6), Strategy Recommendation, Blast Radius, Implementation Checklist (new Step B4, C0, C1 quality bullet), Hard-stop hygiene, Exit Gate, Blockers, Phase Completion Rules, Acceptance Criteria (C-EQ), Verification Evidence, Phase Loop Progress, Resume and Execution Handoff. Invalidates prior validate-contract.
+
+User decision A (2026-10-29): quality-equivalence with the old kit is a hard program requirement; the FINAL EQUIVALENCE GATE (B4) sits before every release step. The Validate Contract below predates it and must be re-run from V1.
+
+---
+
 
 ## Validate Contract
 
@@ -344,3 +386,10 @@ Date: 29-10-26 | Mode: PVL-supplement | Gaps addressed: 5 of 5 | The Validate Co
 ## Supplement cycle 3
 - M8-1 applied: C2-pre (b) `/Users/` scan excludes the 6 known benign tracked paths explicitly (`__tests__` fixtures and the `vb-publish` skill and reference), expected 0 otherwise; (c) replaced with explicit badge commands comparing the real `badge/agents-N` / `badge/skills-N` values to the on-disk counts; R8-4 backlog note recorded.
 - M6-2 dependency recorded: the first Exit Gate line (Trial C) depends on the Phase 6 AC-5 predicate fix.
+
+
+### Supplement (user decisions 2026-10-29: quality-equivalence + model direction)
+
+- Decision A: new hard gate B4 (cost ack, two identically prepared sandboxes, 12 verbatim task runs, scripted rubric, blind pairwise judge, mechanical evidence (a)-(d)), verdict file with a last-line contract (`EQ gate: PASS | BLOCKED | ACCEPTED-BY-USER`), C0 stop check before Step C, re-run rule bound to the FINAL commit, C-EQ criterion, Exit Gate and Verification Evidence rows. Agent-Probe stays a named residual; Fully-Automated parts must also be green.
+- Decision B: no change to Phase 8 steps except model labels (research, plan, validate, tester are opus per front-matter). The OLD kit keeps its original models; both kits use the models in their own front-matter, so nothing differs by model.
+- Open points for the PVL re-run: (1) B4.6(d) depends on `gen-guardrails.mjs` having a way to direct its output away from `golden/guardrails.json` (RESEARCH confirms; fallback is a copy of the script in `eq/`); (2) B4.6(d) depends on the Phase 6 rename script being runnable on a temp copy; (3) cost: 18 billed calls with 3 tasks (12 runs + 6 judge calls), to be acknowledged before starting.

@@ -41,7 +41,7 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 | FUNDING | Delete `.github/FUNDING.yml` (LOCKED Q2) |
 | Golden runs | Phase 3 golden-baseline runs (about 3 sample tasks on old agents) APPROVED; phase reports the run count before starting (LOCKED Q3) |
 | Manifest and state-file rename | `vc-manifest.json` becomes `vb-manifest.json` in Phase 6, AND the state files `.vc-version`, `.vc-installed-files`, `.vc-publish-config` become `.vb-version`, `.vb-installed-files`, `.vb-publish-config`; install.sh, resolve-manifest.mjs, compute-sync-plan.mjs, vb-update/vb-publish, `.gitignore`, e2e test and docs change together. Old names are still READ as fallbacks and migrated to the new names (never deleted before the new file is written); Phase 6 B1 gets an upgrader fixture for all four (LOCKED Q4, extended by Gap 5) |
-| Execute effort | Execute, fast-mode and quick-fix agents follow `implementation-standards.md` §Agent Frontmatter Conventions as written: `effort: max` for opus execution agents (`high` is for sonnet planners/validators). Earlier wording that said 'high' is corrected. Phase 1 report MUST state the token-cost impact (LOCKED Q5, decision a) |
+| Execute effort | Execute, fast-mode and quick-fix agents follow `implementation-standards.md` §Agent Frontmatter Conventions as written: `effort: max` for opus execution agents (execute, fast-mode and quick-fix move from `low` to `max`). Earlier wording that said 'high' is corrected. No other agent's `effort:` is changed or lowered (user decision B). Phase 1 report MUST state the token-cost impact (LOCKED Q5, decision a) |
 | Native Windows / macOS | Cannot be tested here; Phase 8 gives the user exact commands; those gates stay CONDITIONAL with a backlog stub (LOCKED Q6) |
 | Outward actions | Push, remote tag, GitHub release remain hard stops needing explicit user go-ahead in Phase 8 (LOCKED Q7) |
 | Signal strings | `PHASE_COMPLETE:`, `Gate: PASS`, `SUPPLEMENT_APPLIED:`, `QUICK_FIX_ABORT:` and all others stay verbatim |
@@ -51,12 +51,12 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 | Version and manifest mode (decision d) | Version stays 1.0.0. `resolve-manifest.mjs` must pick glob mode by manifest shape (`Array.isArray(manifest.include)`) instead of `semverGte(version,'2.1.0')`. Owned by Phase 2, with a gate that `resolve-manifest --json` returns `files.length > 0` after the version bump. Phases 6 and 8 list this as a precondition. |
 | Rename rules (decision e) | Phase 6 rename is case-sensitive and atomic: `vc-`/`VC-`/`VC_` all become `vb-`/`VB-`/`VB_` (signals such as `VC-PREDICT-DEEP-NEEDED`, env vars such as `VC_KIT_SOURCE`). Old env var names and old state files (`.vc-version`, `.vc-installed-files`, `.vc-publish-config`, `vc-manifest.json`) are still READ as fallbacks and migrated. ONE program-wide sweep rule with allowlist (canonical text in Charter DoD item 3 and Global Constraints, including the `CHANGELOG.md`/`MIGRATION.md` whole-file protection; names the `upstream-attribution` tag and the brand-detection lines in `validate-kit-portability.mjs`, `vc-publish/SKILL.md`, `vc-publish/references/vc-publish.md`). Restart checkpoint: the orchestrator asks the user to restart Claude Code before Phase 7 because renamed agents may not be spawnable in the same session. Signal strings stay verbatim until Phase 6 and change only as this rule says. The four uppercase signals (`VC-PREDICT-DEEP-NEEDED`, `VC-PREDICT-RESEARCH-COMPLETE`, `VC-FEASIBILITY-PROBE-NEEDED`, `VC-FEASIBILITY-VERDICT-READY`), `VC_*` env vars, `.vc.json` and `vc plan check` are RENAMED to `VB-`/`VB_`/`vb` with old-name fallbacks where code reads them; they are NOT residuals. |
 | Phase 4/5 team join (decision f) | The orchestrator only SEQUENCES the join after both teammates report; it runs no command itself. A spawned vc-execute-agent merges the `p4-docs-dedup` and `p5-skills-tune` branches and runs `catalog --write`; a spawned vc-tester runs `catalog --check`, the `diff -q`/`cmp` mirror check on the charter-template pair and the joint validator suite. Phase 4 may not rename or delete any protocol file or heading cited from outside `process/development-protocols/` (including `.claude/**` and `.codex/**`) without leaving a stub or sending a SendMessage to `p5-skills-tune`. Both charter-template copies are FROZEN in Phases 4 and 5. Phase 5 handoff reads 'after Phase 3 exit gate, parallel with Phase 4'. |
-| Golden baseline source (Gap 7) | Golden baseline is captured from the `upstream-baseline` tag (worktree checkout, original models) and compared after Phase 3 AND for the Phase 1 model change (opus to sonnet on research/plan/validate/tester). Phase 3 size gate has a numeric floor: at least 25% drop in prompt size on the slimmed agent set. |
+| Golden baseline source (Gap 7) | Golden baseline is captured from the `upstream-baseline` tag (worktree checkout, original models) and compared after Phase 3 (slimming) AND again in the Phase 8 FINAL EQUIVALENCE GATE (decision A). There is no Phase 1 model-change measurement any more: Phase 1 changes no `model:` (decision B). Phase 3 size gate has a numeric floor: at least 25% drop in prompt size on the slimmed agent set. |
 | `.agents/skills` (cycle 2, decision 1) | Stays the 17-byte text file in the work tree. Git records mode 120000 via `git update-index --cacheinfo` with `core.symlinks=false`. The gate checks only that no failure OTHER than `.agents/skills` remains (a directory copy and a WSL symlink both fail validate-skills under node.exe, verified). |
 | vc-setup (cycle 2, decision 2) | `vc-setup` (later `vb-setup`) in Phase 0 is INTERACTIVE: the user's presence is a checkpoint (ask the user the setup questions); seed-based context is the fallback when the user is absent. |
 | Phase 4/5 worktrees (cycle 2, decision 3) | Teammates `p4-docs-dedup` and `p5-skills-tune` each work in their own `git worktree` + branch, merged at the join. |
 | Join sequencing (cycle 2, decision 4) | The orchestrator only SEQUENCES the join: a spawned vc-execute-agent runs catalog `--write`; a spawned vc-tester runs `--check` and the joint suite. No inline execution by the orchestrator. |
-| Phase 3 judging (cycle 2, decision 5) | Phase 3 judges slimmed agents against `golden/phase1/` (same models, unslimmed) for the revert decision; `golden/old/` (original models) is reported only as the Phase 1 model-change measurement. Sandboxes are built identically so only agent files differ. |
+| Phase 3 judging (cycle 2, decision 5) | Phase 3 judges slimmed agents against `golden/phase1/` (same models, unslimmed) for the revert decision; `golden/old/` (the `upstream-baseline` tag tree) is reported only as a pre-program control (all trees now use the same agent models, decision B). Sandboxes are built identically so only agent files differ. |
 | Baseline after rename (cycle 2, decision 6) | Phase 6 adds a step that writes `validators.vb.list` and a runtime mapping into the TASK FOLDER (not the protected `baseline/`); `compare.sh` accepts a `--map` file. |
 | Phase 3 census (cycle 2, decision 7) | Phase 3 census lists agents by directory listing and keys output by prefix-stripped names. |
 | Phase 6 manifest (cycle 2, decision 8) | `legacy-hashes.json` and `scripts/**` belong in `kitOnly`, not `include`. |
@@ -64,6 +64,9 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 | Git identity (inner 1b, user decision 2) | `user.name` = `Tomwakeupat530amm`; `user.email` = the user's OWN real address (not the GitHub noreply form). The agent never invents it: Phase 0 A0 is a user checkpoint where the orchestrator has the user confirm the exact address (account address on file `ngocthangptit04@gmail.com`) because it becomes public in every commit once pushed. Noreply stays a mentioned alternative only. |
 | Old owner's WhatsApp invite link (inner 1b, user decision 3) | `chat.whatsapp.com/E42ySo6iGmuAyeh25eAXuu` (measured 8 lines in 7 kit files outside the program folder; the user counted 9 lines) is REMOVED in Phase 2 (not replaced by an invented link). |
 | Mixed git binaries (inner 1b) | Gates run with WSL git; `node.exe` validators call Windows git against the same repo (one cross-read verified in research). Phase 0 adds a gate that `git.exe status` and WSL `git status` both print nothing after C3. |
+| QUALITY EQUIVALENCE (user decision A, 2026-10-29, LOCKED, HARD program requirement) | The new kit must keep the same behaviour, ways of working and output quality as the old kit, at least equal. Recorded as north star + definition-of-done item 8 + criterion C-EQ + a Charter hard safety constraint. Mechanism: Phase 3 FREEZES the golden task definitions (3 tasks: small feature, bug fix, multi-phase program; prompts, expected artifacts, rubric, judge protocol, exact old-kit sandbox recipe) in `golden/tasks/` with a sha256 manifest; Phase 8 step B4 (FINAL EQUIVALENCE GATE) re-runs the SAME frozen tasks, same judge protocol (blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced) on (i) the `upstream-baseline` tag tree built as an identically prepared sandbox with original models and (ii) the final v1.0.0 candidate tree, plus the mechanical evidence re-run on the final tree (Phase 0 validator baseline not worse via `compare-vb.sh`, signal census 1:1 after the VC-/VB- mapping, e2e trials, guardrail-section identity modulo the rename). ANY reproduced WORSE blocks every release step (no tag, no push) until fixed or until the user explicitly accepts it in chat. The exact run count and cost are reported and acknowledged by the user before the gate starts (same hard stop as Phase 3 A0). Fully-Automated parts: scripted rubric items, validator baseline, signal census, guardrail identity; Hybrid: e2e trials; Agent-Probe: the blind judge verdict, a NAMED RESIDUAL that is never the sole proof |
+| MODEL DIRECTION (user decision B, 2026-10-29, LOCKED) | KEEP the models on disk: opus on 7 agents (`vc-execute-agent`, `vc-fast-mode-agent`, `vc-quick-fix-agent`, `vc-plan-agent`, `vc-research-agent`, `vc-tester`, `vc-validate-agent`), sonnet on 8 (`vc-code-reviewer`, `vc-code-simplifier`, `vc-debugger`, `vc-git-manager`, `vc-innovate-agent`, `vc-spec-agent`, `vc-ui-ux-designer`, `vc-update-process-agent`); verified by grep 2026-10-29. Phase 1 changes NO `model:` line; it fixes the DOCUMENTATION that says only the code-writing leg uses opus (CLAUDE.md, strategy-compare SKILL.md, implementation-standards.md, orchestration.md, vc-system-behavior 04/07/08, all-context.md line 179, and the README claim sites in 10 files; wording rewritten later by Phase 7). The Phase 1 validator enforces this real table (documented rows only). Ad-hoc helper agents with no vc-agent file default to sonnet. The Codex model stays global in `.codex/config.toml` |
+| Deferred, optional follow-up (NOT in this program unless the user asks) | Measure sonnet versus opus on the golden tasks and only then consider lowering any agent's model for cost |
 
 ---
 
@@ -73,7 +76,7 @@ Phase program (9 phases) to fork this kit into vibebelt-kit v1.0.0. Context rout
 vibebelt-kit Rebrand and Hardening — Program Goal Charter
 
 North star:
-- Ship vibebelt-kit v1.0.0: the same proven RIPER-5 workflow, rebranded, internally consistent, leaner, and installable by a non-coder from the README alone.
+- Ship vibebelt-kit v1.0.0: the same proven RIPER-5 workflow, rebranded, internally consistent, leaner, and installable by a non-coder from the README alone, and proven (by the same golden tasks run on old and new kit) to keep the old kit's behaviour, ways of working and output quality, at least equal.
 
 Definition of done (an unattended agent must be able to do all of these):
 1. Show a git history with tag `upstream-baseline` and a saved before/after validator comparison.
@@ -83,10 +86,11 @@ Definition of done (an unattended agent must be able to do all of these):
 5. Show 33 skills intact with tuned triggers, a regenerated catalog, an agent-browser size explanation, and a proposed-new-skills list (none added).
 6. Show README top + quickstart + glossary in plain language, EN and VI synced, other 8 languages marked "may be outdated".
 7. Show an install-test matrix (fresh + existing project; Windows Git Bash, WSL, macOS/Linux; untested ones documented) and a local tag `v1.0.0` with plain-language release notes.
+8. Show the FINAL EQUIVALENCE GATE verdict (Phase 8 step B4, last line of `eq/verdict.md` = `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER`): the frozen golden tasks re-run on the old (`upstream-baseline`) and the final tree with no reproduced WORSE, plus the mechanical equivalence evidence (validator baseline not worse, signal census 1:1 after the VC-/VB- mapping, e2e trials, guardrail-section identity). No release step happens before this.
 
 What "verified" means (program level):
 - A phase is VERIFIED only when: its exit-gate commands exit as expected, the full validator suite is not worse than the Phase 0 baseline (pre-existing reds are not blamed on us), the regression checkpoint against earlier verified surfaces passes, and a validate-contract exists (or a documented skip reason).
-- Known-Gap is a named residual, never a proof. A behavior covered only by Known-Gap keeps its gate CONDITIONAL and gets a backlog stub.
+- Known-Gap is a named residual, never a proof. The Agent-Probe judge verdict of the equivalence gate is likewise a named residual and never the sole proof. A behavior covered only by Known-Gap keeps its gate CONDITIONAL and gets a backlog stub.
 
 Scope tiers → phase mapping:
 - Tier 1 Safety net and consistency → Phases 0, 1
@@ -103,6 +107,7 @@ Hard safety constraints (non-negotiable, per phase):
 - No phase proceeds on a red validator, where 'red' means worse than the Phase 0 baseline (recorded before AND after vc-setup).
 - Commit each phase's execution changes to `main` before the next phase. Keep process/plan/context commits separate from execution commits.
 - Pushing, tagging remotely, GitHub release, billed model runs beyond the approved golden set: ask the user first.
+- No release step (release notes finalisation, local tag, push, GitHub release) while the FINAL EQUIVALENCE GATE has a reproduced WORSE or a mechanical failure, unless the user explicitly accepts it in chat; the exact run count and cost of the gate are acknowledged by the user before it starts.
 ```
 
 ### Acceptance criteria (the user brief acts as the SPEC; each criterion names its proof)
@@ -110,14 +115,15 @@ Hard safety constraints (non-negotiable, per phase):
 | ID | Criterion | proven by | strategy |
 |---|---|---|---|
 | C-P0 | git exists, validator baseline saved, all-context.md exists | Phase 0 Exit Gate commands | Fully-Automated |
-| C-P1 | new policy validator + fixtures, CI covers full suite, counts consistent | Phase 1 Exit Gate | Fully-Automated |
+| C-P1 | new policy validator + fixtures (enforces the real table: 7 opus / 8 sonnet, `effort: max` on the three execution agents; no `model:` changed), documentation states the real model policy, CI covers full suite, counts consistent | Phase 1 Exit Gate | Fully-Automated |
 | C-P2 | grep finds only attribution; images local; version 1.0.0 | Phase 2 Exit Gate | Fully-Automated |
-| C-P3 | size drops, output equal/better, signals intact, parity green | Phase 3 Exit Gate + golden compare | Fully-Automated + Agent-Probe |
+| C-P3 | size drops, output equal/better, signals intact, parity green, golden task definitions frozen in `golden/tasks/` | Phase 3 Exit Gate + golden compare | Fully-Automated + Agent-Probe |
 | C-P4 | single source for shared docs, wiring/sync/parity green | Phase 4 Exit Gate | Fully-Automated |
 | C-P5 | 33 skills, validators green, proposals listed | Phase 5 Exit Gate | Fully-Automated + Hybrid |
 | C-P6 | one idempotent dry-run-capable script, no stray `vc-`, all validators green | Phase 6 Exit Gate | Fully-Automated + Hybrid |
 | C-P7 | non-coder can install from README unaided; EN+VI synced | Phase 7 Exit Gate | Fully-Automated + Agent-Probe |
-| C-P8 | clean install on tested environments; tag v1.0.0 | Phase 8 Exit Gate | Fully-Automated + Hybrid (macOS/Windows native = Known Gap, CONDITIONAL, backlog stub) |
+| C-P8 | FINAL EQUIVALENCE GATE (C-EQ) passed first; clean install on tested environments; tag v1.0.0 | Phase 8 Exit Gate | Fully-Automated + Hybrid (macOS/Windows native = Known Gap, CONDITIONAL, backlog stub) |
+| C-EQ | the final v1.0.0 kit keeps the same behaviour, ways of working and output quality as the old kit, at least equal (user decision A) | Phase 8 step B4: frozen golden tasks re-run on `upstream-baseline` vs final tree (blind pairwise, 2 replicates, tie = EQUAL, WORSE only if reproduced) + validator baseline + signal census + e2e + guardrail identity; last line of `eq/verdict.md` | Fully-Automated (scripted rubric, validator baseline, signal census, guardrail identity) + Hybrid (e2e) + Agent-Probe (blind judge; named residual, never the sole proof) |
 | C-SAFE-1 | never delete user content | Phase 6 B1 + Phase 8 B1 | Hybrid |
 | C-SAFE-2 | MIT notice and original copyright kept | both LICENSE greps run after every phase by Phase 0 `baseline/compare.sh` (Global Constraints) | Fully-Automated |
 
@@ -130,6 +136,7 @@ SESSION GOAL: vibebelt-kit rebrand + hardening to v1.0.0 for non-coder vibecoder
 Ref: process/general-plans/active/vibebelt-rebrand_29-10-26/vibebelt-rebrand-umbrella_PLAN_29-10-26.md
 
 TARGET: all 9 phases (0-8, strict order) done, each exit gate green:
+- QUALITY (hard, C-EQ): new kit = old kit's behaviour, ways of working, output quality, at least equal; Phase 8 re-runs Phase 3's frozen golden tasks old vs final BEFORE any release step
 - no validator worse than Phase 0 baseline (red = worse than baseline), git diff --check clean
 - grep withkynam|flowser = attribution only; grep vc- = legacyDeletions/CHANGELOG/MIGRATION only (sweep allowlist in umbrella)
 - 33 skills kept, RIPER-5 unchanged, Claude+Codex parity, clean install tested, tag v1.0.0
@@ -137,14 +144,15 @@ TARGET: all 9 phases (0-8, strict order) done, each exit gate green:
 
 AUTONOMY: before ANY spawn read umbrella Current Execution State, then the phase plan Phase Loop Progress (first unchecked box = next agent). Phases 4+5 = agent team (TeamCreate, TaskCreate, SendMessage, TaskList), disjoint per phase-blast-radius-registry.md; orchestrator only sequences the join: spawned execute-agent merges + catalog --write, spawned tester runs --check + suite.
 
-PER-PHASE LOOP (7-step, never skip/reorder, SKIPS SPEC): 1 RESEARCH, 2 INNOVATE, 3 PLAN-SUPPLEMENT, 4 PVL, 5 EXECUTE, 6 EVL, 7 UPDATE-PROCESS. PVL never skipped; placeholder or partial contract = blocked. Every subagent FIRST ACTION: vc-context-discovery + vc-plan-discovery. Every phase-END: vc-agent-strategy-compare. EXECUTE = opus, all else sonnet. After Phase 6 use vb- names (restart Claude Code between Phase 6 and 7).
+PER-PHASE LOOP (7-step, never skip/reorder, SKIPS SPEC): 1 RESEARCH, 2 INNOVATE, 3 PLAN-SUPPLEMENT, 4 PVL, 5 EXECUTE, 6 EVL, 7 UPDATE-PROCESS. PVL never skipped; placeholder or partial contract = blocked. Every subagent FIRST ACTION: vc-context-discovery + vc-plan-discovery. Every phase-END: vc-agent-strategy-compare. Each vc-agent keeps its own model (7 opus, 8 sonnet; none changed). After Phase 6 use vb- names (restart Claude Code between Phase 6 and 7).
 
 HARD STOPS (pause for user):
 - push, remote tag, GitHub release, publish
 - any deletion of user content; billed model runs beyond approved golden set
+- Phase 8 EQUIVALENCE GATE: reproduced WORSE vs old kit blocks release until fixed or user accepts; user acks run count+cost first
 - a validator worse than baseline (never advance), cascade BLOCKED, unresolvable placeholder contract
-- Linux Node install in WSL = user action (never auto-install)
-- user needed in Phase 0 (confirm real git e-mail; interactive vb-setup) and cost OK before Phase 3 A0 golden runs and Phase 4 0.5a probes
+- Linux Node install = user action
+- user needed in Phase 0 (confirm real git e-mail; interactive vb-setup) and cost OK before Phase 3 A0, Phase 4 0.5a, Phase 8 B4.1 runs
 - after Phase 6 rename commit: stop, ask user to restart Claude Code
 
 SAFETY (never override):
@@ -154,7 +162,7 @@ SAFETY (never override):
 - commit each phase on main before the next (Phase 3: one commit per agent); process commits separate
 - VC-/VC_ signals+env vars renamed to VB-/VB_ in Phase 6 (not residuals)
 
-TEST GATES (every phase exit; node.exe if no Linux node; compare to baseline):
+TEST GATES (every phase exit; compare to baseline):
   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
   node .claude/skills/vc-audit-vc/scripts/validate-kit-portability.mjs
@@ -170,7 +178,7 @@ TEST GATES (every phase exit; node.exe if no Linux node; compare to baseline):
 
 VALIDATE CONTRACT: per-phase, written by vc-validate-agent into each phase plan before EXECUTE.
 
-START: Phase 0, loop step 1 RESEARCH (pending). Spawn vc-research-agent (sonnet) for Phase 0.
+START: Phase 0, loop step 1 RESEARCH (pending). Spawn vc-research-agent (opus) for Phase 0.
 ```
 
 ---
@@ -180,14 +188,14 @@ START: Phase 0, loop step 1 RESEARCH (pending). Spawn vc-research-agent (sonnet)
 | Phase | Plan file | Scope summary | Depends on |
 |---|---|---|---|
 | 0 — Foundation | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-00-foundation_PLAN_29-10-26.md` | git init, baseline tag, validator baseline, LICENSE line, vc-setup | — |
-| 1 — Fix inconsistencies | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_PLAN_29-10-26.md` | model/effort drift, README counts, CI coverage, new policy validator | Phase 0 |
+| 1 — Fix inconsistencies | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_PLAN_29-10-26.md` | model-policy docs corrected to the real assignment (no `model:` change), execute-class effort max, README counts, CI coverage, new policy validator | Phase 0 |
 | 2 — Identity and distribution | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_PLAN_29-10-26.md` | withkynam/flowser replaced, local images, version 1.0.0 | Phase 1 |
-| 3 — Slim agents | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-slim-agents_PLAN_29-10-26.md` | golden baseline, slim one agent at a time, revert on quality drop | Phase 2 |
+| 3 — Slim agents | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-slim-agents_PLAN_29-10-26.md` | golden baseline + frozen golden task definitions, slim one agent at a time, revert on quality drop | Phase 2 |
 | 4 — Doc de-duplication | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_PLAN_29-10-26.md` | single source for CLAUDE.md/AGENTS.md, remove unjustified "superseded"/legacy leftovers (allowlist diff) | Phase 3 |
 | 5 — Tune skills | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_PLAN_29-10-26.md` | keywords/descriptions, oversize files, agent-browser 15MB, proposals | Phase 3 |
 | 6 — Prefix rename | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-06-prefix-rename_PLAN_29-10-26.md` | vc- to vb- by one idempotent script, legacyDeletions | Phases 4 + 5 |
 | 7 — Vibecoder docs | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-07-vibecoder-docs_PLAN_29-10-26.md` | README top, quickstart, glossary, plain messages, EN+VI | Phase 6 |
-| 8 — Install test and release | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md` | real installs, update/publish flows, v1.0.0 | Phase 7 |
+| 8 — Install test and release | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md` | FINAL EQUIVALENCE GATE, real installs, update/publish flows, v1.0.0 | Phase 7 |
 
 Ordering rationale (checked step by step): the baseline tag must precede every edit (0); the policy validator and CI must exist before big edits so later phases are guarded (1); identity changes touch installer constants the rename (6) must carry along (2 before 6); slimming (3) before dedup/skills so the rename and docs act on the final text; 4 and 5 touch disjoint files (see registry) so they may run as a team; the rename (6) needs both done so one script sees the final file set; docs (7) must use final `vb-` names; install testing (8) must test the final build. No phase depends on a later phase's output.
 
@@ -210,18 +218,18 @@ Ordering rationale (checked step by step): the baseline tag must precede every e
 
 ## Strategy Recommendation per Phase (vc-agent-strategy-compare)
 
-Phase plans' own Strategy sections are authoritative if this table and a phase plan ever differ. Model rule: EXECUTE = opus; research, innovate, plan, validate, EVL tester, update-process = sonnet.
+Phase plans' own Strategy sections are authoritative if this table and a phase plan ever differ. Model rule (decision B): each named vc-agent runs on the model in its own front-matter (opus: execute, fast-mode, quick-fix, plan, research, validate, tester; sonnet: innovate, spec, update-process, debugger, code-reviewer, code-simplifier, ui-ux-designer, git-manager); ad-hoc helpers (judge, probe) default to sonnet; implementing subagents are opus.
 
 | Phase | Strategy | Why | Models |
 |---|---|---|---|
-| 0 | Sequential | steps depend on each other | all sonnet except EXECUTE opus |
-| 1 | Parallel subagents (2 groups, ordered): group (b) README/i18n/CI starts only after group (a) validator exists (Phase 1 ordering rule); the Phase 1 plan is authoritative | agents+validator first, then README/i18n/CI; no cross-talk needed | sonnet planning; 2 opus implementers |
+| 0 | Sequential | steps depend on each other | named agents on their front-matter models; EXECUTE opus |
+| 1 | Parallel subagents (3 groups, ordered: (a) validator + execution-agent effort, (b) README/i18n/CI, (c) model-fact docs): group (b) README/i18n/CI starts only after group (a) validator exists (Phase 1 ordering rule); the Phase 1 plan is authoritative | agents+validator first, then README/i18n/CI; no cross-talk needed | named planning agents on front-matter models; 3 opus implementers |
 | 2 | Parallel subagents (4 disjoint groups a-d, with ordering: (c)/(d) wait for the resolver fix before version text); Phase 2 plan is authoritative | install scripts / community docs / README+assets / i18n READMEs | sonnet planning; 4 opus implementers |
-| 3 | Sequential, one agent per cycle | regression must be attributable to one agent | sonnet judge/plan; opus editor |
-| 4 + 5 | Agent team: `TeamCreate` team "vibebelt-p4-p5" with named teammates `p4-docs-dedup` and `p5-skills-tune`, one `TaskCreate` task each scoped to its registry claim, `SendMessage` to ask before touching anything outside the claim, `TaskList` to track; orchestrator-SEQUENCED join afterwards (spawned execute-agent: merge + catalog --write; spawned tester: --check, mirror `diff -q`, joint validators); each teammate in its own worktree + branch | blast radii must stay disjoint while both run; parallel subagents cannot coordinate | sonnet teammates for research/audit; opus only for the editing leg |
+| 3 | Sequential, one agent per cycle | regression must be attributable to one agent | ad-hoc sonnet judge; plan/validate on front-matter models; opus editor |
+| 4 + 5 | Agent team: `TeamCreate` team "vibebelt-p4-p5" with named teammates `p4-docs-dedup` and `p5-skills-tune`, one `TaskCreate` task each scoped to its registry claim, `SendMessage` to ask before touching anything outside the claim, `TaskList` to track; orchestrator-SEQUENCED join afterwards (spawned execute-agent: merge + catalog --write; spawned tester: --check, mirror `diff -q`, joint validators); each teammate in its own worktree + branch | blast radii must stay disjoint while both run; parallel subagents cannot coordinate | teammates on their front-matter models (research = opus) or ad-hoc sonnet for audit; opus for the editing leg |
 | 6 | Sequential | one script, determinism is the point | sonnet planning; opus script author/runner |
 | 7 | Mixed, ordered (glossary follows the quick start; VI follows EN); Phase 7 plan is authoritative | files are disjoint but wording depends on the English text | sonnet prose; opus only for agent-prompt edits |
-| 8 | Sequential | each environment fix feeds the next test | sonnet tester; opus fixes |
+| 8 | Sequential | each environment fix feeds the next test | tester on its front-matter model (opus); ad-hoc sonnet judge for the equivalence gate; opus fixes |
 
 ---
 
@@ -230,14 +238,14 @@ Phase plans' own Strategy sections are authoritative if this table and a phase p
 | Phase | Entry | Exit gate |
 |---|---|---|
 | 0 | Program start | git exists; `upstream-baseline` tag; validator baseline saved before AND after vc-setup; `.agents/skills` repaired; all-context.md exists; `grep -c "Copyright (c) 2026 vibecode" LICENSE` = 1 and `grep -c "Copyright (c) 2026 Tomwakeupat530amm" LICENSE` = 1 |
-| 1 | Phase 0 exit met | new policy validator + pass/fail fixtures; CI lists every validator; counts consistent |
+| 1 | Phase 0 exit met | new policy validator + pass/fail fixtures (real table); no `model:` line changed, `effort: max` on the 3 execution agents; model-fact docs corrected (claim grep prints nothing); CI lists every validator; counts consistent |
 | 2 | Phase 1 exit met | grep (program-wide sweep rule) finds only attribution lines; no hotlinked images; version 1.0.0; `resolve-manifest --json` returns files.length > 0 |
-| 3 | Phase 2 exit met | per-agent commits; prompt size at least 25% lower on the slimmed set; golden compare EQUAL/BETTER; signals intact; parity green |
+| 3 | Phase 2 exit met | per-agent commits; prompt size at least 25% lower on the slimmed set; golden compare EQUAL/BETTER; golden task definitions frozen (`golden/tasks/` + sha256); signals intact; parity green |
 | 4 | Phase 3 exit met | protocol-wiring, guide-sync, agent-parity green; no unjustified "superseded"/legacy leftovers (line-anchored allowlist diff; the Phase 4 plan is authoritative) |
 | 5 | Phase 3 exit met (parallel with Phase 4) | 33 skills; validate-skills, skill-routing, confusable-skills green; catalog regenerated |
 | 6 | Phases 4 and 5 exit met, join step green, resolve-manifest precondition | script idempotent; no stray `vc-`; all validators and e2e green |
 | 7 | Phase 6 exit met, Claude Code restarted, `golden/signal-census.mjs` + `golden/signal-census-phase3.txt` present | non-coder install walkthrough passes; EN+VI synced; 8 banners |
-| 8 | Phase 7 exit met | `e2e-kit-flows.test.mjs` `.pathname` Windows bug fixed first (Phase 8 owns it); clean install on tested environments; 6 user-run known-gaps listed; local tag v1.0.0; release notes |
+| 8 | Phase 7 exit met | `e2e-kit-flows.test.mjs` `.pathname` Windows bug fixed first (Phase 8 owns it); FINAL EQUIVALENCE GATE B4 (`eq/verdict.md` last line `EQ gate: PASS` or `ACCEPTED-BY-USER`) BEFORE any release step; clean install on tested environments; 6 user-run known-gaps listed; local tag v1.0.0; release notes |
 
 ---
 
@@ -245,10 +253,10 @@ Phase plans' own Strategy sections are authoritative if this table and a phase p
 
 Each phase executes the canonical 7-step inner loop `R → I → P → PVL → E → EVL → UP`. It SKIPS SPEC: the user brief and this umbrella are the SPEC.
 
-1. **RESEARCH** — vc-research-agent (sonnet): load context, read prior phase reports, check drift
+1. **RESEARCH** — vc-research-agent (opus, front-matter): load context, read prior phase reports, check drift
 2. **INNOVATE** — vc-innovate-agent (sonnet): decide approach; Decision Summary
-3. **PLAN-SUPPLEMENT** — vc-plan-agent (sonnet): update the existing phase plan or mark "n/a — research clean"
-4. **PVL** — vc-validate-agent (sonnet): V1-V7; validate-contract per `example-validate-output.md`
+3. **PLAN-SUPPLEMENT** — vc-plan-agent (opus, front-matter): update the existing phase plan or mark "n/a — research clean"
+4. **PVL** — vc-validate-agent (opus, front-matter): V1-V7; validate-contract per `example-validate-output.md`
 5. **EXECUTE** — vc-execute-agent (opus): implement the phase plan only
 6. **EVL** — vc-tester: re-run contract gates independently; follow-up stubs; EVL HANDOFF SUMMARY
 7. **UPDATE-PROCESS** — vc-update-process-agent (sonnet): phase report, rewrite `## Current Execution State`, commit on main
@@ -263,19 +271,21 @@ Checked against `phase-blast-radius-registry.md`. Phases 4 and 5 are `parallel-s
 
 | File / area | Phases touching it | Owner (winning phase) |
 |---|---|---|
-| README.md | 1, 2, 6, 7 | 7 (final wording); 6 only renames prefix |
-| `.claude/agents/*.md` and `.codex/` mirrors | 1, 3, 6, 7 | 3 (content); 1 front-matter only, 6 rename only, 7 message prose only |
+| README.md | 1, 2, 6, 7 | 7 (final wording); 1 = validator count + model-fact correction (facts only), 6 only renames prefix |
+| `.claude/agents/*.md` and `.codex/` mirrors | 1, 3, 6, 7 | 3 (content); 1 touches ONLY the `effort:` line of the 3 execution agents (no `model:`), 6 rename only, 7 message prose only |
 | `install.sh`, vc-update/vc-publish skills (`SKILL.md` + `references/`) | 2, 5 (front-matter only, SKILL.md files), 6, 8 | 2 (REPO); 5 front-matter only; 6 rename + manifest name; 8 small fixes only |
 | `vc-manifest.json` / `vb-manifest.json` | 2 (version), 6 (file rename) | 6 |
 | `CHANGELOG.md` | 2 (new `## [1.0.0]` fork-origin entry, upstream history tagged), 6 (whole-file PROTECTED, no rewrite), 8 (hand-written release entry; must extend, not duplicate, the Phase 2 `## [1.0.0]` entry, see contradiction C4) | 8 for the release text; 2 for the fork-origin entry |
 | `LICENSE` | 0 only (checked after EVERY phase by `baseline/compare.sh`) | 0 |
 | `SECURITY.md`, `.github/FUNDING.yml` | 2 only | 2 |
-| `docs/i18n/README.*.md` (9 files; Vietnamese is `README.vi-VN.md`) | 1 (counts), 2 (identity + images), 6 (rename), 7 (banner / VI sync) | 7 (final); Phase 2 group C owns identity + images |
+| `docs/i18n/README.*.md` (9 files; Vietnamese is `README.vi-VN.md`) | 1 (counts), 2 (identity + images), 6 (rename), 7 (banner / VI sync) | 7 (final); Phase 2 group C owns identity + images; Phase 1 owns the count and the model FACTS (7 opus / 8 sonnet), which Phase 7 must keep |
 | `MIGRATION.md` | 2 (identity lines, history lines tagged), 6 (whole-file PROTECTED; one hand-added banner line, step B6, pointing to `docs/RELEASE-NOTES-1.0.0.md`) | 2; Phase 8 does NOT claim it |
 | `docs/GOOD-FIRST-ISSUES.md`, `docs/GITHUB-*.md` | 2, 6, 7 (docs) | 7 for wording; 2 identity; 6 rename only |
 | `.claude/skills/vc-setup/**` | 2 (identity), 5 (front-matter only), 6 (rename) | 2 |
 | `.claude/skills/vc-audit-vc/SKILL.md` | 1 (new validator listing), 5 (front-matter only), 6 (rename) | 1 |
 | `.github/workflows/validate.yml` | 1 (new validator listing), 6 (rename) | 1 |
+| `CLAUDE.md` (§Model Selection Policy), `process/development-protocols/{implementation-standards,orchestration}.md`, `vc-system-behavior/{04-research,07-plan,08-validate}.md`, `.claude/skills/vc-agent-strategy-compare/SKILL.md` (§Model Selection Policy), `process/context/all-context.md` line 179 (model-policy paragraph) | 1 (model-fact correction, decision B), 4 (CLAUDE.md/protocols dedup), 5 (strategy-compare front-matter only), 6 (rename) | 1 for the model facts; 4 MUST PRESERVE the corrected model text (its gate re-runs Phase 1's claim grep); 5 and 6 do not alter the facts; `AGENTS.md` has no model text and is Phase 4's alone |
+| `eq/**` (task folder: FINAL EQUIVALENCE GATE evidence) and read access to `golden/tasks/**` | 8 (author of `eq/**`); 3 (author of `golden/tasks/**`, frozen after its step A5) | 8 for `eq/**`; 3 for `golden/tasks/**` (Phase 8 only reads, never edits) |
 | `resolve-manifest.mjs` | 2 (manifest-shape fix), 6 (rename) | 2 |
 | `.vc-version`, `.vc-installed-files`, `.vc-publish-config`, `.gitignore`, `export-benchmark-kit.mjs`, `process/_seeds`, CONTRIBUTING + 5 translations | 6 (rename + migration fallbacks) | 6 |
 | `program-goal-charter-template.md` (mirror pair under `process/development-protocols/references/` and `.claude/skills/vc-generate-phase-program/references/`) | 6 (rename only) | FROZEN in Phases 4 and 5 (neither edits either copy); join step runs `diff -q`/`cmp` on the pair (expected no output) |
@@ -283,7 +293,7 @@ Checked against `phase-blast-radius-registry.md`. Phases 4 and 5 are `parallel-s
 | `e2e-kit-flows.test.mjs` | 2 (comment/display name only), 6 (rename; keep-regions for Trial C seed block and `vc-team`-removed assertion), 8 (A0 BEFORE install tests: `fileURLToPath`, `os.tmpdir()` instead of `/tmp`, quoted forward-slash `bash` path) | 8 for the fix; 2 and 6 text only |
 | `CONTRIBUTING.md` + `docs/i18n/CONTRIBUTING.{ja-JP,ko-KR,pt-BR,vi-VN,zh-CN}.md`, `.github/ISSUE_TEMPLATE/**` (incl. `1.bug_report.yml`), `.github/workflows/{welcome,release}.yml` | 2 (identity), 6 (rename) | 2; Phase 7 does NOT own the CONTRIBUTING translations' display name |
 | `docs/QUICKSTART.md`, `docs/GLOSSARY.md`, `docs/i18n/README.vi-VN.md`, `docs/i18n/{QUICKSTART,GLOSSARY}.vi-VN.md`, `scripts/check-docs.mjs`, `scripts/fixtures/check-docs/**`, `harness/phase7-*` helpers, `process/general-plans/backlog/vi-native-review_NOTE_29-10-26.md` | 7 | 7 (Phase 7 edits `docs/i18n/README.*.md` after Phase 2 and the Phase 6 rename; strictly ordered) |
-| `golden/**` (task folder): scripts (`size-check.mjs`, `signal-census.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `gen-guardrails.mjs`, `run-record.mjs`), snapshots, `signal-census-phase3.txt`, `guardrails.json`, `runs/`, `old/`, `phase1/`; plus new `.codex/agents/references/` and backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` | 3 (author), 7 (reads `signal-census.mjs` + `signal-census-phase3.txt`) | 3 |
+| `golden/**` (task folder): scripts (`size-check.mjs`, `signal-census.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `gen-guardrails.mjs`, `run-record.mjs`), snapshots, `signal-census-phase3.txt`, `guardrails.json`, `runs/`, `old/`, `phase1/`; plus new `.codex/agents/references/` and backlog stub `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md` | 3 (author; includes the frozen `golden/tasks/**`), 7 (reads `signal-census.mjs` + `signal-census-phase3.txt`), 8 (reads `tasks/**`, `run-record.mjs`, `gen-guardrails.mjs`, `guardrails.json`, `signal-census*.txt`, `start.sha`) | 3 |
 | `p4-tools/**` (incl. `claim.globs`, `baseline.sha`), `dedup-allowlist*.txt`, Phase 4 report / `p5-tools/**` (incl. `claim.globs`, `baseline.sha`), `proposed-new-skills.md`, Phase 5 report, backlog note `process/general-plans/backlog/vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md` | 4 / 5 | 4 / 5 respectively (teammate branches `p4-docs-dedup` / `p5-skills-tune`) |
 | `baseline/**` (task folder) | 0 (author); 1 adds `p1_start.txt` + one `validators.list` line; 2 adds `p2_start.txt` + `resolved_p2_start.<runtime>.txt`; all later phases read | 0 (Phase 6 never writes here) |
 | `scripts/rename-prefix.mjs`, `scripts/test-rename-prefix.mjs`, `scripts/test-compute-sync-plan.mjs`, `.allowlist.txt`, `.path-allowlist.txt`, `scripts/fixtures/rename-prefix/**`, `legacy-hashes.json` and root `scripts/**` (manifest `kitOnly`, NOT `include`), hooks `legacy-config-fallback.test.cjs` in `.claude/hooks/lib/__tests__/` and `.codex/hooks/lib/__tests__/`, the 5 hook lib files per tree, `.gitignore`, `harness/` helpers and evidence pack (task folder) | 6 | 6 |
@@ -301,8 +311,8 @@ Planner's note (kept for reference): shared files are README.md (phases 1, 2, 6,
 ## Autonomous Execution Rules (During /goal)
 
 - The agent self-decides at V5 gates; CONDITIONAL proceeds with gaps on record; BLOCKED goes to backlog and continues where a path exists.
-- Hard stops: push/remote tag/release/publish; any deletion of user content; billed model runs beyond the approved golden set; a red validator; cascade BLOCKED.
-- User checkpoints that autonomy cannot skip: Phase 0 git identity email and interactive `vc-setup`; user acknowledgement of exact run/probe counts at Phase 3 A0 and Phase 4 0.5a.
+- Hard stops: push/remote tag/release/publish; any deletion of user content; billed model runs beyond the approved golden set (including the Phase 8 equivalence runs: count and cost acknowledged by the user first); a reproduced WORSE in the FINAL EQUIVALENCE GATE (blocks every release step until fixed or accepted by the user in chat); a red validator; cascade BLOCKED.
+- User checkpoints that autonomy cannot skip: Phase 0 git identity email and interactive `vc-setup`; user acknowledgement of exact run/probe counts at Phase 3 A0, Phase 4 0.5a and Phase 8 B4.1.
 - Phase reports are the communication channel for conflicts and learnings.
 - Subagent delegation (no inline execution) stays mandatory under autonomy.
 
@@ -311,6 +321,8 @@ Planner's note (kept for reference): shared files are README.md (phases 1, 2, 6,
 ## Global Constraints
 
 - Never lower or delete a validator check; only add.
+- QUALITY EQUIVALENCE (decision A): the golden task definitions in `golden/tasks/` are frozen after Phase 3 step A5 and are reused verbatim by Phase 8 step B4; no release step happens before `eq/verdict.md` ends with `EQ gate: PASS` or `EQ gate: ACCEPTED-BY-USER` for the commit being tagged.
+- MODEL DIRECTION (decision B): no phase changes any agent's `model:`; no phase lowers any `effort:`; the only effort edit is execute, fast-mode, quick-fix `low` -> `max` in Phase 1.
 - LICENSE guard (mandatory line of EVERY phase exit gate, carried by Phase 0 `baseline/compare.sh` so one place runs it after every phase): `grep -c "Copyright (c) 2026 vibecode" LICENSE` = 1 and `grep -c "Copyright (c) 2026 Tomwakeupat530amm" LICENSE` = 1. Proves C-SAFE-2 after each phase. Realization: Phases 0, 1, 2, 6, 7, 8 call `compare.sh`/`compare-vb.sh` in their exit-gate blocks and Phase 4 in its verification table; Phases 3 and 5 do not claim LICENSE and get the explicit `bash $B/compare.sh` line at their own PVL (residual R1); the goal-block TEST GATES apply the greps at every phase exit and the check is cumulative (the next `compare.sh` run catches any earlier damage).
 - SWEEP RULE (canonical wording lives here; Phase 2 and Phase 6 implement it, see their gates): search the whole repo EXCLUDING `.git`, the program task folder `process/general-plans/active/vibebelt-rebrand_29-10-26/` (and its archived copy), `baseline/`, `golden/`, the rename script + its fixtures, `CHANGELOG.md` and `MIGRATION.md` (WHOLE-FILE protection: Phase 6 implements the history rule as a protected set, not as marker regions; in Phase 2 their old-identity lines are instead tagged `upstream-attribution`), and `legacyDeletions`. Old-identity lines that legitimately remain are only: (1) lines carrying the literal tag `upstream-attribution`; (2) the brand-detection lines in `.claude/skills/vc-audit-vc/scripts/validate-kit-portability.mjs`, `.claude/skills/vc-publish/SKILL.md` and `.claude/skills/vc-publish/references/vc-publish.md`. Phase 2 may additionally exclude the whole `process/` directory ONLY because at Phase 2 time `process/` holds no kit text beyond the task folder and Phase 0 generated context; its gate adds `grep -rIn "withkynam\|flowser" process --exclude-dir=vibebelt-rebrand_29-10-26` and expects no output.
 - `.agents/skills` gate rule: the gate checks only that no failure OTHER than `.agents/skills` remains.
@@ -342,7 +354,7 @@ Planner's note (kept for reference): shared files are README.md (phases 1, 2, 6,
 
 | Phase | Status |
 |---|---|
-| 0 — Foundation | ⏳ PLANNED |
+| 0 — Foundation | ✅ VERIFIED |
 | 1 — Fix inconsistencies | ⏳ PLANNED |
 | 2 — Identity and distribution | ⏳ PLANNED |
 | 3 — Slim agents | ⏳ PLANNED |
@@ -367,7 +379,8 @@ Status values: ⏳ PLANNED | 🔨 CODE DONE | 🧪 TESTING | ✅ VERIFIED | 🚧
 | Golden runs cost money/time | Medium | cap at 3 tasks, report run count before starting |
 | Parity validator blocks the new `references/` location | Medium | decide location in Phase 3 RESEARCH; never relax the validator |
 | Baseline already red (`.agents/skills` plain file, no Linux node) | High | red = worse than Phase 0 baseline; Phase 0 repairs `.agents/skills`; node.exe fallback; e2e recorded baseline-red / NOT TESTED with cause |
-| Phase 1 model downgrade (opus to sonnet) is unmeasured | Medium | golden baseline from `upstream-baseline` tag covers it; compared after Phase 3 |
+| Final kit is worse than the old kit in behaviour or output quality (any phase, esp. slimming, rename, doc rewording) | Medium | Phase 3 golden compare per slimmed agent (revert that agent only); Phase 8 FINAL EQUIVALENCE GATE re-runs the same frozen tasks on old vs final before any release step; mechanical evidence re-run; reproduced WORSE blocks release |
+| Golden tasks drift between Phase 3 and Phase 8, or the old-kit sandbox cannot be rebuilt | Medium | definitions frozen with sha256 in `golden/tasks/` (Phase 3 A5); exact sandbox recipe recorded (A2b); Phase 8 checks the freeze before starting; both kits re-run at Phase 8 time |
 | Phase 4 breaks references from 44 skill files and 32 agent/codex files | Medium | stub-or-SendMessage rule, protocol-wiring before reporting, join step |
 | Renamed agents not spawnable in the same session | Medium | restart checkpoint before Phase 7 |
 | `resolve-manifest.mjs` returns no files after version bump to 1.0.0 | Medium | manifest-shape detection in Phase 2 with `files.length > 0` gate |
@@ -376,11 +389,11 @@ Status values: ⏳ PLANNED | 🔨 CODE DONE | 🧪 TESTING | ✅ VERIFIED | 🚧
 
 ## Touchpoints
 
-- Phase 0: git, LICENSE, process/context/**; Phase 1: agent front-matter, new validator, README/i18n counts, CI
+- Phase 0: git, LICENSE, process/context/**; Phase 1: 3 agent `effort:` lines (no model change), new validator, model-policy docs, README/i18n counts and model facts, CI
 - Phase 2: install/update/publish scripts, community docs, README header, assets, manifest/CHANGELOG
 - Phase 3: agent prompts + references + Codex mirrors; Phase 4: CLAUDE.md, AGENTS.md, protocols
 - Phase 5: skill front-matters, catalog; Phase 6: whole kit via one script
-- Phase 7: README top, quickstart, glossary, message wording; Phase 8: temp sandboxes, release docs, tag
+- Phase 7: README top, quickstart, glossary, message wording; Phase 8: FINAL EQUIVALENCE GATE (`eq/**`), temp sandboxes, release docs, tag
 
 ---
 
@@ -405,6 +418,10 @@ Program-level: essentially the whole kit repository. Per-phase claims live in `p
 | Per-phase Exit Gate command blocks (each phase plan) | Fully-Automated | C-P0..C-P8 |
 | Full validator suite vs Phase 0 baseline after every phase | Fully-Automated | all (regression checkpoint) |
 | Golden-baseline rubric comparison (Phase 3) | Agent-Probe | C-P3 |
+| Golden task definitions frozen (`golden/tasks/` + `FROZEN.sha256`, Phase 3 A5; re-verified at Phase 8) | Fully-Automated | C-P3, C-EQ (inputs) |
+| FINAL EQUIVALENCE GATE (Phase 8 B4): scripted rubric, `compare-vb.sh` exit 0, signal census diff after VC-/VB- mapping, guardrail identity | Fully-Automated | C-EQ |
+| FINAL EQUIVALENCE GATE e2e trials (Linux Node) | Hybrid | C-EQ |
+| FINAL EQUIVALENCE GATE blind pairwise judge, old vs final, 3 tasks x 2 replicates | Agent-Probe (judgement; named residual, never the sole proof) | C-EQ |
 | Non-coder README walkthrough (Phase 7) | Agent-Probe | C-P7 |
 | Install matrix + updater safety (Phase 8, Phase 6 B1) | Hybrid | C-P8, C-SAFE-1 |
 | macOS and native Windows installs | Known gap (named residual); backlog stub = user-run checklist; gate CONDITIONAL | C-P8 residual |
@@ -432,23 +449,31 @@ node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs pr
 
 - Selected plan file path: `process/general-plans/active/vibebelt-rebrand_29-10-26/vibebelt-rebrand-umbrella_PLAN_29-10-26.md`
 - Last completed phase: planning (this umbrella and 9 phase plans written)
-- Validate-contract status: written (2026-10-29), Gate: PASS (PVL cycle 3, umbrella scope; N1-N6 and contradictions C1-C8 verified closed; residuals R1-R4 listed as Known Gaps). Each phase still needs its own PVL before its EXECUTE
+- Validate-contract status: PARTLY SUPERSEDED by the Inner Loop Refresh Note 2026-10-29 (decisions A and B; umbrella PVL must re-run from V1); earlier text: written (2026-10-29), Gate: PASS (PVL cycle 3, umbrella scope; N1-N6 and contradictions C1-C8 verified closed; residuals R1-R4 listed as Known Gaps). Each phase still needs its own PVL before its EXECUTE
 - Supporting context files: phase-blast-radius-registry.md, CLAUDE.md, `process/development-protocols/phase-programs.md`
-- Next step for a fresh agent: the orchestrator emits the /goal block (the Stable Program Goal above), then spawns vc-research-agent (sonnet) for Phase 0 (RESEARCH, step 1 of the 7-step loop). Phase 0 PVL (step 4) happens inside the Phase 0 loop.
+- Next step for a fresh agent: the orchestrator emits the /goal block (the Stable Program Goal above), then spawns vc-research-agent (opus, front-matter) for Phase 0 (RESEARCH, step 1 of the 7-step loop). Phase 0 PVL (step 4) happens inside the Phase 0 loop.
 - Current phase: Phase 0 — Foundation
-- Next action: "Spawn vc-research-agent (sonnet) for Phase 0"
+- Next action: "Spawn vc-research-agent (opus, front-matter) for Phase 0"
 
 ---
 
 ## Current Execution State
 
-Last updated: 29-10-26
-Completed phases: none (planning artifacts written)
-Current phase: Phase 0 of 9 (Foundation)
-Current loop step: RESEARCH (umbrella PVL cycle 3 = Gate: PASS; Phase 0 RESEARCH is next)
-Validate-contract status: written (2026-10-29), Gate: PASS (umbrella scope, PVL cycle 3; phase plans validated per phase)
+Last updated: 2026-10-29
+Completed phases: Phase 0 (Foundation) COMPLETE, EVL green, report written
+Current phase: 1 of 9
+Phase 1 name: Fix inconsistencies
+Phase 1 status: NOT_STARTED
+Phase 0 name: Foundation
+Phase 0 status: COMPLETE_WITH_GAPS (named residuals K0-1 e2e under WSL and K0-2 native Windows/macOS; both carried to Phase 8 backlog stubs)
+Phase 0 EVL: green (independent vc-tester run PASS, 38 rows)
+Phase 0 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-00-foundation_REPORT_29-10-26.md
+Next phase: 1 — Fix inconsistencies (phase-01-fix-inconsistencies_PLAN_29-10-26.md)
+Current loop step: 1a-research (Phase 1 RESEARCH). Inner PVL must re-run from V1 for Phase 1, Phase 3, Phase 8 and the umbrella because of the 2026-10-29 Inner Loop Refresh Notes (Phase 1 / 3 / 8 plans and the umbrella were edited after their contracts were written).
+Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (PVL cycle 3), stale after the refresh notes and must be re-run; Phase 0 = written, Gate: PASS (inner), consumed; Phases 1-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
 Program Net Gate: PASS at umbrella level; C-P8r (native Windows / macOS) stays CONDITIONAL inside Phase 8
-Latest validator run: not yet run (Phase 0 saves the baseline; known baseline-red: validate-skills and validate-context-discovery because `.agents/skills` is a plain file; validate-all-context is exit 0 in bare-kit mode before vc-setup)
+Latest validator run: Phase 0 baseline saved (default runtime Linux node 22.23.4, 28 rows: 26 green; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). `bash baseline/compare.sh` exits 0. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
+Git state: branch main, no remote, nothing pushed; tag `upstream-baseline` = 005744e; Phase 0 execution commits 005744e..1e81834; Phase 0 closeout process commit pending (orchestrator via vc-git-manager)
 
 Loop step values: RESEARCH | INNOVATE | PLAN-SUPPLEMENT | PVL | EXECUTE | EVL | UPDATE-PROCESS
 Orchestrator rule: read "Current loop step" and "Validate-contract status" before spawning any subagent. Never spawn execute-agent when loop step is RESEARCH, INNOVATE, PLAN-SUPPLEMENT, or PVL.
@@ -456,6 +481,13 @@ Orchestrator rule: read "Current loop step" and "Validate-contract status" befor
 Note: the Stable Program Goal above is fixed. This section is the only part that changes — update-process-agent rewrites it after every phase closeout (overwrite, not append).
 
 ---
+
+## Inner Loop Refresh Note: 2026-10-29 — changed sections: Locked Decisions, Program Goal Charter, Acceptance criteria, Stable Program Goal, Phase Ordering, Strategy Recommendation per Phase, Per-Phase Entry / Exit Gates, Per-Phase Loop, Pre-PVL Conflict Resolution, Autonomous Execution Rules, Global Constraints, Risk Predictions, Touchpoints, Verification Evidence, Resume and Execution Handoff. Invalidates prior validate-contract.
+
+User decisions A (quality-equivalence is a hard requirement; Phase 8 FINAL EQUIVALENCE GATE) and B (keep opus, fix the documentation). The Validate Contract below predates both and must be re-run from V1; statements in it about a Phase 1 model downgrade (opus to sonnet) or its Phase 3 measurement are superseded.
+
+---
+
 
 ## Validate Contract
 
@@ -690,3 +722,11 @@ Resolution (PVL cycle 3, 2026-10-29): contradictions C1-C8 above were closed by 
 ## Supplement (inner 1b, Phase 0) (29-10-26)
 
 Applied from Phase 0 research findings and user decisions 1-3: Locked Decisions gained rows for the screenshots exclusion (521-file baseline), git identity (real e-mail, confirmed by the user), the WhatsApp link removal (Phase 2) and the mixed git binaries; Locked Decision (b) and Charter DoD item 2 now say index-only 120000, work tree keeps the text file, raw exit stays 1 under `node.exe`, operative rule 'not worse than baseline'; the goal block hard-stop line names the real e-mail (re-counted, see below). The Phase 0 plan carries an Inner Loop Refresh Note dated 2026-10-29, so its inner PVL re-runs from V1. The registry Phase 0 'OPEN (C1)' note is closed (B3 rule (5) carries the LICENSE greps). Contradiction notes C1-C8 above are historical; their resolution stays in the Validate Contract closure table.
+
+
+## Supplement (user decisions 2026-10-29: quality-equivalence + model direction)
+
+- Decision A recorded in: Locked Decisions (QUALITY EQUIVALENCE row), Charter (north star, DoD item 8, verified-means bullet, hard safety constraint), criterion C-EQ, Stable Program Goal (TARGET bullet + HARD STOPS bullet, block re-counted <= 4000 characters, 7 required sections in order), exit-gate table rows 3 and 8, Pre-PVL table (golden/** and new eq/** ownership), Global Constraints, Risk Predictions, Verification Evidence. Mechanism: Phase 3 A2b/A5 freeze `golden/tasks/`; Phase 8 B4/C0 gate every release step.
+- Decision B recorded in: Locked Decisions (MODEL DIRECTION row, Execute effort row, golden baseline rows), Phase 1 description, strategy table model lines, loop labels, Pre-PVL table (CLAUDE.md/protocols/strategy-compare/all-context ownership: Phase 1 first, Phase 4 preserves). Deferred, optional, not in this program: measure sonnet versus opus on the golden tasks before ever lowering a model.
+- Wording to adjust in plans this supplement did not own (list sent to the caller): Phase 2 (README/i18n identity edits must not touch the model-fact sites that Phase 1 corrected), Phase 4 (preserve Phase 1's model text in CLAUDE.md, orchestration.md, implementation-standards.md, vc-system-behavior 04/07/08; re-run the Phase 1 claim grep), Phase 5 (strategy-compare front-matter only, body of Model Selection Policy is Phase 1's), Phase 6 (rename of the new text only; golden/tasks and eq are inside the protected task folder), Phase 7 (keep facts 7 opus / 8 sonnet when rewording; model labels in the loop sections), Phase 0 (the `model-policy` paragraph of `all-context.md` is edited once by Phase 1; baseline/validators.list gains one row in Phase 1).
+- Stale text kept on purpose inside the old Validate Contract and Known Gaps (history): the C-P1 / C-P3q lines about a Phase 1 opus-to-sonnet downgrade.
