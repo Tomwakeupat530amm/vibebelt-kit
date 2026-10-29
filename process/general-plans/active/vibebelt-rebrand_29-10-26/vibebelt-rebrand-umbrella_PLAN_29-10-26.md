@@ -442,7 +442,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 | Phase | Status |
 |---|---|
 | 0 — Foundation | ✅ VERIFIED |
-| 1 — Fix inconsistencies | ⏳ PLANNED |
+| 1 — Fix inconsistencies | ✅ VERIFIED |
 | 2 — Identity and distribution | ⏳ PLANNED |
 | 3 — Slim agents | ⏳ PLANNED |
 | 4 — Doc de-duplication | ⏳ PLANNED |
@@ -550,20 +550,25 @@ node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs pr
 ## Current Execution State
 
 Last updated: 2026-10-29
-Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS, EVL green, report written, closeout committed
-Current phase: 1 of 9
-Phase 1 name: Fix inconsistencies
-Phase 1 status: NOT_STARTED
+Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS
+Current phase: 2 of 9
+Phase 2 name: Identity and distribution
+Phase 2 status: NOT_STARTED
 Phase 0 name: Foundation
-Phase 0 status: COMPLETE_WITH_GAPS (named residuals K0-1 e2e Trials C and D under Linux node and K0-2 native Windows/macOS; both carried to Phase 8 backlog stubs)
+Phase 0 status: DONE (COMPLETE_WITH_GAPS; named residuals K0-1 and K0-2 carried to Phase 8 backlog stubs)
 Phase 0 EVL: green (independent vc-tester run PASS, 38 rows)
 Phase 0 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-00-foundation_REPORT_29-10-26.md
-Next phase: 1 - Fix inconsistencies (phase-01-fix-inconsistencies_PLAN_29-10-26.md)
-Current loop step: RESEARCH (Phase 1, step 1). Phase 1's inner PVL (step 4) restarts at V1 because its plan carries an Inner Loop Refresh Note dated 2026-10-29; Phases 3 and 8 carry the same kind of note.
-Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (PVL cycle 5, outer-pvl; MUST-FIX 3 fixed, RESIDUAL 6 open, hand-off H1 to Phase 2); Phase 0 = written, Gate: PASS (inner), consumed; Phases 1-8 = outer-pvl contracts predating decisions A and B (Phases 1, 3, 8) or carrying ripple supplements (2, 4, 5, 6, 7); each needs its own inner PVL before EXECUTE
+Phase 1 name: Fix inconsistencies
+Phase 1 status: DONE (COMPLETE_WITH_GAPS; execution commit 1733f7b, baseline commit e188368; residuals K1-1 registry docs in Phase 4, K1-2 real-runner CI in Phase 8, K1-3 risk-artifacts fixtures backlog; translation probe R1.10/R1.13 pending, orchestrator updates)
+Phase 1 EVL: green (independent vc-tester run PASS on every runnable Exit Gate row; mutation test and positive control passed; compare.sh exit 0); translation probe pending
+Phase 1 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_REPORT_29-10-26.md
+Next phase: 2 - Identity and distribution (phase-02-identity-distribution_PLAN_29-10-26.md)
+Current loop step: RESEARCH (Phase 2, step 1a). Phase 2's inner PVL contract is Gate: PASS dated 2026-10-29; Phase 2 starts from the registry and umbrella claims. Phases 3 and 8 still carry Inner Loop Refresh Notes, so their PVL restarts at V1.
+Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl; hand-off H1 to Phase 2); Phases 0 and 1 = Gate: PASS (inner), consumed; Phase 2 = Gate: PASS (2026-10-29); Phases 3-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
 Program Net Gate: PASS at umbrella level; C-P8r (native Windows / macOS) stays CONDITIONAL inside Phase 8
-Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-29 (default runtime Linux node 22.23.4; 28 baseline rows: 26 green; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
-Git state: branch main, HEAD 7845316, no remote, nothing pushed; tag `upstream-baseline` = 005744e (521 files); Phase 0 execution commits 005744e, 2627c28, 8b73f41, 3d9167d; process commits b219398, 746045b, 1e81834, 7845316; uncommitted: plan-only edits to the umbrella and phases 1-2 and 4-7 (phase 1 was edited by another actor while this pass ran; this agent did not touch it) (commit as a process commit before Phase 1 EXECUTE)
+Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-29 (Linux node 22.23.4; prints NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
+Git state: branch main, HEAD e188368, no remote, nothing pushed; tag `upstream-baseline` = 005744e; Phase 1 start marker 27d9600; Phase 1 execution commit 1733f7b, process commit e188368; uncommitted: this UPDATE PROCESS closeout (Phase 1 report, backlog stubs, harness/verification.json, umbrella state, results.tsv, two context docs) - commit as a process commit
+Model facts after Phase 1: 7 opus (execute, fast-mode, quick-fix, plan, research, tester, validate) and 8 sonnet; effort low -> max on execute, fast-mode, quick-fix. Sessions started before Phase 1 hold the old CLAUDE.md: spawns of plan, research, validate and tester must not pass a model override.
 
 Loop step values: RESEARCH | INNOVATE | PLAN-SUPPLEMENT | PVL | EXECUTE | EVL | UPDATE-PROCESS
 Orchestrator rule: read "Current loop step" and "Validate-contract status" before spawning any subagent. Never spawn execute-agent when loop step is RESEARCH, INNOVATE, PLAN-SUPPLEMENT, or PVL.

@@ -44,7 +44,7 @@ This is the fast operator guide for the testing surface of this repo. There is n
 ### Use the validators when
 
 - you changed agents, skills, hooks, protocols, seeds, or context docs: these scripts check structure, parity (`.claude/agents` vs `.codex/agents`), wiring, frontmatter, and portability
-- there are 37 of them: `.claude/skills/<skill>/scripts/` files named `validate-*.mjs`. Run each from the repo root.
+- there are 38 of them: `.claude/skills/<skill>/scripts/` files named `validate-*.mjs`. Run each from the repo root.
 
 ### Use `node --test e2e-kit-flows.test.mjs` when
 
@@ -80,7 +80,7 @@ Run from the repo root with `node` (Linux 22) or `node.exe` (Windows 24); the ba
 | hook lib tests | node:test | `node --test '.claude/hooks/lib/__tests__/*.test.cjs'` (quote the glob; Node 22 does not accept a directory argument; baseline 113 tests, 110 pass, 3 fail) |
 | whitespace / conflict markers | git | `git diff --check` |
 
-**CI** (`.github/workflows/validate.yml`, on `pull_request` to `main`, Ubuntu, Node 22) runs 21 steps (checkout, Node 22 setup, then the validators: agent parity, skills, guide sync, protocol wiring, seeds, context discovery, skill routing, skill cross-refs, skill dependencies, confusable skills, skills catalog generation, plan inventory, all-context, skill invocation wiring, protocol discovery, skill keywords, plan artifacts (if any), kit portability, and finally a non-blocking markdownlint). `release.yml` repeats the same validators on a version tag. The e2e test is not in CI.
+**CI** (`.github/workflows/validate.yml`, on `pull_request` and `push` to `main`, Ubuntu, Node 22) runs 42 steps: checkout, Node 22 setup, then every validator (the original set plus, since Phase 1, 21 more run on their pass fixtures, among them the new `validate-model-effort-policy.mjs`), plan artifacts (if any), kit portability, and finally a non-blocking markdownlint. Two of the added steps carry `continue-on-error: true` because they fail on a bare kit checkout: `validate-eval-coverage.mjs` (needs runtime-harness scenarios that this kit does not ship) and `validate-risk-artifacts.mjs` (no fixtures of its own; backlog: `process/general-plans/backlog/risk-artifacts-validator-fixtures_NOTE_29-10-26.md`). `release.yml` (version tag only) repeats the same validators in 44 steps. A push to `main` cancels any in-flight run on `main` (`cancel-in-progress`). CI has not run on a real Ubuntu runner yet (Phase 8). The e2e test is not in CI.
 
 ## Debugging Quick Reference
 

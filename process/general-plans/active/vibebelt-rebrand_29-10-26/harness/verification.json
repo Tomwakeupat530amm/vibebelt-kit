@@ -1,0 +1,34 @@
+{
+  "_note": "Schema: the `steps` array follows .claude/skills/vc-risk-evidence-pack/SKILL.md section 3 (step, command, result PASS|FAIL|SKIP, notes). The top-level fields phase/date/tester/commits/known_gaps are extra metadata added by Phase 1 UPDATE PROCESS because 11-phase-programs.md and 10-update-process.md define no separate EVL record file. Source of results: the independent vc-tester (opus) EVL run, and this agent's re-runs on 2026-10-29.",
+  "phase": "phase-01-fix-inconsistencies",
+  "date": "2026-10-29",
+  "tester": "vc-tester (opus), independent EVL confirmation run",
+  "gate": "PASS",
+  "commits": {
+    "p1_start": "27d9600",
+    "execution": "1733f7bda2e6c23acec2ee2e924cefdf016c1d1b",
+    "process_baseline": "e188368"
+  },
+  "steps": [
+    {"step": "New validator exits 0 on the real agents", "command": "node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs", "result": "PASS", "notes": "exit 0"},
+    {"step": "New validator exits 0 on pass fixture, 1 on fail fixture with plain-language messages (happy path and failure case)", "command": "validate-model-effort-policy.mjs --root <fixtures/model-effort-pass|model-effort-fail>", "result": "PASS", "notes": "pass exit 0; fail exit 1 naming agent + field + expected value"},
+    {"step": "Red-first run before the effort edits", "command": "validate-model-effort-policy.mjs on pre-edit agents", "result": "PASS", "notes": "exactly 3 effort messages (execute, fast-mode, quick-fix), no model message"},
+    {"step": "Mutation test: flip one model/effort line, validator must fail", "command": "manual flip + validator run + revert", "result": "PASS", "notes": "validator failed as required"},
+    {"step": "Positive control: README row set back to sonnet gives RED", "command": "R1.12 loop after temporary edit", "result": "PASS", "notes": "RED line printed; edit reverted"},
+    {"step": "Agent diff gate: only 3 effort lines moved, no model line changed", "command": "git diff -U0 27d9600 -- .claude/agents", "result": "PASS", "notes": "3 files, effort low -> max; 0 model lines; .codex untouched"},
+    {"step": "Agent parity and frontmatter", "command": "validate-agent-parity.mjs; validate-agent-frontmatter.mjs", "result": "PASS", "notes": "both exit 0"},
+    {"step": "Validator count in READMEs", "command": "grep for 36 / 38 sites in README.md + docs/i18n/README.*.md", "result": "PASS", "notes": "36 sites 40 -> 0; 38 sites 0 -> 40; 38 validators on disk"},
+    {"step": "Model-fact claim grep and README model facts", "command": "R1.11 claim grep; R1.12 per-row loop; 60.70 grep", "result": "PASS", "notes": "claim grep 14 -> 0; README RED 30 -> 0; 60.70 10 -> 0; 7 opus / 8 sonnet"},
+    {"step": "CI name loop over both workflows", "command": "for w in validate release: every validate-*.mjs named", "result": "PASS", "notes": "CI validator names missing 20 -> 0; script-name sets of validate.yml and release.yml equal; release.yml additions only; YAML parse ok"},
+    {"step": "21 new CI steps run locally", "command": "node <validator> <fixture> for each row of the E2 table", "result": "PASS", "notes": "19 exit 0; row 3 validate-eval-coverage and row 19 validate-risk-artifacts exit 1 and are continue-on-error: true (2 in each workflow)"},
+    {"step": "Baseline comparison", "command": "bash baseline/compare.sh", "result": "PASS", "notes": "exit 0; NOTE new validator validate-model-effort-policy; nothing worse than validators_after_setup.tsv"},
+    {"step": "Identity and remote", "command": "git log author check; git remote", "result": "PASS", "notes": "one author identity; no remote; nothing pushed"},
+    {"step": "R1.10 / R1.13 agent-probe: review of 9 README translations", "command": "code-reviewer agent", "result": "PASS", "notes": "a code-reviewer agent (read-only) checked all 10 README files against the repo on 2026-10-29: 7 opus / 8 sonnet identical everywhere, research/plan/validate rows say opus, Mermaid diagram skeleton byte-identical to English after blanking quoted strings (static check; not rendered with mermaid-cli), validator count 38 at all 4 sites, the '60-70%' claim removed in every language, no translation damage that changes meaning. Cosmetic only: some English fragments remain in the diagram edge labels (as before); the 8 non-English/non-Vietnamese READMEs are slated for deletion in the clean-tree step."},
+    {"step": "CI on a real ubuntu runner (K1-2)", "command": "n/a", "result": "SKIP", "notes": "cannot run here; Phase 8 including the release.yml tag path"}
+  ],
+  "known_gaps": [
+    {"id": "K1-1", "text": "orchestration.md Regression Gate Validators and validator registry docs do not list the new validator until Phase 4", "backlog": "process/general-plans/backlog/validator-registry-docs-lag_NOTE_29-10-26.md"},
+    {"id": "K1-2", "text": "CI never run on a real ubuntu runner, including the release.yml tag path", "owner": "Phase 8"},
+    {"id": "K1-3", "text": "validate-risk-artifacts.mjs needs its own fixtures and a schema decision", "backlog": "process/general-plans/backlog/risk-artifacts-validator-fixtures_NOTE_29-10-26.md"}
+  ]
+}

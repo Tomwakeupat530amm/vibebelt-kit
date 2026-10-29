@@ -155,7 +155,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
   .github/                            -- workflows (validate, release, labeler, welcome), issue templates, PR template
 ```
 
-37 validator scripts live at the `scripts/` folder of each skill under `.claude/skills/` (files named `validate-*.mjs`), concentrated in `vc-audit-vc`, `vc-audit-context`, and `vc-audit-plans`.
+38 validator scripts live at the `scripts/` folder of each skill under `.claude/skills/` (files named `validate-*.mjs`), concentrated in `vc-audit-vc`, `vc-audit-context`, and `vc-audit-plans`.
 
 ## Technology Stack
 
@@ -164,7 +164,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
 - **Docs:** Markdown everywhere (agents, skills, protocols, plans, context); `.markdownlint.json` at the root.
 - **Config formats:** JSON (`vc-manifest.json`, `.claude/settings.json`, `.codex/hooks.json`), TOML (`.codex/config.toml`, agent mirrors), YAML (GitHub workflows, frontmatter in every doc).
 - **Dependencies:** none at the repo level. No `package.json`, no lockfile, no package manager. Two skills carry their own small footprints: `vc-sequential-thinking` (`package.json`) and `vc-agent-browser` (scripts and a lockfile); both are excluded from installs by the manifest.
-- **CI:** GitHub Actions: `validate.yml` (pull_request to `main`, Ubuntu, Node 22) and `release.yml` (version tag), plus `labeler.yml` and `welcome.yml`. No deployments.
+- **CI:** GitHub Actions: `validate.yml` (pull_request and push to `main`, Ubuntu, Node 22; 42 steps) and `release.yml` (version tag; 44 steps), plus `labeler.yml` and `welcome.yml`. No deployments.
 - **Distribution:** `curl ... install.sh | bash` from a GitHub repo (the user's own repo, not yet pushed); version tracked by `vc-manifest.json` (`3.2.5`) and a `.vc-version` file written into target projects.
 - **Agent targets:** Claude Code (`.claude/`) and Codex (`.codex/`, model `gpt-5.4`); skills are shared through `.agents/skills`.
 
@@ -202,7 +202,7 @@ vibecode-pro-max-kit-main/            -- kit source repo (becomes vibebelt-kit)
 
 ## Testing
 
-No test framework or package manager. Checks are plain Node scripts: the 37 validators, the `node --test e2e-kit-flows.test.mjs` installer trials, and a few unit tests under hooks and skills. Commands, CI job list, and the known baseline failures: `process/context/tests/all-tests.md`.
+No test framework or package manager. Checks are plain Node scripts: the 38 validators, the `node --test e2e-kit-flows.test.mjs` installer trials, and a few unit tests under hooks and skills. Commands, CI job list, and the known baseline failures: `process/context/tests/all-tests.md`.
 
 ## Open Questions
 
