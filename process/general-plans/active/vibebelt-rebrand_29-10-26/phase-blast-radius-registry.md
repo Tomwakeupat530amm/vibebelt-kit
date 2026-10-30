@@ -72,15 +72,15 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - Preconditions: Phase 4 and Phase 5 committed on `main` with exit gates green (no join), `AGENTS.md` <= 32,768 bytes, `resolve-manifest --json` files.length > 0 (Phase 2; Phase 6 B0 is the fallback), clean tree excluding the task folder, rollback point recorded in the SHA file `harness/pre-vb-rename.sha` (no tag)
 - Restart checkpoint: Claude Code restart after the rename commit; Phase 6 EVL/UP and Phase 7 run in the restarted session
 
-## Phase 7
-- `README.md` top section only (between the `vibecoder-top` marker comments), `docs/QUICKSTART.md` (new), `docs/GLOSSARY.md` (new), `scripts/check-docs.mjs` (new) + `scripts/fixtures/check-docs/**` (new; `scripts/` is `kitOnly`)
-- `docs/i18n/README.vi-VN.md` (real file; no banner), `docs/i18n/QUICKSTART.vi-VN.md` (new), `docs/i18n/GLOSSARY.vi-VN.md` (new); banner only on `docs/i18n/README.{zh-CN,ja-JP,ko-KR,pt-BR,es,de,fr,hi}.md` (8)
-- `.claude/agents/vb-*.md` + `.codex/agents/vb-*.toml` mirrors (human prose around signal strings only; md and toml in the same step)
-- `process/development-protocols/orchestration.md` §Plain-Language Gate Rendering ONLY
-- `process/general-plans/backlog/vi-native-review_NOTE_29-10-26.md` (new backlog stub)
-- Task folder `harness/phase7-*` helpers (`phase7-base-sha.txt`, `phase7-claim.patterns`, `phase7-agent-diffs/`) and `orchestration-plg-before.txt`
-- Reads (hard dependency): `golden/signal-census.mjs`, `golden/signal-census-phase3.txt` (compared after `sed 's/VC-/VB-/g;s/vc-/vb-/g'` on both sides, counts removed); reuses Phase 6 `harness/compare-vb.sh` and Phase 4 `p4-tools/pointer-check.mjs` (read-only; Phase 3 builds no pointer-check)
-- NOT claimed: `CONTRIBUTING*` (Phase 2 owns identity, Phase 6 owns the rename)
+## Phase 7 (status: DONE, 2026-10-30; commits 9507163, 7760f30, 04553bb)
+- `README.md` (rewritten in Vietnamese; Quick start and glossary table inside), `docs/i18n/README.en.md` (NEW, English twin; Quick start and glossary inside), `docs/i18n/README.vi-VN.md` (DELETED, replaced by the root README.md)
+- `scripts/check-docs.mjs` (NEW, 6 checks, self-test) + `scripts/fixtures/check-docs/**` (26 NEW files; `scripts/` is `kitOnly`)
+- Task folder `harness/phase7-*` helpers (`phase7-base-sha.txt`, `phase7-claim.patterns`, `phase7-census-count-diff.txt`, `phase7-pointers-before.txt`, `phase7-pointers-after.txt`) and `orchestration-plg-before.txt`
+- `process/general-plans/backlog/vi-native-review_NOTE_29-10-26.md` (NEW backlog stub)
+- `process/context/planning/all-planning.md` (two wording changes so the rename dry-run reports `edits=0`)
+- DESCOPED (not edited): `.claude/agents/vb-*.md`, `.codex/agents/vb-*.toml`, `orchestration.md` Plain-Language Gate Rendering, banners on the 8 other READMEs, any QUICKSTART or GLOSSARY file
+- Reads (unchanged): `golden/signal-census.mjs`, `golden/signal-census-phase3.txt`, `harness/compare-vb.sh`, `p4-tools/pointer-check.mjs`
+- Hand-off: Phase 8 C0b keeps `docs/i18n/README.en.md` as the only `docs/i18n` file and deletes the 8 other-language READMEs
 
 ## Phase 8
 - Temp install sandboxes on the Linux filesystem (outside repo, deleted after each case)

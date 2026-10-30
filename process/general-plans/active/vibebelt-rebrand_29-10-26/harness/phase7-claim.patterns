@@ -1,0 +1,10 @@
+^README\.md$
+^docs/QUICKSTART\.md$
+^docs/GLOSSARY\.md$
+^docs/i18n/(README|QUICKSTART|GLOSSARY)\.[A-Za-z-]+\.md$
+^scripts/check-docs\.mjs$
+^scripts/fixtures/check-docs/
+^\.claude/agents/vb-
+^\.codex/agents/vb-
+^process/development-protocols/orchestration\.md$
+^process/general-plans/backlog/vi-native-review

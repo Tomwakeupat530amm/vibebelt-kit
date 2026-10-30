@@ -1,0 +1,204 @@
+.claude/agents/v?-execute-agent.md	.claude/agents/v?-execute-agent.md§Completion for full spec.
+.claude/agents/v?-execute-agent.md	.claude/agents/v?-execute-agent.md§Implementation Discipline per-section vacuous-green referral
+.claude/agents/v?-execute-agent.md	.claude/agents/v?-execute-agent.md§Phase Loop Progress Shape in phase-programs.md
+.claude/agents/v?-execute-agent.md	.claude/agents/v?-execute-agent.md§What Moves Forward Without User Input
+.claude/agents/v?-execute-agent.md	.claude/skills/v?-context-discovery/SKILL.md§Context Envelope:
+.claude/agents/v?-fast-mode-agent.md	.claude/agents/v?-execute-agent.md§Hard-stop class for the canonical full list
+.claude/agents/v?-fast-mode-agent.md	.claude/agents/v?-fast-mode-agent.md§Autonomous /goal Execution Rules for full spec.
+.claude/agents/v?-fast-mode-agent.md	.claude/agents/v?-fast-mode-agent.md§Autonomous /goal Execution Rules.
+.claude/agents/v?-fast-mode-agent.md	.claude/agents/v?-fast-mode-agent.md§Completion and §Autonomous /goal Execution Rules for full spec.
+.claude/agents/v?-fast-mode-agent.md	process/development-protocols/orchestration.md§VALIDATE Gate for skip conditions
+.claude/agents/v?-innovate-agent.md	.claude/agents/v?-innovate-agent.md§Completion Step 1 and orchestration.md §V?-PREDICT-DEEP-NEEDED Signal Routing
+.claude/agents/v?-innovate-agent.md	.claude/agents/v?-innovate-agent.md§Completion for full spec and re-spawn exception.
+.claude/agents/v?-innovate-agent.md	.claude/agents/v?-innovate-agent.md§Section 3 labeled steps: Step 0=[I-S0]
+.claude/agents/v?-innovate-agent.md	02-skill-tiers.md§Phase Program Exception
+.claude/agents/v?-innovate-agent.md	02-skill-tiers.md§Phase Program Exception
+.claude/agents/v?-plan-agent.md	.claude/agents/v?-plan-agent.md§Completion for full spec
+.claude/agents/v?-plan-agent.md	.claude/agents/v?-plan-agent.md§Context Envelope:
+.claude/agents/v?-plan-agent.md	.claude/agents/v?-plan-agent.md§Phase Loop Progress Shape in phase-programs.md
+.claude/agents/v?-plan-agent.md	.claude/agents/v?-plan-agent.md§Supplement Modes for full spec
+.claude/agents/v?-research-agent.md	.claude/agents/v?-research-agent.md§Completion and Phase Handoff for full spec and /goal exception.
+.claude/agents/v?-research-agent.md	.claude/agents/v?-research-agent.md§Context Envelope
+.claude/agents/v?-research-agent.md	.claude/agents/v?-research-agent.md§Phase Loop Progress Shape in phase-programs.md
+.claude/agents/v?-research-agent.md	02-skill-tiers.md§Phase Program Exception
+.claude/agents/v?-tester.md	.claude/agents/v?-tester.md§EVL Wiring
+.claude/agents/v?-update-process-agent.md	.claude/agents/v?-update-process-agent.md§Completion for full spec.
+.claude/agents/v?-update-process-agent.md	.claude/agents/v?-update-process-agent.md§Phase Loop Progress Shape in phase-programs.md
+.claude/agents/v?-update-process-agent.md	.claude/agents/v?-update-process-agent.md§SPEC Achievement scoring
+.claude/agents/v?-update-process-agent.md	.claude/skills/v?-context-discovery/SKILL.md§Context Envelope:
+.claude/agents/v?-validate-agent.md	.claude/agents/v?-plan-agent.md§Supplement Modes → PVL-supplement mode →
+.claude/agents/v?-validate-agent.md	.claude/agents/v?-validate-agent.md§PVL Wiring
+.claude/agents/v?-validate-agent.md	.claude/agents/v?-validate-agent.md§V3 Synthesis Rules
+.claude/agents/v?-validate-agent.md	process/development-protocols/orchestration.md§VALIDATE Gate for skip conditions
+.claude/hooks/lib/transcript-parser.cjs	.claude/hooks/lib/transcript-parser.cjs§2
+.claude/skills/v?-agent-strategy-compare/SKILL.md	.claude/skills/v?-agent-strategy-compare/SKILL.md§Model Selection Policy]
+.claude/skills/v?-agent-strategy-compare/SKILL.md	process/development-protocols/orchestration.md§VALIDATE Gate — skip conditions
+.claude/skills/v?-audit-context/scripts/validate-protocol-discovery.mjs	process/development-protocols/note.md
+.claude/skills/v?-audit-plans/scripts/eval-coverage-known-gaps.json	self-improvement-loop.md§5."
+.claude/skills/v?-audit-plans/scripts/eval-coverage-known-gaps.json	self-improvement-loop.md§5."
+.claude/skills/v?-audit-vc/scripts/validate-model-effort-policy.mjs	CLAUDE.md§Model Selection Policy and
+.claude/skills/v?-autoresearch/SKILL.md	.claude/skills/v?-autoresearch/SKILL.md§{section}
+.claude/skills/v?-autoresearch/SKILL.md	process/development-protocols/v?-autoresearch-spec.md§Iteration report for full frontmatter schema and body sections
+.claude/skills/v?-generate-closeout/SKILL.md	.claude/skills/v?-generate-closeout/SKILL.md§Closeout Classification States for the exact criteria
+.claude/skills/v?-generate-phase-program/templates/phase-loop-workflow-template.js	.claude/skills/v?-generate-phase-program/templates/phase-loop-workflow-template.js§G1
+.claude/skills/v?-intent-clarify/SKILL.md	.claude/skills/v?-intent-clarify/SKILL.md§Autopilot Clarification Mode below
+.claude/skills/v?-intent-clarify/SKILL.md	.claude/skills/v?-intent-clarify/references/examples.md§Worked Scoring Examples: "Fix the login bug on the auth page" scores 1
+.codex/agents/v?-execute-agent.toml	.claude/skills/v?-context-discovery/SKILL.md§Context Envelope:
+.codex/agents/v?-execute-agent.toml	.codex/agents/v?-execute-agent.toml§Completion for full spec.
+.codex/agents/v?-execute-agent.toml	.codex/agents/v?-execute-agent.toml§Implementation Discipline per-section vacuous-green referral
+.codex/agents/v?-execute-agent.toml	.codex/agents/v?-execute-agent.toml§Phase Loop Progress Shape in phase-programs.md
+.codex/agents/v?-execute-agent.toml	.codex/agents/v?-execute-agent.toml§Self-Review After Execution
+.codex/agents/v?-execute-agent.toml	.codex/agents/v?-execute-agent.toml§What Moves Forward Without User Input
+.codex/agents/v?-fast-mode-agent.toml	.codex/agents/v?-fast-mode-agent.toml§Autonomous /goal Execution Rules for full spec.
+.codex/agents/v?-fast-mode-agent.toml	.codex/agents/v?-fast-mode-agent.toml§Autonomous /goal Execution Rules.
+.codex/agents/v?-fast-mode-agent.toml	.codex/agents/v?-fast-mode-agent.toml§Completion and §Autonomous /goal Execution Rules for full spec.
+.codex/agents/v?-fast-mode-agent.toml	process/development-protocols/orchestration.md§VALIDATE Gate for skip conditions
+.codex/agents/v?-fast-mode-agent.toml	v?-execute-agent.md§Hard-stop class for the canonical full list
+.codex/agents/v?-innovate-agent.toml	.codex/agents/v?-innovate-agent.toml§Completion Step 1 and orchestration.md §V?-PREDICT-DEEP-NEEDED Signal Routing
+.codex/agents/v?-innovate-agent.toml	.codex/agents/v?-innovate-agent.toml§Completion for full spec and re-spawn exception.
+.codex/agents/v?-innovate-agent.toml	.codex/agents/v?-innovate-agent.toml§Section 3 labeled steps: Step 0=[I-S0]
+.codex/agents/v?-plan-agent.toml	.codex/agents/v?-plan-agent.toml§Completion for full spec
+.codex/agents/v?-plan-agent.toml	.codex/agents/v?-plan-agent.toml§Context Envelope:
+.codex/agents/v?-plan-agent.toml	.codex/agents/v?-plan-agent.toml§Phase Loop Progress Shape in phase-programs.md
+.codex/agents/v?-plan-agent.toml	.codex/agents/v?-plan-agent.toml§Supplement Modes for full spec
+.codex/agents/v?-research-agent.toml	.codex/agents/v?-research-agent.toml§Completion and Phase Handoff for full spec and /goal exception.
+.codex/agents/v?-research-agent.toml	.codex/agents/v?-research-agent.toml§Context Envelope
+.codex/agents/v?-research-agent.toml	.codex/agents/v?-research-agent.toml§Phase Loop Progress Shape in phase-programs.md
+.codex/agents/v?-tester.toml	.codex/agents/v?-tester.toml§EVL Wiring
+.codex/agents/v?-update-process-agent.toml	.claude/skills/v?-context-discovery/SKILL.md§Context Envelope:
+.codex/agents/v?-update-process-agent.toml	.codex/agents/v?-update-process-agent.toml§Completion for full spec.
+.codex/agents/v?-update-process-agent.toml	.codex/agents/v?-update-process-agent.toml§Phase Loop Progress Shape in phase-programs.md
+.codex/agents/v?-update-process-agent.toml	.codex/agents/v?-update-process-agent.toml§SPEC Achievement scoring
+.codex/agents/v?-validate-agent.toml	.codex/agents/v?-validate-agent.toml§PVL Wiring
+.codex/agents/v?-validate-agent.toml	.codex/agents/v?-validate-agent.toml§V3 Synthesis Rules
+.codex/agents/v?-validate-agent.toml	process/development-protocols/orchestration.md§VALIDATE Gate for skip conditions
+.codex/agents/v?-validate-agent.toml	v?-plan-agent.md§Supplement Modes → PVL-supplement mode →
+CLAUDE.md	.claude/skills/v?-context-discovery/SKILL.md§Context Envelope:
+CLAUDE.md	CLAUDE.md§Current Execution State Format
+CLAUDE.md	CLAUDE.md§Feature Folder Lifecycle
+CLAUDE.md	CLAUDE.md§Intent Clarification
+CLAUDE.md	CLAUDE.md§Intent Routing
+CLAUDE.md	CLAUDE.md§Intent Routing.** Multi-phase programs
+CLAUDE.md	CLAUDE.md§Parallel Fan-Out Checkpoints
+CLAUDE.md	CLAUDE.md§Task-Folder Framework + §Feature Folder Lifecycle
+CLAUDE.md	CLAUDE.md§Two-Tier Fan-Out
+CLAUDE.md	CLAUDE.md§VALIDATE Gate
+CLAUDE.md	process/development-protocols/autopilot.md§Lanes instead of routing to RESEARCH.
+CLAUDE.md	process/development-protocols/orchestration.md§Autonomy Mode + §Current Execution State Format
+MIGRATION.md	MIGRATION.md§Intent Clarification
+MIGRATION.md	MIGRATION.md§Parallel Fan-Out Checkpoints
+MIGRATION.md	process/development-protocols/archive/v?-system-behavior-reference_ARCHIVED_09-06-26.md
+MIGRATION.md	process/development-protocols/intent-clarification.md
+MIGRATION.md	process/development-protocols/parallel-fan-out.md
+MIGRATION.md	process/development-protocols/references/example-complex-prd.md
+MIGRATION.md	process/development-protocols/references/example-simple-prd.md
+MIGRATION.md	process/development-protocols/v?-autoresearch-spec.md
+legacy-hashes.json	process/development-protocols/archive/v?-system-behavior-reference_ARCHIVED_09-06-26.md
+legacy-hashes.json	process/development-protocols/intent-clarification.md
+legacy-hashes.json	process/development-protocols/parallel-fan-out.md
+legacy-hashes.json	process/development-protocols/references/example-complex-prd.md
+legacy-hashes.json	process/development-protocols/references/example-simple-prd.md
+legacy-hashes.json	process/development-protocols/v?-autoresearch-spec.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/01-overview.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/02-skill-tiers.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/03-session-start.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/04-research.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/05-spec.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/06-innovate.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/07-plan.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/08-validate.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/09-execute.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/10-update-process.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/11-phase-programs.md
+legacy-hashes.json	process/development-protocols/v?-system-behavior/12-reference.md
+process/development-protocols/all-development-protocols.md	01-overview.md
+process/development-protocols/all-development-protocols.md	all-context.md
+process/development-protocols/all-development-protocols.md	note.md
+process/development-protocols/all-development-protocols.md	process/development-protocols/all-development-protocols.md§Autonomy Mode integration
+process/development-protocols/autopilot.md	process/development-protocols/autopilot.md§Trigger Phrases above
+process/development-protocols/autopilot.md	process/development-protocols/orchestration.md§Autonomy Mode to understand autopilot integration"
+process/development-protocols/context-maintenance.md	all-context.md
+process/development-protocols/context-maintenance.md	all-context.md
+process/development-protocols/context-maintenance.md	all-context.md
+process/development-protocols/implementation-standards.md	tests/all-tests.md
+process/development-protocols/orchestration.md	12-reference.md
+process/development-protocols/orchestration.md	12-reference.md§Signal Inventory
+process/development-protocols/orchestration.md	phase-blast-radius-registry.md
+process/development-protocols/orchestration.md	process/development-protocols/autopilot.md§Lanes — clarifications carry over
+process/development-protocols/orchestration.md	process/development-protocols/autopilot.md§Provisional Goal Block Format for field
+process/development-protocols/orchestration.md	process/development-protocols/autopilot.md§Trigger-Anywhere Detection Flow for the full
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Autonomous /goal Phase
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Autopilot Hard Stops below
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§BLOCKED Escalation Path below — supplement cycles count toward the same 10-cycle cap
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Cascade BLOCKED Protocol for the full protocol — this is distinct from standard BLOCKED escalation and requires user input before continuing
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Cascade BLOCKED Protocol — this triggers a program-level hard stop distinct from standard single-phase BLOCKED escalation
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Intent Clarification §Autonomy Mode
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Intent Routing — Autopilot Mode Trigger
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§MID_PROGRAM_PLAN_CREATED
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§NEEDS_CONTEXT step-class rule
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§No inline execution above
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Outer PVL for coordination token and registry initialization
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§PVL/EVL "no inline execution"
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§PVL/EVL Loop Routing.**
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§PVL/EVL Loop Routing.**
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Step-class rule
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Step-class rule for full details
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§V?-FEASIBILITY-PROBE-NEEDED Signal Routing step 0
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§Valid status values for the complete vocabulary
+process/development-protocols/orchestration.md	process/development-protocols/orchestration.md§[I3] and the Signal Inventory
+process/development-protocols/plan-lifecycle.md	PLAN.md
+process/development-protocols/plan-lifecycle.md	PLAN.md
+process/development-protocols/plan-lifecycle.md	model-selector_PLAN_09-06-26.md
+process/development-protocols/plan-lifecycle.md	plan.md
+process/development-protocols/v?-autoresearch-spec.md	ITERATION-NOTES.md
+process/development-protocols/v?-autoresearch-spec.md	process/development-protocols/v?-autoresearch-spec.md§{section}
+process/development-protocols/v?-system-behavior/02-skill-tiers.md	.claude/skills/v?-autoresearch/SKILL.md§PVL Wiring / §EVL Wiring
+process/development-protocols/v?-system-behavior/02-skill-tiers.md	process/development-protocols/v?-system-behavior/02-skill-tiers.md§EVL Wiring
+process/development-protocols/v?-system-behavior/04-research.md	all-context.md
+process/development-protocols/v?-system-behavior/04-research.md	all-tests.md
+process/development-protocols/v?-system-behavior/04-research.md	all-tests.md
+process/development-protocols/v?-system-behavior/04-research.md	all-tests.md
+process/development-protocols/v?-system-behavior/04-research.md	process/development-protocols/orchestration.md§Subagent Status Protocol — CONTEXT_PARTIAL is a supplemental warning flag
+process/development-protocols/v?-system-behavior/05-spec.md	all-tests.md
+process/development-protocols/v?-system-behavior/07-plan.md	v?-generate-phase-program/references/program-goal-charter-template.md
+process/development-protocols/v?-system-behavior/07-plan.md	v?-generate-phase-program/templates/phase-stub-template.md
+process/development-protocols/v?-system-behavior/07-plan.md	v?-generate-phase-program/templates/umbrella-plan-template.md
+process/development-protocols/v?-system-behavior/08-validate.md	SKILL.md§PVL Wiring
+process/development-protocols/v?-system-behavior/08-validate.md	container/all-container.md
+process/development-protocols/v?-system-behavior/08-validate.md	infra/all-infra.md
+process/development-protocols/v?-system-behavior/08-validate.md	process/development-protocols/v?-system-behavior/08-validate.md§Net Gate Rule — Hard E2E gate
+process/development-protocols/v?-system-behavior/09-execute.md	SKILL.md§EVL Wiring
+process/development-protocols/v?-system-behavior/09-execute.md	feedback_execute_workflow.md
+process/development-protocols/v?-system-behavior/09-execute.md	process/development-protocols/v?-system-behavior/09-execute.md§v?-generate-closeout — 9 Required Fields
+process/development-protocols/v?-system-behavior/10-update-process.md	MEMORY.md
+process/development-protocols/v?-system-behavior/10-update-process.md	all-context.md
+process/development-protocols/v?-system-behavior/10-update-process.md	myfeature_PLAN_06-06-26.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	phase-blast-radius-registry.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	phase-blast-radius-registry.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	phase-blast-radius-registry.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	process/development-protocols/v?-system-behavior/11-phase-programs.md§NEEDS_CONTEXT step-class rule
+process/development-protocols/v?-system-behavior/11-phase-programs.md	v?-generate-phase-program/references/program-goal-charter-template.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	v?-generate-phase-program/templates/phase-stub-template.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	v?-generate-phase-program/templates/program-spec-template.md
+process/development-protocols/v?-system-behavior/11-phase-programs.md	v?-generate-phase-program/templates/umbrella-plan-template.md
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/autopilot.md§Signal Inventory
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/orchestration.md§EXECUTE-VALIDATE-LOOP |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/orchestration.md§V?-PREDICT-DEEP-NEEDED Signal Routing |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/v?-system-behavior/05-spec.md§The SPEC_INTENT_BLOCKED Signal |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/v?-system-behavior/12-reference.md§Cascade BLOCKED Protocol |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/v?-system-behavior/12-reference.md§MID_PROGRAM_PLAN_CREATED |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/v?-system-behavior/12-reference.md§Phase Insertion |
+process/development-protocols/v?-system-behavior/12-reference.md	process/development-protocols/v?-system-behavior/12-reference.md§What Moves Forward Without User Input |
+process/development-protocols/v?-system-behavior/12-reference.md	v?-research-agent.md§Session Start
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+scripts/test-compute-sync-plan.mjs	process/development-protocols/old-protocol.md
+v?-manifest.json	process/development-protocols/archive/v?-system-behavior-reference_ARCHIVED_09-06-26.md
+v?-manifest.json	process/development-protocols/intent-clarification.md
+v?-manifest.json	process/development-protocols/parallel-fan-out.md
+v?-manifest.json	process/development-protocols/references/example-complex-prd.md
+v?-manifest.json	process/development-protocols/references/example-simple-prd.md
+v?-manifest.json	process/development-protocols/v?-autoresearch-spec.md

@@ -1,0 +1,23 @@
+## Plain-Language Gate Rendering
+
+Required field names and signal strings (PHASE_COMPLETE:, Gate: PASS, SUPPLEMENT_APPLIED:, etc.) are verbatim anchors — do not change them. The surrounding prose can be as plain as the audience needs.
+
+### PVL prompt (suggested plain rendering)
+
+When asking the user whether to run the plan-validate loop automatically or step by step, use wording like:
+
+> "Ready to check the plan. How would you like to proceed?
+> (a) Automatic — I find issues, fix them, and re-check on my own, up to 10 tries.
+> (b) Step-by-step — I show you each issue and wait for your approval before fixing."
+
+Under a standing /goal the answer is always (a); no prompt is needed.
+
+### EVL confirmation run message (suggested plain rendering)
+
+When the orchestrator starts the execute-validate loop after EXECUTE, use wording like:
+
+> "EXECUTE reported done. Running the gate tests independently to confirm everything is green — this is a required check, not optional, even when execute-agent said all gates passed."
+
+### Hard rule: signal strings stay verbatim
+
+Phase-end gate messages (`PHASE_COMPLETE: EXECUTE`, `Gate: PASS`, `Gate: CONDITIONAL`, `Gate: BLOCKED`, `SUPPLEMENT_APPLIED:`, `QUICK_FIX_ABORT:`) are signal strings the orchestrator matches exactly. They must appear word-for-word. Only the human-readable sentences around them may be reworded.

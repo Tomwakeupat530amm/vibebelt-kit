@@ -8,7 +8,7 @@ date: 29-10-26
 
 # Planning Context
 
-This file is the canonical planning context entrypoint for vibebelt-kit (repo directory still named `vibecode-pro-max-kit-main`; the `vc-` to `vb-` rename was done in Phase 6, see `process/context/all-context.md`).
+This file is the canonical planning context entrypoint for vibebelt-kit (repo directory still named `vibecode-pro-max-kit-main`; the rename of the former `vc` prefix to `vb` was done in Phase 6, see `process/context/all-context.md`).
 
 Use it after `process/context/all-context.md` when the task needs plan-shape calibration, planning conventions, or implementation-plan examples.
 
@@ -54,7 +54,7 @@ Read this entrypoint when:
 
 ## Current Program
 
-`process/general-plans/active/vibebelt-rebrand_29-10-26/` is the only active program: renaming the kit to vibebelt-kit (prefix `vc-` to `vb-`, done in Phase 6), fixing inconsistencies, slimming agents, de-duplicating docs, and writing vibecoder-facing docs. It has an umbrella plan (`vibebelt-rebrand-umbrella_PLAN_29-10-26.md`), nine phase plans (`phase-00-foundation` ... `phase-08-install-release`), `phase-blast-radius-registry.md`, `results.tsv`, and a `baseline/` folder holding the pre-change validator results. Do not duplicate its content here; read the umbrella plan's `## Current Execution State` for status.
+`process/general-plans/active/vibebelt-rebrand_29-10-26/` is the only active program: renaming the kit to vibebelt-kit (former `vc` prefix to `vb`, done in Phase 6), fixing inconsistencies, slimming agents, de-duplicating docs, and writing vibecoder-facing docs. It has an umbrella plan (`vibebelt-rebrand-umbrella_PLAN_29-10-26.md`), nine phase plans (`phase-00-foundation` ... `phase-08-install-release`), `phase-blast-radius-registry.md`, `results.tsv`, and a `baseline/` folder holding the pre-change validator results. Do not duplicate its content here; read the umbrella plan's `## Current Execution State` for status.
 
 ## Source Paths
 
