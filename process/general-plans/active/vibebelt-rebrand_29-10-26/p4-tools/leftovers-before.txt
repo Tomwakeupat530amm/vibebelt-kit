@@ -1,0 +1,50 @@
+AGENTS.md:### Legacy sibling dirs
+AGENTS.md:- Current active inventory is mixed: direct `*_PLAN_*.md` files are the default, but legacy `PLAN.md`, `plan.md`, and `phase-*.md` layouts still exist and must be treated as compatibility shapes during audits/resume flows
+AGENTS.md:- Legacy sibling `reports/` and `references/` dirs may still appear during migration, but `vc-setup` and `vc-update` should migrate safe cases into task folders and remove emptied legacy dirs
+AGENTS.md:- `.claude/memory/MEMORY.md` for Claude-specific compatibility notes only; Codex does not have an equivalent repo-local project-memory mirror
+AGENTS.md:2. Move related artifacts from `process/general-plans/` into the new feature's task folders; migrate safe legacy `reports/` and `references/` artifacts into those task folders and remove emptied legacy dirs
+AGENTS.md:Legacy `@sync-to-riper5.md` and `@sync-from-riper5.md` commands are intentionally left
+AGENTS.md:are deprecated legacy surfaces. They should be drained into task folders when safe and
+CLAUDE.md:  (`{slug}_{dd-mm-yy}/` holding `{slug}_PLAN_{dd-mm-yy}.md` + colocated reports/refs). Legacy flat
+CLAUDE.md:- Plans: `process/general-plans/active/{slug}_{date}/` (active general — task folders), `process/general-plans/{completed,backlog}/` (general archives), `process/features/*/active/{slug}_{date}/` (feature-scoped — task folders), legacy `process/general-plans/{reports,references}/` (deprecated sibling dirs, read-only)
+CLAUDE.md:Legacy `@sync-to-riper5.md` and `@sync-from-riper5.md` commands are intentionally left
+process/development-protocols/all-development-protocols.md:  01-overview … 12-reference. The legacy single-file monolith is archived (read-only) at
+process/development-protocols/all-development-protocols.md:  How plans are named, where they live, when to use feature folders, how EXECUTE handoff works, and how mixed legacy plan shapes should be treated.
+process/development-protocols/all-development-protocols.md:1. `vc-system-behavior/` — complete system behavior reference, 12-file split (start here: `vc-system-behavior/01-overview.md` is the entrypoint). The legacy 186KB monolith is archived at `archive/vc-system-behavior-reference_ARCHIVED_09-06-26.md` (read-only history).
+process/development-protocols/orchestration.md:   **Registry status vocabulary reminder:** writable values are `BLOCKED-skipped / DONE / SUPERSEDED / (no field)`. `status: BLOCKED` is a read-compatibility alias only — never write it in new entries; always write `status: BLOCKED-skipped`. See behavior-reference Section 8 §Valid status values for the complete vocabulary.
+process/development-protocols/orchestration.md:**Compatibility note:** The 10-step loop above is the legacy orchestrator spawn-event view. The canonical 7-step inner loop (per phase) is defined in behavior-reference Section 8. Mapping:
+process/development-protocols/orchestration.md:**Feature artifact discovery:** When routing any agent to a feature-scoped task, pass the output of `find process/features/{feature}/ -type f | sort` alongside the context files. This gives the agent full visibility into all artifacts across `active/` (including task subfolders), `completed/`, `backlog/`, and legacy `references/` and `reports/` before it proposes anything, preventing duplication of past work or ignoring planned future work.
+process/development-protocols/orchestration.md:**Legacy 5-step plan mapping:** 1a → Step 1, 1b → Step 3, 2 → Step 4, 3 → Step 5, 4 → Step 7.
+process/development-protocols/orchestration.md:**Superseded by Section 6 canonical format:** The 2-field format above (current loop step + validate-contract status) is superseded by the canonical 8-field `## Current Execution State` format defined in behavior-reference Section 6 (Last updated / Current phase N of total / Phase N name / Phase N status / Phase N EVL / Phase N report / Next phase). The `update-process-agent` writes the 8-field format.
+process/development-protocols/orchestration.md:- If the selected plan is a legacy multi-file structure, the orchestrator must still choose one primary plan file path and pass any supporting phase files explicitly.
+process/development-protocols/orchestration.md:- Reports and references are co-located inside task folders (not sibling dirs); legacy `reports/` and `references/` sibling dirs are read-only
+process/development-protocols/plan-lifecycle.md:### Legacy Multi-File Handoff Rule
+process/development-protocols/plan-lifecycle.md:- After safe migration, remove the emptied legacy sibling dir so the target steady-state is `active/`, `completed/`, and `backlog/` only.
+process/development-protocols/plan-lifecycle.md:- Leave ambiguous, shared, or unowned legacy artifacts in place and surface them for manual review rather than forcing a risky move.
+process/development-protocols/plan-lifecycle.md:- The folder should still keep `completed/` and `backlog/` as needed. Legacy `reports/` and `references/` may remain as read-only sibling dirs.
+process/development-protocols/plan-lifecycle.md:- `process/features/{feature}/references/` — legacy feature references
+process/development-protocols/plan-lifecycle.md:- `process/features/{feature}/reports/` — legacy feature reports
+process/development-protocols/plan-lifecycle.md:- `process/general-plans/references/` — legacy cross-cutting research
+process/development-protocols/plan-lifecycle.md:- `process/general-plans/reports/` — legacy cross-cutting reports; `reports/visuals/` stays for binary assets
+process/development-protocols/plan-lifecycle.md:- `references/` — legacy read-only sibling dir (deprecated for new writes)
+process/development-protocols/plan-lifecycle.md:- `reports/` — legacy read-only sibling dir (deprecated for new writes)
+process/development-protocols/plan-lifecycle.md:- `vc-setup` and `vc-update` should migrate safe legacy `reports/` / `references/` artifacts into the relevant task folder when exactly one destination task folder can be inferred in the same scope.
+process/development-protocols/plan-lifecycle.md:- flat `*_PLAN_*.md` files at `active/` root (legacy, being migrated)
+process/development-protocols/plan-lifecycle.md:- legacy `PLAN.md`
+process/development-protocols/plan-lifecycle.md:- legacy `phase-*.md` siblings or plan folders
+process/development-protocols/plan-lifecycle.md:- legacy `plan.md`
+process/development-protocols/plan-lifecycle.md:2. Move related artifacts from `process/general-plans/` into the new feature's task folders; legacy `reports/` and `references/` content moves into appropriate task folders
+process/development-protocols/plan-lifecycle.md:Legacy paths (deprecated for new writes; existing content is read-only):
+process/development-protocols/plan-lifecycle.md:Legacy plans that predate this convention are treated as warnings by the validator, not hard
+process/development-protocols/plan-lifecycle.md:Legacy repos may also have:
+process/development-protocols/plan-lifecycle.md:New work ALWAYS uses the direct `*_PLAN_*.md` / task-folder convention. The legacy shapes above are READ-ONLY compatibility shapes for audits and resume flows — they are never a new-write target. When resuming work that already lives in a legacy structure, keep editing in place (do not force a migration mid-flight), but any genuinely new plan is written in the canonical shape.
+process/development-protocols/plan-lifecycle.md:When the active work uses a legacy structure such as `PLAN.md` plus `phase-*.md` files:
+process/development-protocols/plan-lifecycle.md:description: "How plans are named, where they live, when to use feature folders, EXECUTE handoff, and how mixed legacy plan shapes are treated."
+process/development-protocols/plan-lifecycle.md:failures. Add frontmatter to legacy plans opportunistically when they are next touched.
+process/development-protocols/vc-system-behavior/02-skill-tiers.md:Only the highest-priority trigger's abbreviated-mode behavior applies. Lower-priority outcomes are superseded by higher-priority.
+process/development-protocols/vc-system-behavior/03-session-start.md:If a plan file has no YAML frontmatter block (legacy format):
+process/development-protocols/vc-system-behavior/07-plan.md:  (Legacy alias: "Phase Sequence" — do not use "Phase Sequence" in new content. The canonical name is "Phase Ordering".)
+process/development-protocols/vc-system-behavior/09-execute.md:     (9-field packet definition: see Section 7 §vc-generate-closeout — 9 Required Fields. All 9 fields are required. The preliminary packet from EVL Step 1 is superseded by the authoritative U-S5 closeout at UPDATE PROCESS entry.)
+process/development-protocols/vc-system-behavior/09-execute.md:> **No-contract fallback:** When no validate-contract exists (legacy plans, trivial fixes), the loop reads the plan's `## Verification Evidence` section as the fully-automated gate set.
+process/development-protocols/vc-system-behavior/11-phase-programs.md:- `status: SUPERSEDED` = phase replaced by a different phase plan
+process/development-protocols/vc-system-behavior/11-phase-programs.md:Only these four writable values: (no status field) / BLOCKED-skipped / DONE / SUPERSEDED.

@@ -436,7 +436,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 | 1 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-01-fix-inconsistencies_REPORT_29-10-26.md` |
 | 2 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_REPORT_29-10-26.md` |
 | 3 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-instrument-and-freeze_REPORT_30-10-26.md` |
-| 4 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_REPORT_29-10-26.md` |
+| 4 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_REPORT_30-10-26.md` |
 | 5 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_REPORT_29-10-26.md` |
 | 6 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-06-prefix-rename_REPORT_29-10-26.md` |
 | 7 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-07-vibecoder-docs_REPORT_29-10-26.md` |
@@ -452,7 +452,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 | 1 — Fix inconsistencies | ✅ VERIFIED |
 | 2 — Identity and distribution | ✅ VERIFIED |
 | 3 — Instrument and freeze (no slimming) | ✅ VERIFIED |
-| 4 — Doc de-duplication | ⏳ PLANNED |
+| 4 — Doc de-duplication | ✅ VERIFIED |
 | 5 — Tune skills | ⏳ PLANNED |
 | 6 — Prefix rename | ⏳ PLANNED |
 | 7 — Vibecoder docs | ⏳ PLANNED |
@@ -557,8 +557,12 @@ node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs pr
 ## Current Execution State
 
 Last updated: 2026-10-30
-Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS; Phase 2 (Identity and distribution) COMPLETE_WITH_GAPS; Phase 3 (Instrument and freeze, no slimming) COMPLETE_WITH_GAPS
-Current phase: 4 of 9
+Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS; Phase 2 (Identity and distribution) COMPLETE_WITH_GAPS; Phase 3 (Instrument and freeze, no slimming) COMPLETE_WITH_GAPS; Phase 4 (Doc de-duplication, safe tidy) COMPLETE_WITH_GAPS
+Current phase: 5 of 9
+Phase 4 name: Doc de-duplication (safe tidy)
+Phase 4 status: DONE (COMPLETE_WITH_GAPS; execution commit 5b143f4, P4_START 0469f54; AGENTS.md 37,885 -> 31,983 bytes; 4 broken pointers fixed; K1-1 line added; leftover allowlist 50 -> 45; CLAUDE.md, .claude/, .codex/ unchanged; process commit pending)
+Phase 4 EVL: green (independent vc-tester PASS: every Exit Gate row in literal committed form; positive controls size gate, new broken pointer, anchor drop caught; closeout CLEAN)
+Phase 4 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_REPORT_30-10-26.md
 Phase 3 name: Instrument and freeze (no slimming)
 Phase 3 status: DONE (COMPLETE_WITH_GAPS; zero billed calls; agents byte-identical to b17294d; golden/ has 66 files; start.sha = bdf0685; process commit pending; residuals KG1 live routing, KG2 stream-json field names, KG3 native Windows/macOS, all owned by Phase 8)
 Phase 3 EVL: green (independent vc-tester PASS: 17/17 Exit Gate rows, mutation controls, 33 unit tests, FROZEN.sha256 check 0 failures, compare.sh exit 0)
@@ -575,14 +579,15 @@ Phase 2 name: Identity and distribution
 Phase 2 status: DONE (COMPLETE_WITH_GAPS; P2_START a3cc0cf; execution commit b80abad, process commit 0812325, follow-up fix commit 0333ed8; version reset to 1.0.0; residuals K2-1 e2e Trial C in Phase 6 B4 and Trial D plus native runs in Phase 8, K2-2 GitHub-side settings and live links in Phase 8)
 Phase 2 EVL: green (independent vc-tester PASS on 0812325: every runnable row, 4 mutation tests, resolver negative control, local install trial 416 = 416 files; Agent-Probe R2.12/R2.13 passed after fixes in 0333ed8). EVL addendum for 0333ed8: PASS (independent vc-tester re-run on 2026-10-29)
 Phase 2 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_REPORT_29-10-26.md
-Next phase: 4 - Doc de-duplication (phase-04-doc-dedup_PLAN_29-10-26.md)
-Current loop step: EXECUTE (Phase 4, step 5) per its inner PVL Gate: PASS (second pass); run its Phase Loop Progress first unchecked box before spawning. Phase 5 inner PVL = Gate: PASS. Phases 4 and 5 run sequentially on main (decisions E, F, G). The only billed hard stop is Phase 8 B4.1.
-Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl); Phases 0, 1, 2 and 3 = Gate: PASS (inner), consumed; Phases 4 and 5 = Gate: PASS (inner, 2026-10-30); Phases 6-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
+Next phase: 5 - Tune skills (phase-05-tune-skills_PLAN_29-10-26.md)
+Current loop step: EXECUTE (Phase 5, step 5) per its inner PVL Gate: PASS (Entry Gate satisfied: Phase 4 committed, exit gate green); run its Phase Loop Progress first unchecked box before spawning. Phase 5 runs sequentially after Phase 4 on main (decisions F, G) and must not edit AGENTS.md or CLAUDE.md. The only billed hard stop is Phase 8 B4.1.
+Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl); Phases 0, 1, 2, 3 and 4 = Gate: PASS (inner), consumed; Phase 5 = Gate: PASS (inner, 2026-10-30); Phases 6-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
 Program Net Gate: PASS at umbrella level; C-P8r (native Windows / macOS) stays CONDITIONAL inside Phase 8
-Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-30 after Phase 3 (Linux node 22.23.4; NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
-Git state: branch main, HEAD bdf0685, no remote, nothing pushed; tag `upstream-baseline` = 005744e; Phase 3 made no execution commit (agents untouched); uncommitted: golden/ (66 files, untracked) plus this UPDATE PROCESS closeout (Phase 3 report, plan checkboxes, umbrella state and status row, results.tsv, harness/verification.json, registry, Phase 8 wording) - commit as one process commit
+Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-30 after Phase 4 (Linux node 22.23.4; NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
+Git state: branch main, HEAD 5b143f4 (Phase 4 fix commit), no remote, nothing pushed; tag `upstream-baseline` = 005744e; uncommitted: task-folder files only (p4-tools/, dedup-allowlist*.txt, Phase 4 report, plan checkboxes, umbrella state and status row, results.tsv, harness/verification.json, registry) - commit as one process commit
 Phase 2 hand-offs: (1) `author: vibecode-pro-max-kit` in 19 files -> Phase 6; (2) CHANGELOG hooks block is a COPY of `.claude/settings.json` hooks: Phase 8 re-runs the deep-equality one-liner (expects true) after any Phase 6 hook change; (3) Phase 8 C0b removes the language switchers and dead MIGRATION.md links in CHANGELOG.md, SECURITY.md, CONTRIBUTING.md and both READMEs (found by content); (4) user-run GitHub settings (Private vulnerability reporting, Discussions, Sponsorship OFF, replacement community channel) go to RELEASE-NOTES-1.0.0.md in Phase 8.
 Phase 3 hand-offs: (1) Phase 7 reads golden/signal-census.mjs + signal-census-phase3.txt; Phase 8 reads golden/** read-only; golden/** is in the DOOMED set (removed from the final tree); (2) Phase 8 B4.3 needs --runs-dir under eq/; keep the for-each-ref before/after check, task-7 is most exposed (sandboxes share the repo git identity); (3) plan discovery sees 3 fixture plans under golden/: pass explicit plan paths; (4) 93 paths differ at P3_START; (5) Phase 8 rehearsal settles KG1 and KG2.
+Phase 4 hand-offs: (1) Phase 5 must not edit AGENTS.md or CLAUDE.md; (2) Phase 6 gate `test $(wc -c < AGENTS.md) -le 32768` (now 31,983; vc- to vb- is same length); (3) Phase 7 C-P7-h row uses p4-tools/pointer-check.mjs (not $G/pointer-check.mjs), pre-flight census compares without counts; AGENTS.md census drops visible only with p4-tools/census.mjs; (4) p4-tools/ and dedup-allowlist*.txt are in the DOOMED set; (5) observation: AGENTS.md mentions nonexistent .claude/memory/MEMORY.md (Phase 6/7 may fix)
 Model facts after Phase 1: 7 opus (execute, fast-mode, quick-fix, plan, research, tester, validate) and 8 sonnet; effort low -> max on execute, fast-mode, quick-fix. Sessions started before Phase 1 hold the old CLAUDE.md: spawns of plan, research, validate and tester must not pass a model override.
 
 Loop step values: RESEARCH | INNOVATE | PLAN-SUPPLEMENT | PVL | EXECUTE | EVL | UPDATE-PROCESS

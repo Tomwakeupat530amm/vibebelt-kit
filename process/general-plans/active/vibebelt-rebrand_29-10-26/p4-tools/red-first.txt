@@ -1,0 +1,7 @@
+# Phase 4 step 0.6 red-first check, 2026-10-30T04:30:54Z, HEAD 0469f54, before any edit
+size gate: RED as expected (wc -c AGENTS.md = 37885 > 32768)
+pointer gate: RED as expected (4 of 4 target occurrences present in pointers-before.txt)
+leftover gate: RED as expected (3 of 3 target lines present in leftovers-before.txt)
+K1-1 gate: RED as expected (grep -c validate-model-effort-policy orchestration.md = 0, expected after = 1)
+archive gate: RED as expected (grep -c ARCHIVED_09-06-26 all-development-protocols.md = 2, expected after = 0)
+superseded gate: RED as expected (grep -ciE 'superseded by section 6' orchestration.md = 1, expected after = 0)

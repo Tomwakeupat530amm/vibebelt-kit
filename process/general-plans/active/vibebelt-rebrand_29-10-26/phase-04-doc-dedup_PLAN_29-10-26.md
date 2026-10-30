@@ -301,10 +301,10 @@ Orchestrator reads this before deciding which subagent to spawn next. The canoni
 - [x] 1. RESEARCH — vc-research-agent (opus, front-matter): measured at HEAD b17294d (overlap, rule locations, Skill Registry impact, Codex 32 KiB, broken anchors)
 - [x] 2. INNOVATE — scope decision by the orchestrator under user delegation (2026-10-30): safe tidy, no content dedup
 - [x] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus): plan re-scoped; Inner Loop Refresh Note written (2026-10-30)
-- [ ] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7 from V1 (the Refresh Note is newer than the 2026-10-29 contract); new validate-contract replaces the old one
-- [ ] 5. EXECUTE — vc-execute-agent (opus): Steps 0-C, one `fix:` commit
-- [ ] 6. EVL — vc-tester (opus): every Exit Gate command re-run independently; EVL HANDOFF SUMMARY written
-- [ ] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report, umbrella state, `process:` commit with task-folder files, close backlog NOTE K1-1, write KG-P4-1/2/4 backlog notes
+- [x] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7 from V1 (the Refresh Note is newer than the 2026-10-29 contract); new validate-contract replaces the old one -- DONE: Gate: PASS (inner-pvl: phase-4) on pass 2 (pass 1 CONDITIONAL M4-1..3)
+- [x] 5. EXECUTE — vc-execute-agent (opus): Steps 0-C, one `fix:` commit -- DONE: fix commit 5b143f4 (first agent stopped by user by mistake; second agent audited disk, all edits complete, changed nothing)
+- [x] 6. EVL — vc-tester (opus): every Exit Gate command re-run independently; EVL HANDOFF SUMMARY written -- DONE: independent vc-tester PASS, all Exit Gate rows, positive controls caught, closeout CLEAN
+- [x] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report, umbrella state, `process:` commit with task-folder files, close backlog NOTE K1-1, write KG-P4-1/2/4 backlog notes -- DONE: report phase-04-doc-dedup_REPORT_30-10-26.md, umbrella state, results.tsv row 11, verification.json, registry; process commit pending (git-manager)
 
 **Validate-contract required.** The contract below is the OUTER contract for the old dedup scope (generated 2026-10-29); it does NOT cover this plan. EXECUTE is not legal until PVL writes a new contract.
 

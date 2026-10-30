@@ -1,25 +1,31 @@
 {
-  "_note": "Phase 3 record, replaces the Phase 2 content (preserved in git history, commit b17294d, and in phase-02-identity-distribution_REPORT_29-10-26.md). Results come from the independent vc-tester (opus) EVL run of 2026-10-30 plus the UPDATE PROCESS re-checks. Same shape as earlier phases.",
-  "phase": "phase-03-instrument-and-freeze",
+  "_note": "Phase 4 record, replaces the Phase 3 content (preserved in git history, commit 0469f54, and in phase-03-instrument-and-freeze_REPORT_30-10-26.md). Results come from the independent vc-tester (opus) EVL run of 2026-10-30 plus the UPDATE PROCESS re-checks. Same shape as earlier phases.",
+  "phase": "phase-04-doc-dedup",
   "date": "2026-10-30",
   "tester": "vc-tester (opus), independent EVL confirmation run",
   "gate": "PASS",
   "commits": {
-    "p3_start": "bdf06850ac52598fc3856a06dc1522c22c61b0f2",
-    "execution": "none (golden/ only, untracked until the process commit)"
+    "p4_start": "0469f54",
+    "execution": "5b143f4"
   },
   "steps": [
     {
-      "step": "Exit Gate (17 rows) incl. unit tests, determinism, FROZEN check, no-billed-call",
-      "command": "node --test golden/test/*.test.mjs; cmp census/guardrails reruns; sha256sum -c FROZEN.sha256",
+      "step": "Exit Gate (all rows, literal committed form)",
+      "command": "Phase 4 plan Exit Gate commands incl. pointer-check, census, size gate, leftover allowlist, catalog --check",
       "result": "PASS",
-      "notes": "17/17 rows PASS; 33 tests (16+13+4); mutation controls pass"
+      "notes": "4 broken pointers fixed, 0 new; AGENTS.md 31,983 bytes; allowlist 50 -> 45; census drops only the allowed ones; Skill Registry byte-identical"
     },
     {
-      "step": "Agents byte-identical to b17294d",
-      "command": "git diff --stat b17294d -- .claude/agents .codex/agents",
+      "step": "Positive controls",
+      "command": "size gate, new broken pointer, anchor drop",
       "result": "PASS",
-      "notes": "empty; 15 + 15 files"
+      "notes": "all three caught; control (c) as briefed vacuous for AGENTS.md, passes when aimed at ENTER RESEARCH MODE"
+    },
+    {
+      "step": "Shipped files unchanged outside the claim",
+      "command": "git diff --stat 0469f54 5b143f4 -- CLAUDE.md .claude .codex",
+      "result": "PASS",
+      "notes": "empty"
     },
     {
       "step": "Validator baseline not worse",
@@ -29,10 +35,8 @@
     }
   ],
   "known_gaps": [
-    "KG1 live routing unmeasured (Phase 8 rehearsal)",
-    "KG2 stream-json field names unverified (Phase 8 rehearsal)",
-    "KG3 native Windows/macOS untested (Phase 8)",
-    "EVL note: start.sha holds bdf0685 not b17294d (agent files identical)",
-    "EVL note: Exit Gate determinism rows rewrite golden/determinism/ (outside FROZEN)"
+    "KG-P4-2 pointer-check info line counts 7 of 9 PHASE-GATES citations (informational)",
+    "AGENTS.md mentions nonexistent .claude/memory/MEMORY.md (pre-existing observation, Phase 6/7 may fix)",
+    "validate-context-discovery exit 1 = known .agents/skills drvfs baseline"
   ]
 }
