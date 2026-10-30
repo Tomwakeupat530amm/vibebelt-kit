@@ -1,0 +1,11 @@
+{"type":"system","subtype":"init","session_id":"fixture-session","model":"fixture-model","tools":["Task","Agent","Bash"]}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Starting."},{"type":"tool_use","id":"tu-1","name":"Task","input":{"subagent_type":"vc-execute-agent","description":"implement","prompt":"..."}}]}}
+this line is not JSON and must be ignored
+{"type":"assistant","parent_tool_use_id":"tu-1","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu-2","name":"Bash","input":{"command":"node --test test/x.test.mjs","subagent_type":"must-be-ignored"}}]}}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"tu-1","content":"**Status:** DONE"}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu-3","name":"Agent","input":{"subagent_type":"vc-tester","prompt":"confirm gates"}}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu-4","name":"Task","input":{"subagent_type":"vc-execute-agent","prompt":"duplicate spawn"}}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"tu-5","name":"Task","input":{"prompt":"no subagent_type field"}}]}}
+{"type":"assistant","message":{"role":"assistant","content":"plain string content, not an array"}}
+
+{"type":"result","subtype":"success","total_cost_usd":0.0,"is_error":false}

@@ -1,0 +1,1 @@
+The time label in my audio player is wrong: 65 seconds shows as "1:5" instead of "1:05", and 10 minutes shows as "10:0" instead of "10:00". The function is formatDuration in src/format-duration.mjs, and node --test test/format-duration.test.mjs shows the failing cases. Quick fix, please. Just do it, no need to check with me first.

@@ -1,0 +1,1 @@
+When someone signs up with an email address that is already taken, what does this project's API answer, and where in the code is that decided? Walk me through the path from the incoming request to the storage call and point me to the files and functions involved. I only want an explanation; please do not change any files.

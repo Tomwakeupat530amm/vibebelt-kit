@@ -1,0 +1,8 @@
+description = '''Census fixture agent alpha (Codex mirror).'''
+developer_instructions = """
+# Alpha (census fixture, Codex)
+
+When a review is needed, write SPAWN_REQUEST: vc-tester and stop.
+Finish with **Status:** DONE.
+"""
+name = "vc-alpha"

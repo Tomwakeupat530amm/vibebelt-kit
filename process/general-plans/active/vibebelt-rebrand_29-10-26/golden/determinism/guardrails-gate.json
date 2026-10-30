@@ -1,0 +1,691 @@
+{
+  "schema": 1,
+  "agents": {
+    "code-reviewer": {
+      "md": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "08b7a8802540797b8c9b1251da29212551f081f0532c0a071a2cc9bda82329f8"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "4c3ab56e173b9195d07e13271bd6aa8430951aaf750039bc4f82893e28fc033e"
+        }
+      ]
+    },
+    "code-simplifier": {
+      "md": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "1a91eaa104952963bf343efc0cf66bf160fac90e68b97f5197f9f949b21e5d81"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "a43348bfe505cb5ad26705aa20d63bc722a2a9473ca2e51bf4f1958dd5d17028"
+        }
+      ]
+    },
+    "debugger": {
+      "md": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "e079ef2b173e60e44c0f8717f435ca5be01c113ae90f25b166c3b88daf463f30"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "cf9e4c814283f9aae7c99c7ee74f4554e24e2ea947ac5949ee63722968ff93ce"
+        }
+      ]
+    },
+    "execute-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "a98a8a0c2848c26abede2ca31d946233a8a73ca3767cb99d1280e3b1119bb2c9"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "b4c6f5f5e8444a6e923d1d66350ffb5ba9335c60dbe4d9c6ef5adc59ff589ff8"
+        },
+        {
+          "heading": "## Session Start — Tier-0 (REQUIRED FIRST)",
+          "level": 2,
+          "sha256": "4490a8688ab8bf81a3d4d0d480870ada3074bf9818e415ccf716d1d690c2ecc5"
+        },
+        {
+          "heading": "## Context Loading",
+          "level": 2,
+          "sha256": "9f58169b768d134d2683d4aa9df1d7a4a05df1f185ae81b34dfee47b5f77923e"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "690acec41a3acce3b95a324f8a58e6e31050a600e47406ba03e2d506ef896c59"
+        },
+        {
+          "heading": "## Autonomous /goal Execution",
+          "level": 2,
+          "sha256": "35bcc9d0661bfc36fe2afae2705666d5e02236c51a02b201b4ab3cf2199aff55"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "09bd446a7b7e0ceaeb1a278461eaed6ad959835547924edf6d67d0664a978c7e"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "ac9add929202213990244d608a6ef45f9210f8aa933e629971d1e8aa4ce21c6b"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "31afb0113673cad3f9f6631b35ccc302b443023fcb4613df2d1709c63e55a6c7"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "a98a8a0c2848c26abede2ca31d946233a8a73ca3767cb99d1280e3b1119bb2c9"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "b4c6f5f5e8444a6e923d1d66350ffb5ba9335c60dbe4d9c6ef5adc59ff589ff8"
+        },
+        {
+          "heading": "## Session Start — Tier-0 (REQUIRED FIRST)",
+          "level": 2,
+          "sha256": "f6c2b2aae1beeb95d3fe4fa8f9d3ea0d585c3c480983c45d99e1220e943d4ed9"
+        },
+        {
+          "heading": "## Context Loading",
+          "level": 2,
+          "sha256": "9f58169b768d134d2683d4aa9df1d7a4a05df1f185ae81b34dfee47b5f77923e"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "690acec41a3acce3b95a324f8a58e6e31050a600e47406ba03e2d506ef896c59"
+        },
+        {
+          "heading": "## Autonomous /goal Execution",
+          "level": 2,
+          "sha256": "46f191c4d8844d3ad50635a0bd559aa4af280db75677d09c4d2abb1a86365958"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "09bd446a7b7e0ceaeb1a278461eaed6ad959835547924edf6d67d0664a978c7e"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "ac9add929202213990244d608a6ef45f9210f8aa933e629971d1e8aa4ce21c6b"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "31afb0113673cad3f9f6631b35ccc302b443023fcb4613df2d1709c63e55a6c7"
+        }
+      ]
+    },
+    "fast-mode-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "5c08cdf644f256ab4f24c702f4fa4c2b5ea145e63b6ca7f819b13bdf162bea8d"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "d32bb0c5dfa3a9b6317162ab91d3169392f6d414c392326b44b11b20c49ba58e"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "52656586a64bb7f28ad4af400b94b7fe5994d2af3a1db5c1355da649caf2e98f"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "3081ca79d543bb93f8e03dab26346130121eb82e4da3b7f206db2c5e92563190"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "54527fd4d390f52c6e68dd8efa810fc79ff2875e289e4c143f06ecad7b490754"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "fcf05d32e986bd1df640ce6103f354b0db009f494f7a1299a070aa403cceadde"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "5c08cdf644f256ab4f24c702f4fa4c2b5ea145e63b6ca7f819b13bdf162bea8d"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "d32bb0c5dfa3a9b6317162ab91d3169392f6d414c392326b44b11b20c49ba58e"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "52656586a64bb7f28ad4af400b94b7fe5994d2af3a1db5c1355da649caf2e98f"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "3081ca79d543bb93f8e03dab26346130121eb82e4da3b7f206db2c5e92563190"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "54527fd4d390f52c6e68dd8efa810fc79ff2875e289e4c143f06ecad7b490754"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "fcf05d32e986bd1df640ce6103f354b0db009f494f7a1299a070aa403cceadde"
+        }
+      ]
+    },
+    "git-manager": {
+      "md": [
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1e1afc5c4c3d2e7dd90fd6e8609479e33c9cb36e42f0a7967ee9761a33abc903"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1e1afc5c4c3d2e7dd90fd6e8609479e33c9cb36e42f0a7967ee9761a33abc903"
+        }
+      ]
+    },
+    "innovate-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "5d0612ffdf53db472a0ebad3d8831dfdd57b6e1d7351e896130c861304d4fffd"
+        },
+        {
+          "heading": "## Session Start (First Actions — Mandatory)",
+          "level": 2,
+          "sha256": "41aa1e6603bc2b07ede8cb0c45d09c42dfab89c23fb9cf7b4d04d6eac51561c4"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "410c580079c57f14d1f2b753d234954e8b18bd63b25a4a5d72759bd7c463965c"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "75cdb8df91f4d3ede35090c74c5ef858b8910ff67a5b021de7801868d8393988"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "ea0ee2a4b06f0ef196df1f18838459eb1d698a518b852271e7af1bd1ff68f97f"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "b35240e57063c09f4a32a79d2baa11d7498d4a8ad082329cca721c625d75fae8"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1b48eda07db2de6e447f567c49c5d945dec58c39e3a2add9bcefffdedf4e0ae5"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "5d0612ffdf53db472a0ebad3d8831dfdd57b6e1d7351e896130c861304d4fffd"
+        },
+        {
+          "heading": "## Session Start (First Actions — Mandatory)",
+          "level": 2,
+          "sha256": "a7f88aada55464bae1b6c61c16063b3a09d65bad2bacd9cd1a810a29210ca3af"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "410c580079c57f14d1f2b753d234954e8b18bd63b25a4a5d72759bd7c463965c"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "75cdb8df91f4d3ede35090c74c5ef858b8910ff67a5b021de7801868d8393988"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "7d2a52cb7249a51428f8850898f908a8de637a453d2dd3930e04f5bf9d465810"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "b35240e57063c09f4a32a79d2baa11d7498d4a8ad082329cca721c625d75fae8"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1b48eda07db2de6e447f567c49c5d945dec58c39e3a2add9bcefffdedf4e0ae5"
+        }
+      ]
+    },
+    "plan-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "a99f8da98997d8358be009162a09426ebaca6c0055b6eb27a289a32400ba938a"
+        },
+        {
+          "heading": "## Session Start (First Actions — Mandatory)",
+          "level": 2,
+          "sha256": "80fb9b73e893523d7727aefaa661455bfcb3ec27b0e9475ae4880859b6782679"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "6f834938df3f42c887e94d43f71abab8a2ad768f9ded7c06ea44965a49c5bf71"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "fbd2227f3ec5eeb589db3aac8b18035b11915251cb881ccaa11a41f85fdf38e4"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "d8a44c8c624818758e208901ca40e59bc132e9b772a01862a4c91b0adb9fbbe3"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "12d710c68484eba83b8e3403b5d001a2cf9bca5d2fd51309d0efe2560d358ca5"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "1bf971315d2c181bbad204d285e0a8d44923efba10b354fc7b318b3d19f62e5b"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "10932b29489eed5e4f02b7a6fab78f84d1e7ae4e17f228711f150a884941bb53"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "a99f8da98997d8358be009162a09426ebaca6c0055b6eb27a289a32400ba938a"
+        },
+        {
+          "heading": "## Session Start (First Actions — Mandatory)",
+          "level": 2,
+          "sha256": "80fb9b73e893523d7727aefaa661455bfcb3ec27b0e9475ae4880859b6782679"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "6f834938df3f42c887e94d43f71abab8a2ad768f9ded7c06ea44965a49c5bf71"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "fbd2227f3ec5eeb589db3aac8b18035b11915251cb881ccaa11a41f85fdf38e4"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "d8a44c8c624818758e208901ca40e59bc132e9b772a01862a4c91b0adb9fbbe3"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "12d710c68484eba83b8e3403b5d001a2cf9bca5d2fd51309d0efe2560d358ca5"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "1bf971315d2c181bbad204d285e0a8d44923efba10b354fc7b318b3d19f62e5b"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "10932b29489eed5e4f02b7a6fab78f84d1e7ae4e17f228711f150a884941bb53"
+        }
+      ]
+    },
+    "quick-fix-agent": {
+      "md": [],
+      "toml": []
+    },
+    "research-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "678f8b0d75e1be998ca52431be16db55e2557a70d5e6764f5f7b1633f393a00e"
+        },
+        {
+          "heading": "## Session Start (Mandatory First Actions)",
+          "level": 2,
+          "sha256": "14aebc0ccabaf3d87a418abfa8f3a490e47b5a375ff6cb8acf0bcaadd47daa5a"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "ff53b1f6d95930760b3ba113a92bd65117e61c987a962dbaeb4251e3748d7fc8"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "f71a2ce56631ff96ffebfa960bd1e56686d1ec5fbdbb86c4b62f012ed33cd1d1"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rule",
+          "level": 2,
+          "sha256": "ed1676aba65b7ce6bab589f01dcc36bfef7a9ea4937b5ba3b51c4c96a508b6aa"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "a2500b63092100cd8d37ed4455933bee5441a88cac7137d0062accd9540e45fd"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "2fe1ea1a0617899a29764f8de67406ac5083f3869474f77c90dc83d5723b8007"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "678f8b0d75e1be998ca52431be16db55e2557a70d5e6764f5f7b1633f393a00e"
+        },
+        {
+          "heading": "## Session Start (Mandatory First Actions)",
+          "level": 2,
+          "sha256": "5e8b61312a998333bcfacc42de30631d567e5c4a9541830d70b6588bdd767ed6"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "ff53b1f6d95930760b3ba113a92bd65117e61c987a962dbaeb4251e3748d7fc8"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "f71a2ce56631ff96ffebfa960bd1e56686d1ec5fbdbb86c4b62f012ed33cd1d1"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rule",
+          "level": 2,
+          "sha256": "ed1676aba65b7ce6bab589f01dcc36bfef7a9ea4937b5ba3b51c4c96a508b6aa"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "a2500b63092100cd8d37ed4455933bee5441a88cac7137d0062accd9540e45fd"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "2fe1ea1a0617899a29764f8de67406ac5083f3869474f77c90dc83d5723b8007"
+        }
+      ]
+    },
+    "spec-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "9a47b672c9720143cf2b82a049a95c25235e7317cf1ef16ed3a8056dc4692150"
+        },
+        {
+          "heading": "## Session Start (Tier 0 — required before anything else)",
+          "level": 2,
+          "sha256": "6d72213c8b645fc93ef69da3dd887442b361fb998ddac06c1efcad2359dc67e0"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "44eb3b8c774f36d467077c4d94fb8de4cdcb9657f35e3e626ad960c3eb15cf1e"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "709e554c3be0402884854d1e4dda80dcab2cb6781ff2999e4bd2873f2f08e749"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "c444da1623c9b9be7f98881ff7496a2a512d9f48789bb1af6a1f0e383fc714b2"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "9a47b672c9720143cf2b82a049a95c25235e7317cf1ef16ed3a8056dc4692150"
+        },
+        {
+          "heading": "## Session Start (Tier 0 — required before anything else)",
+          "level": 2,
+          "sha256": "68e0b20d57211361ad800d8a00bd9e8891c0f588e241a35a6a62a8502c0acba4"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "44eb3b8c774f36d467077c4d94fb8de4cdcb9657f35e3e626ad960c3eb15cf1e"
+        },
+        {
+          "heading": "## Phase Lock",
+          "level": 2,
+          "sha256": "709e554c3be0402884854d1e4dda80dcab2cb6781ff2999e4bd2873f2f08e749"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "c444da1623c9b9be7f98881ff7496a2a512d9f48789bb1af6a1f0e383fc714b2"
+        }
+      ]
+    },
+    "tester": {
+      "md": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "969d84092834f4db90dadc7fb1adaff1e48386116fe1ccd3c199a703e59f9631"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Autonomous /goal Behavior",
+          "level": 2,
+          "sha256": "b15ceb7ea991de3504d287fc9fc5cae900d42e2178afaf75849020d19a6da02e"
+        }
+      ]
+    },
+    "ui-ux-designer": {
+      "md": [],
+      "toml": []
+    },
+    "update-process-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "3128f8f12f4c7388738dd91cbbff75484e88dd7eb34af5a65d4ca8e9182efe43"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "63359b6133859496c359bfa712bdc040f2cd26d3bcd8bacca8949843e62b2e1e"
+        },
+        {
+          "heading": "### Session Start — FIRST ACTIONS (mandatory before any phase work)",
+          "level": 3,
+          "sha256": "e7ed74b3cc46830747a3e0e36514600ebf41b3eb49cc0684ea85e2047880aa51"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "9de11ab596af6e634dee5f1aeb0e787a1d4aec8d1f40e9b3723432efb2e0653b"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "3ea3e8f59ec69752c10d86741a624f923e6f372d91ce8d1c8b362960b4479ecf"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "1700a9480262938a9a0ecd9b02b0c44db5560fe432b94d1841c3a46c5c8625c8"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "24479de3b0a6076363267904017cfc223ff0b58619a2dc04be64068879bc61cc"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "3128f8f12f4c7388738dd91cbbff75484e88dd7eb34af5a65d4ca8e9182efe43"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "63359b6133859496c359bfa712bdc040f2cd26d3bcd8bacca8949843e62b2e1e"
+        },
+        {
+          "heading": "### Session Start — FIRST ACTIONS (mandatory before any phase work)",
+          "level": 3,
+          "sha256": "e7ed74b3cc46830747a3e0e36514600ebf41b3eb49cc0684ea85e2047880aa51"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "9de11ab596af6e634dee5f1aeb0e787a1d4aec8d1f40e9b3723432efb2e0653b"
+        },
+        {
+          "heading": "## Violation Prevention",
+          "level": 2,
+          "sha256": "3ea3e8f59ec69752c10d86741a624f923e6f372d91ce8d1c8b362960b4479ecf"
+        },
+        {
+          "heading": "## Completion",
+          "level": 2,
+          "sha256": "1700a9480262938a9a0ecd9b02b0c44db5560fe432b94d1841c3a46c5c8625c8"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "24479de3b0a6076363267904017cfc223ff0b58619a2dc04be64068879bc61cc"
+        }
+      ]
+    },
+    "validate-agent": {
+      "md": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "183288ee3645da31aacc25e06cb3792bdc10f4324d9e634b89e3311f270b91b5"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "ff2465db19e54a4b6913a7b65e9cb7dbd418b019aaa78667b5bc30d1322716a6"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "18b20ba5491ed40c40d99867be6ef968003ed5f4c0be16797247c85985584dd2"
+        },
+        {
+          "heading": "## Context Loading",
+          "level": 2,
+          "sha256": "9378db1f4b43a867b858210ab9f8c41f18760c3cc85704950f670f93ac42c2db"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "6417d1360546b0fe1e9abbd8e2dd4f367c31899016392ff26424ffef7ddd1a0a"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1d641925c1865dbf1a3cbe46899f9cc7f649a8bfac88dceb6aaf7dd43e6a8198"
+        }
+      ],
+      "toml": [
+        {
+          "heading": "## Purpose",
+          "level": 2,
+          "sha256": "183288ee3645da31aacc25e06cb3792bdc10f4324d9e634b89e3311f270b91b5"
+        },
+        {
+          "heading": "## Entry Requirement",
+          "level": 2,
+          "sha256": "ff2465db19e54a4b6913a7b65e9cb7dbd418b019aaa78667b5bc30d1322716a6"
+        },
+        {
+          "heading": "## Strictly Forbidden",
+          "level": 2,
+          "sha256": "18b20ba5491ed40c40d99867be6ef968003ed5f4c0be16797247c85985584dd2"
+        },
+        {
+          "heading": "## Context Loading",
+          "level": 2,
+          "sha256": "9378db1f4b43a867b858210ab9f8c41f18760c3cc85704950f670f93ac42c2db"
+        },
+        {
+          "heading": "## Autonomous /goal Execution Rules",
+          "level": 2,
+          "sha256": "6417d1360546b0fe1e9abbd8e2dd4f367c31899016392ff26424ffef7ddd1a0a"
+        },
+        {
+          "heading": "## Status Reporting",
+          "level": 2,
+          "sha256": "1d641925c1865dbf1a3cbe46899f9cc7f649a8bfac88dceb6aaf7dd43e6a8198"
+        }
+      ]
+    }
+  }
+}

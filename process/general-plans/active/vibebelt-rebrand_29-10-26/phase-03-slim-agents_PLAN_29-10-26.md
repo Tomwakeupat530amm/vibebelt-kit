@@ -248,10 +248,10 @@ Orchestrator reads this before deciding which subagent to spawn next. The canoni
 - [x] 1. RESEARCH — vc-research-agent (opus, front-matter): read-only measurements of the census gaps, guardrail headings, headless gate behaviour (2026-10-30)
 - [x] 2. INNOVATE — replaced by the USER DECISION of 2026-10-30 (drop slimming; instrument and freeze); recorded in Purpose and the Refresh Note
 - [x] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus, front-matter): plan re-scoped 2026-10-30; Inner Loop Refresh Note written
-- [ ] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7 from V1 (the 2026-10-30 Refresh Note invalidates the earlier contract); validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
-- [ ] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green
-- [ ] 6. EVL — vc-tester (opus, front-matter): Exit Gate re-run; no-billed-call check; EVL HANDOFF SUMMARY written
-- [ ] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, process commit on main
+- [x] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7 from V1 (the 2026-10-30 Refresh Note invalidates the earlier contract); validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md` (Gate: PASS, inner-pvl, 2026-10-30)
+- [x] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green (done 2026-10-30; 66 files under golden/, per-section gates green)
+- [x] 6. EVL — vc-tester (opus, front-matter): Exit Gate re-run; no-billed-call check; EVL HANDOFF SUMMARY written (independent vc-tester PASS 17/17; closeout WITH_GAPS)
+- [x] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, process commit on main (report phase-03-instrument-and-freeze_REPORT_30-10-26.md written; process commit pending by vc-git-manager)
 
 **Validate-contract required.** If step 4 (PVL) is unchecked or `## Validate Contract` reads
 "(placeholder — vc-validate-agent writes this section before EXECUTE)", the orchestrator must spawn

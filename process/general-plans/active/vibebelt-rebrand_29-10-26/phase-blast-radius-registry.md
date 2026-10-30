@@ -33,11 +33,11 @@ Phase 0 section refreshed in inner 1b (29-10-26). Append-only in spirit; rewritt
 - NOT touched: `validate-kit-portability.mjs`, the 11 brand-detection lines in the validator and `vc-publish` SKILL/reference; `LICENSE` (Phase 0). Hand-off to Phase 6: `author: vibecode-pro-max-kit` skill metadata in 19 files. Not Phase 2: `scripts/test-compute-sync-plan.mjs`, `legacy-hashes.json` (do not exist yet)
 - Strict order: Phase 1 then Phase 2 touch `README.md` and `docs/i18n/README.vi-VN.md`; Phase 7 edits them after Phase 2 (never parallel); Phase 8 C0b trims the switcher blocks
 
-## Phase 3
+## Phase 3 (status: DONE, 2026-10-30)
 - Re-scoped 2026-10-30 (user decision D): "Instrument and freeze (no slimming)". NO agent files: `.claude/agents/**` and `.codex/agents/**` are READ-ONLY and stay byte-identical to `b17294d`; no `references/` folder under either agents dir; no backlog stub; zero billed model calls
 - Task folder `golden/**` ONLY (new files): `signal-census.mjs`, `gen-guardrails.mjs`, `run-record.mjs`, `lib/`, `test/**` (unit tests + fixtures), `signal-census-phase3.txt`, `guardrails.json`, `start.sha`, `determinism/**`. Phase 7 reads `signal-census.mjs` + `signal-census-phase3.txt` (hard dependency; agents listed by directory listing, keys prefix-stripped); Phase 8 reads all of them read-only
 - Task folder `golden/tasks/**` (FROZEN after Phase 3 step D8 with `FROZEN.sha256`): `tasks.md`, `task-N-<slug>/{prompt.md,fixture/,expected-artifacts.md}`, `rubric.md`, `judge.md`, `old-sandbox-recipe.md`, `run-flags.md`, `FROZEN.md`. Phase 8 reads them verbatim and never edits them
-- Phase 3 report `phase-03-slim-agents_REPORT_29-10-26.md`
+- Phase 3 report `phase-03-instrument-and-freeze_REPORT_30-10-26.md`
 - Removed from the claim (slimming dropped): agent `.md`/`.toml` content, `.claude/agents/references/`, `.codex/agents/references/`, `process/general-plans/backlog/codex-agent-references-load_NOTE_29-10-26.md`, `size-check.mjs`, `conservation-check.mjs`, `pointer-check.mjs`, `parity-compare.mjs`, `sizes-before.json`, `slimmed.list`, `pointers-before.json`, `agents-list-*.json`, `old/`, `phase1/`, `runs/` content, `snapshots/`
 - User checkpoint: none (the cost gate A0 is gone; Phase 8 B4.1 keeps its own)
 
