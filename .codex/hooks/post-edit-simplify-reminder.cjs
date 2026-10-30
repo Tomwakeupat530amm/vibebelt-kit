@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * PostToolUse hook: Tracks file modifications and reminds to run vc-code-simplifier
+ * PostToolUse hook: Tracks file modifications and reminds to run vb-code-simplifier
  *
  * This hook fires after Codex file-edit operations and:
  * 1. Tracks modified files in the session
- * 2. After significant edits, injects a reminder to run vc-code-simplifier
+ * 2. After significant edits, injects a reminder to run vb-code-simplifier
  *
  * Auto-trigger behavior:
  * - Tracks edit count per session
- * - After 5+ file edits, reminds about vc-code-simplifier
+ * - After 5+ file edits, reminds about vb-code-simplifier
  * - Resets counter when simplifier is mentioned in conversation
  */
 
@@ -17,7 +17,7 @@ try {
   const fs = require('fs');
   const path = require('path');
   const os = require('os');
-  const { isHookEnabled } = require('./lib/vc-config-utils.cjs');
+  const { isHookEnabled } = require('./lib/vb-config-utils.cjs');
   const { invalidateCache } = require('./lib/git-info-cache.cjs');
   const { createHookTimer, logHookCrash } = require('./lib/hook-logger.cjs');
 
@@ -27,7 +27,7 @@ try {
   }
 
 // Session tracking file
-const SESSION_TRACK_FILE = path.join(os.tmpdir(), 'vc-simplify-session.json');
+const SESSION_TRACK_FILE = path.join(os.tmpdir(), 'vb-simplify-session.json');
 const EDIT_THRESHOLD = 5; // Remind after this many edits
 
 /**
@@ -111,7 +111,7 @@ function main() {
       session.modifiedFiles.push(filePath);
     }
 
-    // Check if we should remind about vc-code-simplifier
+    // Check if we should remind about vb-code-simplifier
     const shouldRemind =
       session.editCount >= EDIT_THRESHOLD &&
       !session.simplifierRun &&
@@ -120,7 +120,7 @@ function main() {
     let reminder = '';
     if (shouldRemind) {
       session.lastReminder = Date.now();
-      reminder = `[Code Simplification Reminder] You have modified ${session.modifiedFiles.length} files in this session. Consider using the \`vc-code-simplifier\` agent to refine recent changes before proceeding to code review. This is a recommended quality pass, not an automatic mandatory gate.`;
+      reminder = `[Code Simplification Reminder] You have modified ${session.modifiedFiles.length} files in this session. Consider using the \`vb-code-simplifier\` agent to refine recent changes before proceeding to code review. This is a recommended quality pass, not an automatic mandatory gate.`;
       console.error(reminder);
     }
 

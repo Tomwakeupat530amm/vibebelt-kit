@@ -49,7 +49,7 @@
 <td valign="top"><strong>🔁 PVL + EVL self-healing loops</strong><br>Plan-check-fix और test-check-fix loops खुद gaps ढूंढते हैं, ठीक करते हैं, और दोबारा जांचते हैं — हर एक 10 cycles तक।</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>एक reusable find-gaps → fix → repeat loop जिसे आप plans, tests, specs, docs, या evals पर लगा सकते हैं।</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>एक reusable find-gaps → fix → repeat loop जिसे आप plans, tests, specs, docs, या evals पर लगा सकते हैं।</td>
 <td valign="top"><strong>🧪 Feasibility probes</strong><br>किसी भी design approach पर commit करने से पहले test-before-you-build verdicts (VIABLE / NOT-VIABLE)।</td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
     <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
   </picture>
   <br>
-  <p><em>यह केवल दिखावे के लिए नहीं है। जब आप <code>vc-setup</code> चलाते हैं, तो agents आपका codebase scan करते हैं,<br>
+  <p><em>यह केवल दिखावे के लिए नहीं है। जब आप <code>vb-setup</code> चलाते हैं, तो agents आपका codebase scan करते हैं,<br>
   आपका stack detect करते हैं, और project-specific knowledge groups बनाते हैं जिन्हें हर skill काम करने से पहले पढ़ती है।<br>
   दूसरे harnesses agents को एक language तक lock कर देते हैं — <code>rust-review-agent</code>, <code>python-linter</code> — जो कहीं और बेकार हैं।<br>
   यह ऊपर दिए किसी भी combination के अनुसार adapt होता है और ship करने के साथ-साथ knowledge बढ़ाता जाता है।</em></p>
@@ -154,26 +154,26 @@ curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main
 <h3>🆕 Fresh project</h3>
 Installer कोई harness नहीं पाता और print करता है:
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ अपना agent खोलें और कहें <code>Run vc-setup</code></strong>
+<strong>→ अपना agent खोलें और कहें <code>Run vb-setup</code></strong>
 <br><br>
-<sub>vc-setup आपका tech stack detect करता है, <code>process/</code> folder बनाता है, आपका codebase scan करता है, और आपकी <em>वास्तविक</em> architecture, conventions, और test commands भरता है — एक बातचीत, checklist नहीं।</sub>
+<sub>vb-setup आपका tech stack detect करता है, <code>process/</code> folder बनाता है, आपका codebase scan करता है, और आपकी <em>वास्तविक</em> architecture, conventions, और test commands भरता है — एक बातचीत, checklist नहीं।</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 Existing harness (upgrade)</h3>
 Installer पुरानी install पाता है और print करता है:
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ अपना agent खोलें और कहें <code>Run vc-update</code></strong>
+<strong>→ अपना agent खोलें और कहें <code>Run vb-update</code></strong>
 <br><br>
-<sub>vc-update latest version pull करता है और अगर पुराने format के plans या folders मिलें, तो आपको एक ready-to-paste prompt देता है जो migration <strong>बिना किसी data loss के</strong> पूरी करता है। आपकी <code>process/</code> कभी नहीं छूई जाती।</sub>
+<sub>vb-update latest version pull करता है और अगर पुराने format के plans या folders मिलें, तो आपको एक ready-to-paste prompt देता है जो migration <strong>बिना किसी data loss के</strong> पूरी करता है। आपकी <code>process/</code> कभी नहीं छूई जाती।</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **Command कभी guess नहीं करनी।** `install.sh` आपको route करता है: fresh → `vc-setup`, upgrade → `vc-update`। Install दोबारा चलाना हमेशा safe है — यह कुछ तोड़ता नहीं। **Codex users:** chat में कहने की बजाय `/vc-setup` (या `/vc-update`) run करें।
+> 💡 **Command कभी guess नहीं करनी।** `install.sh` आपको route करता है: fresh → `vb-setup`, upgrade → `vb-update`। Install दोबारा चलाना हमेशा safe है — यह कुछ तोड़ता नहीं। **Codex users:** chat में कहने की बजाय `/vb-setup` (या `/vb-update`) run करें।
 
 <br>
 
@@ -194,15 +194,15 @@ your-project/
 ├── AGENTS.md                # 📖 Agent + skill registry (cross-tool)
 └── process/
     └── development-protocols/  # 📜 22 shared workflow docs (install द्वारा seed किए)
-                                #    context/, plans, features → vc-setup द्वारा बनाए जाते हैं
+                                #    context/, plans, features → vb-setup द्वारा बनाए जाते हैं
 ```
 
 - **Non-destructive।** आपके मौजूदा `.claude/skills/`, `.claude/agents/`, `process/`, और `settings.json` कभी नहीं मिटाए जाते। केवल kit-owned files लिखी या update की जाती हैं।
 - **पहले से config है?** `.vibecode-backup/` में backup; आपका `settings.json` बाद में restore होता है।
 - **पहले से `CLAUDE.md` है?** `CLAUDE.md.pre-vibecode` के रूप में backup।
-- **पहले से `process/` है?** Install कभी नहीं छूता — `vc-setup` / `vc-update` इसे interactively migrate करते हैं, पहले diff दिखाते हैं।
+- **पहले से `process/` है?** Install कभी नहीं छूता — `vb-setup` / `vb-update` इसे interactively migrate करते हैं, पहले diff दिखाते हैं।
 
-> **एक बार की पहली install caveat:** अगर आपके पास custom skills/agents हैं जिनके नाम `vc-` से शुरू होते हैं (reserved kit namespace) और आपने पहले कभी install नहीं चलाई, तो stale-removal step उन्हें flag कर सकता है। Install के बाद, `ls .claude/skills/ .claude/agents/` run करके confirm करें। इससे पूरी तरह बचने के लिए अपने additions के लिए non-`vc-` prefix (`my-`, `team-`, `proj-`) use करें।
+> **एक बार की पहली install caveat:** अगर आपके पास custom skills/agents हैं जिनके नाम `vb-` से शुरू होते हैं (reserved kit namespace) और आपने पहले कभी install नहीं चलाई, तो stale-removal step उन्हें flag कर सकता है। Install के बाद, `ls .claude/skills/ .claude/agents/` run करके confirm करें। इससे पूरी तरह बचने के लिए अपने additions के लिए non-`vb-` prefix (`my-`, `team-`, `proj-`) use करें।
 
 </details>
 
@@ -218,7 +218,7 @@ First, install the vibecode-pro-max-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -273,7 +273,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>Autopilot</strong><br><sub>3 lanes (quick / fast / full) — किसी भी phase से शुरू, बिना रुके शुरू से अंत तक चलता है</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>/goal blocks</strong><br><sub>छोटे copy-pasteable texts जो reset के बाद नए sessions में hands-free runs resume करते हैं</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>Find-gaps → fix → repeat loop (plans, tests, और evals के लिए shared tool)</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>Find-gaps → fix → repeat loop (plans, tests, और evals के लिए shared tool)</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>Feasibility probes</strong><br><sub>Design lock करने से पहले test-before-you-build verdicts (VIABLE / NOT-VIABLE)</sub></td>
 </tr>
 </table>
@@ -491,7 +491,7 @@ Coordinator routes, monitors, और loops drive करता है — यह 
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>Automatic Skill Discovery</strong><br><br>
-किसी भी request को handle करने से पहले, यह <strong>33 skills</strong> scan करता है और keywords match करता है। "add webhook support" कहें और <code>vc-security</code> + <code>vc-scenario</code> automatically pull in हो जाते हैं।
+किसी भी request को handle करने से पहले, यह <strong>33 skills</strong> scan करता है और keywords match करता है। "add webhook support" कहें और <code>vb-security</code> + <code>vb-scenario</code> automatically pull in हो जाते हैं।
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -532,12 +532,12 @@ Plans, reports, knowledge docs, और learnings सब disk पर रहते
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>यह delegate करता है, implement नहीं</strong><br><br>
-Research → <code>vc-research-agent</code>। Plan → <code>vc-plan-agent</code>। Code → <code>vc-execute-agent</code>। Coordinator सही context handoff करता है और इंतज़ार करता है — यह खुद कभी actual काम नहीं करता।
+Research → <code>vb-research-agent</code>। Plan → <code>vb-plan-agent</code>। Code → <code>vb-execute-agent</code>। Coordinator सही context handoff करता है और इंतज़ार करता है — यह खुद कभी actual काम नहीं करता।
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>कोई hidden execution — कभी नहीं</strong><br><br>
-जैसे ही agreed checklist वाला plan exist करता है, "ENTER EXECUTE MODE" <strong>हमेशा</strong> <code>vc-execute-agent</code> launch करता है। एक-line fix भी इससे गुज़रती है। Tests सिर्फ dedicated <code>vc-tester</code> के अंदर चलते हैं। यह change size की परवाह किए बिना लागू होता है।
+जैसे ही agreed checklist वाला plan exist करता है, "ENTER EXECUTE MODE" <strong>हमेशा</strong> <code>vb-execute-agent</code> launch करता है। एक-line fix भी इससे गुज़रती है। Tests सिर्फ dedicated <code>vb-tester</code> के अंदर चलते हैं। यह change size की परवाह किए बिना लागू होता है।
 </td>
 </tr>
 <tr>
@@ -560,12 +560,12 @@ flowchart TD
     REQ["User request"]
     SD["Step 0: Skill Discovery\nscan 33 skills, match keywords"]
     INT{"Detect intent\n+ score ambiguity"}
-    RES["vc-research-agent\n(feature / question)"]
-    PLN["vc-plan-agent\n(after INNOVATE)"]
-    VAL["vc-validate-agent\n(PVL loop)"]
-    EXE["vc-execute-agent\n(EXECUTE)"]
-    TST["vc-tester\n(EVL loop)"]
-    UPD["vc-update-process-agent\n(closeout)"]
+    RES["vb-research-agent\n(feature / question)"]
+    PLN["vb-plan-agent\n(after INNOVATE)"]
+    VAL["vb-validate-agent\n(PVL loop)"]
+    EXE["vb-execute-agent\n(EXECUTE)"]
+    TST["vb-tester\n(EVL loop)"]
+    UPD["vb-update-process-agent\n(closeout)"]
     MON["Monitor\nstatus codes · loop driving\nno inline execution ever"]
 
     REQ --> SD --> INT
@@ -600,13 +600,13 @@ flowchart TD
 
 | चरण | क्या होता है | एजेंट | आप क्या कहते हैं |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | केवल पढ़ने वाला तथ्य-संग्रह — कोडबेस और वेब। फ़ाइलें कभी नहीं बदलता। | `vc-research-agent` | *(फीचर अनुरोधों पर स्वतः)* |
-| 📝 **SPEC** | उत्पाद-खोज आवश्यकताओं का दस्तावेज़ — उपयोगकर्ता कहानियाँ, स्वीकृति मापदंड, दायरे से बाहर — **किसी भी डिज़ाइन से पहले आपकी समीक्षा के लिए**। | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | 2-3 दृष्टिकोण उनके फायदे-नुकसान के साथ। निर्णय सारांश (चुना हुआ + अस्वीकृत + कारण)। | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | विस्तृत योजना लिखना: संपर्क बिंदु, सार्वजनिक अनुबंध, कौन सी फ़ाइलें छुई जाएंगी, सत्यापन प्रमाण, हैंडऑफ़। | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | योजना को एक सहमत चेकलिस्ट (V1–V7 जाँच बिंदु) में बदलना। निर्णय: **PASS / CONDITIONAL / BLOCKED**। PVL लूप चलाता है। | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | योजना को *ठीक वैसे* लागू करना। चरण रिपोर्ट में प्रगति नोट्स, विचलन प्रोटोकॉल, स्व-समीक्षा। फिर EVL लूप जाँच बिंदु फिर से चलाता है। | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | सीखी गई बातें दर्ज करना, संदर्भ अपडेट करना, योजना संग्रहीत करना, क्लोज़आउट पैकेट लिखना। | `vc-update-process-agent` | *(गैर-मामूली काम के बाद सुझाया गया)* |
+| 🔍 **RESEARCH** | केवल पढ़ने वाला तथ्य-संग्रह — कोडबेस और वेब। फ़ाइलें कभी नहीं बदलता। | `vb-research-agent` | *(फीचर अनुरोधों पर स्वतः)* |
+| 📝 **SPEC** | उत्पाद-खोज आवश्यकताओं का दस्तावेज़ — उपयोगकर्ता कहानियाँ, स्वीकृति मापदंड, दायरे से बाहर — **किसी भी डिज़ाइन से पहले आपकी समीक्षा के लिए**। | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | 2-3 दृष्टिकोण उनके फायदे-नुकसान के साथ। निर्णय सारांश (चुना हुआ + अस्वीकृत + कारण)। | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | विस्तृत योजना लिखना: संपर्क बिंदु, सार्वजनिक अनुबंध, कौन सी फ़ाइलें छुई जाएंगी, सत्यापन प्रमाण, हैंडऑफ़। | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | योजना को एक सहमत चेकलिस्ट (V1–V7 जाँच बिंदु) में बदलना। निर्णय: **PASS / CONDITIONAL / BLOCKED**। PVL लूप चलाता है। | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | योजना को *ठीक वैसे* लागू करना। चरण रिपोर्ट में प्रगति नोट्स, विचलन प्रोटोकॉल, स्व-समीक्षा। फिर EVL लूप जाँच बिंदु फिर से चलाता है। | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | सीखी गई बातें दर्ज करना, संदर्भ अपडेट करना, योजना संग्रहीत करना, क्लोज़आउट पैकेट लिखना। | `vb-update-process-agent` | *(गैर-मामूली काम के बाद सुझाया गया)* |
 
 > 📝 **SPEC अपना अलग चरण क्यों है:** अधिकांश प्रणालियाँ "समझना" से सीधे "डिज़ाइन करना" पर कूद जाती हैं। एक उत्पाद-खोज SPEC चरण जोड़ने से *आप* (या आपके उत्पाद प्रबंधक) यह तय करते हैं कि **क्या** बनाया जा रहा है — सरल उपयोगकर्ता कहानियों और स्वीकृति मापदंडों में — एजेंट **कैसे** करें यह बहस करने से *पहले*। किसी गलतफहमी को पकड़ने का यह सबसे सस्ता मौका है। (किसी चरण कार्यक्रम के आंतरिक लूप में SPEC छोड़ दिया जाता है — छाता SPEC सभी चरणों पर लागू होता है।)
 >
@@ -634,7 +634,7 @@ flowchart TD
 ```
 # 🆕 Feature request
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -647,7 +647,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 Bug fix
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -700,7 +700,7 @@ flowchart TD
     ROUTE["Route to matching agent\n(research / plan / execute / …)"]
     STILL{"still unclear\nafter Tier 2?"}
     FINAL["One final plain question\n(max 2 clarification rounds)"]
-    NARROW["Default: vc-research-agent\nnarrowest reasonable scope"]
+    NARROW["Default: vb-research-agent\nnarrowest reasonable scope"]
 
     REQ --> AUTO
     AUTO -->|"auto-skip matches"| T0
@@ -768,24 +768,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL — Plan-Validate-Fix</h3>
-EXECUTE से पहले, <code>vc-validate-agent</code> योजना को <strong>V1–V7 जाँच बिंदुओं</strong> से गुज़ारता है — बुनियादी ढाँचे, परीक्षण कवरेज, ब्रेकिंग परिवर्तन, सुरक्षा, और प्रति-अनुभाग व्यवहार्यता को कवर करने के लिए कई एजेंटों में काम बाँटता है। पहली बार का <strong>CONDITIONAL</strong> या <strong>BLOCKED</strong> कभी अंत नहीं होता — यह <code>vc-plan-agent</code> को योजना अपडेट करने के लिए वापस भेजता है, फिर V1 से दोबारा जाँचता है।
+EXECUTE से पहले, <code>vb-validate-agent</code> योजना को <strong>V1–V7 जाँच बिंदुओं</strong> से गुज़ारता है — बुनियादी ढाँचे, परीक्षण कवरेज, ब्रेकिंग परिवर्तन, सुरक्षा, और प्रति-अनुभाग व्यवहार्यता को कवर करने के लिए कई एजेंटों में काम बाँटता है। पहली बार का <strong>CONDITIONAL</strong> या <strong>BLOCKED</strong> कभी अंत नहीं होता — यह <code>vb-plan-agent</code> को योजना अपडेट करने के लिए वापस भेजता है, फिर V1 से दोबारा जाँचता है।
 <br><br>
-<sub><code>vc-autoresearch</code> (domain: plan) द्वारा ट्रैक किया गया — एक खामियाँ ढूँढो और ठीक करो लूप। 10-चक्र सीमा। पठार का पता लगाना। केवल <strong>Gate: PASS</strong> (या CONDITIONAL जिसे आप स्पष्ट रूप से स्वीकार करते हैं) EXECUTE को अनलॉक करता है।</sub>
+<sub><code>vb-autoresearch</code> (domain: plan) द्वारा ट्रैक किया गया — एक खामियाँ ढूँढो और ठीक करो लूप। 10-चक्र सीमा। पठार का पता लगाना। केवल <strong>Gate: PASS</strong> (या CONDITIONAL जिसे आप स्पष्ट रूप से स्वीकार करते हैं) EXECUTE को अनलॉक करता है।</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL — Execute-Validate-Fix</h3>
-EXECUTE के पूरा होने की रिपोर्ट के बाद — <strong>भले ही यह दावा करे कि सभी जाँच बिंदु हरे हैं</strong> — मुख्य एजेंट <strong>हमेशा</strong> <code>vc-tester</code> को स्वतंत्र रूप से सटीक सहमत-चेकलिस्ट परीक्षण आदेश फिर से चलाने के लिए बुलाता है। एक विफल जाँच बिंदु एक सीमित <code>vc-execute-agent</code> सुधार को रूट करता है, फिर दोबारा परीक्षण करता है।
+EXECUTE के पूरा होने की रिपोर्ट के बाद — <strong>भले ही यह दावा करे कि सभी जाँच बिंदु हरे हैं</strong> — मुख्य एजेंट <strong>हमेशा</strong> <code>vb-tester</code> को स्वतंत्र रूप से सटीक सहमत-चेकलिस्ट परीक्षण आदेश फिर से चलाने के लिए बुलाता है। एक विफल जाँच बिंदु एक सीमित <code>vb-execute-agent</code> सुधार को रूट करता है, फिर दोबारा परीक्षण करता है।
 <br><br>
-<sub><code>vc-autoresearch</code> (domain: tests) द्वारा ट्रैक किया गया। 10-चक्र सीमा। execute-agent का अपना आंतरिक "हरा होने तक दोहराओ" लूप <strong>कभी नहीं</strong> इस स्वतंत्र पुष्टि का विकल्प बनता है।</sub>
+<sub><code>vb-autoresearch</code> (domain: tests) द्वारा ट्रैक किया गया। 10-चक्र सीमा। execute-agent का अपना आंतरिक "हरा होने तक दोहराओ" लूप <strong>कभी नहीं</strong> इस स्वतंत्र पुष्टि का विकल्प बनता है।</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **निर्णय की सीढ़ी:** **PASS** → आगे बढ़ें · **CONDITIONAL** → ठीक करने योग्य खामियाँ; लूप चलता है (या आप उन्हें रिकॉर्ड में स्वीकार करते हैं) · **BLOCKED** → गहरी समस्या; PLAN पर वापस जाता है (ऑटोपायलट के तहत: खामी बैकलॉग में जाती है और रन जारी रहता है)।
 
-### 🔁 vc-autoresearch — साझा लूप इंजन
+### 🔁 vb-autoresearch — साझा लूप इंजन
 
-PVL और EVL दोनों एक ही ट्रैकिंग परत का उपयोग करते हैं: **`vc-autoresearch`** — एक खामियाँ ढूँढो → ठीक करो → दोहराओ लूप। मुख्य एजेंट लूप चलाता है — यह राउंड काउंटर, प्रति-राउंड रिपोर्ट, TSV लॉग, और पठार/सीमा/प्रतिगमन जाँच का मालिक है। कार्यकर्ता एजेंट एकमुश्त होते हैं: वे परिणाम लौटाते हैं और रुक जाते हैं। कोई भी एजेंट स्वयं को या किसी अन्य चरण एजेंट को दोबारा नहीं बुलाता।
+PVL और EVL दोनों एक ही ट्रैकिंग परत का उपयोग करते हैं: **`vb-autoresearch`** — एक खामियाँ ढूँढो → ठीक करो → दोहराओ लूप। मुख्य एजेंट लूप चलाता है — यह राउंड काउंटर, प्रति-राउंड रिपोर्ट, TSV लॉग, और पठार/सीमा/प्रतिगमन जाँच का मालिक है। कार्यकर्ता एजेंट एकमुश्त होते हैं: वे परिणाम लौटाते हैं और रुक जाते हैं। कोई भी एजेंट स्वयं को या किसी अन्य चरण एजेंट को दोबारा नहीं बुलाता।
 
 वही इंजन अपने आप भी चल सकता है: "इस स्पेक को मज़बूत करो", "सभी lint ठीक करो", "परीक्षण कवरेज सुधारो", "ये दस्तावेज़ सुधारो" — 6 डोमेन (spec · tests · ux · docs · plan · errors) में कोई भी बार-बार खामियाँ ढूँढो-और-ठीक करो कार्य।
 
@@ -821,10 +821,10 @@ flowchart TD
 
 | मोड | क्या करता है | कब रुकता है |
 |---|---|---|
-| `vc-autoresearch` (core) | खामियाँ ढूँढो → ठीक करो → दोहराओ | कोई खामी न मिले या मेट्रिक लक्ष्य पूरा हो |
-| `vc-autoresearch:probe` | 8 व्यक्तित्व संतृप्ति तक सामग्री से पूछताछ करते हैं | 3 राउंड के लिए कोई नई बाधा नहीं |
-| `vc-autoresearch:reason` | अंधे न्यायाधीशों के साथ विरोधी बहस | न्यायाधीश एकमत होते हैं या पुनरावृत्ति सीमा |
-| `vc-autoresearch:evals` | TSV परिणामों का विश्लेषण — रुझान, पठार, सुझाव | केवल विश्लेषण |
+| `vb-autoresearch` (core) | खामियाँ ढूँढो → ठीक करो → दोहराओ | कोई खामी न मिले या मेट्रिक लक्ष्य पूरा हो |
+| `vb-autoresearch:probe` | 8 व्यक्तित्व संतृप्ति तक सामग्री से पूछताछ करते हैं | 3 राउंड के लिए कोई नई बाधा नहीं |
+| `vb-autoresearch:reason` | अंधे न्यायाधीशों के साथ विरोधी बहस | न्यायाधीश एकमत होते हैं या पुनरावृत्ति सीमा |
+| `vb-autoresearch:evals` | TSV परिणामों का विश्लेषण — रुझान, पठार, सुझाव | केवल विश्लेषण |
 
 **रुकने की स्थितियाँ:** SUCCESS (लगातार दो राउंड सब साफ) · HALT_PLATEAU (3 राउंड तक कोई प्रगति नहीं) · HALT_CAP (10-राउंड की सख्त सीमा) · HALT_REGRESSION (जो जाँच पास हो रही थी अब विफल होती है)।
 
@@ -832,7 +832,7 @@ flowchart TD
 
 ## 👥 रणनीति तुलना + मॉडल नीति
 
-**हर चरण के बदलाव पर**, मुख्य एजेंट `vc-agent-strategy-compare` को अगले चरण को कैसे चलाएं — लागत अनुमान के साथ — इसकी सिफारिश करने के लिए बुलाता है।
+**हर चरण के बदलाव पर**, मुख्य एजेंट `vb-agent-strategy-compare` को अगले चरण को कैसे चलाएं — लागत अनुमान के साथ — इसकी सिफारिश करने के लिए बुलाता है।
 
 | रणनीति | कब | समन्वय |
 |---|---|---|
@@ -844,7 +844,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n(every phase transition)"]
+    SS["vb-agent-strategy-compare\n(every phase transition)"]
     SC{"signal score\n0–7"}
     SEQ["Sequential\none agent at a time\n(output feeds next)"]
     PAR["Parallel subagents\nfire-and-forget\n(independent dimensions)"]
@@ -954,7 +954,7 @@ You: "autopilot full: add team invitations with email + role management"
 `autopilot full: [task]` कहें — या `/goal` ब्लॉक पेस्ट करें — और निम्नलिखित सब **बिना किसी मानवीय इनपुट के** होता है:
 
 - **योजना-जाँच-और-सुधार लूप** — योजना में खामियाँ ढूँढता है, उन्हें ठीक करता है, और फिर से जाँचता है। अपने आप 10 राउंड तक।
-- **बनाओ-परीक्षण करो-और-ठीक करो लूप** — कोड लिखता है, परीक्षण चलाता है, विफलताओं को ठीक करता है, फिर से चलाता है। अपने आप 10 राउंड तक। यह कभी अपने "सब हरा" पर भरोसा नहीं करता — एक अलग जाँचकर्ता (vc-tester) पुष्टि के लिए स्वतंत्र रूप से हर परीक्षण फिर से चलाता है।
+- **बनाओ-परीक्षण करो-और-ठीक करो लूप** — कोड लिखता है, परीक्षण चलाता है, विफलताओं को ठीक करता है, फिर से चलाता है। अपने आप 10 राउंड तक। यह कभी अपने "सब हरा" पर भरोसा नहीं करता — एक अलग जाँचकर्ता (vb-tester) पुष्टि के लिए स्वतंत्र रूप से हर परीक्षण फिर से चलाता है।
 - **चरण-से-चरण प्रगति** — रिसर्च से योजना से कोड से पूरा तक बिना आपका इंतज़ार किए आगे बढ़ता है।
 - **मेमोरी रीसेट के बाद उठाता है** — योजनाएं, रिपोर्ट, और प्रगति सभी डिस्क पर फ़ाइलों के रूप में हैं। संकुचन (जब AI की अल्पकालिक मेमोरी साफ होती है) के बाद, अगला सत्र उन फ़ाइलों को पढ़ता है और ठीक वहीं से जारी रहता है।
 - **अटकी हुई सुविधा? अलग रखें, आगे बढ़ते रहें** — यदि एक चरण हल नहीं हो सकता, तो एजेंट एक बैकलॉग नोट लिखता है और अगली सुविधा पर आगे बढ़ता है। आप एक ब्लॉकर से सब कुछ रोके बिना कई सुविधाएं समानांतर में चला सकते हैं।
@@ -993,7 +993,7 @@ You: "autopilot full: add team invitations with email + role management"
 
 ### 🔬 व्यवहार्यता जाँच — बनाने से पहले धारणा का परीक्षण करें
 
-जब SPEC, INNOVATE, या VALIDATE किसी मुख्य धारणा से टकराती है जिसे वह केवल पढ़कर पुष्टि नहीं कर सकती, तो वह `VC-FEASIBILITY-PROBE-NEEDED` भेजती है और रुक जाती है। मुख्य एजेंट `vc-debugger` को एक वास्तविक परीक्षण चलाने और एक **VERDICT** लिखने के लिए बुलाता है:
+जब SPEC, INNOVATE, या VALIDATE किसी मुख्य धारणा से टकराती है जिसे वह केवल पढ़कर पुष्टि नहीं कर सकती, तो वह `VB-FEASIBILITY-PROBE-NEEDED` भेजती है और रुक जाती है। मुख्य एजेंट `vb-debugger` को एक वास्तविक परीक्षण चलाने और एक **VERDICT** लिखने के लिए बुलाता है:
 
 | निर्णय | अर्थ |
 |---|---|
@@ -1009,10 +1009,10 @@ You: "autopilot full: add team invitations with email + role management"
 
 | सत्यापनकर्ता परिवार | जाँच करता है |
 |---|---|
-| `vc-audit-vc` | एजेंट समानता (Claude/Codex), कौशल रजिस्ट्री, किट पोर्टेबिलिटी, एजेंट फ्रंटमैटर |
-| `vc-audit-context` | संदर्भ रूटिंग, खोज फ्रंटमैटर, कौशल कीवर्ड |
-| `vc-audit-plans` | योजना सूची, छाता स्थिति, चरण पूर्णता, चरण रिपोर्ट, बैकलॉग नोट्स |
-| 14 VC-system व्यवहार सत्यापनकर्ता | प्रत्येक के पास पास/फेल फिक्सचर जोड़ी है — strategy-compare आउटपुट, closeout, intent-clarify, feasibility verdict, autoresearch लॉग, और अधिक |
+| `vb-audit-vc` | एजेंट समानता (Claude/Codex), कौशल रजिस्ट्री, किट पोर्टेबिलिटी, एजेंट फ्रंटमैटर |
+| `vb-audit-context` | संदर्भ रूटिंग, खोज फ्रंटमैटर, कौशल कीवर्ड |
+| `vb-audit-plans` | योजना सूची, छाता स्थिति, चरण पूर्णता, चरण रिपोर्ट, बैकलॉग नोट्स |
+| 14 VB-system व्यवहार सत्यापनकर्ता | प्रत्येक के पास पास/फेल फिक्सचर जोड़ी है — strategy-compare आउटपुट, closeout, intent-clarify, feasibility verdict, autoresearch लॉग, और अधिक |
 
 ---
 
@@ -1069,24 +1069,24 @@ auth, billing, schema माइग्रेशन, या public-API परि�
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>5-व्यक्तित्व बहस — <code>vc-predict</code></strong><br><br>
+<strong>5-व्यक्तित्व बहस — <code>vb-predict</code></strong><br><br>
 Architect, Security, Performance, UX, और Devil's Advocate आपकी योजना पर बहस करते हैं। एक पंक्ति लिखने से पहले <strong>GO / CAUTION / STOP</strong> का निर्णय देता है।
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>12-आयाम एज केस — <code>vc-scenario</code></strong><br><br>
+<strong>12-आयाम एज केस — <code>vb-scenario</code></strong><br><br>
 किसी सुविधा को 12 आयामों में विघटित करता है (उपयोगकर्ता प्रकार, इनपुट सीमाएं, टाइमिंग, स्केल, स्थिति, परिवेश, त्रुटियाँ, auth, डेटा, एकीकरण, अनुपालन, व्यावसायिक तर्क)। आउटपुट परीक्षण विशिष्टताओं के रूप में भी काम करता है।
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>STRIDE + OWASP ऑडिट — <code>vc-security</code></strong><br><br>
+<strong>STRIDE + OWASP ऑडिट — <code>vb-security</code></strong><br><br>
 दोहरी-पद्धति सुरक्षा ऑडिट dependency auditing, secret detection, और एक **auto-fix मोड** के साथ जो गंभीरता से क्रमबद्ध करता है और regression guards के साथ Critical पहले ठीक करता है।
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>साक्ष्य-प्रथम डीबगिंग — <code>vc-debugger</code></strong><br><br>
+<strong>साक्ष्य-प्रथम डीबगिंग — <code>vb-debugger</code></strong><br><br>
 साक्ष्य एकत्र करता है → 2-3 प्रतिस्पर्धी परिकल्पनाएं बनाता है → प्रत्येक का परीक्षण करता है → उन्मूलन पथ दस्तावेज़ीकरण करता है। <strong>कभी अनुमान नहीं लगाता — सिद्ध करता है।</strong>
 </td>
 </tr>
@@ -1096,7 +1096,7 @@ Architect, Security, Performance, UX, और Devil's Advocate आपकी य�
 
 ## ✅ गुणवत्ता पाइपलाइन — निष्पादन में अंतर्निहित
 
-**पहले परीक्षण, फिर कोड।** सहमत चेकलिस्ट (किसी कोड को छूने से पहले लिखी गई) सटीक परीक्षण परिभाषित करती है जो पास होने चाहिए। execute-agent तब तक कोड लिखता है जब तक वे परीक्षण हरे न हों। फिर एक अलग जाँचकर्ता — `vc-tester` — पुष्टि के लिए अपने आप हर परीक्षण फिर से चलाता है। execute-agent का अपना "सब हरा" कभी सच नहीं माना जाता। अंत में, समीक्षक जाँचता है कि पूरा प्रोजेक्ट अभी भी एक साथ काम करता है, न केवल नया टुकड़ा।
+**पहले परीक्षण, फिर कोड।** सहमत चेकलिस्ट (किसी कोड को छूने से पहले लिखी गई) सटीक परीक्षण परिभाषित करती है जो पास होने चाहिए। execute-agent तब तक कोड लिखता है जब तक वे परीक्षण हरे न हों। फिर एक अलग जाँचकर्ता — `vb-tester` — पुष्टि के लिए अपने आप हर परीक्षण फिर से चलाता है। execute-agent का अपना "सब हरा" कभी सच नहीं माना जाता। अंत में, समीक्षक जाँचता है कि पूरा प्रोजेक्ट अभी भी एक साथ काम करता है, न केवल नया टुकड़ा।
 
 execute-agent केवल कोड नहीं लिखता और पूरा नहीं बोलता। यह स्वतः एक **गुणवत्ता पाइपलाइन** से गुज़रता है:
 
@@ -1186,7 +1186,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— plan file\n— Validate Contract appended here"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— optional references"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— per PVL/EVL cycle report"]
@@ -1216,7 +1216,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> हर योजना में होता है: 📍 **संपर्क-बिंदु** (बनाई/बदली गई फ़ाइलें) · 📜 **सार्वजनिक अनुबंध** · 💥 **कौन-सी फ़ाइलें छू सकती है** (क्या टूट सकता है, क्या परखना है) · ✅ **सत्यापन प्रमाण** · 🔄 **कार्य-पुनः-शुरू करने की जानकारी**। `vc-plan-discovery` सही योजना खोजता है; `post-write-plan-check` हर योजना-लेखन पर संरचना जाँचता है।
+> हर योजना में होता है: 📍 **संपर्क-बिंदु** (बनाई/बदली गई फ़ाइलें) · 📜 **सार्वजनिक अनुबंध** · 💥 **कौन-सी फ़ाइलें छू सकती है** (क्या टूट सकता है, क्या परखना है) · ✅ **सत्यापन प्रमाण** · 🔄 **कार्य-पुनः-शुरू करने की जानकारी**। `vb-plan-discovery` सही योजना खोजता है; `post-write-plan-check` हर योजना-लेखन पर संरचना जाँचता है।
 
 ---
 
@@ -1348,11 +1348,11 @@ process/context/
 |---|---|
 | 🧭 **राउटर पैटर्न** | एजेंट केवल अपने काम के लिए प्रासंगिक चीज़ें पढ़ते हैं |
 | 📏 **स्वतः-पदोन्नति** | 3+ दस्तावेज़ों वाले विषय (या बहुत बड़ी एकल फ़ाइल) को अपना समूह मिलता है |
-| 🔄 **हमेशा अद्यतन** | हर महत्वपूर्ण फ़ीचर के बाद `vc-update-process-agent` अपडेट करता है |
-| 🧪 **ऑडिट-योग्य** | `vc-audit-context` रूटिंग, डिस्कवरी फ्रंटमैटर और संगति जाँचता है |
+| 🔄 **हमेशा अद्यतन** | हर महत्वपूर्ण फ़ीचर के बाद `vb-update-process-agent` अपडेट करता है |
+| 🧪 **ऑडिट-योग्य** | `vb-audit-context` रूटिंग, डिस्कवरी फ्रंटमैटर और संगति जाँचता है |
 | 📨 **Context Envelope** | हर आंतरिक-लूप एजेंट शुरुआत में 10 क्षेत्रों की नोट उत्सर्जित करता है (feature → phase → session-goal → branch → worktree → context-group → blast-radius-packages → active-plan → test-runner → validate-contract) ताकि नया वर्कर एजेंट जाने वह कहाँ खड़ा है |
 
-> किट केवल प्रोटोकॉल बीज भेजती है — आपके संदर्भ समूह **आपके प्रोजेक्ट के लिए** `vc-setup` द्वारा बनाए जाते हैं, आपके असली कोड को स्कैन करके। ये एक पैटर्न हैं, तय सूची नहीं।
+> किट केवल प्रोटोकॉल बीज भेजती है — आपके संदर्भ समूह **आपके प्रोजेक्ट के लिए** `vb-setup` द्वारा बनाए जाते हैं, आपके असली कोड को स्कैन करके। ये एक पैटर्न हैं, तय सूची नहीं।
 
 ---
 
@@ -1390,12 +1390,12 @@ process/features/{feature}/
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Contract skills (20)</strong><br><br>
-हर एक एक विशिष्ट फ़ाइल या सहमत आउटपुट बनाता है — <code>vc-generate-plan</code>, <code>vc-validate-findings</code>, <code>vc-autopilot</code>, ऑडिट। परिणाम जाँचे जा सकते हैं।
+हर एक एक विशिष्ट फ़ाइल या सहमत आउटपुट बनाता है — <code>vb-generate-plan</code>, <code>vb-validate-findings</code>, <code>vb-autopilot</code>, ऑडिट। परिणाम जाँचे जा सकते हैं।
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Helper skills (13)</strong><br><br>
-एजेंट <em>कैसे</em> काम करते हैं, इसे बेहतर बनाते हैं, अपनी कोई फ़ाइल नहीं बनाते — <code>vc-scout</code>, <code>vc-sequential-thinking</code>, <code>vc-problem-solving</code>, <code>vc-docs-seeker</code>।
+एजेंट <em>कैसे</em> काम करते हैं, इसे बेहतर बनाते हैं, अपनी कोई फ़ाइल नहीं बनाते — <code>vb-scout</code>, <code>vb-sequential-thinking</code>, <code>vb-problem-solving</code>, <code>vb-docs-seeker</code>।
 </td>
 </tr>
 </table>
@@ -1416,7 +1416,7 @@ process/features/{feature}/
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["Feature ships\n(EXECUTE + EVL complete)"]
-    UP["UPDATE PROCESS phase\nvc-update-process-agent"]
+    UP["UPDATE PROCESS phase\nvb-update-process-agent"]
     CTX["process/context/ updated\nsmallest relevant file\n+ all-context.md router"]
     AGENT["Next agent spawned\nreads context router\n→ routes to correct group file"]
     BETTER["Better next feature\nno re-discovery, no stale patterns"]
@@ -1434,7 +1434,7 @@ flowchart TD
 
 `process/context/` में विषय-समूहों में व्यवस्थित संरचित ज्ञान है — वास्तुकला निर्णय, कोडिंग नियम, तैनाती चरण, परीक्षण पैटर्न, अवसंरचना तथ्य। चैट इतिहास के विपरीत, यह ज्ञान:
 
-- **हर वर्कर एजेंट में जाता है** — `vc-context-discovery` हर स्पॉन्ड एजेंट को उसके काम के लिए सही `all-{group}.md` राउटर तक रूट करता है, फिर सबसे छोटी प्रासंगिक गहरी फ़ाइल तक। एक रिसर्च एजेंट, एक योजना एजेंट, और एक कोडिंग एजेंट सभी एक ही साझा समझ से शुरू होते हैं
+- **हर वर्कर एजेंट में जाता है** — `vb-context-discovery` हर स्पॉन्ड एजेंट को उसके काम के लिए सही `all-{group}.md` राउटर तक रूट करता है, फिर सबसे छोटी प्रासंगिक गहरी फ़ाइल तक। एक रिसर्च एजेंट, एक योजना एजेंट, और एक कोडिंग एजेंट सभी एक ही साझा समझ से शुरू होते हैं
 - **मेमोरी रीसेट से बचता है** — यह डिस्क पर है, context window में नहीं; एक सिकुड़ा सत्र इसमें से कुछ नहीं खोता
 - **Claude और Codex दोनों पढ़ सकते हैं** — `.agents/skills` `.claude/skills/` का शॉर्टकट लिंक है, इसलिए वही संदर्भ प्रणाली दोनों एजेंटों को डुप्लीकेशन के बिना सेवा देती है
 
@@ -1455,14 +1455,14 @@ process/context/
 
 "जीवित दस्तावेज़" का मतलब आमतौर पर होता है "दस्तावेज़ जिन्हें हम अपडेट रखने का इरादा रखते हैं लेकिन ज़्यादातर भूल जाते हैं।" यह प्रणाली इरादे को यांत्रिक रूप से लागू करती है।
 
-**UPDATE PROCESS चरण को बंद होने से पहले प्रति-फ़ाइल संदर्भ समीक्षा चाहिए।** `vc-update-process-agent` कोई चरण तब तक पूरा नहीं कर सकता जब तक हर संभावित-प्रभावित संदर्भ फ़ाइल की प्रति-फ़ाइल ठोस कारण के साथ समीक्षा न हो। "कोई अपडेट ज़रूरी नहीं" की अनुमति है — लेकिन इसे हर समीक्षित फ़ाइल का नाम और क्यों का स्पष्टीकरण देना होगा। अस्पष्ट कारण अस्वीकार किए जाते हैं। चेकपॉइंट बाइनरी है: समीक्षा दर्ज करें, या चरण बंद नहीं होगा।
+**UPDATE PROCESS चरण को बंद होने से पहले प्रति-फ़ाइल संदर्भ समीक्षा चाहिए।** `vb-update-process-agent` कोई चरण तब तक पूरा नहीं कर सकता जब तक हर संभावित-प्रभावित संदर्भ फ़ाइल की प्रति-फ़ाइल ठोस कारण के साथ समीक्षा न हो। "कोई अपडेट ज़रूरी नहीं" की अनुमति है — लेकिन इसे हर समीक्षित फ़ाइल का नाम और क्यों का स्पष्टीकरण देना होगा। अस्पष्ट कारण अस्वीकार किए जाते हैं। चेकपॉइंट बाइनरी है: समीक्षा दर्ज करें, या चरण बंद नहीं होगा।
 
 हर पूरे हुए फ़ीचर के लिए पूरी फीडबैक लूप:
 
 | चरण | मालिक | क्या होता है |
 |------|-------|-------------|
-| 1. Git diff विश्लेषण | `vc-scout` | बदली फ़ाइलें → प्रभावित संदर्भ क्षेत्र मैप करता है |
-| 2. प्रति-फ़ाइल समीक्षा | `vc-update-process-agent` | हर संदर्भ फ़ाइल का नाम लेता है, अपडेट या स्पष्ट "कोई बदलाव नहीं + कारण" बताता है |
+| 1. Git diff विश्लेषण | `vb-scout` | बदली फ़ाइलें → प्रभावित संदर्भ क्षेत्र मैप करता है |
+| 2. प्रति-फ़ाइल समीक्षा | `vb-update-process-agent` | हर संदर्भ फ़ाइल का नाम लेता है, अपडेट या स्पष्ट "कोई बदलाव नहीं + कारण" बताता है |
 | 3. अपडेट लागू | समानांतर वर्कर एजेंट | हर क्षेत्र की संदर्भ फ़ाइल नए पैटर्न, निर्णय, सीख से अपडेट होती है |
 | 4. रूटिंग जाँच | `validate-context-discovery.mjs` | पुष्टि करता है कि हर दस्तावेज़ इंडेक्स्ड है और राउटर संगत हैं |
 | 5. डिस्कवरी पुष्टि | `validate-all-context.mjs` | पुष्टि करता है कि `all-context.md` और समूह राउटर डिस्क की मौजूदा फ़ाइलों से मेल खाते हैं |
@@ -1498,7 +1498,7 @@ process/context/
 
 जब कोई विषय 3+ दस्तावेज़ों तक पहुँचता है या एकल फ़ाइल ~800 पंक्तियों से बड़ी हो जाती है, तो समूह स्वतः बनते हैं। एजेंट राउटर का पालन करते हैं और पथ हार्डकोड नहीं करते — इसलिए नया समूह जोड़ना (जैसे `process/context/billing/all-billing.md`) केवल राउटर अपडेट चाहता है, billing का उल्लेख करने वाले हर एजेंट में बदलाव नहीं। राउटर स्थिर संदर्भ है; उसके पीछे की फ़ाइलें स्वतंत्र रूप से पुनर्गठित हो सकती हैं।
 
-> किट आपके असली कोडबेस से संदर्भ समूह तैयार करती है (`vc-setup` के ज़रिए)। समूह तय सूची नहीं हैं — ये एक पैटर्न हैं। जैसे-जैसे प्रोजेक्ट बढ़ता है, आपका auth क्षेत्र, infra क्षेत्र, payments क्षेत्र — सभी प्रथम-श्रेणी रूटेबल ज्ञान बन जाते हैं।
+> किट आपके असली कोडबेस से संदर्भ समूह तैयार करती है (`vb-setup` के ज़रिए)। समूह तय सूची नहीं हैं — ये एक पैटर्न हैं। जैसे-जैसे प्रोजेक्ट बढ़ता है, आपका auth क्षेत्र, infra क्षेत्र, payments क्षेत्र — सभी प्रथम-श्रेणी रूटेबल ज्ञान बन जाते हैं।
 
 ---
 
@@ -1517,15 +1517,15 @@ process/context/
 
 | Agent | Model | भूमिका |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | कोडबेस + वेब रिसर्च, केवल पढ़ना। अंतर्निर्मित विरोधाभास ट्रैकिंग |
-| 📝 `vc-spec-agent` | sonnet | INNOVATE से पहले उत्पाद-खोज आवश्यकता दस्तावेज़। `*_SPEC_*.md` बनाता है |
-| 💡 `vc-innovate-agent` | sonnet | 2-3 दृष्टिकोण तुलना। PLAN से पहले निर्णय सारांश (चुना + अस्वीकृत) |
-| 📋 `vc-plan-agent` | **opus** | एंटी-शॉर्टकट गार्ड के साथ योजना लिखता है। "मुझे पहले से पता है" कोई योजना नहीं है |
-| ✅ `vc-validate-agent` | **opus** | योजना → सहमत जाँच-सूची (V1–V7)। चेकपॉइंट: PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | योजना के अनुसार लागू करें। चरण रिपोर्ट में प्रगति नोट, विचलन प्रोटोकॉल, स्व-समीक्षा |
-| ⏩ `vc-fast-mode-agent` | **opus** | संकुचित R→S→I→P→V, EXECUTE से पहले ज़रूरी सुरक्षा विराम के साथ |
-| 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX लेन: एक छोटा कम-जोखिम संपादन + केवल छुई फ़ाइलों की जाँच, कोई योजना/validate नहीं |
-| 🧠 `vc-update-process-agent` | sonnet | 7-चरण बंद करना: संग्रहण, संदर्भ अपडेट, पुराने आर्टिफ़ैक्ट स्कैन, सीख |
+| 🔍 `vb-research-agent` | **opus** | कोडबेस + वेब रिसर्च, केवल पढ़ना। अंतर्निर्मित विरोधाभास ट्रैकिंग |
+| 📝 `vb-spec-agent` | sonnet | INNOVATE से पहले उत्पाद-खोज आवश्यकता दस्तावेज़। `*_SPEC_*.md` बनाता है |
+| 💡 `vb-innovate-agent` | sonnet | 2-3 दृष्टिकोण तुलना। PLAN से पहले निर्णय सारांश (चुना + अस्वीकृत) |
+| 📋 `vb-plan-agent` | **opus** | एंटी-शॉर्टकट गार्ड के साथ योजना लिखता है। "मुझे पहले से पता है" कोई योजना नहीं है |
+| ✅ `vb-validate-agent` | **opus** | योजना → सहमत जाँच-सूची (V1–V7)। चेकपॉइंट: PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | योजना के अनुसार लागू करें। चरण रिपोर्ट में प्रगति नोट, विचलन प्रोटोकॉल, स्व-समीक्षा |
+| ⏩ `vb-fast-mode-agent` | **opus** | संकुचित R→S→I→P→V, EXECUTE से पहले ज़रूरी सुरक्षा विराम के साथ |
+| 🔧 `vb-quick-fix-agent` | **opus** | QUICK FIX लेन: एक छोटा कम-जोखिम संपादन + केवल छुई फ़ाइलों की जाँच, कोई योजना/validate नहीं |
+| 🧠 `vb-update-process-agent` | sonnet | 7-चरण बंद करना: संग्रहण, संदर्भ अपडेट, पुराने आर्टिफ़ैक्ट स्कैन, सीख |
 
 <br>
 
@@ -1533,12 +1533,12 @@ process/context/
 
 | Agent | भूमिका |
 |-------|------|
-| 🐛 `vc-debugger` | परिकल्पना बनाने से पहले सबूत जमा करता है। प्रतिस्पर्धी परिकल्पनाएँ, उन्मूलन श्रृंखलाएँ, व्यवहार्यता जाँच |
-| 🧪 `vc-tester` | परिवर्तन-जागरूक। सहमत-जाँच-सूची परीक्षण (EVL) फिर चलाता है। config बदलाव पर स्वतः वृद्धि |
-| 🔎 `vc-code-reviewer` | समीक्षा से पहले edge-case स्काउट भेजता है। N+1 पहचान, auth-path जाँच |
-| ✨ `vc-code-simplifier` | व्यवहार बदले बिना स्पष्टता के लिए कोड साफ करता है |
-| 🎨 `vc-ui-ux-designer` | डिज़ाइन-जागरूक फ्रंटएंड। निर्माण के बीच रिसर्च वर्कर स्पॉन कर सकता है |
-| 📦 `vc-git-manager` | `touched_files` से तार्किक कमिट में विभाजित करता है। अज्ञात फ़ाइलें अस्वीकार करता है |
+| 🐛 `vb-debugger` | परिकल्पना बनाने से पहले सबूत जमा करता है। प्रतिस्पर्धी परिकल्पनाएँ, उन्मूलन श्रृंखलाएँ, व्यवहार्यता जाँच |
+| 🧪 `vb-tester` | परिवर्तन-जागरूक। सहमत-जाँच-सूची परीक्षण (EVL) फिर चलाता है। config बदलाव पर स्वतः वृद्धि |
+| 🔎 `vb-code-reviewer` | समीक्षा से पहले edge-case स्काउट भेजता है। N+1 पहचान, auth-path जाँच |
+| ✨ `vb-code-simplifier` | व्यवहार बदले बिना स्पष्टता के लिए कोड साफ करता है |
+| 🎨 `vb-ui-ux-designer` | डिज़ाइन-जागरूक फ्रंटएंड। निर्माण के बीच रिसर्च वर्कर स्पॉन कर सकता है |
+| 📦 `vb-git-manager` | `touched_files` से तार्किक कमिट में विभाजित करता है। अज्ञात फ़ाइलें अस्वीकार करता है |
 
 </details>
 
@@ -1551,13 +1551,13 @@ process/context/
 
 <br>
 
-**📜 Contract skills (20)** — एक आर्टिफ़ैक्ट के मालिक: `vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Contract skills (20)** — एक आर्टिफ़ैक्ट के मालिक: `vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Helper skills (13)** — एजेंट कैसे काम करते हैं, इसे बेहतर बनाते हैं: `vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Helper skills (13)** — एजेंट कैसे काम करते हैं, इसे बेहतर बनाते हैं: `vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ नामकरण नियम:** अपनी स्किल या एजेंट के लिए `vc-` उपसर्ग का उपयोग न करें — वह नेमस्पेस किट-भेजी फ़ाइलों के लिए आरक्षित है, और पुराने-हटाने का गार्ड `.claude/skills/` और `.claude/agents/` के तहत किसी भी `vc-*` पथ को किट-स्वामित्व मानता है। इसके बजाय `my-`, `team-`, या `proj-` उपयोग करें।
+> **⚠️ नामकरण नियम:** अपनी स्किल या एजेंट के लिए `vb-` उपसर्ग का उपयोग न करें — वह नेमस्पेस किट-भेजी फ़ाइलों के लिए आरक्षित है, और पुराने-हटाने का गार्ड `.claude/skills/` और `.claude/agents/` के तहत किसी भी `vb-*` पथ को किट-स्वामित्व मानता है। इसके बजाय `my-`, `team-`, या `proj-` उपयोग करें।
 
 <br>
 
@@ -1604,7 +1604,7 @@ your-project/
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Quick Fix</strong> — <code>"quick fix: …"</code><br><br>
-एक मामूली one-liner से बड़ा, "योजना चाहिए" से छोटा। लीड एजेंट केवल-पढ़ने में स्काउट करता है → एक-पंक्ति पुष्टि → छुई फ़ाइलों पर संपादन + सीमित जाँच के लिए <code>vc-quick-fix-agent</code> स्पॉन करता है। <strong>कोई योजना नहीं, कोई सहमत जाँच-सूची नहीं, कोई EVL नहीं।</strong>
+एक मामूली one-liner से बड़ा, "योजना चाहिए" से छोटा। लीड एजेंट केवल-पढ़ने में स्काउट करता है → एक-पंक्ति पुष्टि → छुई फ़ाइलों पर संपादन + सीमित जाँच के लिए <code>vb-quick-fix-agent</code> स्पॉन करता है। <strong>कोई योजना नहीं, कोई सहमत जाँच-सूची नहीं, कोई EVL नहीं।</strong>
 <br><br>
 <sub>तुरंत रद्द हो जाता है अगर बदलाव schema, auth, API, billing, या migration को छुए — फिर पूरे RESEARCH पर रूट होता है।</sub>
 </td>
@@ -1625,24 +1625,24 @@ RESEARCH + SPEC + INNOVATE + PLAN + VALIDATE को एक पास में �
 | कमांड | क्या करता है | कब |
 |---|---|---|
 | `curl … install.sh \| bash` | किट फ़ाइलें आपकी फ़ाइलें ओवरराइट किए बिना सिंक करता है; fresh बनाम upgrade स्वतः पहचानता है | पहली install + हर upgrade |
-| **Run vc-setup** | स्टैक पहचानता है, `process/` बनाता है, कोडबेस गहराई से स्कैन करता है, असली संदर्भ भरता है | fresh install के बाद |
-| **Run vc-update** | सटीक diff गणना करता है, क्या बदलेगा दिखाता है, आपकी OK का इंतज़ार करता है; पुराने-फॉर्मेट योजनाएँ/फ़ोल्डर बिना डेटा खोए माइग्रेट करता है | हर upgrade पर |
-| **Run vc-publish** *(maintainers)* | हार्नेस बदलाव वापस किट रेपो में प्रकाशित करता है | किट में योगदान देते समय |
+| **Run vb-setup** | स्टैक पहचानता है, `process/` बनाता है, कोडबेस गहराई से स्कैन करता है, असली संदर्भ भरता है | fresh install के बाद |
+| **Run vb-update** | सटीक diff गणना करता है, क्या बदलेगा दिखाता है, आपकी OK का इंतज़ार करता है; पुराने-फॉर्मेट योजनाएँ/फ़ोल्डर बिना डेटा खोए माइग्रेट करता है | हर upgrade पर |
+| **Run vb-publish** *(maintainers)* | हार्नेस बदलाव वापस किट रेपो में प्रकाशित करता है | किट में योगदान देते समय |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE complete\nENTER UPDATE PROCESS MODE"]
-    AGT["spawn vc-update-process-agent"]
+    AGT["spawn vb-update-process-agent"]
     A["(a) Archive plan\nactive/ → completed/"]
     B["(b) Update process/context/\nsmallest relevant file\n+ all-context.md router"]
     C["(c) Tier-1 audits\n(change-type gated)"]
-    AVC["vc-audit-vc\nharness/agent edits"]
-    ACX["vc-audit-context\ncontext-doc edits"]
-    APL["vc-audit-plans\nplan/program edits"]
+    AVC["vb-audit-vc\nharness/agent edits"]
+    ACX["vb-audit-context\ncontext-doc edits"]
+    APL["vb-audit-plans\nplan/program edits"]
     D["(d) Capture learnings\nto memory"]
-    E["(e) Write closeout packet\nvc-generate-closeout"]
-    F["(f) Conventional commit\nvc-git-manager"]
+    E["(e) Write closeout packet\nvb-generate-closeout"]
+    F["(f) Conventional commit\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1666,7 +1666,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update` एक preview diff दिखाता है और आपकी OK का इंतज़ार करता है। आपका `process/` directory और प्रोजेक्ट-विशिष्ट सामग्री **कभी** चुपके से नहीं बदली जाती। install दोबारा चलाना सुरक्षित है।
+> 💡 `vb-update` एक preview diff दिखाता है और आपकी OK का इंतज़ार करता है। आपका `process/` directory और प्रोजेक्ट-विशिष्ट सामग्री **कभी** चुपके से नहीं बदली जाती। install दोबारा चलाना सुरक्षित है।
 
 ---
 

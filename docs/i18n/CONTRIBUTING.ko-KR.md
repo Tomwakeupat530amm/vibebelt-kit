@@ -46,7 +46,7 @@ Skill은 `.claude/skills/` 아래에 있는 재사용 가능한 기능 모듈이
 
 - 자체 디렉토리가 있어야 해요 (예: `.claude/skills/my-skill/`)
 - YAML frontmatter(name, description, triggers)가 있는 `SKILL.md` 파일을 포함해야 해요
-- `vc-` 접두사를 사용하면 **안 돼요** -- 이 접두사는 공식 harness skill 전용이에요
+- `vb-` 접두사를 사용하면 **안 돼요** -- 이 접두사는 공식 harness skill 전용이에요
 - 필요한 경우 헬퍼 스크립트는 `scripts/` 하위 디렉토리에 넣어야 해요
 
 ### Agent
@@ -101,14 +101,14 @@ README.md, CLAUDE.md, AGENTS.md, 인라인 코멘트 또는 기타 문서의 개
 
    ```bash
    # Inside a Claude Code session in the test project
-   # Invoke the vc-setup skill
+   # Invoke the vb-setup skill
    ```
 
 5. **검증 스크립트를 실행**해서 환경이 올바른지 확인하세요:
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    변경을 시작하기 전에 모든 검증이 통과해야 해요.
@@ -165,7 +165,7 @@ conventional commit 형식을 사용해주세요:
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -189,11 +189,11 @@ PR 설명에 다음을 포함해주세요:
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-레포지토리 루트의 `vc-manifest.json` 파일은 harness의 모든 관리 파일을 추적해요. 새 파일(skill, agent, hook, protocol, seed)을 추가할 때 이 manifest를 업데이트해야 해요.
+레포지토리 루트의 `vb-manifest.json` 파일은 harness의 모든 관리 파일을 추적해요. 새 파일(skill, agent, hook, protocol, seed)을 추가할 때 이 manifest를 업데이트해야 해요.
 
-manifest는 `install.sh`와 `vc-update`가 어떤 파일을 복사하고 동기화할지 알기 위해 사용돼요. 새 파일이 manifest에 없으면 사용자가 harness를 설치하거나 업데이트할 때 포함되지 않아요.
+manifest는 `install.sh`와 `vb-update`가 어떤 파일을 복사하고 동기화할지 알기 위해 사용돼요. 새 파일이 manifest에 없으면 사용자가 harness를 설치하거나 업데이트할 때 포함되지 않아요.
 
 manifest를 수정할 때:
 
@@ -209,13 +209,13 @@ manifest를 수정할 때:
 
 - [ ] Skill이 `.claude/skills/<skill-name>/` 아래 자체 디렉토리에 있는지
 - [ ] 유효한 YAML frontmatter(최소 name, description)가 있는 `SKILL.md`가 존재하는지
-- [ ] Skill 이름에 `vc-` 접두사를 사용하지 **않는지** (공식 skill 전용)
+- [ ] Skill 이름에 `vb-` 접두사를 사용하지 **않는지** (공식 skill 전용)
 - [ ] 헬퍼 스크립트가 `scripts/` 하위 디렉토리에 있는지
-- [ ] `vc-manifest.json`이 모든 새 파일 경로로 업데이트되었는지
+- [ ] `vb-manifest.json`이 모든 새 파일 경로로 업데이트되었는지
 - [ ] 검증 통과:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -230,7 +230,7 @@ manifest를 수정할 때:
 - [ ] Agent 동등성 검증 통과:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

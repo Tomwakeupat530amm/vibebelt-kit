@@ -27,7 +27,7 @@ process.env.HOME = home;
 process.env.USERPROFILE = home;
 process.env.CODEX_HOME = codexHome;
 
-const { loadConfig } = require('../vc-config-utils.cjs');
+const { loadConfig } = require('../vb-config-utils.cjs');
 const { getUsageCachePath } = require('../usage-limits-cache.cjs');
 const { isPrivacyBlockDisabled } = require('../privacy-checker.cjs');
 

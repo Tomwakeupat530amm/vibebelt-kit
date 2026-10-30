@@ -17,7 +17,7 @@ const PHASE_COMPLETE_RE = /PHASE_COMPLETE:\s*([A-Z][A-Z-]*)/g;
 
 // Control-token marker: the NON-PHASE_COMPLETE orchestration control tokens the spec
 // emits to drive routing (supplement re-validate, BLOCKED skip, cascade hard-stop,
-// mid-program plan insertion, phase restructure/renumber, vc-predict deep-research
+// mid-program plan insertion, phase restructure/renumber, vb-predict deep-research
 // handshake, spec-intent block). Curated ALLOWLIST (not a generic `[A-Z_]+:` matcher)
 // so ordinary prose never false-positives. `m[1]` is the normalized token; the optional
 // `m[2]` captures a trailing STRUCTURED uppercase qualifier (e.g. PHASE_SKIPPED: BLOCKED →
@@ -27,7 +27,7 @@ const PHASE_COMPLETE_RE = /PHASE_COMPLETE:\s*([A-Z][A-Z-]*)/g;
 // run on each side (`(?:-[A-Z]+)*`), so no terminal dash is captured (`BLOCKED-skipped` →
 // 'BLOCKED', never 'BLOCKED-'). `m[0]` preserves the matched substring as `raw`.
 const CONTROL_TOKEN_RE =
-  /\b(SUPPLEMENT_APPLIED|PHASE_SKIPPED|CASCADE_BLOCKED|MID_PROGRAM_PLAN_CREATED|PHASE_RESTRUCTURE_NOTICE|PHASE_RENUMBERED|VC-PREDICT-DEEP-NEEDED|VC-PREDICT-RESEARCH-COMPLETE|VC-FEASIBILITY-PROBE-NEEDED|VC-FEASIBILITY-VERDICT-READY|SPEC_INTENT_BLOCKED)(?::\s*([A-Z]+(?:-[A-Z]+)*)(?![a-z]))?/g;
+  /\b(SUPPLEMENT_APPLIED|PHASE_SKIPPED|CASCADE_BLOCKED|MID_PROGRAM_PLAN_CREATED|PHASE_RESTRUCTURE_NOTICE|PHASE_RENUMBERED|VB-PREDICT-DEEP-NEEDED|VB-PREDICT-RESEARCH-COMPLETE|VB-FEASIBILITY-PROBE-NEEDED|VB-FEASIBILITY-VERDICT-READY|SPEC_INTENT_BLOCKED)(?::\s*([A-Z]+(?:-[A-Z]+)*)(?![a-z]))?/g;
 
 /**
  * Extract textual content from a tool_result block. The content may be a plain
@@ -222,19 +222,19 @@ async function parseTranscript(transcriptPath) {
     taskCreates: [],
     sendMessages: [],
     writes: [],
-    // Additive: in-thread Skill-tool invocations (Tier-0 skills like vc-context-discovery,
-    // vc-intent-clarify, vc-agent-strategy-compare). These never produce a Task/Write signal,
+    // Additive: in-thread Skill-tool invocations (Tier-0 skills like vb-context-discovery,
+    // vb-intent-clarify, vb-agent-strategy-compare). These never produce a Task/Write signal,
     // so without this they are invisible. Ordered + indexed like the other signal arrays.
     skillInvoked: [],
     // Additive: Bash-tool invocations capturing the command string. The regression-gate
-    // validators, the 13 VC-system behavior validators, the Tier-1 audit scripts, and the
+    // validators, the 13 VB-system behavior validators, the Tier-1 audit scripts, and the
     // Routing Step-0 discover-skills.mjs all run as Bash — without this they are invisible
     // to the signal set. Ordered + indexed like the other signal arrays.
     bashCommands: [],
     // Additive: NON-PHASE_COMPLETE orchestration control tokens (SUPPLEMENT_APPLIED,
     // PHASE_SKIPPED: BLOCKED, CASCADE_BLOCKED, MID_PROGRAM_PLAN_CREATED,
-    // PHASE_RESTRUCTURE_NOTICE, PHASE_RENUMBERED, VC-PREDICT-DEEP-NEEDED,
-    // VC-PREDICT-RESEARCH-COMPLETE, SPEC_INTENT_BLOCKED). These drive routing but never
+    // PHASE_RESTRUCTURE_NOTICE, PHASE_RENUMBERED, VB-PREDICT-DEEP-NEEDED,
+    // VB-PREDICT-RESEARCH-COMPLETE, SPEC_INTENT_BLOCKED). These drive routing but never
     // produce a Task/Write/Skill signal, so without this they are invisible. Scanned from
     // the same text + tool_result blocks as phaseCompletes; ordered + indexed identically.
     controlTokens: [],
@@ -469,7 +469,7 @@ function processEntry(entry, toolMap, agentMap, latestTodos, result) {
         }
       } else if (block.name === 'Skill') {
         // Additive: in-thread Tier-0 / helper skill invocation. `skill` is the skill name
-        // (e.g. 'vc-intent-clarify'); kept ordered so asserts can prove a required skill
+        // (e.g. 'vb-intent-clarify'); kept ordered so asserts can prove a required skill
         // ran (and, via assert-absent, that a removed/not-built skill never ran).
         result.statuslineActivityCount += 1;
         hadActivity = true;

@@ -7,13 +7,13 @@ const path = require('path');
 
 const DEFAULT_CACHE_TTL_MS = 60_000;
 const DEFAULT_FETCH_TIMEOUT_MS = 5_000;
-const DEFAULT_USER_AGENT = 'vc-codex-hooks/1.0';
+const DEFAULT_USER_AGENT = 'vb-codex-hooks/1.0';
 const DEFAULT_ELIGIBILITY_CACHE_TTL_MS = 60_000;
 
 function getUsageCachePath() {
-  return process.env.VC_USAGE_CACHE_PATH
+  return process.env.VB_USAGE_CACHE_PATH
     || process.env.VC_USAGE_CACHE_PATH // legacy-vc-fallback: variable name used before the prefix rename
-    || path.join(os.tmpdir(), 'vc-usage-limits-cache.json');
+    || path.join(os.tmpdir(), 'vb-usage-limits-cache.json');
 }
 
 function getQuotaEligibilityCachePath() {

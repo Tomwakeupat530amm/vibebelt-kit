@@ -2,7 +2,7 @@
   "owner": "audit-context",
   "generatedFrom": {
     "skillsRoot": ".claude/skills",
-    "routingPolicy": ".claude/skills/vc-audit-context/references/skill-routing-policy.json",
+    "routingPolicy": ".claude/skills/vb-audit-context/references/skill-routing-policy.json",
     "canonicalRoutingSurfaces": [
       "AGENTS.md",
       "CLAUDE.md",
@@ -12,13 +12,13 @@
   "skillCount": 33,
   "skills": [
     {
-      "folder": "vc-agent-browser",
-      "name": "vc-agent-browser",
+      "folder": "vb-agent-browser",
+      "name": "vb-agent-browser",
       "description": "AI-optimized browser automation CLI with context-efficient snapshots. Use for long autonomous sessions, self-verifying workflows, video recording, and cloud browser testing (Browserbase).",
       "aliases": [
-        "vc-agent-browser"
+        "vb-agent-browser"
       ],
-      "normalizedName": "vcagentbrowser",
+      "normalizedName": "vbagentbrowser",
       "triggerKeywords": [
         "browser",
         "screenshot",
@@ -46,13 +46,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-agent-strategy-compare",
-      "name": "vc-agent-strategy-compare",
+      "folder": "vb-agent-strategy-compare",
+      "name": "vb-agent-strategy-compare",
       "description": "Evaluate 4 execution strategies (sequential, parallel-subagents, workflow, agent-team) for a phase or fan-out task. Outputs 7-signal score table, agent count math, cost guards, and strategy recommendation.",
       "aliases": [
-        "vc-agent-strategy-compare"
+        "vb-agent-strategy-compare"
       ],
-      "normalizedName": "vcagentstrategycompare",
+      "normalizedName": "vbagentstrategycompare",
       "triggerKeywords": [
         "execution strategy",
         "parallel agents",
@@ -72,13 +72,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-audit-context",
-      "name": "vc-audit-context",
+      "folder": "vb-audit-context",
+      "name": "vb-audit-context",
       "description": "Audit project context routing, shared-skill discoverability, and Claude/Codex wiring. Use when context docs or skill surfaces move, split, or drift.",
       "aliases": [
-        "vc-audit-context"
+        "vb-audit-context"
       ],
-      "normalizedName": "vcauditcontext",
+      "normalizedName": "vbauditcontext",
       "triggerKeywords": [
         "audit context",
         "context gaps",
@@ -97,17 +97,17 @@
         "references/audit-context.md"
       ],
       "mentionedSkills": [
-        "vc-scout"
+        "vb-scout"
       ]
     },
     {
-      "folder": "vc-audit-plans",
-      "name": "vc-audit-plans",
+      "folder": "vb-audit-plans",
+      "name": "vb-audit-plans",
       "description": "Audit active project plan files for staleness, completion, and routing truth. Use when cleaning up plans, reconciling active work, or archiving completed artifacts.",
       "aliases": [
-        "vc-audit-plans"
+        "vb-audit-plans"
       ],
-      "normalizedName": "vcauditplans",
+      "normalizedName": "vbauditplans",
       "triggerKeywords": [
         "audit plans",
         "plan inventory",
@@ -128,13 +128,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-audit-vc",
-      "name": "vc-audit-vc",
+      "folder": "vb-audit-vc",
+      "name": "vb-audit-vc",
       "description": "Audit agent harness health: Claude/Codex agent parity, skill registry consistency, README.md sync, and protocol file wiring. Use when agents, skills, README.md, or development-protocol files move, split, or drift.",
       "aliases": [
-        "vc-audit-vc"
+        "vb-audit-vc"
       ],
-      "normalizedName": "vcauditvc",
+      "normalizedName": "vbauditvc",
       "triggerKeywords": [
         "harness audit",
         "agent parity",
@@ -153,13 +153,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-autopilot",
-      "name": "vc-autopilot",
+      "folder": "vb-autopilot",
+      "name": "vb-autopilot",
       "description": "Emit and validate the provisional goal block for Autopilot Mode. Owns the 9-field format and resume detection from a pasted goal block.",
       "aliases": [
-        "vc-autopilot"
+        "vb-autopilot"
       ],
-      "normalizedName": "vcautopilot",
+      "normalizedName": "vbautopilot",
       "triggerKeywords": [
         "autopilot",
         "run autopilot",
@@ -182,13 +182,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-autoresearch",
-      "name": "vc-autoresearch",
+      "folder": "vb-autoresearch",
+      "name": "vb-autoresearch",
       "description": "Loop: find gaps → fix → repeat until agents find no gaps or a metric goal is hit. Shared loop primitive for PVL, EVL, and standalone quality runs.",
       "aliases": [
-        "vc-autoresearch"
+        "vb-autoresearch"
       ],
-      "normalizedName": "vcautoresearch",
+      "normalizedName": "vbautoresearch",
       "triggerKeywords": [
         "autoresearch",
         "harden spec",
@@ -207,20 +207,20 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-predict",
-        "vc-scenario",
-        "vc-security",
-        "vc-validate-findings"
+        "vb-predict",
+        "vb-scenario",
+        "vb-security",
+        "vb-validate-findings"
       ]
     },
     {
-      "folder": "vc-context-discovery",
-      "name": "vc-context-discovery",
+      "folder": "vb-context-discovery",
+      "name": "vb-context-discovery",
       "description": "Discover and load all relevant context for the current task. Lists feature group nested files with full paths, loads process/context/ files by domain routing. Called at the start of every agent session.",
       "aliases": [
-        "vc-context-discovery"
+        "vb-context-discovery"
       ],
-      "normalizedName": "vccontextdiscovery",
+      "normalizedName": "vbcontextdiscovery",
       "triggerKeywords": [
         "context discovery",
         "load context",
@@ -238,13 +238,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-debug",
-      "name": "vc-debug",
+      "folder": "vb-debug",
+      "name": "vb-debug",
       "description": "Debug systematically with root-cause analysis before fixes. Use for bugs, test failures, unexpected behavior, performance issues, CI failures, or system investigation.",
       "aliases": [
-        "vc-debug"
+        "vb-debug"
       ],
-      "normalizedName": "vcdebug",
+      "normalizedName": "vbdebug",
       "triggerKeywords": [
         "debug",
         "root cause",
@@ -273,20 +273,20 @@
         "scripts/find-polluter.sh"
       ],
       "mentionedSkills": [
-        "vc-agent-browser",
-        "vc-docs-seeker",
-        "vc-problem-solving",
-        "vc-scout"
+        "vb-agent-browser",
+        "vb-docs-seeker",
+        "vb-problem-solving",
+        "vb-scout"
       ]
     },
     {
-      "folder": "vc-docs-seeker",
-      "name": "vc-docs-seeker",
+      "folder": "vb-docs-seeker",
+      "name": "vb-docs-seeker",
       "description": "Search library/framework documentation via llms.txt (context7.com). Use for API docs, GitHub repository analysis, technical documentation lookup, latest library features.",
       "aliases": [
-        "vc-docs-seeker"
+        "vb-docs-seeker"
       ],
-      "normalizedName": "vcdocsseeker",
+      "normalizedName": "vbdocsseeker",
       "triggerKeywords": [
         "how does X work",
         "API docs",
@@ -308,13 +308,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-feasibility-test",
-      "name": "vc-feasibility-test",
+      "folder": "vb-feasibility-test",
+      "name": "vb-feasibility-test",
       "description": "Use when a SPEC, INNOVATE, or VALIDATE (Layer 2) approach hinges on an unverified runtime/library/external mechanism: run a probe from the 8-family taxonomy and produce a VIABLE/NOT-VIABLE/INCONCLUSIVE VERDICT artifact.",
       "aliases": [
-        "vc-feasibility-test"
+        "vb-feasibility-test"
       ],
-      "normalizedName": "vcfeasibilitytest",
+      "normalizedName": "vbfeasibilitytest",
       "triggerKeywords": [
         "feasibility",
         "spike",
@@ -335,17 +335,17 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-test-coverage-plan"
+        "vb-test-coverage-plan"
       ]
     },
     {
-      "folder": "vc-frontend-design",
-      "name": "vc-frontend-design",
+      "folder": "vb-frontend-design",
+      "name": "vb-frontend-design",
       "description": "Create polished frontend interfaces from designs/screenshots/videos. Use for web components, 3D experiences, replicating UI designs, quick prototypes, immersive interfaces, avoiding AI slop.",
       "aliases": [
-        "vc-frontend-design"
+        "vb-frontend-design"
       ],
-      "normalizedName": "vcfrontenddesign",
+      "normalizedName": "vbfrontenddesign",
       "triggerKeywords": [
         "UI",
         "design",
@@ -370,13 +370,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-generate-closeout",
-      "name": "vc-generate-closeout",
+      "folder": "vb-generate-closeout",
+      "name": "vb-generate-closeout",
       "description": "Generate the post-EXECUTE closeout packet for a plan or phase. Includes archive-readiness classification, drift signal scoring, commit checkpoint recommendation, and move-on next-state recommendation.",
       "aliases": [
-        "vc-generate-closeout"
+        "vb-generate-closeout"
       ],
-      "normalizedName": "vcgeneratecloseout",
+      "normalizedName": "vbgeneratecloseout",
       "triggerKeywords": [
         "closeout",
         "phase closeout",
@@ -395,13 +395,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-generate-context",
-      "name": "vc-generate-context",
+      "folder": "vb-generate-context",
+      "name": "vb-generate-context",
       "description": "Generate or update the project's authoritative repository context at process/context/all-context.md. Use when repo context is missing, stale, or contradicted by code.",
       "aliases": [
-        "vc-generate-context"
+        "vb-generate-context"
       ],
-      "normalizedName": "vcgeneratecontext",
+      "normalizedName": "vbgeneratecontext",
       "triggerKeywords": [
         "generate context",
         "update context",
@@ -422,13 +422,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-generate-phase-program",
-      "name": "vc-generate-phase-program",
+      "folder": "vb-generate-phase-program",
+      "name": "vb-generate-phase-program",
       "description": "Generate kickoff artifacts for a multi-phase program: umbrella plan, Program Goal Charter, session-goal block, per-phase plan stubs, and the 7-step per-phase inner loop reference.",
       "aliases": [
-        "vc-generate-phase-program"
+        "vb-generate-phase-program"
       ],
-      "normalizedName": "vcgeneratephaseprogram",
+      "normalizedName": "vbgeneratephaseprogram",
       "triggerKeywords": [
         "phase program",
         "umbrella plan",
@@ -446,17 +446,17 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-agent-strategy-compare"
+        "vb-agent-strategy-compare"
       ]
     },
     {
-      "folder": "vc-generate-plan",
-      "name": "vc-generate-plan",
+      "folder": "vb-generate-plan",
+      "name": "vb-generate-plan",
       "description": "Create or update implementation plans in the repo's SIMPLE or COMPLEX format. Use when turning an idea, PRD, or approved direction into a saved plan artifact.",
       "aliases": [
-        "vc-generate-plan"
+        "vb-generate-plan"
       ],
-      "normalizedName": "vcgenerateplan",
+      "normalizedName": "vbgenerateplan",
       "triggerKeywords": [
         "plan",
         "create plan",
@@ -477,13 +477,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-generate-spec",
-      "name": "vc-generate-spec",
+      "folder": "vb-generate-spec",
+      "name": "vb-generate-spec",
       "description": "Create or update a product-discovery SPEC (requirements doc) for user review. Use when turning RESEARCH findings plus user intent into a reviewable requirements artifact before INNOVATE/PLAN.",
       "aliases": [
-        "vc-generate-spec"
+        "vb-generate-spec"
       ],
-      "normalizedName": "vcgeneratespec",
+      "normalizedName": "vbgeneratespec",
       "triggerKeywords": [
         "spec",
         "requirements doc",
@@ -505,13 +505,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-intent-clarify",
-      "name": "vc-intent-clarify",
+      "folder": "vb-intent-clarify",
+      "name": "vb-intent-clarify",
       "description": "Clarify intent before RIPER-5 phase delegation. Scores ambiguity (4 signals); generates structured multi-choice questions for Tier 2. Two-mode: SIMPLE and DEEP.",
       "aliases": [
-        "vc-intent-clarify"
+        "vb-intent-clarify"
       ],
-      "normalizedName": "vcintentclarify",
+      "normalizedName": "vbintentclarify",
       "triggerKeywords": [
         "intent clarification",
         "ambiguity score",
@@ -533,13 +533,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-plan-discovery",
-      "name": "vc-plan-discovery",
-      "description": "Discover related plans for the current task: same feature folder full depth, other features active-only, general-plans active. Like vc-context-discovery but for plan artifacts.",
+      "folder": "vb-plan-discovery",
+      "name": "vb-plan-discovery",
+      "description": "Discover related plans for the current task: same feature folder full depth, other features active-only, general-plans active. Like vb-context-discovery but for plan artifacts.",
       "aliases": [
-        "vc-plan-discovery"
+        "vb-plan-discovery"
       ],
-      "normalizedName": "vcplandiscovery",
+      "normalizedName": "vbplandiscovery",
       "triggerKeywords": [
         "related plans",
         "what was tried",
@@ -556,17 +556,17 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-context-discovery"
+        "vb-context-discovery"
       ]
     },
     {
-      "folder": "vc-predict",
-      "name": "vc-predict",
+      "folder": "vb-predict",
+      "name": "vb-predict",
       "description": "5 expert personas debate proposed changes before implementation. Catches architectural, security, performance, and UX issues early. Use before major features or risky changes.",
       "aliases": [
-        "vc-predict"
+        "vb-predict"
       ],
-      "normalizedName": "vcpredict",
+      "normalizedName": "vbpredict",
       "triggerKeywords": [
         "risks",
         "predict issues",
@@ -581,17 +581,17 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-scenario"
+        "vb-scenario"
       ]
     },
     {
-      "folder": "vc-problem-solving",
-      "name": "vc-problem-solving",
+      "folder": "vb-problem-solving",
+      "name": "vb-problem-solving",
       "description": "Apply systematic problem-solving techniques when stuck. Use for complexity spirals, innovation blocks, recurring patterns, assumption constraints, simplification cascades, scale uncertainty.",
       "aliases": [
-        "vc-problem-solving"
+        "vb-problem-solving"
       ],
-      "normalizedName": "vcproblemsolving",
+      "normalizedName": "vbproblemsolving",
       "triggerKeywords": [
         "stuck",
         "can't figure out",
@@ -618,13 +618,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-publish",
-      "name": "vc-publish",
-      "description": "Use when publishing harness improvements to the remote kit repo. Diffs managed files, shows what changed, bumps version, and pushes. Counterpart to vc-update (pull).",
+      "folder": "vb-publish",
+      "name": "vb-publish",
+      "description": "Use when publishing harness improvements to the remote kit repo. Diffs managed files, shows what changed, bumps version, and pushes. Counterpart to vb-update (pull).",
       "aliases": [
-        "vc-publish"
+        "vb-publish"
       ],
-      "normalizedName": "vcpublish",
+      "normalizedName": "vbpublish",
       "triggerKeywords": [
         "publish kit",
         "push harness",
@@ -639,21 +639,21 @@
       "allowlisted": false,
       "allowlistReason": null,
       "relativeReferences": [
-        "references/vc-publish.md"
+        "references/vb-publish.md"
       ],
       "mentionedSkills": [
-        "vc-audit-vc",
-        "vc-update"
+        "vb-audit-vc",
+        "vb-update"
       ]
     },
     {
-      "folder": "vc-review-situation",
-      "name": "vc-review-situation",
+      "folder": "vb-review-situation",
+      "name": "vb-review-situation",
       "description": "Use when you need a read-only situation review and handoff summary of current branch state, local/remote refs, worktrees, active project plans, selected-plan hints, and suggested next checks.",
       "aliases": [
-        "vc-review-situation"
+        "vb-review-situation"
       ],
-      "normalizedName": "vcreviewsituation",
+      "normalizedName": "vbreviewsituation",
       "triggerKeywords": [
         "what's in flight",
         "handoff",
@@ -675,13 +675,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-risk-evidence-pack",
-      "name": "vc-risk-evidence-pack",
+      "folder": "vb-risk-evidence-pack",
+      "name": "vb-risk-evidence-pack",
       "description": "Define and generate the manual-first evidence pack for high-risk work. Covers 6 high-risk class definitions and the 5-artifact schema required before finalizing, pushing, or handing off.",
       "aliases": [
-        "vc-risk-evidence-pack"
+        "vb-risk-evidence-pack"
       ],
-      "normalizedName": "vcriskevidencepack",
+      "normalizedName": "vbriskevidencepack",
       "triggerKeywords": [
         "risk evidence",
         "high-risk pack",
@@ -700,13 +700,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-scenario",
-      "name": "vc-scenario",
+      "folder": "vb-scenario",
+      "name": "vb-scenario",
       "description": "Generate comprehensive edge cases and test scenarios by decomposing features across 12 dimensions. Use before implementation or testing to catch issues early.",
       "aliases": [
-        "vc-scenario"
+        "vb-scenario"
       ],
-      "normalizedName": "vcscenario",
+      "normalizedName": "vbscenario",
       "triggerKeywords": [
         "edge cases",
         "test scenarios",
@@ -721,17 +721,17 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-predict"
+        "vb-predict"
       ]
     },
     {
-      "folder": "vc-scout",
-      "name": "vc-scout",
+      "folder": "vb-scout",
+      "name": "vb-scout",
       "description": "Fast codebase scouting using shell search and optional parallel research agents. Use for file discovery, task context gathering, and quick scoped searches across directories.",
       "aliases": [
-        "vc-scout"
+        "vb-scout"
       ],
-      "normalizedName": "vcscout",
+      "normalizedName": "vbscout",
       "triggerKeywords": [
         "find files",
         "where is",
@@ -753,13 +753,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-security",
-      "name": "vc-security",
-      "description": "STRIDE + OWASP-based security audit with optional auto-fix. Scans code for vulnerabilities, categorizes by severity, and can iteratively fix findings using vc-autoresearch pattern.",
+      "folder": "vb-security",
+      "name": "vb-security",
+      "description": "STRIDE + OWASP-based security audit with optional auto-fix. Scans code for vulnerabilities, categorizes by severity, and can iteratively fix findings using vb-autoresearch pattern.",
       "aliases": [
-        "vc-security"
+        "vb-security"
       ],
-      "normalizedName": "vcsecurity",
+      "normalizedName": "vbsecurity",
       "triggerKeywords": [
         "security",
         "vulnerability",
@@ -778,19 +778,19 @@
         "references/stride-owasp-checklist.md"
       ],
       "mentionedSkills": [
-        "vc-autoresearch",
-        "vc-predict",
-        "vc-scenario"
+        "vb-autoresearch",
+        "vb-predict",
+        "vb-scenario"
       ]
     },
     {
-      "folder": "vc-sequential-thinking",
-      "name": "vc-sequential-thinking",
+      "folder": "vb-sequential-thinking",
+      "name": "vb-sequential-thinking",
       "description": "Apply step-by-step analysis for complex problems with revision capability. Use for multi-step reasoning, hypothesis verification, adaptive planning, problem decomposition, course correction.",
       "aliases": [
-        "vc-sequential-thinking"
+        "vb-sequential-thinking"
       ],
-      "normalizedName": "vcsequentialthinking",
+      "normalizedName": "vbsequentialthinking",
       "triggerKeywords": [
         "complex problem",
         "think through",
@@ -817,13 +817,13 @@
       "mentionedSkills": []
     },
     {
-      "folder": "vc-setup",
-      "name": "vc-setup",
+      "folder": "vb-setup",
+      "name": "vb-setup",
       "description": "Interactive harness setup for any project. Detects stack, scaffolds process dirs, deep-scans the codebase, populates context. Works on fresh and existing projects — always asks before reorganizing.",
       "aliases": [
-        "vc-setup"
+        "vb-setup"
       ],
-      "normalizedName": "vcsetup",
+      "normalizedName": "vbsetup",
       "triggerKeywords": [
         "seed",
         "harness setup",
@@ -841,21 +841,21 @@
       "allowlisted": false,
       "allowlistReason": null,
       "relativeReferences": [
-        "references/vc-setup.md"
+        "references/vb-setup.md"
       ],
       "mentionedSkills": [
-        "vc-generate-context",
-        "vc-update"
+        "vb-generate-context",
+        "vb-update"
       ]
     },
     {
-      "folder": "vc-test-coverage-plan",
-      "name": "vc-test-coverage-plan",
+      "folder": "vb-test-coverage-plan",
+      "name": "vb-test-coverage-plan",
       "description": "Use when creating a test plan for a blast radius. Assigns all 4 tiers (fully-automated, hybrid, agent-probe, known-gap) with exact commands, what each proves, and gap resolution options.",
       "aliases": [
-        "vc-test-coverage-plan"
+        "vb-test-coverage-plan"
       ],
-      "normalizedName": "vctestcoverageplan",
+      "normalizedName": "vbtestcoverageplan",
       "triggerKeywords": [
         "test coverage plan",
         "test tiers",
@@ -872,18 +872,18 @@
       "allowlistReason": null,
       "relativeReferences": [],
       "mentionedSkills": [
-        "vc-context-discovery",
-        "vc-feasibility-test"
+        "vb-context-discovery",
+        "vb-feasibility-test"
       ]
     },
     {
-      "folder": "vc-update",
-      "name": "vc-update",
+      "folder": "vb-update",
+      "name": "vb-update",
       "description": "Pull latest agent harness improvements from the remote kit repository. Shows a dry-run diff summary, waits for confirmation, then applies updates.",
       "aliases": [
-        "vc-update"
+        "vb-update"
       ],
-      "normalizedName": "vcupdate",
+      "normalizedName": "vbupdate",
       "triggerKeywords": [
         "update harness",
         "pull kit",
@@ -899,20 +899,20 @@
       "allowlisted": false,
       "allowlistReason": null,
       "relativeReferences": [
-        "references/vc-update.md"
+        "references/vb-update.md"
       ],
       "mentionedSkills": [
-        "vc-setup"
+        "vb-setup"
       ]
     },
     {
-      "folder": "vc-validate-findings",
-      "name": "vc-validate-findings",
+      "folder": "vb-validate-findings",
+      "name": "vb-validate-findings",
       "description": "Use when running VALIDATE V2-V3 fan-out. Two-layer investigation (4 dimension agents + per-section feasibility agents) synthesized into PASS/CONDITIONAL/BLOCKED net gate. Strategy-agnostic.",
       "aliases": [
-        "vc-validate-findings"
+        "vb-validate-findings"
       ],
-      "normalizedName": "vcvalidatefindings",
+      "normalizedName": "vbvalidatefindings",
       "triggerKeywords": [
         "validate findings",
         "layer 1 dimensions",
@@ -930,21 +930,21 @@
         "references/example-validate-output.md"
       ],
       "mentionedSkills": [
-        "vc-agent-strategy-compare",
-        "vc-predict",
-        "vc-scenario",
-        "vc-security",
-        "vc-sequential-thinking"
+        "vb-agent-strategy-compare",
+        "vb-predict",
+        "vb-scenario",
+        "vb-security",
+        "vb-sequential-thinking"
       ]
     },
     {
-      "folder": "vc-web-testing",
-      "name": "vc-web-testing",
+      "folder": "vb-web-testing",
+      "name": "vb-web-testing",
       "description": "Web testing with Playwright, Vitest, k6. E2E/unit/integration/load/security/visual/a11y testing. Use for test automation, flakiness, Core Web Vitals, mobile gestures, cross-browser.",
       "aliases": [
-        "vc-web-testing"
+        "vb-web-testing"
       ],
-      "normalizedName": "vcwebtesting",
+      "normalizedName": "vbwebtesting",
       "triggerKeywords": [
         "tests",
         "e2e",

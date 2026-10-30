@@ -23,7 +23,7 @@ const { spawn, spawnSync } = require('child_process');
 
 const TEST_ROOT = path.resolve(__dirname, '../../../..');
 const STATUSLINE_PATH = path.resolve(__dirname, '../../..', 'statusline.cjs');
-const USAGE_CACHE_PATH = path.join(os.tmpdir(), `vc-usage-limits-cache-statusline-test-${process.pid}.json`);
+const USAGE_CACHE_PATH = path.join(os.tmpdir(), `vb-usage-limits-cache-statusline-test-${process.pid}.json`);
 
 let passed = 0;
 let failed = 0;
@@ -92,17 +92,17 @@ function scrubAnthropicRuntimeEnv(runtimeEnv, explicitEnv) {
 function runStatuslineSync({ payload, cwd = TEST_ROOT, env = {}, inputRaw = null, timeoutMs = 20000 }) {
   const input = inputRaw == null ? JSON.stringify(payload || {}) : inputRaw;
   const eligibilityCachePath = env.CK_USAGE_ELIGIBILITY_CACHE_PATH
-    || path.join(os.tmpdir(), `vc-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`);
+    || path.join(os.tmpdir(), `vb-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`);
   const runtimeEnv = {
     ...process.env,
-    VC_USAGE_CACHE_PATH: USAGE_CACHE_PATH,
+    VB_USAGE_CACHE_PATH: USAGE_CACHE_PATH,
     CK_USAGE_ELIGIBILITY_CACHE_PATH: eligibilityCachePath,
     ...env
   };
   if (!Object.prototype.hasOwnProperty.call(env, 'NO_COLOR')) delete runtimeEnv.NO_COLOR;
   scrubAnthropicRuntimeEnv(runtimeEnv, env);
   if (!Object.prototype.hasOwnProperty.call(env, 'HOME')
-    && (fs.existsSync(path.join(cwd, '.claude', '.vc.json')) || fs.existsSync(path.join(cwd, '.claude', '.ck.json')))) {
+    && (fs.existsSync(path.join(cwd, '.claude', '.vb.json')) || fs.existsSync(path.join(cwd, '.claude', '.ck.json')))) {
     runtimeEnv.HOME = cwd;
   }
   const result = spawnSync('node', [STATUSLINE_PATH], {
@@ -125,17 +125,17 @@ function runStatuslineSync({ payload, cwd = TEST_ROOT, env = {}, inputRaw = null
 function runStatuslineWithDelayedChunks({ chunks, delaysMs, cwd = TEST_ROOT, env = {}, timeoutMs = 30000 }) {
   return new Promise((resolve, reject) => {
     const eligibilityCachePath = env.CK_USAGE_ELIGIBILITY_CACHE_PATH
-      || path.join(os.tmpdir(), `vc-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`);
+      || path.join(os.tmpdir(), `vb-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`);
     const runtimeEnv = {
       ...process.env,
-      VC_USAGE_CACHE_PATH: USAGE_CACHE_PATH,
+      VB_USAGE_CACHE_PATH: USAGE_CACHE_PATH,
       CK_USAGE_ELIGIBILITY_CACHE_PATH: eligibilityCachePath,
       ...env
     };
     if (!Object.prototype.hasOwnProperty.call(env, 'NO_COLOR')) delete runtimeEnv.NO_COLOR;
     scrubAnthropicRuntimeEnv(runtimeEnv, env);
     if (!Object.prototype.hasOwnProperty.call(env, 'HOME')
-      && (fs.existsSync(path.join(cwd, '.claude', '.vc.json')) || fs.existsSync(path.join(cwd, '.claude', '.ck.json')))) {
+      && (fs.existsSync(path.join(cwd, '.claude', '.vb.json')) || fs.existsSync(path.join(cwd, '.claude', '.ck.json')))) {
       runtimeEnv.HOME = cwd;
     }
     const child = spawn('node', [STATUSLINE_PATH], {
@@ -181,7 +181,7 @@ function runStatuslineWithDelayedChunks({ chunks, delaysMs, cwd = TEST_ROOT, env
   });
 }
 
-function createTempConfigProject(mode, extraConfig = {}, { configFileName = '.vc.json' } = {}) {
+function createTempConfigProject(mode, extraConfig = {}, { configFileName = '.vb.json' } = {}) {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), `statusline-mode-${mode}-`));
   const ckDir = path.join(tmpDir, '.claude');
   fs.mkdirSync(ckDir, { recursive: true });
@@ -221,7 +221,7 @@ function withUsageCache(payload, fn) {
 function withQuotaEligibilityCache(payload, fn) {
   const cachePath = path.join(
     os.tmpdir(),
-    `vc-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`
+    `vb-usage-eligibility-statusline-test-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.json`
   );
 
   try {
@@ -239,7 +239,7 @@ function mkTranscript(lines) {
 }
 
 function writeSessionStateFile(sessionId, state) {
-  const sessionPath = path.join(os.tmpdir(), `vc-session-${sessionId}.json`);
+  const sessionPath = path.join(os.tmpdir(), `vb-session-${sessionId}.json`);
   fs.writeFileSync(sessionPath, JSON.stringify(state, null, 2));
   return sessionPath;
 }
@@ -330,7 +330,7 @@ async function main() {
   });
 
   await test('Legacy .ck.json-only config still loads via fallback', async () => {
-    // Project has ONLY the legacy .ck.json (no .vc.json) — central loader fallback
+    // Project has ONLY the legacy .ck.json (no .vb.json) — central loader fallback
     // must still resolve it so existing installs keep working.
     const tmpDir = createTempConfigProject('none', {}, { configFileName: '.ck.json' });
     try {

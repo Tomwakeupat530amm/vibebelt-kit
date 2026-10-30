@@ -25,38 +25,38 @@ const GROUPS = [
     name: "harness",
     pathRe: /^\.claude\/(agents|skills)\/|^process\/development-protocols\//,
     validators: [
-      "vc-audit-vc/scripts/validate-agent-parity.mjs",
-      "vc-audit-vc/scripts/validate-skills.mjs",
-      "vc-audit-vc/scripts/validate-guide-sync.mjs",
-      "vc-audit-vc/scripts/validate-protocol-wiring.mjs",
-      "vc-audit-vc/scripts/validate-kit-portability.mjs",
-      "vc-audit-vc/scripts/validate-skill-invocation-wiring.mjs",
+      "vb-audit-vc/scripts/validate-agent-parity.mjs",
+      "vb-audit-vc/scripts/validate-skills.mjs",
+      "vb-audit-vc/scripts/validate-guide-sync.mjs",
+      "vb-audit-vc/scripts/validate-protocol-wiring.mjs",
+      "vb-audit-vc/scripts/validate-kit-portability.mjs",
+      "vb-audit-vc/scripts/validate-skill-invocation-wiring.mjs",
     ],
   },
   {
     name: "context",
     pathRe: /^process\/context\//,
     validators: [
-      "vc-audit-context/scripts/validate-context-discovery.mjs",
-      "vc-audit-context/scripts/validate-protocol-discovery.mjs",
-      "vc-audit-context/scripts/validate-skill-keywords.mjs",
-      "vc-audit-context/scripts/validate-skill-routing.mjs",
-      "vc-audit-context/scripts/validate-skill-cross-refs.mjs",
-      "vc-audit-context/scripts/validate-skill-dependencies.mjs",
-      "vc-audit-context/scripts/validate-confusable-skills.mjs",
-      "vc-generate-context/scripts/validate-all-context.mjs",
+      "vb-audit-context/scripts/validate-context-discovery.mjs",
+      "vb-audit-context/scripts/validate-protocol-discovery.mjs",
+      "vb-audit-context/scripts/validate-skill-keywords.mjs",
+      "vb-audit-context/scripts/validate-skill-routing.mjs",
+      "vb-audit-context/scripts/validate-skill-cross-refs.mjs",
+      "vb-audit-context/scripts/validate-skill-dependencies.mjs",
+      "vb-audit-context/scripts/validate-confusable-skills.mjs",
+      "vb-generate-context/scripts/validate-all-context.mjs",
     ],
   },
   {
     name: "plans",
     pathRe: /^process\/(features|general-plans)\/.*\/(active|backlog)\//,
     validators: [
-      "vc-audit-plans/scripts/validate-plan-inventory.mjs",
-      "vc-audit-plans/scripts/validate-umbrella-state.mjs",
-      "vc-audit-plans/scripts/validate-phase-reports.mjs",
-      "vc-audit-plans/scripts/validate-phase-plan-completeness.mjs",
-      "vc-audit-plans/scripts/validate-backlog-notes.mjs",
-      "vc-audit-plans/scripts/validate-eval-coverage.mjs",
+      "vb-audit-plans/scripts/validate-plan-inventory.mjs",
+      "vb-audit-plans/scripts/validate-umbrella-state.mjs",
+      "vb-audit-plans/scripts/validate-phase-reports.mjs",
+      "vb-audit-plans/scripts/validate-phase-plan-completeness.mjs",
+      "vb-audit-plans/scripts/validate-backlog-notes.mjs",
+      "vb-audit-plans/scripts/validate-eval-coverage.mjs",
     ],
   },
 ];
@@ -130,7 +130,7 @@ function main() {
     console.log(
       "stop-validator-sweep: harness/context/plan validators on dirty files (advisory, non-blocking):\n" +
         lines.join("\n") +
-        "\nRun the matching vc-audit-* skill for full details.",
+        "\nRun the matching vb-audit-* skill for full details.",
     );
   }
   process.exit(0);

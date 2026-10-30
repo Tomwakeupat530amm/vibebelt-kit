@@ -11,4 +11,4 @@ node_modules/
 .claude/hooks/.logs/
 .codex/hooks/.logs/
 .codex/statusline.cjs
-.claude/skills/vc-agent-browser/screenshots/
+.claude/skills/vb-agent-browser/screenshots/

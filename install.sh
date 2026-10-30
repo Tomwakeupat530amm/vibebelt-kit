@@ -5,25 +5,25 @@ set -euo pipefail
 # Clean install with backup for both new and existing projects.
 # Replaces .claude/, .codex/, .agents/, CLAUDE.md, AGENTS.md with kit versions.
 # Preserves: process/ (user content). Merges .claude/settings.json (not replaced if present).
-# After this script, run Claude Code and say "Run vc-setup" to
+# After this script, run Claude Code and say "Run vb-setup" to
 # auto-detect your project, scaffold process/, and populate context.
 
 REPO="https://github.com/Tomwakeupat530amm/vibebelt-kit.git"
-# VC_KIT_SOURCE overrides the default remote.
+# VB_KIT_SOURCE overrides the default remote.
 # Accepts: a local filesystem path OR an alternate git URL.
 # - Local directory: working tree is copied as-is (uncommitted changes included).
 # - URL (or default remote): git clone --depth 1 is used.
 OLD_KIT_SOURCE="${VC_KIT_SOURCE:-}"  # legacy-vc-fallback: the variable name used before the prefix rename still works
-REPO="${VC_KIT_SOURCE:-${OLD_KIT_SOURCE:-$REPO}}"
-# Fix M6: renamed from TMPDIR (shadows POSIX reserved env var) to VC_INSTALL_TMPDIR
-VC_INSTALL_TMPDIR="${TMPDIR:-/tmp}/vc-kit-install-$$"
+REPO="${VB_KIT_SOURCE:-${OLD_KIT_SOURCE:-$REPO}}"
+# Fix M6: renamed from TMPDIR (shadows POSIX reserved env var) to VB_INSTALL_TMPDIR
+VB_INSTALL_TMPDIR="${TMPDIR:-/tmp}/vb-kit-install-$$"
 BACKUP_DIR=".vibecode-backup"
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-cleanup() { rm -rf "$VC_INSTALL_TMPDIR" 2>/dev/null; }
+cleanup() { rm -rf "$VB_INSTALL_TMPDIR" 2>/dev/null; }
 trap cleanup EXIT
 
 echo ""
@@ -60,20 +60,20 @@ fi
 echo "  Fetching kit..."
 if [ -d "$REPO" ]; then
   # Local directory: copy working tree as-is (uncommitted changes are included)
-  mkdir -p "$VC_INSTALL_TMPDIR"
-  ( cd "$REPO" && tar --exclude=.git --exclude=node_modules -cf - . ) | ( cd "$VC_INSTALL_TMPDIR" && tar -xf - )
+  mkdir -p "$VB_INSTALL_TMPDIR"
+  ( cd "$REPO" && tar --exclude=.git --exclude=node_modules -cf - . ) | ( cd "$VB_INSTALL_TMPDIR" && tar -xf - )
 else
   # Remote URL: shallow clone — verify git is available first
   if ! command -v git &>/dev/null; then
     echo "  Error: git is required to fetch from a remote URL but was not found in PATH."
-    echo "  Install git and try again, or set VC_KIT_SOURCE to a local directory."
+    echo "  Install git and try again, or set VB_KIT_SOURCE to a local directory."
     exit 1
   fi
-  git clone --depth 1 --quiet "$REPO" "$VC_INSTALL_TMPDIR"
+  git clone --depth 1 --quiet "$REPO" "$VB_INSTALL_TMPDIR"
 fi
 
 # Read version from manifest (current name first; a kit source from before the prefix rename ships the old name)
-KIT_MANIFEST="$VC_INSTALL_TMPDIR/vc-manifest.json"
+KIT_MANIFEST="$VB_INSTALL_TMPDIR/vb-manifest.json"
 [ -f "$KIT_MANIFEST" ] || KIT_MANIFEST="${KIT_MANIFEST%/*}/vc-manifest.json"  # legacy-vc-fallback
 VERSION=$(node -e "console.log(JSON.parse(require('fs').readFileSync(process.argv[1],'utf8')).version)" "$KIT_MANIFEST" 2>/dev/null || echo "unknown")
 echo "  Kit version: $VERSION"
@@ -83,10 +83,10 @@ echo ""
 # Resolve manifest to get file list + metadata
 # ══════════════════════════════════════════════════════
 # Fix M7: capture stderr to a temp file so we can surface it on failure
-_MANIFEST_ERR_FILE="$VC_INSTALL_TMPDIR/_manifest_stderr.txt"
+_MANIFEST_ERR_FILE="$VB_INSTALL_TMPDIR/_manifest_stderr.txt"
 MANIFEST_JSON=""
 set +e
-MANIFEST_JSON=$(node "$VC_INSTALL_TMPDIR/resolve-manifest.mjs" --root "$VC_INSTALL_TMPDIR" --json 2>"$_MANIFEST_ERR_FILE")
+MANIFEST_JSON=$(node "$VB_INSTALL_TMPDIR/resolve-manifest.mjs" --root "$VB_INSTALL_TMPDIR" --json 2>"$_MANIFEST_ERR_FILE")
 _MANIFEST_EXIT=$?
 set -e
 if [ -z "$MANIFEST_JSON" ] || [ "$_MANIFEST_EXIT" -ne 0 ]; then
@@ -95,7 +95,7 @@ if [ -z "$MANIFEST_JSON" ] || [ "$_MANIFEST_EXIT" -ne 0 ]; then
     echo "  Node error output:"
     sed 's/^/    /' "$_MANIFEST_ERR_FILE"
   fi
-  echo "  Check: Node.js >= 22 is installed, and vc-manifest.json exists in the kit."
+  echo "  Check: Node.js >= 22 is installed, and vb-manifest.json exists in the kit."
   exit 1
 fi
 
@@ -144,9 +144,9 @@ fi
 # Read prior installed-files snapshot (before backup)
 # ══════════════════════════════════════════════════════
 # Kit state files: current names first; installs made before the prefix rename wrote the old names.
-SNAPSHOT_FILE=".vc-installed-files"
+SNAPSHOT_FILE=".vb-installed-files"
 OLD_SNAPSHOT_FILE=".vc-installed-files"  # legacy-vc-fallback
-VERSION_FILE=".vc-version"
+VERSION_FILE=".vb-version"
 OLD_VERSION_FILE=".vc-version"  # legacy-vc-fallback
 PRIOR_SNAPSHOT=""
 if [ -f "$SNAPSHOT_FILE" ]; then
@@ -222,7 +222,7 @@ while IFS= read -r file; do
 
   # Create parent directory and copy
   mkdir -p "$(dirname "$file")"
-  cp "$VC_INSTALL_TMPDIR/$file" "$file"
+  cp "$VB_INSTALL_TMPDIR/$file" "$file"
   INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
 done <<< "$FILES"
 
@@ -231,14 +231,14 @@ done <<< "$FILES"
 # they are provably unchanged kit files; everything else is kept and reported.
 # One decision for both deletion blocks below (stale removal and
 # legacyDeletions), computed once by compute-sync-plan.mjs --legacy-gate,
-# the same rules vc-update applies. Bash 3 compatible.
+# the same rules vb-update applies. Bash 3 compatible.
 # ══════════════════════════════════════════════════════
 GATE_LINES=""
 GATE_OK=false
 GATE_REMOVED=0
 GATE_KEPT=0
 gate_run() {  # $1 = file with one candidate path per line
-  if GATE_LINES=$(node "$VC_INSTALL_TMPDIR/compute-sync-plan.mjs" --legacy-gate --root "$PWD" --kit-root "$VC_INSTALL_TMPDIR" < "$1" 2>/dev/null); then
+  if GATE_LINES=$(node "$VB_INSTALL_TMPDIR/compute-sync-plan.mjs" --legacy-gate --root "$PWD" --kit-root "$VB_INSTALL_TMPDIR" < "$1" 2>/dev/null); then
     GATE_OK=true
   else
     GATE_OK=false
@@ -304,7 +304,7 @@ if [ -n "$PRIOR_SNAPSHOT" ]; then
     fi
   done <<< "$PRIOR_SNAPSHOT"
 fi
-GATE_CANDIDATES_FILE="$VC_INSTALL_TMPDIR/_legacy_gate_candidates.txt"
+GATE_CANDIDATES_FILE="$VB_INSTALL_TMPDIR/_legacy_gate_candidates.txt"
 printf '%s%s\n' "$STALE_CANDIDATES" "$LEGACY_DELETIONS" > "$GATE_CANDIDATES_FILE"
 gate_run "$GATE_CANDIDATES_FILE"
 
@@ -324,11 +324,11 @@ if [ -n "$PRIOR_SNAPSHOT" ]; then
     # Kit-owned namespace guard: only delete if it matches the kit namespace
     IS_KIT_NAMESPACE=false
     case "$prior_file" in
-      .claude/skills/vc-*|.claude/agents/vc-*|.claude/hooks/*|.codex/*|\
+      .claude/skills/vb-*|.claude/agents/vb-*|.claude/hooks/*|.codex/*|\
       process/development-protocols/*|process/context/planning/*|\
       process/context/generated-skills-catalog.json|\
       process/_seeds/*|CLAUDE.md|AGENTS.md|\
-      .vc-installed-files|.vc-version|.agents/*)
+      .vb-installed-files|.vb-version|.agents/*)
         IS_KIT_NAMESPACE=true
         ;;
       .claude/skills/vc-*|.claude/agents/vc-*|.vc-installed-files|.vc-version)  # legacy-vc-fallback (old namespace; normally decided by the gate above)
@@ -337,11 +337,11 @@ if [ -n "$PRIOR_SNAPSHOT" ]; then
     esac
 
     if [ "$IS_KIT_NAMESPACE" = true ]; then
-      # Fix M4: warn when a vc-* prefixed path is about to be removed as stale
+      # Fix M4: warn when a vb-* prefixed path is about to be removed as stale
       # (it matched kit namespace but is NOT in the new manifest — warn before delete)
       case "$prior_file" in
-        .claude/skills/vc-*|.claude/agents/vc-*)
-          echo -e "    ${YELLOW}WARNING${NC}: removing vc-* prefixed path '$prior_file' as stale kit file."
+        .claude/skills/vb-*|.claude/agents/vb-*)
+          echo -e "    ${YELLOW}WARNING${NC}: removing vb-* prefixed path '$prior_file' as stale kit file."
           echo "    If this is a custom skill/agent you added, restore it from $BACKUP_DIR/."
           ;;
       esac
@@ -372,9 +372,9 @@ elif [ -n "$LEGACY_DELETIONS" ]; then
   # No prior snapshot (first install or pre-snapshot install).
   # Print the pre-snapshot fallback caveat.
   echo ""
-  echo -e "  ${YELLOW}Note:${NC} No prior .vc-installed-files snapshot found."
+  echo -e "  ${YELLOW}Note:${NC} No prior .vb-installed-files snapshot found."
   echo "  Stale removal will rely on legacyDeletions only."
-  echo "  If you have custom skills/agents whose names begin with 'vc-',"
+  echo "  If you have custom skills/agents whose names begin with 'vb-',"
   echo "  verify they were not removed in the legacyDeletions step below."
 fi
 
@@ -415,7 +415,7 @@ while IFS= read -r line; do
     _LINK_TARGET_ABS="$_LINK_PARENT_DIR/$LINK_TARGET"
     rm -rf "$LINK_PATH" 2>/dev/null || true
     if cp -r "$_LINK_TARGET_ABS" "$LINK_PATH" 2>/dev/null; then
-      echo "  ⚠ ln -sf failed (Windows without Developer Mode?). Copied skills to $LINK_PATH; Codex discovery works but won't auto-reflect vc-update changes. Enable Developer Mode for true symlinks."
+      echo "  ⚠ ln -sf failed (Windows without Developer Mode?). Copied skills to $LINK_PATH; Codex discovery works but won't auto-reflect vb-update changes. Enable Developer Mode for true symlinks."
     else
       echo "  ⚠ WARNING: could not create $LINK_PATH (symlink and copy both failed)."
     fi
@@ -447,18 +447,18 @@ if [ -n "$LEGACY_DELETIONS" ]; then
     if [ -d "$legacy_path" ]; then
       # ── Content-safety guard ──────────────────────────────────────────────
       # install.sh is deterministic (no agent) and cannot run the adaptive
-      # safe-migration that vc-update Part D performs. A process-layout content
+      # safe-migration that vb-update Part D performs. A process-layout content
       # dir (reports/ or references/ under process/) may hold real user files
       # (plans, reports, references). NEVER rm -rf such a dir when it is
-      # non-empty — defer it to vc-update, which migrates the contents into
+      # non-empty — defer it to vb-update, which migrates the contents into
       # task folders BEFORE removing the empty dir. Deprecated harness dirs
-      # (e.g. .claude/skills/vc-*) carry no user content and are still removed.
+      # (e.g. .claude/skills/vb-*) carry no user content and are still removed.
       base=$(basename "$legacy_path")
       case "$legacy_path" in
         process/*)
           if { [ "$base" = "reports" ] || [ "$base" = "references" ]; } \
              && [ -n "$(find "$legacy_path" -type f -print -quit 2>/dev/null)" ]; then
-            echo "    deferred (has content — vc-update will migrate then remove): $legacy_path"
+            echo "    deferred (has content — vb-update will migrate then remove): $legacy_path"
             DEFERRED_LAYOUT+=("$legacy_path")
             continue
           fi
@@ -482,7 +482,7 @@ if [ -n "$LEGACY_DELETIONS" ]; then
     done
   done
   if [ "${#DEFERRED_LAYOUT[@]}" -gt 0 ]; then
-    echo "  ${#DEFERRED_LAYOUT[@]} legacy content dir(s) preserved (have files) — run vc-update to migrate them into task folders."
+    echo "  ${#DEFERRED_LAYOUT[@]} legacy content dir(s) preserved (have files) — run vb-update to migrate them into task folders."
   fi
 fi
 
@@ -522,7 +522,7 @@ cleanup
 # ══════════════════════════════════════════════════════
 # Post-install self-check: verify discover-skills works
 # ══════════════════════════════════════════════════════
-if node .claude/skills/vc-context-discovery/scripts/discover-skills.mjs >/dev/null 2>&1; then
+if node .claude/skills/vb-context-discovery/scripts/discover-skills.mjs >/dev/null 2>&1; then
   echo "  install.sh: discover-skills OK"
 else
   echo "  Warning: discover-skills.mjs returned non-zero exit. Run manually to diagnose."
@@ -557,28 +557,28 @@ fi
 
 if [ "$HAS_EXISTING" = true ] && [ -z "$PRIOR_SNAPSHOT" ]; then
   echo ""
-  echo -e "  ${YELLOW}Note:${NC} No prior snapshot found. Custom vc-prefixed skills/agents"
+  echo -e "  ${YELLOW}Note:${NC} No prior snapshot found. Custom vb-prefixed skills/agents"
   echo "  (if any) may have been treated as kit-owned during legacyDeletions."
   echo "  Run: ls .claude/skills/ .claude/agents/ to verify your custom files."
 fi
 
 echo ""
 if [ "$HAS_EXISTING" = true ]; then
-  # Upgrade path: existing harness detected before install — route to vc-update
+  # Upgrade path: existing harness detected before install — route to vb-update
   echo "  Next (upgrade detected):"
   echo "    1. Run: claude"
-  echo '    2. Say: "Run vc-update"'
+  echo '    2. Say: "Run vb-update"'
   echo ""
-  echo "  vc-update will sync the new version and, if it finds old-format plans,"
+  echo "  vb-update will sync the new version and, if it finds old-format plans,"
   echo "  context docs, or folders, hand you a ready-to-paste prompt to finish"
   echo "  the migration."
 else
-  # Fresh install path: no prior harness — route to vc-setup
+  # Fresh install path: no prior harness — route to vb-setup
   echo "  Next:"
   echo "    1. Run: claude"
-  echo '    2. Say: "Run vc-setup"'
+  echo '    2. Say: "Run vb-setup"'
   echo ""
-  echo "  vc-setup will auto-detect your project, scaffold the process/"
+  echo "  vb-setup will auto-detect your project, scaffold the process/"
   echo "  directory, deep-scan your codebase, and populate context with"
   echo "  your real architecture, patterns, test commands, and conventions."
 fi

@@ -86,7 +86,7 @@ See `§Trigger Phrases` for the canonical list — lane-suffix variants are trig
 When a trigger phrase is detected:
 
 1. **Detect trigger phrase** in user message (see §Trigger Phrases above).
-2. **Invoke `vc-review-situation`** to read on-disk artifacts and determine the current phase. Detection order (apply first matching condition):
+2. **Invoke `vb-review-situation`** to read on-disk artifacts and determine the current phase. Detection order (apply first matching condition):
    - `## Validate Contract` with `Gate: PASS` or `Gate: CONDITIONAL` present → post-VALIDATE
    - Plan file present (in `process/general-plans/active/` or `process/features/*/active/`) → post-PLAN or later (check for INNOVATE Decision Summary and SPEC file to refine)
    - INNOVATE Decision Summary present → post-INNOVATE
@@ -109,12 +109,12 @@ The single ask must contain:
 
 - **(a) One-sentence restatement of intent** — confirm the orchestrator understood what the user wants.
 - **(b) All clarifying questions** the orchestrator needs before running unattended, grouped by topic (task scope, constraints, out-of-scope items, any known unknowns).
-- **(c) Autonomy boundaries confirmation** — explicitly asks the user to confirm the three hard-stop conditions (see §Hard Stops List) and whether any additional gates should remain manual-first. This is Dimension 6 of `vc-intent-clarify` and is marked CRITICAL.
-- **(d) Strategy options for the first remaining phase** — presents the full 4-option suite (sequential / parallel-subagents / workflow / agent-team) with cost estimates, per `vc-agent-strategy-compare`.
+- **(c) Autonomy boundaries confirmation** — explicitly asks the user to confirm the three hard-stop conditions (see §Hard Stops List) and whether any additional gates should remain manual-first. This is Dimension 6 of `vb-intent-clarify` and is marked CRITICAL.
+- **(d) Strategy options for the first remaining phase** — presents the full 4-option suite (sequential / parallel-subagents / workflow / agent-team) with cost estimates, per `vb-agent-strategy-compare`.
 
 After the user responds, all answers are locked. No follow-up questions until the run completes or a hard stop fires.
 
-The clarification round IS the `vc-intent-clarify` invocation for this session. Its output must conform to `validate-intent-clarify-output.mjs` (restatement line present, ambiguity score 0-7, mode chosen, Dimension 6 present and marked CRITICAL).
+The clarification round IS the `vb-intent-clarify` invocation for this session. Its output must conform to `validate-intent-clarify-output.mjs` (restatement line present, ambiguity score 0-7, mode chosen, Dimension 6 present and marked CRITICAL).
 
 ---
 
@@ -208,7 +208,7 @@ Emitted once immediately after the provisional goal block is printed to chat:
 AUTOPILOT_ACTIVATED: [task description] — entry phase: [phase] — goal block emitted
 ```
 
-The signal is printed to chat (not written to a file). It is listed in the signal inventory at `process/development-protocols/vc-system-behavior/12-reference.md`.
+The signal is printed to chat (not written to a file). It is listed in the signal inventory at `process/development-protocols/vb-system-behavior/12-reference.md`.
 
 ---
 
@@ -228,7 +228,7 @@ Per-gate decision policy for a running autopilot session:
 | High-risk evidence pack | **PAUSES and asks — manual-first always** |
 | EVL cycles | Auto-runs up to 10-cycle cap; gaps become known-gaps |
 | Post-EXECUTE cleanup | Auto-classifies; routes to UPDATE PROCESS autonomously or surfaces DONE_WITH_CONCERNS if ambiguous |
-| Feasibility-probe (needs-live-provider cost class) | **PAUSES and asks — manual-first always (double opt-in per vc-feasibility-test)** |
+| Feasibility-probe (needs-live-provider cost class) | **PAUSES and asks — manual-first always (double opt-in per vb-feasibility-test)** |
 | Cascade BLOCKED (two consecutive phases BLOCKED-skipped) | **PAUSES and asks — program-level hard stop** |
 
 ---
@@ -253,7 +253,7 @@ When autopilot is triggered for work that has 3+ phases (a phase program):
 - The provisional goal block file (`{slug}_AUTOPILOT_GOAL_{dd-mm-yy}.md`) is written to disk at session start, same as single-phase runs. This file remains the durable resume artifact.
 - After the umbrella plan is written (outer PLAN step), the `## Stable Program Goal` section is ALSO written to the umbrella plan file. This section is the in-band goal reference for orchestrator routing during inner phases.
 - Both artifacts coexist. The provisional goal file is the resume/session artifact; the umbrella `## Stable Program Goal` is the program-level charter reference. They are NOT alternatives — both are required for a valid phase program.
-- After each inner phase completes, vc-update-process-agent updates the umbrella plan's `## Current Execution State` (Section 6 format: 8 fields covering phase N status, EVL status, phase report path, next phase). The provisional goal file is NOT re-written per-phase — it is a snapshot from session start.
+- After each inner phase completes, vb-update-process-agent updates the umbrella plan's `## Current Execution State` (Section 6 format: 8 fields covering phase N status, EVL status, phase report path, next phase). The provisional goal file is NOT re-written per-phase — it is a snapshot from session start.
 - Under a running phase program, the [AUTOPILOT CONTEXT] injection prepend is used for every inner-loop subagent spawn (same as single-phase runs).
 
 ---
@@ -277,6 +277,6 @@ Three conditions always pause and ask regardless of autopilot being active:
 
 1. **Irreversible or outward-facing action** — e.g. sending external communications, permanent deletion, production deployment, spending credits at a live provider, secret rotation with real-world effect.
 2. **Cascade BLOCKED** — two consecutive phases in a phase program are both BLOCKED-skipped.
-3. **Feasibility probe requires `needs-live-provider` cost class** — double opt-in per `vc-feasibility-test` protocol. The orchestrator surfaces the probe hypothesis and cost-class to the user and waits for explicit approval before dispatching.
+3. **Feasibility probe requires `needs-live-provider` cost class** — double opt-in per `vb-feasibility-test` protocol. The orchestrator surfaces the probe hypothesis and cost-class to the user and waits for explicit approval before dispatching.
 
 These are not deferrals-to-backlog. They are loop-control safety bounds that surface to the user.

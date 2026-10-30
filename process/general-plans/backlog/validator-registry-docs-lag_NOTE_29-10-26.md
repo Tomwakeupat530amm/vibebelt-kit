@@ -6,7 +6,7 @@ reason: Phase 4 owns orchestration.md and the validator registry docs; they run 
 
 # Backlog NOTE: new validator not yet listed in the registry docs (K1-1)
 
-Phase 1 (vibebelt-rebrand) added `.claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs` (38th validator). It is listed in `.claude/skills/vc-audit-vc/SKILL.md`, in `baseline/validators.list`, and in both CI workflows.
+Phase 1 (vibebelt-rebrand) added `.claude/skills/vb-audit-vc/scripts/validate-model-effort-policy.mjs` (38th validator). It is listed in `.claude/skills/vb-audit-vc/SKILL.md`, in `baseline/validators.list`, and in both CI workflows.
 
 It is NOT yet listed in `process/development-protocols/orchestration.md` section "Regression Gate Validators" or in the validator registry docs (for example the registry section of `process/context/all-context.md` and `CLAUDE.md`).
 

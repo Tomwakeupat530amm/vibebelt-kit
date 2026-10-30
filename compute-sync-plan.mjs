@@ -24,11 +24,11 @@ import { fileURLToPath } from 'node:url';
 
 // Kit file names. Projects and kits from before the prefix rename use the old names: they are
 // still read as a fallback, and --apply replaces the old state files with the new ones.
-export const MANIFEST_NAME = 'vc-manifest.json';
+export const MANIFEST_NAME = 'vb-manifest.json';
 export const OLD_MANIFEST_NAME = 'vc-manifest.json'; // legacy-vc-fallback
-export const SNAPSHOT_FILE = '.vc-installed-files';
+export const SNAPSHOT_FILE = '.vb-installed-files';
 export const OLD_SNAPSHOT_FILE = '.vc-installed-files'; // legacy-vc-fallback
-export const VERSION_FILE = '.vc-version';
+export const VERSION_FILE = '.vb-version';
 export const OLD_VERSION_FILE = '.vc-version'; // legacy-vc-fallback
 const OLD_PREFIX = 'vc-'; // legacy-vc-fallback: name prefix of kit paths before the rename
 
@@ -39,8 +39,8 @@ const OLD_PREFIX = 'vc-'; // legacy-vc-fallback: name prefix of kit paths before
  */
 export function isKitOwned(filePath) {
   return (
-    filePath.startsWith('.claude/skills/vc-') ||
-    filePath.startsWith('.claude/agents/vc-') ||
+    filePath.startsWith('.claude/skills/vb-') ||
+    filePath.startsWith('.claude/agents/vb-') ||
     filePath.startsWith(`.claude/skills/${OLD_PREFIX}`) || // legacy-vc-fallback
     filePath.startsWith(`.claude/agents/${OLD_PREFIX}`) || // legacy-vc-fallback
     filePath.startsWith('.claude/hooks/') ||
@@ -353,7 +353,7 @@ export default function computeSyncPlan(opts) {
   for (const rel of toDelete) {
     if (!ownedSet.has(rel) && !legacySet.has(rel) && !gateDeleted.has(rel)) {
       staleWarnings.push(
-        `WARNING: ${rel} will be removed (matches vc- namespace) but is not a known kit file — if this is YOUR custom skill, rename it without the vc- prefix to protect it.`
+        `WARNING: ${rel} will be removed (matches vb- namespace) but is not a known kit file — if this is YOUR custom skill, rename it without the vb- prefix to protect it.`
       );
     }
   }
@@ -400,8 +400,8 @@ function contentDiffers(absA, absB) {
  * @param {string} projectRoot   — absolute path to the user's project
  * @param {string} kitRoot       — absolute path to the cloned kit
  * @param {string[]} ownedPaths  — full ownedPaths from the resolved manifest (used for stale-removal)
- * @param {string} version       — manifest version string (written to .vc-version)
- * @param {string[]} managedFiles — managed files only (written to .vc-installed-files snapshot)
+ * @param {string} version       — manifest version string (written to .vb-version)
+ * @param {string[]} managedFiles — managed files only (written to .vb-installed-files snapshot)
  */
 function applyPlan(plan, projectRoot, kitRoot, ownedPaths, version, managedFiles) {
   // Fall back to ownedPaths if managedFiles not supplied (backward-compat)
@@ -622,7 +622,7 @@ if (isCli && !legacyGateCli) {
 
   // Run resolve-manifest from kitRoot to get ownedPaths + managedFiles.
   // Uses top-level await (ESM) so stdout flushes synchronously before exit.
-  // --resolver overrides the default path (useful for vc-publish dev→kit direction).
+  // --resolver overrides the default path (useful for vb-publish dev→kit direction).
   const { execFileSync } = await import('node:child_process');
   const resolverScript = resolverOverride
     ? path.resolve(resolverOverride)

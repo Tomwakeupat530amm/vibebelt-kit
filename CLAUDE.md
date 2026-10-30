@@ -2,7 +2,7 @@
 
 ## Bootstrap Guard
 
-**If `process/context/all-context.md` does not exist**, the harness has not been set up yet. (Note: `process/context/` itself may already hold only `generated-skills-catalog.json` from install — that alone does NOT count as set up.) Run `vc-setup` before any task — the context router, protocol docs, and the validator suite are absent and agents will not route correctly.
+**If `process/context/all-context.md` does not exist**, the harness has not been set up yet. (Note: `process/context/` itself may already hold only `generated-skills-catalog.json` from install — that alone does NOT count as set up.) Run `vb-setup` before any task — the context router, protocol docs, and the validator suite are absent and agents will not route correctly.
 
 ---
 
@@ -34,14 +34,14 @@ This project uses RIPER-5 methodology for systematic, spec-driven development. R
 
 Canonical shared workflow rules live in `process/development-protocols/`. Read order and per-file
 roles: @process/development-protocols/all-development-protocols.md (router — now discoverable via
-frontmatter). Notable sections: `orchestration.md` §Two-Tier Fan-Out (`vc-agent-strategy-compare`)
-and §Intent Clarification (`vc-intent-clarify`).
+frontmatter). Notable sections: `orchestration.md` §Two-Tier Fan-Out (`vb-agent-strategy-compare`)
+and §Intent Clarification (`vb-intent-clarify`).
 
 Reference docs (harness methodology, not project-specific):
 
-- `.claude/skills/vc-generate-plan/references/example-simple-prd.md` - Reference for simple plan structure
-- `.claude/skills/vc-generate-plan/references/example-complex-prd.md` - Reference for complex plan depth
-- `.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md` - Program Goal Charter template for phase programs
+- `.claude/skills/vb-generate-plan/references/example-simple-prd.md` - Reference for simple plan structure
+- `.claude/skills/vb-generate-plan/references/example-complex-prd.md` - Reference for complex plan depth
+- `.claude/skills/vb-generate-phase-program/references/program-goal-charter-template.md` - Program Goal Charter template for phase programs
 
 ### Orchestrator Role (Main Claude Code Session)
 
@@ -58,11 +58,11 @@ Your responsibilities:
 
 **You do NOT**:
 
-- Perform research yourself (delegate to vc-research-agent)
-- Brainstorm approaches yourself (delegate to vc-innovate-agent)
-- Write plans yourself (delegate to vc-plan-agent)
-- Implement code yourself (delegate to vc-execute-agent)
-- Update rules yourself (delegate to vc-update-process-agent)
+- Perform research yourself (delegate to vb-research-agent)
+- Brainstorm approaches yourself (delegate to vb-innovate-agent)
+- Write plans yourself (delegate to vb-plan-agent)
+- Implement code yourself (delegate to vb-execute-agent)
+- Update rules yourself (delegate to vb-update-process-agent)
 
 **Exception**: Trivial questions that don't require mode-specific work (e.g., "What is RIPER-5?") can be answered directly.
 
@@ -97,7 +97,7 @@ Rules:
 
 ### Strategy-Compare at Every Phase Transition
 
-At EVERY phase transition, the orchestrator invokes `vc-agent-strategy-compare` for the
+At EVERY phase transition, the orchestrator invokes `vb-agent-strategy-compare` for the
 NEXT phase — full 4-option strategy suite (sequential / parallel-subagents / workflow / agent-team) with
 cost estimates. The recommendation is emitted as part of the phase transition message before
 routing to the next subagent.
@@ -127,19 +127,19 @@ If the recommended strategy is **agent team**, the spawn MUST use TeamCreate + T
 
 ### Model Selection Policy (All Spawned Agents)
 
-Each named vc-agent runs on the model set in its own `.claude/agents/*.md` front-matter (enforced
-by `validate-model-effort-policy.mjs`): **opus on 7** — `vc-execute-agent`, `vc-fast-mode-agent`,
-`vc-quick-fix-agent` (write code, run builds) and `vc-plan-agent`, `vc-research-agent`,
-`vc-validate-agent`, `vc-tester` (planning, research, validation and independent test runs, where
-a miss is most expensive) — and **sonnet on 8**: `vc-innovate-agent`, `vc-spec-agent`,
-`vc-update-process-agent`, `vc-debugger`, `vc-code-reviewer`, `vc-code-simplifier`,
-`vc-ui-ux-designer`, `vc-git-manager`. An ad-hoc agent with no vc-agent file (an unnamed parallel
+Each named vb-agent runs on the model set in its own `.claude/agents/*.md` front-matter (enforced
+by `validate-model-effort-policy.mjs`): **opus on 7** — `vb-execute-agent`, `vb-fast-mode-agent`,
+`vb-quick-fix-agent` (write code, run builds) and `vb-plan-agent`, `vb-research-agent`,
+`vb-validate-agent`, `vb-tester` (planning, research, validation and independent test runs, where
+a miss is most expensive) — and **sonnet on 8**: `vb-innovate-agent`, `vb-spec-agent`,
+`vb-update-process-agent`, `vb-debugger`, `vb-code-reviewer`, `vb-code-simplifier`,
+`vb-ui-ux-designer`, `vb-git-manager`. An ad-hoc agent with no vb-agent file (an unnamed parallel
 subagent, a workflow `agent()` helper) defaults to **sonnet**, and uses **opus** only when it
 writes source code or runs builds/migrations.
 
 - The orchestrator MUST name the model when spawning and when recommending a strategy.
 - Codex uses the single model in `.codex/config.toml`.
-- Full rules: `.claude/skills/vc-agent-strategy-compare/SKILL.md` §Model Selection Policy.
+- Full rules: `.claude/skills/vb-agent-strategy-compare/SKILL.md` §Model Selection Policy.
 
 ### Communication Principles (All Human-Facing Output)
 
@@ -177,13 +177,13 @@ The complete RIPER-5 protocol is defined in the agent files at `.claude/agents/`
 
 | Phase | Agent | Trigger | Artifact produced | Skip condition |
 |---|---|---|---|---|
-| RESEARCH | vc-research-agent | "ENTER RESEARCH MODE" or feature request detected | Research findings in chat | Trivial fix / existing plan found |
-| SPEC | vc-spec-agent | "ENTER SPEC MODE" or "go" after RESEARCH | Product-discovery requirements doc (`*_SPEC_*.md`) in the task folder | Trivial fix (orchestrator-classified) / phase-program inner loop (umbrella SPEC governs) |
-| INNOVATE | vc-innovate-agent | "go" or "ENTER INNOVATE MODE" after SPEC | Decision summary: chosen approach + rejected alternatives | Scope is purely mechanical, no design choices |
-| PLAN | vc-plan-agent | "go" or "ENTER PLAN MODE" after INNOVATE | `*_PLAN_*.md` file inside a task folder under `process/features/*/active/{slug}_{date}/` or `process/general-plans/active/{slug}_{date}/` | None — plan is always required before EXECUTE for non-trivial work |
-| VALIDATE | vc-validate-agent | "ENTER VALIDATE MODE" or auto-suggested after PLAN | Validate-contract section appended to plan file | Trivial fix with no plan file AND no schema/auth/API/billing surface changes |
-| EXECUTE | vc-execute-agent | Explicit "ENTER EXECUTE MODE" after VALIDATE (or PLAN for trivial) | Modified source files, test results | None — explicit approval always required |
-| UPDATE PROCESS | vc-update-process-agent | "ENTER UPDATE PROCESS MODE" after EXECUTE | Archived plan, updated context docs, memory notes | Skippable but not recommended for non-trivial sessions |
+| RESEARCH | vb-research-agent | "ENTER RESEARCH MODE" or feature request detected | Research findings in chat | Trivial fix / existing plan found |
+| SPEC | vb-spec-agent | "ENTER SPEC MODE" or "go" after RESEARCH | Product-discovery requirements doc (`*_SPEC_*.md`) in the task folder | Trivial fix (orchestrator-classified) / phase-program inner loop (umbrella SPEC governs) |
+| INNOVATE | vb-innovate-agent | "go" or "ENTER INNOVATE MODE" after SPEC | Decision summary: chosen approach + rejected alternatives | Scope is purely mechanical, no design choices |
+| PLAN | vb-plan-agent | "go" or "ENTER PLAN MODE" after INNOVATE | `*_PLAN_*.md` file inside a task folder under `process/features/*/active/{slug}_{date}/` or `process/general-plans/active/{slug}_{date}/` | None — plan is always required before EXECUTE for non-trivial work |
+| VALIDATE | vb-validate-agent | "ENTER VALIDATE MODE" or auto-suggested after PLAN | Validate-contract section appended to plan file | Trivial fix with no plan file AND no schema/auth/API/billing surface changes |
+| EXECUTE | vb-execute-agent | Explicit "ENTER EXECUTE MODE" after VALIDATE (or PLAN for trivial) | Modified source files, test results | None — explicit approval always required |
+| UPDATE PROCESS | vb-update-process-agent | "ENTER UPDATE PROCESS MODE" after EXECUTE | Archived plan, updated context docs, memory notes | Skippable but not recommended for non-trivial sessions |
 
 **Key Requirements**:
 
@@ -201,7 +201,7 @@ The complete RIPER-5 protocol is defined in the agent files at `.claude/agents/`
 ### Mode Detection & Auto-Orchestration
 
 Feature → full RIPER-5; question → research/direct; trivial/bug → execute/debugger; existing active
-plan always resumes first. Score ambiguity per `vc-intent-clarify`. **Full Detect-Intent patterns,
+plan always resumes first. Score ambiguity per `vb-intent-clarify`. **Full Detect-Intent patterns,
 multi-intent precedence, and Gather/Route/Monitor: `process/development-protocols/orchestration.md`
 §Intent Routing.** Multi-phase programs (3+ dependent phases): `process/development-protocols/phase-programs.md`.
 
@@ -214,12 +214,12 @@ protocol — it does NOT skip the no-inline-execution rule (the spawned agent st
 
 1. **Read-only scout** — orchestrator locates the gap with Grep/Read/Glob (reading is allowed inline;
    only *editing* and gate-running are not) and drafts the exact edit. This is the "find gaps"
-   research, done cheaply without a full `vc-research-agent` spawn.
+   research, done cheaply without a full `vb-research-agent` spawn.
 2. **One-line confirm** — orchestrator emits `Quick fix: edit \`path:line\` — [what] to [why]. Proceed?`
    and waits for confirmation. Under a standing `/goal`, auto-proceed.
-3. **One spawn** — spawn `vc-quick-fix-agent` (opus) with the exact target. It applies the edit and
+3. **One spawn** — spawn `vb-quick-fix-agent` (opus) with the exact target. It applies the edit and
    runs a **scoped check on touched files only** (typecheck + the covering test file — NOT the full
-   suite, NOT a `vc-tester`/EVL spawn), then returns a short report.
+   suite, NOT a `vb-tester`/EVL spawn), then returns a short report.
 4. **No plan file, no validate-contract, no EVL, no UPDATE PROCESS.**
 
 **Scope guard (mandatory):** the lane is VOID if the change touches schema, auth, API contract,
@@ -286,15 +286,15 @@ three layers — **actor agents** (own a phase/role, in `.claude/agents/`, NOT s
 skills** (own a workflow artifact/contract), and **helper skills** (improve how agents work, own no
 artifact). Each `SKILL.md` carries its `layer` + `trigger_keywords` in frontmatter; the full
 per-skill inventory grouped by layer is emitted on demand by
-`node .claude/skills/vc-context-discovery/scripts/discover-skills.mjs` (reads the
+`node .claude/skills/vb-context-discovery/scripts/discover-skills.mjs` (reads the
 generated skills catalog inventory). Per-skill detail lives in each `.claude/skills/*/SKILL.md`.
 
 ### Core Skills
 
-- **`vc-generate-plan`** - Create implementation plans (SIMPLE or COMPLEX) with explicit touchpoints, blast radius, verification evidence, and resume handoff
-- **`vc-generate-context`** - Generate/update repository context
-- **`vc-audit-context`** - Audit context routing, grouping, discoverability, and Claude/Codex wiring
-- **`vc-audit-vc`** - Audit agent harness health: agent parity, skill registry, README.md sync, and protocol wiring
+- **`vb-generate-plan`** - Create implementation plans (SIMPLE or COMPLEX) with explicit touchpoints, blast radius, verification evidence, and resume handoff
+- **`vb-generate-context`** - Generate/update repository context
+- **`vb-audit-context`** - Audit context routing, grouping, discoverability, and Claude/Codex wiring
+- **`vb-audit-vc`** - Audit agent harness health: agent parity, skill registry, README.md sync, and protocol wiring
 
 Legacy `@sync-to-riper5.md` and `@sync-from-riper5.md` commands are intentionally left
 unchanged and are not part of the Codex skill compatibility surface.
@@ -308,27 +308,27 @@ Full prompts, invoked-skill lists, and tool grants live in each agent's `.claude
 
 | Agent | Trigger | Role |
 |---|---|---|
-| vc-research-agent | "ENTER RESEARCH MODE" / feature request | Read-only info gathering: codebase, context, plan discovery, library docs |
-| vc-spec-agent | "ENTER SPEC MODE" / "go" after RESEARCH | Product-discovery requirements doc for user review |
-| vc-innovate-agent | "go" / "ENTER INNOVATE MODE" after SPEC | Compare approaches; Decision Summary (chosen + rejected) |
-| vc-plan-agent | "go" / "ENTER PLAN MODE" after INNOVATE | Write SIMPLE/COMPLEX plan artifact (touchpoints, blast radius, evidence, handoff) |
-| vc-validate-agent | "ENTER VALIDATE MODE" / after PLAN | Convert plan to executable contract (V1–V7); write validate-contract |
-| vc-execute-agent | Explicit "ENTER EXECUTE MODE" only after contract | Implement the approved plan exactly; no creative deviation |
-| vc-fast-mode-agent | "ENTER FAST MODE" | Compressed R→S→I→P→V→PAUSE→E; mandatory pause after VALIDATE |
-| vc-update-process-agent | "ENTER UPDATE PROCESS MODE" after EXECUTE | Archive plans, update context, memory, closeout packet |
+| vb-research-agent | "ENTER RESEARCH MODE" / feature request | Read-only info gathering: codebase, context, plan discovery, library docs |
+| vb-spec-agent | "ENTER SPEC MODE" / "go" after RESEARCH | Product-discovery requirements doc for user review |
+| vb-innovate-agent | "go" / "ENTER INNOVATE MODE" after SPEC | Compare approaches; Decision Summary (chosen + rejected) |
+| vb-plan-agent | "go" / "ENTER PLAN MODE" after INNOVATE | Write SIMPLE/COMPLEX plan artifact (touchpoints, blast radius, evidence, handoff) |
+| vb-validate-agent | "ENTER VALIDATE MODE" / after PLAN | Convert plan to executable contract (V1–V7); write validate-contract |
+| vb-execute-agent | Explicit "ENTER EXECUTE MODE" only after contract | Implement the approved plan exactly; no creative deviation |
+| vb-fast-mode-agent | "ENTER FAST MODE" | Compressed R→S→I→P→V→PAUSE→E; mandatory pause after VALIDATE |
+| vb-update-process-agent | "ENTER UPDATE PROCESS MODE" after EXECUTE | Archive plans, update context, memory, closeout packet |
 
-**Specialist agents** (callable within phases, invoked by orchestrator/execute-agent): `vc-tester`
-(diff-aware test verification), `vc-debugger` (evidence-first root cause), `vc-code-reviewer`
-(production-readiness), `vc-code-simplifier` (clarity refactor, no behavior change),
-`vc-quick-fix-agent` (QUICK FIX lane — one small low-risk edit + scoped check, no plan/validate),
-`vc-ui-ux-designer`
-(design-aware UI), `vc-git-manager` (conventional commits). **Cross-phase skills** (not agents):
-`vc-sequential-thinking`, `vc-problem-solving`, `vc-scout`, `vc-review-situation`,
-`vc-agent-browser`, `vc-debug`.
+**Specialist agents** (callable within phases, invoked by orchestrator/execute-agent): `vb-tester`
+(diff-aware test verification), `vb-debugger` (evidence-first root cause), `vb-code-reviewer`
+(production-readiness), `vb-code-simplifier` (clarity refactor, no behavior change),
+`vb-quick-fix-agent` (QUICK FIX lane — one small low-risk edit + scoped check, no plan/validate),
+`vb-ui-ux-designer`
+(design-aware UI), `vb-git-manager` (conventional commits). **Cross-phase skills** (not agents):
+`vb-sequential-thinking`, `vb-problem-solving`, `vb-scout`, `vb-review-situation`,
+`vb-agent-browser`, `vb-debug`.
 
-> **Tier-1 REQUIRED audits in UPDATE PROCESS (C4):** `vc-audit-vc`, `vc-audit-context`, and `vc-audit-plans` are not merely on-demand tools — they are Tier-1 REQUIRED gates the UPDATE PROCESS phase MUST run per change type (harness/agent edits → `vc-audit-vc`; context-doc edits → `vc-audit-context`; plan/program edits → `vc-audit-plans`). See `process/development-protocols/vc-system-behavior/12-reference.md`.
+> **Tier-1 REQUIRED audits in UPDATE PROCESS (C4):** `vb-audit-vc`, `vb-audit-context`, and `vb-audit-plans` are not merely on-demand tools — they are Tier-1 REQUIRED gates the UPDATE PROCESS phase MUST run per change type (harness/agent edits → `vb-audit-vc`; context-doc edits → `vb-audit-context`; plan/program edits → `vb-audit-plans`). See `process/development-protocols/vb-system-behavior/12-reference.md`.
 
-> **Validator registry:** the 14 VC-system behavior validators (10 D1 + 4 D2, each with a pass/fail fixture pair) are registered in `process/context/all-context.md` (see the validator registry section added by vc-setup). Run the change-type-relevant validator before closing a phase.
+> **Validator registry:** the 14 VB-system behavior validators (10 D1 + 4 D2, each with a pass/fail fixture pair) are registered in `process/context/all-context.md` (see the validator registry section added by vb-setup). Run the change-type-relevant validator before closing a phase.
 
 ---
 
@@ -336,13 +336,13 @@ Full prompts, invoked-skill lists, and tool grants live in each agent's `.claude
 
 When a user makes a request:
 
-- **Step 0 — Skill discovery:** run `node .claude/skills/vc-context-discovery/scripts/discover-skills.mjs`
+- **Step 0 — Skill discovery:** run `node .claude/skills/vb-context-discovery/scripts/discover-skills.mjs`
   (reads the generated skills catalog inventory) to list every skill grouped by layer with
   its trigger keywords. Match keywords to the request and attach candidate skill names to the
   subagent prompt. Never silently skip a relevant matched skill.
 - **Detect intent + multi-intent precedence:** see `process/development-protocols/orchestration.md`
   §Intent Routing (feature → RIPER-5; question → research/direct; trivial/bug → execute/debugger;
-  existing active plan always resumes first; score ambiguity per `vc-intent-clarify`).
+  existing active plan always resumes first; score ambiguity per `vb-intent-clarify`).
 - **Gather → Route → Monitor:** route by current phase to the matching agent per the RIPER-5 Phase
   Table above; full gather/route/monitor detail is in `orchestration.md` §Intent Routing.
 
@@ -356,25 +356,25 @@ phase-program INNER loop skips SPEC (`R → I → P → PVL → E → EVL → UP
 | Transition | Gate to advance |
 |---|---|
 | RESEARCH → SPEC | Context gathered; "go"/"ENTER SPEC MODE". SPEC always runs for non-trivial work (user-review checkpoint) |
-| SPEC → INNOVATE | Locked SPEC written; "go". Skippable when the "how" is mechanical — route straight to vc-plan-agent with the SPEC |
+| SPEC → INNOVATE | Locked SPEC written; "go". Skippable when the "how" is mechanical — route straight to vb-plan-agent with the SPEC |
 | INNOVATE → PLAN | Decision Summary (chosen + rejected + rationale) produced; "go" |
-| PLAN → VALIDATE | Plan file written; invoke vc-validate-agent before EXECUTE |
+| PLAN → VALIDATE | Plan file written; invoke vb-validate-agent before EXECUTE |
 | VALIDATE → EXECUTE | validate-contract written; explicit "ENTER EXECUTE MODE"; orchestrator emits the /goal block (see §/goal Block) first |
 | EXECUTE → UPDATE PROCESS | Implementation complete; surface cleanup checkpoint; explicit user command |
 
 Full per-transition rules, fan-out scoring, and gate semantics:
 `process/development-protocols/orchestration.md` (§VALIDATE Gate, §Parallel Fan-Out Checkpoints,
-§Two-Tier Fan-Out) and the `vc-system-behavior/` phase files. At each transition, invoke
-`vc-agent-strategy-compare` for the next phase's strategy.
+§Two-Tier Fan-Out) and the `vb-system-behavior/` phase files. At each transition, invoke
+`vb-agent-strategy-compare` for the next phase's strategy.
 
 **PVL/EVL loop gates (mechanical — run these checks before advancing):**
 
-- **VALIDATE → EXECUTE** is legal only when ONE of: (a) `grep -c 'Gate: PASS' <plan-file>` ≥ 1; (b) the task folder's `results.tsv` records ≥1 PVL fix cycle (`wc -l < results.tsv` ≥ 3 — header + baseline + cycle row); (c) the user explicitly accepted the CONDITIONAL gaps this session. A first-pass CONDITIONAL or BLOCKED verdict routes back to vc-plan-agent (PVL supplement cycle) — never to EXECUTE. `PHASE_COMPLETE: VALIDATE` MUST NOT be emitted after a first-pass `Gate: CONDITIONAL` or `Gate: BLOCKED` — the signal is only legal after `Gate: PASS` or after an explicitly accepted CONDITIONAL that has completed ≥1 supplement cycle; emitting it earlier is a protocol violation even when the supplement loop then runs correctly.
-- **EXECUTE → UPDATE PROCESS** requires the EVL confirmation run: the orchestrator spawns vc-tester to re-run the validate-contract gate commands even when vc-execute-agent reports all gates green (execute-agent's internal iterate-until-green loop does NOT substitute for EVL). Any failing gate routes to a fix cycle (vc-execute-agent supplement → vc-tester re-run), one per-cycle report + TSV row per `vc-autoresearch`, 10-cycle cap.
+- **VALIDATE → EXECUTE** is legal only when ONE of: (a) `grep -c 'Gate: PASS' <plan-file>` ≥ 1; (b) the task folder's `results.tsv` records ≥1 PVL fix cycle (`wc -l < results.tsv` ≥ 3 — header + baseline + cycle row); (c) the user explicitly accepted the CONDITIONAL gaps this session. A first-pass CONDITIONAL or BLOCKED verdict routes back to vb-plan-agent (PVL supplement cycle) — never to EXECUTE. `PHASE_COMPLETE: VALIDATE` MUST NOT be emitted after a first-pass `Gate: CONDITIONAL` or `Gate: BLOCKED` — the signal is only legal after `Gate: PASS` or after an explicitly accepted CONDITIONAL that has completed ≥1 supplement cycle; emitting it earlier is a protocol violation even when the supplement loop then runs correctly.
+- **EXECUTE → UPDATE PROCESS** requires the EVL confirmation run: the orchestrator spawns vb-tester to re-run the validate-contract gate commands even when vb-execute-agent reports all gates green (execute-agent's internal iterate-until-green loop does NOT substitute for EVL). Any failing gate routes to a fix cycle (vb-execute-agent supplement → vb-tester re-run), one per-cycle report + TSV row per `vb-autoresearch`, 10-cycle cap.
 - **The orchestrator is the loop driver for both loops.** Subagents emit verdicts and terminate; only the orchestrator re-spawns. Full routing: `process/development-protocols/orchestration.md` §PVL/EVL Loop Routing.
-- **No inline execution.** "ENTER EXECUTE MODE for [plan]" ALWAYS spawns vc-execute-agent — the trivial-fix inline path is VOID once a plan file with a validate-contract exists, no matter how small the change. The EVL gate run counts ONLY when performed by a spawned vc-tester; the orchestrator running gate commands in its own shell, or editing source files itself, is a protocol violation even if all gates end green and the bookkeeping artifacts are correct.
+- **No inline execution.** "ENTER EXECUTE MODE for [plan]" ALWAYS spawns vb-execute-agent — the trivial-fix inline path is VOID once a plan file with a validate-contract exists, no matter how small the change. The EVL gate run counts ONLY when performed by a spawned vb-tester; the orchestrator running gate commands in its own shell, or editing source files itself, is a protocol violation even if all gates end green and the bookkeeping artifacts are correct.
 
-**Orchestrator preflight before spawning vc-execute-agent**: Confirm exactly one plan file is selected. Pass the plan file path explicitly in the subagent prompt. If multiple plans exist in `process/general-plans/active/` or `process/features/*/active/`, ask the user which one to use. Never let vc-execute-agent infer the plan from ambient state.
+**Orchestrator preflight before spawning vb-execute-agent**: Confirm exactly one plan file is selected. Pass the plan file path explicitly in the subagent prompt. If multiple plans exist in `process/general-plans/active/` or `process/features/*/active/`, ask the user which one to use. Never let vb-execute-agent infer the plan from ambient state.
 
 ---
 
@@ -398,9 +398,9 @@ implementation; EXECUTE implements the approved plan only; UPDATE PROCESS docume
 
 ## Quick Start
 
-**Typical flow** — describe the feature (→ `vc-research-agent`), advance with "go" through SPEC →
+**Typical flow** — describe the feature (→ `vb-research-agent`), advance with "go" through SPEC →
 INNOVATE → PLAN, "ENTER VALIDATE MODE", then "ENTER EXECUTE MODE", optionally "ENTER UPDATE PROCESS
-MODE". "ENTER FAST MODE - [feature]" runs the compressed flow in `vc-fast-mode-agent` (pauses after
+MODE". "ENTER FAST MODE - [feature]" runs the compressed flow in `vb-fast-mode-agent` (pauses after
 VALIDATE). Troubleshooting (import paths, missing subagent, plan conflicts, tool grants):
 `process/development-protocols/orchestration.md` / agent frontmatter.
 
@@ -412,7 +412,7 @@ Two advisory PostToolUse hooks run automatically (both fail-open — they never 
 
 - `node .claude/hooks/post-write-plan-check.mjs` (PostToolUse `Write`) — when a Write targets a
   `process/**/*_PLAN_*.md` file, it runs the plan-artifact structure validator
-  (`.claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs`) on the written path and
+  (`.claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs`) on the written path and
   surfaces the result. Non-plan writes are a clean no-op.
 - `node .claude/hooks/post-commit-lint.mjs` (PostToolUse `Bash`) — when a Bash invocation is a
   `git commit`, it lints the message for a conventional-commits prefix
@@ -420,7 +420,7 @@ Two advisory PostToolUse hooks run automatically (both fail-open — they never 
 
 **Context Envelope:** every inner-loop agent (research / plan / execute / update-process) emits a
 10-field Context Envelope at session start, in the canonical C-2 order documented in
-`.claude/skills/vc-context-discovery/SKILL.md` §Context Envelope:
+`.claude/skills/vb-context-discovery/SKILL.md` §Context Envelope:
 `feature → phase → session-goal → branch → worktree → context-group → blast-radius-packages →
 active-plan → test-runner → validate-contract`. The `test-runner` multi-runner value uses a
 pipe-delimited DISPLAY format (`bun test | vitest`) that the phase-loop workflow template expands into

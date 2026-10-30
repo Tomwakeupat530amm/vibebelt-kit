@@ -49,7 +49,7 @@
 <td valign="top"><strong>🔁 Bucles de autocorrección PVL + EVL</strong><br>Los bucles de comprobación-y-corrección del plan y de las pruebas detectan errores, los corrigen y vuelven a verificar solos — hasta 10 ciclos cada uno.</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>Un bucle reutilizable de encontrar-errores → corregir → repetir que puedes aplicar a planes, pruebas, especificaciones, documentación o evaluaciones.</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>Un bucle reutilizable de encontrar-errores → corregir → repetir que puedes aplicar a planes, pruebas, especificaciones, documentación o evaluaciones.</td>
 <td valign="top"><strong>🧪 Sondas de viabilidad</strong><br>Veredictos de prueba-antes-de-construir (VIABLE / NOT-VIABLE) antes de que el agente se comprometa con cualquier enfoque de diseño.</td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
     <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
   </picture>
   <br>
-  <p><em>No es solo decorativo. Cuando ejecutas <code>vc-setup</code>, los agentes escanean tu base de código,<br>
+  <p><em>No es solo decorativo. Cuando ejecutas <code>vb-setup</code>, los agentes escanean tu base de código,<br>
   detectan tu stack y construyen grupos de conocimiento específicos del proyecto que cada habilidad lee antes de actuar.<br>
   Otros harnesses bloquean a los agentes en un solo lenguaje — <code>rust-review-agent</code>, <code>python-linter</code> — inútiles en otro contexto.<br>
   Este se adapta a cualquier combinación de las anteriores y acumula conocimiento a medida que entregas.</em></p>
@@ -154,26 +154,26 @@ Cuando termine, muestra uno de dos mensajes — **lee el final de la salida y ha
 <h3>🆕 Proyecto nuevo</h3>
 El instalador detecta que no hay harness y muestra:
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ Abre tu agente y di <code>Run vc-setup</code></strong>
+<strong>→ Abre tu agente y di <code>Run vb-setup</code></strong>
 <br><br>
-<sub>vc-setup detecta tu stack tecnológico, crea la carpeta <code>process/</code>, escanea tu base de código y rellena tu arquitectura <em>real</em>, convenciones y comandos de prueba — una conversación, no una lista de comprobación.</sub>
+<sub>vb-setup detecta tu stack tecnológico, crea la carpeta <code>process/</code>, escanea tu base de código y rellena tu arquitectura <em>real</em>, convenciones y comandos de prueba — una conversación, no una lista de comprobación.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 Harness existente (actualización)</h3>
 El instalador detecta una instalación previa y muestra:
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ Abre tu agente y di <code>Run vc-update</code></strong>
+<strong>→ Abre tu agente y di <code>Run vb-update</code></strong>
 <br><br>
-<sub>vc-update descarga la versión más reciente y, si encuentra planes o carpetas en formato antiguo, te da un prompt listo para pegar que completa la migración con <strong>cero pérdida de datos</strong>. Tu carpeta <code>process/</code> nunca se toca.</sub>
+<sub>vb-update descarga la versión más reciente y, si encuentra planes o carpetas en formato antiguo, te da un prompt listo para pegar que completa la migración con <strong>cero pérdida de datos</strong>. Tu carpeta <code>process/</code> nunca se toca.</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **Nunca tendrás que adivinar el comando.** `install.sh` te dirige: nuevo → `vc-setup`, actualización → `vc-update`. Volver a ejecutar la instalación siempre es seguro — nunca rompe nada. **Usuarios de Codex:** ejecuta `/vc-setup` (o `/vc-update`) en lugar de decirlo en el chat.
+> 💡 **Nunca tendrás que adivinar el comando.** `install.sh` te dirige: nuevo → `vb-setup`, actualización → `vb-update`. Volver a ejecutar la instalación siempre es seguro — nunca rompe nada. **Usuarios de Codex:** ejecuta `/vb-setup` (o `/vb-update`) en lugar de decirlo en el chat.
 
 <br>
 
@@ -194,15 +194,15 @@ your-project/
 ├── AGENTS.md                # 📖 Agent + skill registry (cross-tool)
 └── process/
     └── development-protocols/  # 📜 22 shared workflow docs (seeded by install)
-                                #    context/, plans, features → built by vc-setup
+                                #    context/, plans, features → built by vb-setup
 ```
 
 - **No destructivo.** Tus `.claude/skills/`, `.claude/agents/`, `process/` y `settings.json` existentes nunca se borran. Solo se escriben o actualizan los archivos propiedad del kit.
 - **¿Configuración existente?** Se respalda en `.vibecode-backup/`; tu `settings.json` se restaura después.
 - **¿`CLAUDE.md` existente?** Se respalda como `CLAUDE.md.pre-vibecode`.
-- **¿`process/` existente?** La instalación nunca lo toca — `vc-setup` / `vc-update` lo migran de forma interactiva, mostrándote primero las diferencias.
+- **¿`process/` existente?** La instalación nunca lo toca — `vb-setup` / `vb-update` lo migran de forma interactiva, mostrándote primero las diferencias.
 
-> **Advertencia en la primera instalación:** si tienes habilidades o agentes personalizados cuyos nombres comienzan con `vc-` (el espacio de nombres reservado del kit) y *nunca* has ejecutado la instalación antes, el paso de eliminación de elementos obsoletos podría marcarlos. Tras la instalación, ejecuta `ls .claude/skills/ .claude/agents/` para confirmarlo. Usa un prefijo distinto de `vc-` (`my-`, `team-`, `proj-`) para tus propias adiciones y evitar esto por completo.
+> **Advertencia en la primera instalación:** si tienes habilidades o agentes personalizados cuyos nombres comienzan con `vb-` (el espacio de nombres reservado del kit) y *nunca* has ejecutado la instalación antes, el paso de eliminación de elementos obsoletos podría marcarlos. Tras la instalación, ejecuta `ls .claude/skills/ .claude/agents/` para confirmarlo. Usa un prefijo distinto de `vb-` (`my-`, `team-`, `proj-`) para tus propias adiciones y evitar esto por completo.
 
 </details>
 
@@ -218,7 +218,7 @@ First, install the vibecode-pro-max-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -273,7 +273,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>Piloto automático</strong><br><sub>3 carriles (quick / fast / full) — arranca en cualquier fase, funciona de inicio a fin sin parar</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>Bloques /goal</strong><br><sub>Textos cortos que se copian y pegan para retomar ejecuciones sin intervención entre sesiones tras un reinicio</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>Bucle de encontrar-errores → corregir → repetir (herramienta compartida para planes, pruebas y evaluaciones)</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>Bucle de encontrar-errores → corregir → repetir (herramienta compartida para planes, pruebas y evaluaciones)</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>Sondas de viabilidad</strong><br><sub>Veredictos de prueba-antes-de-construir (VIABLE / NOT-VIABLE) antes de comprometerse con un diseño</sub></td>
 </tr>
 </table>
@@ -491,7 +491,7 @@ El coordinador enruta, supervisa y dirige los bucles — <strong>nunca edita arc
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>Descubrimiento automático de habilidades</strong><br><br>
-Antes de gestionar cualquier solicitud, escanea <strong>33 habilidades</strong> y asocia palabras clave. Di "añade soporte para webhooks" y <code>vc-security</code> + <code>vc-scenario</code> se incorporan automáticamente.
+Antes de gestionar cualquier solicitud, escanea <strong>33 habilidades</strong> y asocia palabras clave. Di "añade soporte para webhooks" y <code>vb-security</code> + <code>vb-scenario</code> se incorporan automáticamente.
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -532,12 +532,12 @@ Tu solicitud
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>Delega, nunca implementa</strong><br><br>
-Investigación → <code>vc-research-agent</code>. Plan → <code>vc-plan-agent</code>. Código → <code>vc-execute-agent</code>. El coordinador transfiere el contexto correcto y espera — nunca hace el trabajo real por sí mismo.
+Investigación → <code>vb-research-agent</code>. Plan → <code>vb-plan-agent</code>. Código → <code>vb-execute-agent</code>. El coordinador transfiere el contexto correcto y espera — nunca hace el trabajo real por sí mismo.
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>Sin ejecución oculta — nunca</strong><br><br>
-En el momento en que existe un plan con una lista de verificación acordada, "ENTER EXECUTE MODE" <strong>siempre</strong> lanza <code>vc-execute-agent</code>. Incluso una corrección de una línea pasa por él. Las pruebas solo se ejecutan dentro de un <code>vc-tester</code> dedicado. Esto se mantiene independientemente del tamaño del cambio.
+En el momento en que existe un plan con una lista de verificación acordada, "ENTER EXECUTE MODE" <strong>siempre</strong> lanza <code>vb-execute-agent</code>. Incluso una corrección de una línea pasa por él. Las pruebas solo se ejecutan dentro de un <code>vb-tester</code> dedicado. Esto se mantiene independientemente del tamaño del cambio.
 </td>
 </tr>
 <tr>
@@ -560,12 +560,12 @@ flowchart TD
     REQ["User request"]
     SD["Step 0: Skill Discovery\nscan 33 skills, match keywords"]
     INT{"Detect intent\n+ score ambiguity"}
-    RES["vc-research-agent\n(feature / question)"]
-    PLN["vc-plan-agent\n(after INNOVATE)"]
-    VAL["vc-validate-agent\n(PVL loop)"]
-    EXE["vc-execute-agent\n(EXECUTE)"]
-    TST["vc-tester\n(EVL loop)"]
-    UPD["vc-update-process-agent\n(closeout)"]
+    RES["vb-research-agent\n(feature / question)"]
+    PLN["vb-plan-agent\n(after INNOVATE)"]
+    VAL["vb-validate-agent\n(PVL loop)"]
+    EXE["vb-execute-agent\n(EXECUTE)"]
+    TST["vb-tester\n(EVL loop)"]
+    UPD["vb-update-process-agent\n(closeout)"]
     MON["Monitor\nstatus codes · loop driving\nno inline execution ever"]
 
     REQ --> SD --> INT
@@ -600,13 +600,13 @@ flowchart TD
 
 | Fase | Qué ocurre | Agente | Usted dice |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | Recopilación de información de solo lectura — código base y web. No modifica archivos. | `vc-research-agent` | *(automático en solicitudes de funcionalidades)* |
-| 📝 **SPEC** | Documento de requisitos de descubrimiento de producto — historias de usuario, criterios de aceptación, fuera de alcance — para **su revisión antes de cualquier diseño**. | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | Exploración de 2-3 enfoques con sus ventajas y desventajas. Resumen de decisión (elegido + rechazados + por qué). | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | Redacción de la especificación detallada: puntos de contacto, contratos públicos, qué archivos puede tocar, evidencia de verificación, resumen de retomada. | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | Convertir el plan en una lista de verificación acordada (puntos de control V1–V7). Veredicto: **PASS / CONDITIONAL / BLOCKED**. Ejecuta el bucle PVL. | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | Implementar *exactamente* el plan. Notas de progreso en el informe de fase, protocolo de desviación, autorrevisión. Luego el bucle EVL vuelve a ejecutar los puntos de control. | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | Registrar aprendizajes, actualizar contexto, archivar el plan, redactar el paquete de cierre. | `vc-update-process-agent` | *(recomendado después de trabajo no trivial)* |
+| 🔍 **RESEARCH** | Recopilación de información de solo lectura — código base y web. No modifica archivos. | `vb-research-agent` | *(automático en solicitudes de funcionalidades)* |
+| 📝 **SPEC** | Documento de requisitos de descubrimiento de producto — historias de usuario, criterios de aceptación, fuera de alcance — para **su revisión antes de cualquier diseño**. | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | Exploración de 2-3 enfoques con sus ventajas y desventajas. Resumen de decisión (elegido + rechazados + por qué). | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | Redacción de la especificación detallada: puntos de contacto, contratos públicos, qué archivos puede tocar, evidencia de verificación, resumen de retomada. | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | Convertir el plan en una lista de verificación acordada (puntos de control V1–V7). Veredicto: **PASS / CONDITIONAL / BLOCKED**. Ejecuta el bucle PVL. | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | Implementar *exactamente* el plan. Notas de progreso en el informe de fase, protocolo de desviación, autorrevisión. Luego el bucle EVL vuelve a ejecutar los puntos de control. | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | Registrar aprendizajes, actualizar contexto, archivar el plan, redactar el paquete de cierre. | `vb-update-process-agent` | *(recomendado después de trabajo no trivial)* |
 
 > 📝 **Por qué SPEC es su propia fase:** la mayoría de los sistemas pasan de "comprender" a "diseñar" directamente. Insertar un paso de SPEC de descubrimiento de producto significa que *usted* (o su gestor de producto) da el visto bueno a **qué** se va a construir — en historias de usuario e criterios de aceptación sencillos — *antes* de que el agente debata el **cómo**. Es el lugar más barato posible para detectar un malentendido. (Dentro del bucle interno de un programa de fases, SPEC se omite — la SPEC general rige todas las fases.)
 >
@@ -634,7 +634,7 @@ flowchart TD
 ```
 # 🆕 Feature request
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -647,7 +647,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 Bug fix
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -700,7 +700,7 @@ flowchart TD
     ROUTE["Route to matching agent\n(research / plan / execute / …)"]
     STILL{"still unclear\nafter Tier 2?"}
     FINAL["One final plain question\n(max 2 clarification rounds)"]
-    NARROW["Default: vc-research-agent\nnarrowest reasonable scope"]
+    NARROW["Default: vb-research-agent\nnarrowest reasonable scope"]
 
     REQ --> AUTO
     AUTO -->|"auto-skip matches"| T0
@@ -768,24 +768,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL — Plan-Validate-Fix</h3>
-Antes de EXECUTE, <code>vc-validate-agent</code> somete el plan a <strong>puntos de control V1–V7</strong> — distribuyendo el trabajo entre varios agentes para cubrir infraestructura, cobertura de pruebas, cambios disruptivos, seguridad y viabilidad por sección. Un <strong>CONDITIONAL</strong> o <strong>BLOCKED</strong> en el primer pase nunca es el final — regresa a <code>vc-plan-agent</code> para actualizar el plan y luego vuelve a verificar desde V1.
+Antes de EXECUTE, <code>vb-validate-agent</code> somete el plan a <strong>puntos de control V1–V7</strong> — distribuyendo el trabajo entre varios agentes para cubrir infraestructura, cobertura de pruebas, cambios disruptivos, seguridad y viabilidad por sección. Un <strong>CONDITIONAL</strong> o <strong>BLOCKED</strong> en el primer pase nunca es el final — regresa a <code>vb-plan-agent</code> para actualizar el plan y luego vuelve a verificar desde V1.
 <br><br>
-<sub>Gestionado por <code>vc-autoresearch</code> (dominio: plan) — un bucle de búsqueda y corrección de brechas. Límite de 10 ciclos. Detección de estancamiento. Solo <strong>Gate: PASS</strong> (o un CONDITIONAL que usted acepte explícitamente) desbloquea EXECUTE.</sub>
+<sub>Gestionado por <code>vb-autoresearch</code> (dominio: plan) — un bucle de búsqueda y corrección de brechas. Límite de 10 ciclos. Detección de estancamiento. Solo <strong>Gate: PASS</strong> (o un CONDITIONAL que usted acepte explícitamente) desbloquea EXECUTE.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL — Execute-Validate-Fix</h3>
-Cuando EXECUTE informa que ha terminado — <strong>incluso cuando asegura que todos los puntos de control están en verde</strong> — el agente principal <strong>siempre</strong> lanza <code>vc-tester</code> para volver a ejecutar de forma independiente los comandos de prueba exactos de la lista acordada. Un punto de control fallido dirige a una corrección acotada de <code>vc-execute-agent</code>, y luego vuelve a probarse.
+Cuando EXECUTE informa que ha terminado — <strong>incluso cuando asegura que todos los puntos de control están en verde</strong> — el agente principal <strong>siempre</strong> lanza <code>vb-tester</code> para volver a ejecutar de forma independiente los comandos de prueba exactos de la lista acordada. Un punto de control fallido dirige a una corrección acotada de <code>vb-execute-agent</code>, y luego vuelve a probarse.
 <br><br>
-<sub>Gestionado por <code>vc-autoresearch</code> (dominio: tests). Límite de 10 ciclos. El bucle interno "iterar hasta verde" del propio execute-agent <strong>nunca</strong> sustituye esta confirmación independiente.</sub>
+<sub>Gestionado por <code>vb-autoresearch</code> (dominio: tests). Límite de 10 ciclos. El bucle interno "iterar hasta verde" del propio execute-agent <strong>nunca</strong> sustituye esta confirmación independiente.</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **La escala de veredictos:** **PASS** → continuar · **CONDITIONAL** → brechas subsanables; el bucle actúa (o usted las acepta de manera formal) · **BLOCKED** → un problema más profundo; vuelve a PLAN (en modo autopiloto: la brecha pasa a una lista de pendientes y la ejecución continúa).
 
-### 🔁 vc-autoresearch — Motor de bucle compartido
+### 🔁 vb-autoresearch — Motor de bucle compartido
 
-Tanto PVL como EVL utilizan la misma capa de seguimiento: **`vc-autoresearch`** — un bucle de buscar brechas → corregir → repetir. El agente principal conduce el bucle — es dueño del contador de rondas, los informes por ronda, el registro TSV y las verificaciones de estancamiento, límite y regresión. Los agentes de trabajo son de tipo "lanzar y olvidar": devuelven un resultado y se detienen. Ningún agente se relanza a sí mismo ni lanza otro agente de fase.
+Tanto PVL como EVL utilizan la misma capa de seguimiento: **`vb-autoresearch`** — un bucle de buscar brechas → corregir → repetir. El agente principal conduce el bucle — es dueño del contador de rondas, los informes por ronda, el registro TSV y las verificaciones de estancamiento, límite y regresión. Los agentes de trabajo son de tipo "lanzar y olvidar": devuelven un resultado y se detienen. Ningún agente se relanza a sí mismo ni lanza otro agente de fase.
 
 El mismo motor puede funcionar de forma independiente: "reforzar esta especificación", "corregir todos los errores de lint", "mejorar la cobertura de pruebas", "mejorar esta documentación" — cualquier tarea repetida de búsqueda y corrección de brechas en 6 dominios (spec · tests · ux · docs · plan · errors).
 
@@ -821,10 +821,10 @@ flowchart TD
 
 | Modo | Qué hace | Se detiene cuando |
 |---|---|---|
-| `vc-autoresearch` (núcleo) | busca brechas → corrige → repite | no se encuentran brechas O se alcanza el objetivo de la métrica |
-| `vc-autoresearch:probe` | 8 personas interrogan el corpus hasta la saturación | no hay nuevas restricciones durante 3 rondas |
-| `vc-autoresearch:reason` | debate adversarial con jueces ciegos | los jueces convergen o se alcanza el límite de iteraciones |
-| `vc-autoresearch:evals` | analiza los resultados TSV — tendencias, estancamientos, recomendaciones | solo análisis |
+| `vb-autoresearch` (núcleo) | busca brechas → corrige → repite | no se encuentran brechas O se alcanza el objetivo de la métrica |
+| `vb-autoresearch:probe` | 8 personas interrogan el corpus hasta la saturación | no hay nuevas restricciones durante 3 rondas |
+| `vb-autoresearch:reason` | debate adversarial con jueces ciegos | los jueces convergen o se alcanza el límite de iteraciones |
+| `vb-autoresearch:evals` | analiza los resultados TSV — tendencias, estancamientos, recomendaciones | solo análisis |
 
 **Condiciones de parada:** SUCCESS (todo despejado dos rondas seguidas) · HALT_PLATEAU (sin progreso durante 3 rondas) · HALT_CAP (límite estricto de 10 rondas) · HALT_REGRESSION (una verificación que pasaba ahora falla).
 
@@ -832,7 +832,7 @@ flowchart TD
 
 ## 👥 Comparación de estrategias y política de modelos
 
-En **cada transición de fase**, el agente principal invoca `vc-agent-strategy-compare` para recomendar *cómo* ejecutar la siguiente fase — con estimaciones de costo.
+En **cada transición de fase**, el agente principal invoca `vb-agent-strategy-compare` para recomendar *cómo* ejecutar la siguiente fase — con estimaciones de costo.
 
 | Estrategia | Cuándo | Coordinación |
 |---|---|---|
@@ -844,7 +844,7 @@ En **cada transición de fase**, el agente principal invoca `vc-agent-strategy-c
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n(every phase transition)"]
+    SS["vb-agent-strategy-compare\n(every phase transition)"]
     SC{"signal score\n0–7"}
     SEQ["Sequential\none agent at a time\n(output feeds next)"]
     PAR["Parallel subagents\nfire-and-forget\n(independent dimensions)"]
@@ -954,7 +954,7 @@ You: "autopilot full: add team invitations with email + role management"
 Diga `autopilot full: [tarea]` — o pegue un bloque `/goal` — y todo lo siguiente ocurre con **cero intervención humana**:
 
 - **Bucle de verificación y corrección del plan** — encuentra brechas en el plan, las corrige y vuelve a verificar. Hasta 10 rondas por sí solo.
-- **Bucle de construcción, prueba y corrección** — escribe código, ejecuta pruebas, corrige fallos, vuelve a ejecutar. Hasta 10 rondas por sí solo. Nunca confía en su propio "todo en verde" — un verificador independiente (`vc-tester`) vuelve a ejecutar todas las pruebas de forma autónoma para confirmar.
+- **Bucle de construcción, prueba y corrección** — escribe código, ejecuta pruebas, corrige fallos, vuelve a ejecutar. Hasta 10 rondas por sí solo. Nunca confía en su propio "todo en verde" — un verificador independiente (`vb-tester`) vuelve a ejecutar todas las pruebas de forma autónoma para confirmar.
 - **Avance de fase en fase** — pasa de investigación a plan, de plan a código y de código a finalizado sin esperarle.
 - **Retoma tras un reinicio de memoria** — los planes, informes y el progreso se guardan como archivos en disco. Tras la compactación (cuando la memoria a corto plazo de la IA se borra), la siguiente sesión lee esos archivos y continúa exactamente donde se quedó.
 - **¿Funcionalidad bloqueada? La pospone y sigue adelante** — si una fase no puede resolverse, el agente escribe una nota en la lista de pendientes y avanza a la siguiente funcionalidad. Puede ejecutar muchas funcionalidades en paralelo sin que un bloqueador lo detenga todo.
@@ -993,7 +993,7 @@ Validado por `validate-autopilot-goal-block.mjs`.
 
 ### 🔬 Sondeos de viabilidad — pruebe el supuesto antes de construir sobre él
 
-Cuando SPEC, INNOVATE o VALIDATE encuentra un supuesto clave que no puede confirmar solo con lectura, emite `VC-FEASIBILITY-PROBE-NEEDED` y se detiene. El agente principal lanza `vc-debugger` para ejecutar una prueba real y redactar un **VERDICT**:
+Cuando SPEC, INNOVATE o VALIDATE encuentra un supuesto clave que no puede confirmar solo con lectura, emite `VB-FEASIBILITY-PROBE-NEEDED` y se detiene. El agente principal lanza `vb-debugger` para ejecutar una prueba real y redactar un **VERDICT**:
 
 | Veredicto | Significado |
 |---|---|
@@ -1009,9 +1009,9 @@ El kit incluye **38 scripts validadores** que convierten "¿siguió el agente la
 
 | Familia de validadores | Verifica |
 |---|---|
-| `vc-audit-vc` | Paridad de agentes (Claude/Codex), registro de habilidades, portabilidad del kit, metadatos de agentes |
-| `vc-audit-context` | Enrutamiento de contexto, metadatos de descubrimiento, palabras clave de habilidades |
-| `vc-audit-plans` | Inventario de planes, estado general, completitud de fases, informes de fases, notas de pendientes |
+| `vb-audit-vc` | Paridad de agentes (Claude/Codex), registro de habilidades, portabilidad del kit, metadatos de agentes |
+| `vb-audit-context` | Enrutamiento de contexto, metadatos de descubrimiento, palabras clave de habilidades |
+| `vb-audit-plans` | Inventario de planes, estado general, completitud de fases, informes de fases, notas de pendientes |
 | 14 validadores de comportamiento del sistema VC | Cada uno tiene un par de ejemplos de aprobado/reprobado — salida de comparación de estrategias, cierre, clarificación de intención, veredicto de viabilidad, registro de autoresearch, y más |
 
 ---
@@ -1069,24 +1069,24 @@ Antes de escribir una sola línea de código, tres habilidades especializadas pu
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>Debate de 5 personas — <code>vc-predict</code></strong><br><br>
+<strong>Debate de 5 personas — <code>vb-predict</code></strong><br><br>
 Arquitecto, Seguridad, Rendimiento, UX y Abogado del Diablo debaten su plan. Produce un veredicto <strong>GO / CAUTION / STOP</strong> antes de escribir una línea.
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>Casos extremos en 12 dimensiones — <code>vc-scenario</code></strong><br><br>
+<strong>Casos extremos en 12 dimensiones — <code>vb-scenario</code></strong><br><br>
 Descompone una funcionalidad en 12 dimensiones (tipos de usuario, extremos de entrada, temporización, escala, estado, entorno, errores, autenticación, datos, integraciones, cumplimiento, lógica de negocio). La salida sirve también como especificaciones de prueba.
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>Auditoría STRIDE + OWASP — <code>vc-security</code></strong><br><br>
+<strong>Auditoría STRIDE + OWASP — <code>vb-security</code></strong><br><br>
 Auditoría de seguridad con doble metodología que incluye auditoría de dependencias, detección de secretos y un <strong>modo de corrección automática</strong> que ordena por gravedad y corrige primero los elementos Críticos con protecciones contra regresiones.
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>Depuración basada en evidencia — <code>vc-debugger</code></strong><br><br>
+<strong>Depuración basada en evidencia — <code>vb-debugger</code></strong><br><br>
 Recopila evidencia → formula 2-3 hipótesis en competencia → prueba cada una → documenta el proceso de eliminación. <strong>Nunca adivina — demuestra.</strong>
 </td>
 </tr>
@@ -1096,7 +1096,7 @@ Recopila evidencia → formula 2-3 hipótesis en competencia → prueba cada una
 
 ## ✅ Línea de calidad — integrada en la ejecución
 
-**Pruebas primero, código después.** La lista de verificación acordada (redactada antes de tocar cualquier código) define las pruebas exactas que deben pasar. El execute-agent escribe código hasta que esas pruebas queden en verde. Luego un verificador independiente — `vc-tester` — vuelve a ejecutar todas las pruebas por su cuenta para confirmar. El propio "todo en verde" del execute-agent nunca se acepta sin más. Al final, el revisor comprueba que todo el proyecto sigue funcionando en conjunto, no solo la nueva pieza.
+**Pruebas primero, código después.** La lista de verificación acordada (redactada antes de tocar cualquier código) define las pruebas exactas que deben pasar. El execute-agent escribe código hasta que esas pruebas queden en verde. Luego un verificador independiente — `vb-tester` — vuelve a ejecutar todas las pruebas por su cuenta para confirmar. El propio "todo en verde" del execute-agent nunca se acepta sin más. Al final, el revisor comprueba que todo el proyecto sigue funcionando en conjunto, no solo la nueva pieza.
 
 El execute-agent no se limita a escribir código y declarar que ha terminado. Avanza automáticamente a través de una **línea de calidad**:
 
@@ -1186,7 +1186,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— plan file\n— Validate Contract appended here"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— optional references"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— per PVL/EVL cycle report"]
@@ -1216,7 +1216,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> Cada plan contiene: 📍 **puntos de contacto** (archivos creados/modificados) · 📜 **contratos públicos** · 💥 **qué archivos puede tocar** (qué podría romperse, qué hay que probar) · ✅ **evidencia de verificación** · 🔄 **entrega para retomar**. `vc-plan-discovery` encuentra el plan correcto para retomar; el hook `post-write-plan-check` verifica la estructura del plan en cada escritura.
+> Cada plan contiene: 📍 **puntos de contacto** (archivos creados/modificados) · 📜 **contratos públicos** · 💥 **qué archivos puede tocar** (qué podría romperse, qué hay que probar) · ✅ **evidencia de verificación** · 🔄 **entrega para retomar**. `vb-plan-discovery` encuentra el plan correcto para retomar; el hook `post-write-plan-check` verifica la estructura del plan en cada escritura.
 
 ---
 
@@ -1348,11 +1348,11 @@ process/context/
 |---|---|
 | 🧭 **Patrón de enrutador** | Los agentes leen solo lo relevante para su tarea |
 | 📏 **Promoción automática** | Los temas con 3+ documentos (o un solo archivo que crece demasiado) obtienen su propio grupo |
-| 🔄 **Siempre actualizado** | Lo actualiza `vc-update-process-agent` tras cada funcionalidad no trivial |
-| 🧪 **Auditable** | `vc-audit-context` verifica el enrutamiento, el frontmatter de descubrimiento y la coherencia |
+| 🔄 **Siempre actualizado** | Lo actualiza `vb-update-process-agent` tras cada funcionalidad no trivial |
+| 🧪 **Auditable** | `vb-audit-context` verifica el enrutamiento, el frontmatter de descubrimiento y la coherencia |
 | 📨 **Context Envelope** | Cada agente del bucle interno emite una nota de 10 campos al inicio (feature → phase → session-goal → branch → worktree → context-group → blast-radius-packages → active-plan → test-runner → validate-contract) para que un agente trabajador recién iniciado sepa exactamente dónde se encuentra |
 
-> El kit solo incluye la semilla del protocolo — tus grupos de contexto son **construidos para tu proyecto** por `vc-setup`, escaneando tu código real. Son un patrón, no una lista fija.
+> El kit solo incluye la semilla del protocolo — tus grupos de contexto son **construidos para tu proyecto** por `vb-setup`, escaneando tu código real. Son un patrón, no una lista fija.
 
 ---
 
@@ -1390,12 +1390,12 @@ Poseen una fase o un rol. Viven en <code>.claude/agents/</code> — son los 15 a
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Habilidades de contrato (20)</strong><br><br>
-Cada una produce un archivo específico o una salida acordada — <code>vc-generate-plan</code>, <code>vc-validate-findings</code>, <code>vc-autopilot</code>, las auditorías. Los resultados pueden verificarse.
+Cada una produce un archivo específico o una salida acordada — <code>vb-generate-plan</code>, <code>vb-validate-findings</code>, <code>vb-autopilot</code>, las auditorías. Los resultados pueden verificarse.
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Habilidades de apoyo (13)</strong><br><br>
-Mejoran <em>cómo</em> trabajan los agentes, sin producir archivos propios — <code>vc-scout</code>, <code>vc-sequential-thinking</code>, <code>vc-problem-solving</code>, <code>vc-docs-seeker</code>.
+Mejoran <em>cómo</em> trabajan los agentes, sin producir archivos propios — <code>vb-scout</code>, <code>vb-sequential-thinking</code>, <code>vb-problem-solving</code>, <code>vb-docs-seeker</code>.
 </td>
 </tr>
 </table>
@@ -1416,7 +1416,7 @@ Seis meses y muchos reinicios de memoria después, el agente todavía sabe *por 
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["Feature ships\n(EXECUTE + EVL complete)"]
-    UP["UPDATE PROCESS phase\nvc-update-process-agent"]
+    UP["UPDATE PROCESS phase\nvb-update-process-agent"]
     CTX["process/context/ updated\nsmallest relevant file\n+ all-context.md router"]
     AGENT["Next agent spawned\nreads context router\n→ routes to correct group file"]
     BETTER["Better next feature\nno re-discovery, no stale patterns"]
@@ -1434,7 +1434,7 @@ flowchart TD
 
 `process/context/` almacena conocimiento estructurado organizado en grupos temáticos — decisiones de arquitectura, convenciones de código, pasos de despliegue, patrones de prueba, datos de infraestructura. A diferencia de un historial de chat, este conocimiento:
 
-- **viaja a cada agente trabajador** — `vc-context-discovery` enruta cada agente iniciado al enrutador `all-{group}.md` correcto para su tarea, y luego al archivo profundo más pequeño relevante. Un agente de investigación, uno de planificación y uno de programación comienzan todos con el mismo entendimiento compartido
+- **viaja a cada agente trabajador** — `vb-context-discovery` enruta cada agente iniciado al enrutador `all-{group}.md` correcto para su tarea, y luego al archivo profundo más pequeño relevante. Un agente de investigación, uno de planificación y uno de programación comienzan todos con el mismo entendimiento compartido
 - **sobrevive a un reinicio de memoria** — está en disco, no en una ventana de contexto; una sesión comprimida no pierde nada
 - **es legible tanto por Claude como por Codex** — `.agents/skills` es un enlace directo a `.claude/skills/`, por lo que el mismo sistema de contexto sirve a ambos agentes sin duplicación
 
@@ -1455,14 +1455,14 @@ process/context/
 
 La expresión "documentación viva" suele significar "documentación que pretendemos mantener actualizada pero que en su mayoría olvidamos." Este sistema hace cumplir la intención de forma mecánica.
 
-**La fase UPDATE PROCESS requiere una revisión de contexto por archivo antes de poder cerrarse.** `vc-update-process-agent` no puede terminar una fase hasta que cada archivo de contexto potencialmente afectado haya sido revisado con un motivo concreto por archivo. "No se necesitan actualizaciones" está permitido — pero debe nombrar cada archivo revisado y explicar por qué. Los motivos vagos son rechazados. El punto de control es binario: registrar la revisión, o la fase no se cierra.
+**La fase UPDATE PROCESS requiere una revisión de contexto por archivo antes de poder cerrarse.** `vb-update-process-agent` no puede terminar una fase hasta que cada archivo de contexto potencialmente afectado haya sido revisado con un motivo concreto por archivo. "No se necesitan actualizaciones" está permitido — pero debe nombrar cada archivo revisado y explicar por qué. Los motivos vagos son rechazados. El punto de control es binario: registrar la revisión, o la fase no se cierra.
 
 El bucle de retroalimentación completo por cada funcionalidad completada:
 
 | Paso | Responsable | Qué ocurre |
 |------|-------|-------------|
-| 1. Análisis de git diff | `vc-scout` | Mapea los archivos modificados → áreas de contexto afectadas |
-| 2. Revisión por archivo | `vc-update-process-agent` | Nombra cada archivo de contexto, indica la actualización o un explícito "sin cambio + motivo" |
+| 1. Análisis de git diff | `vb-scout` | Mapea los archivos modificados → áreas de contexto afectadas |
+| 2. Revisión por archivo | `vb-update-process-agent` | Nombra cada archivo de contexto, indica la actualización o un explícito "sin cambio + motivo" |
 | 3. Actualizaciones aplicadas | agentes trabajadores en paralelo | El archivo de contexto de cada área se actualiza con nuevos patrones, decisiones y aprendizajes |
 | 4. Enrutamiento verificado | `validate-context-discovery.mjs` | Confirma que cada documento está indexado y que los enrutadores son coherentes |
 | 5. Descubrimiento confirmado | `validate-all-context.mjs` | Confirma que `all-context.md` y los enrutadores de grupo coinciden con los archivos actuales en disco |
@@ -1498,7 +1498,7 @@ Se ejecutan como verificaciones automáticas — un documento obsoleto o huérfa
 
 Los grupos se crean automáticamente cuando un tema alcanza 3+ documentos o un solo archivo supera las ~800 líneas. Los agentes siguen los enrutadores y nunca codifican rutas en duro — por lo que agregar un nuevo grupo (p. ej., `process/context/billing/all-billing.md`) solo requiere actualizar el enrutador, no modificar cada agente que mencione facturación. El enrutador es la referencia estable; los archivos que hay detrás de él pueden reorganizarse libremente.
 
-> El kit siembra los grupos de contexto a partir de tu código base real (mediante `vc-setup`). Los grupos no son una lista fija — son un patrón. Tu área de autenticación, tu área de infraestructura y tu área de pagos se convierten cada una en conocimiento enrutable de primera clase a medida que el proyecto crece.
+> El kit siembra los grupos de contexto a partir de tu código base real (mediante `vb-setup`). Los grupos no son una lista fija — son un patrón. Tu área de autenticación, tu área de infraestructura y tu área de pagos se convierten cada una en conocimiento enrutable de primera clase a medida que el proyecto crece.
 
 ---
 
@@ -1517,15 +1517,15 @@ Los grupos se crean automáticamente cuando un tema alcanza 3+ documentos o un s
 
 | Agente | Modelo | Rol |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | Investigación de código base y web, solo lectura. Seguimiento de contradicciones integrado |
-| 📝 `vc-spec-agent` | sonnet | Documento de requisitos de descubrimiento de producto antes de INNOVATE. Produce `*_SPEC_*.md` |
-| 💡 `vc-innovate-agent` | sonnet | Compara 2-3 enfoques. Resumen de decisión (elegido + rechazado) antes de PLAN |
-| 📋 `vc-plan-agent` | **opus** | Escribe el plan con protecciones contra atajos. "Ya sé cómo hacerlo" no es un plan |
-| ✅ `vc-validate-agent` | **opus** | Convierte el plan en una lista de verificación acordada (V1–V7). Punto de control: PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | Implementa según el plan. Notas de progreso al informe de fase, protocolo de desviación, autorrevisión |
-| ⏩ `vc-fast-mode-agent` | **opus** | R→S→I→P→V comprimido con una pausa de seguridad obligatoria antes de EXECUTE |
-| 🔧 `vc-quick-fix-agent` | **opus** | Carril QUICK FIX: una pequeña edición de bajo riesgo + verificación acotada, sin plan/validación |
-| 🧠 `vc-update-process-agent` | sonnet | Cierre de 7 fases: archivar, actualizar contexto, escaneo de artefactos obsoletos, aprendizajes |
+| 🔍 `vb-research-agent` | **opus** | Investigación de código base y web, solo lectura. Seguimiento de contradicciones integrado |
+| 📝 `vb-spec-agent` | sonnet | Documento de requisitos de descubrimiento de producto antes de INNOVATE. Produce `*_SPEC_*.md` |
+| 💡 `vb-innovate-agent` | sonnet | Compara 2-3 enfoques. Resumen de decisión (elegido + rechazado) antes de PLAN |
+| 📋 `vb-plan-agent` | **opus** | Escribe el plan con protecciones contra atajos. "Ya sé cómo hacerlo" no es un plan |
+| ✅ `vb-validate-agent` | **opus** | Convierte el plan en una lista de verificación acordada (V1–V7). Punto de control: PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | Implementa según el plan. Notas de progreso al informe de fase, protocolo de desviación, autorrevisión |
+| ⏩ `vb-fast-mode-agent` | **opus** | R→S→I→P→V comprimido con una pausa de seguridad obligatoria antes de EXECUTE |
+| 🔧 `vb-quick-fix-agent` | **opus** | Carril QUICK FIX: una pequeña edición de bajo riesgo + verificación acotada, sin plan/validación |
+| 🧠 `vb-update-process-agent` | sonnet | Cierre de 7 fases: archivar, actualizar contexto, escaneo de artefactos obsoletos, aprendizajes |
 
 <br>
 
@@ -1533,12 +1533,12 @@ Los grupos se crean automáticamente cuando un tema alcanza 3+ documentos o un s
 
 | Agente | Rol |
 |-------|------|
-| 🐛 `vc-debugger` | Recopila evidencia antes de formular una hipótesis. Hipótesis en competencia, cadenas de eliminación, sondas de viabilidad |
-| 🧪 `vc-tester` | Consciente de los cambios. Vuelve a ejecutar las pruebas de la lista de verificación acordada (EVL). Escala automáticamente ante cambios de configuración |
-| 🔎 `vc-code-reviewer` | Envía un explorador de casos límite ANTES de la revisión. Detección N+1, verificación de rutas de autenticación |
-| ✨ `vc-code-simplifier` | Ordena el código para mayor claridad sin cambiar el comportamiento |
-| 🎨 `vc-ui-ux-designer` | Frontend consciente del diseño. Puede iniciar un agente de investigación a mitad de la construcción |
-| 📦 `vc-git-manager` | Divide en commits lógicos desde `touched_files`. Rechaza archivos desconocidos |
+| 🐛 `vb-debugger` | Recopila evidencia antes de formular una hipótesis. Hipótesis en competencia, cadenas de eliminación, sondas de viabilidad |
+| 🧪 `vb-tester` | Consciente de los cambios. Vuelve a ejecutar las pruebas de la lista de verificación acordada (EVL). Escala automáticamente ante cambios de configuración |
+| 🔎 `vb-code-reviewer` | Envía un explorador de casos límite ANTES de la revisión. Detección N+1, verificación de rutas de autenticación |
+| ✨ `vb-code-simplifier` | Ordena el código para mayor claridad sin cambiar el comportamiento |
+| 🎨 `vb-ui-ux-designer` | Frontend consciente del diseño. Puede iniciar un agente de investigación a mitad de la construcción |
+| 📦 `vb-git-manager` | Divide en commits lógicos desde `touched_files`. Rechaza archivos desconocidos |
 
 </details>
 
@@ -1551,13 +1551,13 @@ Los grupos se crean automáticamente cuando un tema alcanza 3+ documentos o un s
 
 <br>
 
-**📜 Habilidades de contrato (20)** — poseen un artefacto: `vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Habilidades de contrato (20)** — poseen un artefacto: `vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Habilidades de apoyo (13)** — mejoran cómo trabajan los agentes: `vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Habilidades de apoyo (13)** — mejoran cómo trabajan los agentes: `vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ Regla de nomenclatura:** NO uses el prefijo `vc-` para tus propias habilidades o agentes — ese espacio de nombres está reservado para los archivos incluidos en el kit, y el guardián de eliminación de obsoletos trata cualquier ruta `vc-*` bajo `.claude/skills/` y `.claude/agents/` como propiedad del kit. Usa `my-`, `team-` o `proj-` en su lugar.
+> **⚠️ Regla de nomenclatura:** NO uses el prefijo `vb-` para tus propias habilidades o agentes — ese espacio de nombres está reservado para los archivos incluidos en el kit, y el guardián de eliminación de obsoletos trata cualquier ruta `vb-*` bajo `.claude/skills/` y `.claude/agents/` como propiedad del kit. Usa `my-`, `team-` o `proj-` en su lugar.
 
 <br>
 
@@ -1604,7 +1604,7 @@ Dos opciones más ligeras para cuando el proceso RIPER-5 completo es más de lo 
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Corrección Rápida</strong> — <code>"quick fix: …"</code><br><br>
-Más grande que un simple retoque de una línea, más pequeño que "necesita un plan." El agente principal explora en modo solo lectura → confirmación de una línea → inicia <code>vc-quick-fix-agent</code> para la edición + una verificación acotada solo a los archivos tocados. <strong>Sin plan, sin lista de verificación acordada, sin EVL.</strong>
+Más grande que un simple retoque de una línea, más pequeño que "necesita un plan." El agente principal explora en modo solo lectura → confirmación de una línea → inicia <code>vb-quick-fix-agent</code> para la edición + una verificación acotada solo a los archivos tocados. <strong>Sin plan, sin lista de verificación acordada, sin EVL.</strong>
 <br><br>
 <sub>Se cancela de inmediato si el cambio toca superficies de esquema, autenticación, API, facturación o migración — en ese caso se enruta a RESEARCH completo.</sub>
 </td>
@@ -1625,24 +1625,24 @@ Comprime RESEARCH + SPEC + INNOVATE + PLAN + VALIDATE en un solo paso — pero a
 | Comando | Qué hace | Cuándo |
 |---|---|---|
 | `curl … install.sh \| bash` | Sincroniza los archivos del kit sin sobrescribir los tuyos; detecta automáticamente si es instalación nueva o actualización y te guía | Primera instalación + cada actualización |
-| **Ejecutar vc-setup** | Detecta la pila, estructura `process/`, escanea en profundidad el código base, rellena el contexto real | Tras una instalación nueva |
-| **Ejecutar vc-update** | Calcula un diff preciso, muestra qué cambiará, espera tu confirmación; migra planes/carpetas en formato antiguo sin pérdida de datos | En cada actualización |
-| **Ejecutar vc-publish** *(mantenedores)* | Publica los cambios del arnés de vuelta al repositorio del kit | Al contribuir al kit mismo |
+| **Ejecutar vb-setup** | Detecta la pila, estructura `process/`, escanea en profundidad el código base, rellena el contexto real | Tras una instalación nueva |
+| **Ejecutar vb-update** | Calcula un diff preciso, muestra qué cambiará, espera tu confirmación; migra planes/carpetas en formato antiguo sin pérdida de datos | En cada actualización |
+| **Ejecutar vb-publish** *(mantenedores)* | Publica los cambios del arnés de vuelta al repositorio del kit | Al contribuir al kit mismo |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE complete\nENTER UPDATE PROCESS MODE"]
-    AGT["spawn vc-update-process-agent"]
+    AGT["spawn vb-update-process-agent"]
     A["(a) Archive plan\nactive/ → completed/"]
     B["(b) Update process/context/\nsmallest relevant file\n+ all-context.md router"]
     C["(c) Tier-1 audits\n(change-type gated)"]
-    AVC["vc-audit-vc\nharness/agent edits"]
-    ACX["vc-audit-context\ncontext-doc edits"]
-    APL["vc-audit-plans\nplan/program edits"]
+    AVC["vb-audit-vc\nharness/agent edits"]
+    ACX["vb-audit-context\ncontext-doc edits"]
+    APL["vb-audit-plans\nplan/program edits"]
     D["(d) Capture learnings\nto memory"]
-    E["(e) Write closeout packet\nvc-generate-closeout"]
-    F["(f) Conventional commit\nvc-git-manager"]
+    E["(e) Write closeout packet\nvb-generate-closeout"]
+    F["(f) Conventional commit\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1666,7 +1666,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update` muestra una vista previa del diff y espera tu confirmación. Tu directorio `process/` y el contenido específico del proyecto **nunca** se modifican en silencio. Volver a ejecutar la instalación es seguro aunque se haga dos veces.
+> 💡 `vb-update` muestra una vista previa del diff y espera tu confirmación. Tu directorio `process/` y el contenido específico del proyecto **nunca** se modifican en silencio. Volver a ejecutar la instalación es seguro aunque se haga dos veces.
 
 ---
 

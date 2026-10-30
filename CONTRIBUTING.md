@@ -43,13 +43,13 @@ We welcome many kinds of contributions:
 
 ### Skills
 
-> **⚠️ Reserved prefix:** Do NOT name your custom skills or agents with the `vc-` prefix. That prefix is reserved for kit-shipped artifacts. The install/update stale-removal namespace guard treats `vc-*` paths under `.claude/skills/` and `.claude/agents/` as kit-owned — a custom `vc-foo` skill could be flagged for removal on the next `vc-update` run. Use any other prefix for your own additions.
+> **⚠️ Reserved prefix:** Do NOT name your custom skills or agents with the `vb-` prefix. That prefix is reserved for kit-shipped artifacts. The install/update stale-removal namespace guard treats `vb-*` paths under `.claude/skills/` and `.claude/agents/` as kit-owned — a custom `vb-foo` skill could be flagged for removal on the next `vb-update` run. Use any other prefix for your own additions.
 
 Skills are reusable capability modules that live under `.claude/skills/`. Each skill must:
 
 - Have its own directory (e.g., `.claude/skills/my-skill/`)
 - Contain a `SKILL.md` file with YAML frontmatter (name, description, triggers)
-- **Not** use the `vc-` prefix -- that prefix is reserved for official harness skills
+- **Not** use the `vb-` prefix -- that prefix is reserved for official harness skills
 - Include any helper scripts under a `scripts/` subdirectory if needed
 
 ### Agents
@@ -104,14 +104,14 @@ Fixes for validation scripts, install logic, seed templates, or any other existi
 
    ```bash
    # Inside a Claude Code session in the test project
-   # Invoke the vc-setup skill
+   # Invoke the vb-setup skill
    ```
 
 5. **Run validation scripts** to confirm your environment is correct:
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    All validations should pass before you start making changes.
@@ -168,7 +168,7 @@ Examples:
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -192,11 +192,11 @@ Include in your pull request description:
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-The `vc-manifest.json` file at the repository root tracks all managed files in the harness. When you add new files (skills, agents, hooks, protocols, seeds), you must update this manifest.
+The `vb-manifest.json` file at the repository root tracks all managed files in the harness. When you add new files (skills, agents, hooks, protocols, seeds), you must update this manifest.
 
-The manifest is used by `install.sh` and `vc-update` to know which files to copy and sync. If your new file is not listed in the manifest, it will not be included when users install or update the harness.
+The manifest is used by `install.sh` and `vb-update` to know which files to copy and sync. If your new file is not listed in the manifest, it will not be included when users install or update the harness.
 
 When modifying the manifest:
 
@@ -212,13 +212,13 @@ Before submitting a new skill, verify:
 
 - [ ] Skill lives in its own directory under `.claude/skills/<skill-name>/`
 - [ ] `SKILL.md` exists with valid YAML frontmatter (name, description, at minimum)
-- [ ] Skill name does **not** use the `vc-` prefix (reserved for official skills)
+- [ ] Skill name does **not** use the `vb-` prefix (reserved for official skills)
 - [ ] Any helper scripts are under a `scripts/` subdirectory
-- [ ] `vc-manifest.json` is updated with all new file paths
+- [ ] `vb-manifest.json` is updated with all new file paths
 - [ ] Validation passes:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -233,7 +233,7 @@ Before submitting a new agent, verify:
 - [ ] Agent parity validation passes:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

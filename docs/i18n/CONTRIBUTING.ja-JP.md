@@ -46,7 +46,7 @@ vibecode-pro-max-kitに興味を持っていただきありがとうございま
 
 - 独自のディレクトリが必要です（例：`.claude/skills/my-skill/`）
 - YAMLフロントマター（name、description、triggers）付きの`SKILL.md`ファイルを含む必要があります
-- `vc-`プレフィックスは**使用しないでください**——公式ハーネススキル用に予約されています
+- `vb-`プレフィックスは**使用しないでください**——公式ハーネススキル用に予約されています
 - 必要に応じて`scripts/`サブディレクトリにヘルパースクリプトを配置してください
 
 ### Agents
@@ -101,14 +101,14 @@ README.md、CLAUDE.md、AGENTS.md、インラインコメント、その他の�
 
    ```bash
    # Inside a Claude Code session in the test project
-   # Invoke the vc-setup skill
+   # Invoke the vb-setup skill
    ```
 
 5. **バリデーションスクリプトを実行**して、環境が正しいことを確認する：
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    変更を始める前に、すべてのバリデーションがパスしている必要があります。
@@ -165,7 +165,7 @@ conventional commit形式を使用してください：
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -189,11 +189,11 @@ Pull Requestの説明に以下を含めてください：
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-リポジトリルートにある`vc-manifest.json`ファイルは、ハーネスで管理されるすべてのファイルを追跡します。新しいファイル（スキル、エージェント、フック、プロトコル、シード）を追加する場合、このマニフェストを更新する必要があります。
+リポジトリルートにある`vb-manifest.json`ファイルは、ハーネスで管理されるすべてのファイルを追跡します。新しいファイル（スキル、エージェント、フック、プロトコル、シード）を追加する場合、このマニフェストを更新する必要があります。
 
-マニフェストは`install.sh`と`vc-update`がどのファイルをコピー・同期するかを知るために使用されます。新しいファイルがマニフェストにリストされていない場合、ユーザーがハーネスをインストールまたはアップデートする際に含まれません。
+マニフェストは`install.sh`と`vb-update`がどのファイルをコピー・同期するかを知るために使用されます。新しいファイルがマニフェストにリストされていない場合、ユーザーがハーネスをインストールまたはアップデートする際に含まれません。
 
 マニフェストを変更する際は：
 
@@ -209,13 +209,13 @@ Pull Requestの説明に以下を含めてください：
 
 - [ ] スキルが`.claude/skills/<skill-name>/`配下の独自ディレクトリにある
 - [ ] 有効なYAMLフロントマター（最低限name、description）付きの`SKILL.md`がある
-- [ ] スキル名に`vc-`プレフィックスを使用して**いない**（公式スキル用に予約）
+- [ ] スキル名に`vb-`プレフィックスを使用して**いない**（公式スキル用に予約）
 - [ ] ヘルパースクリプトは`scripts/`サブディレクトリに配置されている
-- [ ] `vc-manifest.json`がすべての新しいファイルパスで更新されている
+- [ ] `vb-manifest.json`がすべての新しいファイルパスで更新されている
 - [ ] バリデーションがパスする：
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -230,7 +230,7 @@ Pull Requestの説明に以下を含めてください：
 - [ ] エージェントパリティバリデーションがパスする：
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

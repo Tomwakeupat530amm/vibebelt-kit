@@ -161,15 +161,15 @@ function extractPaths(toolInput) {
 }
 
 /**
- * Load .vc.json config to check if privacy block is disabled
- * @param {string} [configDir] - Directory containing .vc.json (defaults to .claude in cwd)
+ * Load .vb.json config to check if privacy block is disabled
+ * @param {string} [configDir] - Directory containing .vb.json (defaults to .claude in cwd)
  * @returns {boolean} true if privacy block should be skipped
  */
 function isPrivacyBlockDisabled(configDir) {
   try {
     const baseDir = configDir || path.join(process.cwd(), '.claude');
     // New-first, then the pre-rename name, then legacy (.ck.json) for backward compatibility.
-    const newPath = path.join(baseDir, '.vc.json');
+    const newPath = path.join(baseDir, '.vb.json');
     const prevPath = path.join(baseDir, '.vc.json'); // legacy-vc-fallback
     const legacyPath = path.join(baseDir, '.ck.json');
     const configPath = [newPath, prevPath].find((p) => fs.existsSync(p)) || legacyPath;
@@ -181,17 +181,17 @@ function isPrivacyBlockDisabled(configDir) {
 }
 
 /**
- * Check if a file basename is in the project's privacyAllowlist in .vc.json.
+ * Check if a file basename is in the project's privacyAllowlist in .vb.json.
  * Allowlisted files bypass the block without the APPROVED: prefix.
  * Use sparingly — only for project-owned test/config files the agent manages.
  * @param {string} testPath - Path to check
- * @param {string} [configDir] - Directory containing .vc.json
+ * @param {string} [configDir] - Directory containing .vb.json
  * @returns {boolean} true if the basename is explicitly allowlisted
  */
 function isPrivacyAllowlisted(testPath, configDir) {
   try {
     const baseDir = configDir || path.join(process.cwd(), '.claude');
-    const newPath = path.join(baseDir, '.vc.json');
+    const newPath = path.join(baseDir, '.vb.json');
     const prevPath = path.join(baseDir, '.vc.json'); // legacy-vc-fallback
     const legacyPath = path.join(baseDir, '.ck.json');
     const configPath = [newPath, prevPath].find((p) => fs.existsSync(p)) || legacyPath;
@@ -238,7 +238,7 @@ function buildPromptData(filePath) {
  * @param {Object} params.toolInput - Tool input with file_path, path, command, etc.
  * @param {Object} [params.options]
  * @param {boolean} [params.options.disabled] - Skip checks if true
- * @param {string} [params.options.configDir] - Directory for .vc.json config
+ * @param {string} [params.options.configDir] - Directory for .vb.json config
  * @param {boolean} [params.options.allowBash] - Allow Bash tool without blocking (default: true)
  * @returns {{
  *   blocked: boolean,
@@ -276,7 +276,7 @@ function checkPrivacy({ toolName, toolInput, options = {} }) {
       };
     }
 
-    // Check project-level allowlist in .vc.json
+    // Check project-level allowlist in .vb.json
     if (isPrivacyAllowlisted(testPath, configDir)) {
       return { blocked: false, approved: true, filePath: testPath };
     }

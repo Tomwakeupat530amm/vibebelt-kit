@@ -24,7 +24,7 @@ try {
     normalizePath,
     extractTaskListId,
     isHookEnabled
-  } = require('./lib/vc-config-utils.cjs');
+  } = require('./lib/vb-config-utils.cjs');
   const { resolveSkillsVenv } = require('./lib/context-builder.cjs');
   const { createHookTimer, logHookCrash } = require('./lib/hook-logger.cjs');
 
@@ -57,7 +57,7 @@ function buildPlanCliSection(agentType) {
   return [
     ``,
     `## Plan CLI (deterministic updates)`,
-    `\`vc plan check <id>\` = completed | \`vc plan check <id> --start\` = in-progress | \`vc plan uncheck <id>\` = revert`,
+    `\`vb plan check <id>\` = completed | \`vb plan check <id> --start\` = in-progress | \`vb plan uncheck <id>\` = revert`,
     `Fallback: if \`vc\` unavailable, update the selected plan file directly; never infer a generic \`plan.md\`.`
   ];
 }

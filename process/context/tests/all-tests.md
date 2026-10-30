@@ -34,7 +34,7 @@ This is the fast operator guide for the testing surface of this repo. There is n
 |---|---|
 | the program's saved validator results (before/after) | `process/general-plans/active/vibebelt-rebrand_29-10-26/baseline/validators_before.tsv` (Linux node) and `.../baseline/validators_before.node-exe.tsv` (node.exe); same pair for `validators_after_setup` |
 | which validators CI runs | `.github/workflows/validate.yml` |
-| validator ownership by skill | `.claude/skills/vc-audit-vc/SKILL.md`, `.claude/skills/vc-audit-context/SKILL.md`, `.claude/skills/vc-audit-plans/SKILL.md` |
+| validator ownership by skill | `.claude/skills/vb-audit-vc/SKILL.md`, `.claude/skills/vb-audit-context/SKILL.md`, `.claude/skills/vb-audit-plans/SKILL.md` |
 | the planning side of verification | `process/context/planning/all-planning.md` |
 
 (No deeper test docs exist in this group yet; this file is enough for the current surface.)
@@ -48,13 +48,13 @@ This is the fast operator guide for the testing surface of this repo. There is n
 
 ### Use `node --test e2e-kit-flows.test.mjs` when
 
-- you changed `install.sh`, `resolve-manifest.mjs`, `compute-sync-plan.mjs`, or `vc-manifest.json`
-- it runs four trials in throwaway `/tmp/vc-e2e-*` projects: A new install on an empty project, B user skills survive install, C v2.x to v3 migration, D publish dry-run never pushes
+- you changed `install.sh`, `resolve-manifest.mjs`, `compute-sync-plan.mjs`, or `vb-manifest.json`
+- it runs four trials in throwaway `/tmp/vb-e2e-*` projects: A new install on an empty project, B user skills survive install, C v2.x to v3 migration, D publish dry-run never pushes
 
 ### Use the per-area unit tests when
 
-- you changed hooks (`.claude/hooks/__tests__/session-state.test.cjs`, `.claude/hooks/lib/__tests__/*.test.cjs`, `.claude/hooks/scout-block/tests/`), `vc-review-situation` (`review-situation-scan.test.cjs`), or `vc-agent-browser` (`scripts/__tests__/*.test.js`)
-- `vc-sequential-thinking` (`tests/*.test.js`) is not in this list: its tests use `describe` globals and are not runnable with `node --test` (exit 1: `ReferenceError: describe is not defined`)
+- you changed hooks (`.claude/hooks/__tests__/session-state.test.cjs`, `.claude/hooks/lib/__tests__/*.test.cjs`, `.claude/hooks/scout-block/tests/`), `vb-review-situation` (`review-situation-scan.test.cjs`), or `vb-agent-browser` (`scripts/__tests__/*.test.js`)
+- `vb-sequential-thinking` (`tests/*.test.js`) is not in this list: its tests use `describe` globals and are not runnable with `node --test` (exit 1: `ReferenceError: describe is not defined`)
 - these use `node --test <file>`; they are excluded from the install manifest, so they only exist in this source repo
 
 ## Default Verification Order
@@ -71,9 +71,9 @@ Run from the repo root with `node` (Linux 22) or `node.exe` (Windows 24); the ba
 | Area | Runner | Command |
 |---|---|---|
 | one validator | node | `node .claude/skills/<skill>/scripts/<validator>.mjs` |
-| context validator | node | `node .claude/skills/vc-generate-context/scripts/validate-all-context.mjs` |
-| context routing in sync | node | `node .claude/skills/vc-context-discovery/scripts/discover-context.mjs --check-routing` |
-| agent parity | node | `node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs` |
+| context validator | node | `node .claude/skills/vb-generate-context/scripts/validate-all-context.mjs` |
+| context routing in sync | node | `node .claude/skills/vb-context-discovery/scripts/discover-context.mjs --check-routing` |
+| agent parity | node | `node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs` |
 | all validators (loop) | bash | `for f in .claude/skills/*/scripts/validate-*.mjs; do node "$f" >/dev/null 2>&1; echo "$? $f"; done` |
 | installer / manifest e2e | node:test | `node --test e2e-kit-flows.test.mjs` |
 | hook unit test | node:test | `node --test .claude/hooks/__tests__/session-state.test.cjs` |
@@ -87,8 +87,8 @@ Run from the repo root with `node` (Linux 22) or `node.exe` (Windows 24); the ba
 - **Run validators from the repo root.** They use `process.cwd()` or `git rev-parse --show-toplevel`; running from another directory checks the wrong tree.
 - **Two git binaries.** From WSL, `git` is Linux git, but validators launched through `node.exe` shell out to Windows git. Both must see a clean, same-state tree.
 - **Two runtimes.** WSL has Linux node 22 (`node`) and Windows has `node.exe` 24; paths printed by node.exe are Windows-style. Compare results only against a baseline saved with the same runtime.
-- **`/tmp` in e2e.** `e2e-kit-flows.test.mjs` creates `/tmp/vc-e2e-*` projects (under `node.exe` this resolves to `C:\tmp\`). Delete only the folders your own run created.
-- **Generated catalog.** `process/context/generated-skills-catalog.json` is rebuilt with `node .claude/skills/vc-audit-context/scripts/generate-skills-catalog.mjs --write`.
+- **`/tmp` in e2e.** `e2e-kit-flows.test.mjs` creates `/tmp/vb-e2e-*` projects (under `node.exe` this resolves to `C:\tmp\`). Delete only the folders your own run created.
+- **Generated catalog.** `process/context/generated-skills-catalog.json` is rebuilt with `node .claude/skills/vb-audit-context/scripts/generate-skills-catalog.mjs --write`.
 
 ## Known Gaps
 
@@ -102,8 +102,8 @@ Baseline reds on 2026-10-29 (saved in `process/general-plans/active/vibebelt-reb
 | `.claude/hooks/lib/__tests__/statusline-integration.test.cjs` | 1 | baseline red (Linux node) | none |
 | `.claude/hooks/lib/__tests__/statusline-scenarios.test.cjs` | 1 | baseline red (Linux node) | none |
 | `.claude/hooks/lib/__tests__/transcript-parser-signals.test.cjs` | 1 | baseline red (Linux node) | none |
-| `.claude/skills/vc-review-situation/scripts/review-situation-scan.test.cjs` | 1 | 1 of 10 fails: 'task-folder convention plan is detected as primary plan' (`payload.plans.finished is not iterable`) | none |
-| `.claude/skills/vc-sequential-thinking/tests/*.test.js` | 1 | 'describe is not defined' (tests use `describe` globals) | none |
+| `.claude/skills/vb-review-situation/scripts/review-situation-scan.test.cjs` | 1 | 1 of 10 fails: 'task-folder convention plan is detected as primary plan' (`payload.plans.finished is not iterable`) | none |
+| `.claude/skills/vb-sequential-thinking/tests/*.test.js` | 1 | 'describe is not defined' (tests use `describe` globals) | none |
 
 Other gaps:
 

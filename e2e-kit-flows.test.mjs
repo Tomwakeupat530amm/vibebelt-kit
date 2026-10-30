@@ -8,7 +8,7 @@
  * Run: node e2e-kit-flows.test.mjs
  * Or:  node --test e2e-kit-flows.test.mjs
  *
- * VC_KIT_SOURCE must point to the local kit for all trials.
+ * VB_KIT_SOURCE must point to the local kit for all trials.
  * Default: KIT_PATH = the kit repo root (this file's directory)
  */
 import { test } from 'node:test';
@@ -17,11 +17,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 
-const KIT_PATH = process.env.VC_KIT_SOURCE
+const KIT_PATH = process.env.VB_KIT_SOURCE
   ?? path.dirname(new URL(import.meta.url).pathname);
 const INSTALL_SH = path.join(KIT_PATH, 'install.sh');
 // Kit manifest: the current name first; kits from before the prefix rename ship the old name.
-const KIT_MANIFEST_NEW = path.join(KIT_PATH, 'vc-manifest.json');
+const KIT_MANIFEST_NEW = path.join(KIT_PATH, 'vb-manifest.json');
 const KIT_MANIFEST_OLD = path.join(KIT_PATH, 'vc-manifest.json'); // legacy-vc-fallback
 const KIT_MANIFEST = fs.existsSync(KIT_MANIFEST_NEW) ? KIT_MANIFEST_NEW : KIT_MANIFEST_OLD;
 
@@ -35,7 +35,7 @@ const KIT_MANIFEST = fs.existsSync(KIT_MANIFEST_NEW) ? KIT_MANIFEST_NEW : KIT_MA
  * @returns {string} projectPath
  */
 function seedProject(opts) {
-  const projectPath = fs.mkdtempSync('/tmp/vc-e2e-');
+  const projectPath = fs.mkdtempSync('/tmp/vb-e2e-');
 
   // Every project needs git init — discover-skills.mjs runs git rev-parse
   execSync('git init -q', { cwd: projectPath });
@@ -109,24 +109,24 @@ test('Trial A: new install on empty project', async () => {
   try {
     execSync(`bash ${INSTALL_SH}`, {
       cwd: projectPath,
-      env: { ...process.env, VC_KIT_SOURCE: KIT_PATH },
+      env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
     });
 
-    // AC-3: VC_KIT_SOURCE honored — installed version matches kit manifest version
+    // AC-3: VB_KIT_SOURCE honored — installed version matches kit manifest version
     const kitVersion = JSON.parse(
       fs.readFileSync(KIT_MANIFEST, 'utf8')
     ).version;
     const installedVersion = fs.readFileSync(
-      path.join(projectPath, '.vc-version'),
+      path.join(projectPath, '.vb-version'),
       'utf8'
     ).trim();
     assert.equal(installedVersion, kitVersion, 'AC-3: installed version matches kit version');
 
-    // AC-2: no rm -rf wipe — .vc-installed-files written
+    // AC-2: no rm -rf wipe — .vb-installed-files written
     assert.ok(
-      fs.existsSync(path.join(projectPath, '.vc-installed-files')),
-      'AC-2: .vc-installed-files written'
+      fs.existsSync(path.join(projectPath, '.vb-installed-files')),
+      'AC-2: .vb-installed-files written'
     );
 
     // AC-2 (code audit): install.sh does not contain the wipe line
@@ -136,7 +136,7 @@ test('Trial A: new install on empty project', async () => {
       'AC-2: install.sh does not contain rm -rf .claude .codex .agents wipe'
     );
 
-    // vc-* skills directory present
+    // vb-* skills directory present
     assert.ok(
       fs.existsSync(path.join(projectPath, '.claude/skills')),
       'kit skills directory present'
@@ -150,7 +150,7 @@ test('Trial A: new install on empty project', async () => {
 
     // discover-skills exits 0 (tests git rev-parse + skill discovery)
     execSync(
-      `node ${path.join(KIT_PATH, '.claude/skills/vc-context-discovery/scripts/discover-skills.mjs')}`,
+      `node ${path.join(KIT_PATH, '.claude/skills/vb-context-discovery/scripts/discover-skills.mjs')}`,
       { cwd: projectPath, stdio: 'pipe' }
     );
     // No assertion needed — execSync throws on non-zero exit
@@ -179,7 +179,7 @@ test('Trial B: coexistence — user skills survive install', async () => {
   try {
     execSync(`bash ${INSTALL_SH}`, {
       cwd: projectPath,
-      env: { ...process.env, VC_KIT_SOURCE: KIT_PATH },
+      env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
     });
 
@@ -211,10 +211,10 @@ test('Trial B: coexistence — user skills survive install', async () => {
       'AC-17: .vibecode-backup directory present'
     );
 
-    // AC-2: kit vc-* skills installed alongside user skill
+    // AC-2: kit vb-* skills installed alongside user skill
     const skillDirs = fs.readdirSync(path.join(projectPath, '.claude/skills'));
-    const hasVcSkills = skillDirs.some((d) => d.startsWith('vc-'));
-    assert.ok(hasVcSkills, 'AC-2: vc-* skills installed');
+    const hasVcSkills = skillDirs.some((d) => d.startsWith('vb-'));
+    assert.ok(hasVcSkills, 'AC-2: vb-* skills installed');
     assert.ok(
       skillDirs.includes('my-custom-skill'),
       'AC-1: my-custom-skill still present'
@@ -240,7 +240,7 @@ test('Trial C: v2.x to v3 migration via install', async () => {
   try {
     execSync(`bash ${INSTALL_SH}`, {
       cwd: projectPath,
-      env: { ...process.env, VC_KIT_SOURCE: KIT_PATH },
+      env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
     });
 
@@ -252,15 +252,15 @@ test('Trial C: v2.x to v3 migration via install', async () => {
     );
     // rename-prefix:keep:end
 
-    // AC-7: .vc-version updated to current kit version
+    // AC-7: .vb-version updated to current kit version
     const kitVersion = JSON.parse(
       fs.readFileSync(KIT_MANIFEST, 'utf8')
     ).version;
     const installedVersion = fs.readFileSync(
-      path.join(projectPath, '.vc-version'),
+      path.join(projectPath, '.vb-version'),
       'utf8'
     ).trim();
-    assert.equal(installedVersion, kitVersion, 'AC-7: .vc-version updated to v3.0.0');
+    assert.equal(installedVersion, kitVersion, 'AC-7: .vb-version updated to v3.0.0');
 
     // AC-7 / AC-1: user-owned my-tool untouched
     const userToolAfter = fs.readFileSync(userToolPath);
@@ -278,7 +278,7 @@ test('Trial C: v2.x to v3 migration via install', async () => {
     const legacyDeletions = manifest.legacyDeletions || [];
     const KIT_NAMESPACES = [
       '.claude/skills/vc-', '.claude/agents/vc-', // legacy-vc-fallback: entries of the kit before the prefix rename
-      '.claude/skills/vc-', '.claude/agents/vc-',
+      '.claude/skills/vb-', '.claude/agents/vb-',
       '.claude/hooks/', '.codex/', 'process/development-protocols/', 'process/_seeds/',
     ];
     const KIT_DIRS = ['process/general-plans/reports', 'process/general-plans/references'];
@@ -299,13 +299,13 @@ test('Trial C: v2.x to v3 migration via install', async () => {
 // ──────────────────────────────────────────────────────────────
 test('Trial D: publish dry-run — no git push occurs without explicit approval', async () => {
   // This trial is a proxy for "agent paused at push gate."
-  // We cannot automate the full vc-publish prose flow (it requires Claude Code).
+  // We cannot automate the full vb-publish prose flow (it requires Claude Code).
   // The proxy: assert SKILL.md contains the required gate language, then run
   // compute-sync-plan.mjs in publish direction and assert git state unchanged.
 
   const publishSkillPath = path.join(
     KIT_PATH,
-    '.claude/skills/vc-publish/SKILL.md'
+    '.claude/skills/vb-publish/SKILL.md'
   );
   const skillContent = fs.readFileSync(publishSkillPath, 'utf8');
 
@@ -315,23 +315,23 @@ test('Trial D: publish dry-run — no git push occurs without explicit approval'
       (skillContent.includes('explicit') &&
         skillContent.includes('push') &&
         skillContent.includes('Step 9')),
-    'AC-14: vc-publish SKILL.md contains explicit push gate step'
+    'AC-14: vb-publish SKILL.md contains explicit push gate step'
   );
 
   // AC-14: NEVER auto-push rule present in SKILL.md Rules section
   assert.ok(
     skillContent.includes('NEVER auto-push') ||
       skillContent.includes('never auto-push'),
-    'AC-14: vc-publish SKILL.md Rules section has NEVER auto-push rule'
+    'AC-14: vb-publish SKILL.md Rules section has NEVER auto-push rule'
   );
 
   // AC-15: leak detection step precedes commit/push step in the flow
   const leakPos = skillContent.indexOf('Leak Detection');
   const commitPos = skillContent.indexOf('Commit and Tag');
-  assert.ok(leakPos !== -1, 'AC-15: Leak Detection step present in vc-publish SKILL.md');
+  assert.ok(leakPos !== -1, 'AC-15: Leak Detection step present in vb-publish SKILL.md');
   assert.ok(
     commitPos !== -1,
-    'AC-15: Commit and Tag step present in vc-publish SKILL.md'
+    'AC-15: Commit and Tag step present in vb-publish SKILL.md'
   );
   assert.ok(
     leakPos < commitPos,
@@ -339,9 +339,9 @@ test('Trial D: publish dry-run — no git push occurs without explicit approval'
   );
 
   // Proxy: run compute-sync-plan.mjs in publish direction and assert git state unchanged
-  const tmpKitClone = fs.mkdtempSync('/tmp/vc-e2e-publish-');
+  const tmpKitClone = fs.mkdtempSync('/tmp/vb-e2e-publish-');
   try {
-    // Clone the local kit to a tmpdir (simulates kitRepoPath in vc-publish)
+    // Clone the local kit to a tmpdir (simulates kitRepoPath in vb-publish)
     execSync(`git clone --local --quiet "${KIT_PATH}" "${tmpKitClone}"`, {
       stdio: 'pipe',
     });

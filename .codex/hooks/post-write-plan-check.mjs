@@ -8,9 +8,9 @@
 // a clean no-op. Fail-open: advisory only, never blocks the write (always exits 0).
 //
 // Wired validators (Bucket A — one file each):
-//   *umbrella_PLAN_*.md     -> vc-generate-phase-program/scripts/validate-umbrella-artifact.mjs
-//   phase-*_PLAN_*.md       -> vc-generate-phase-program/scripts/validate-phase-stub.mjs
-//   process/**/*_PLAN_*.md  -> vc-generate-plan/scripts/validate-plan-artifact.mjs
+//   *umbrella_PLAN_*.md     -> vb-generate-phase-program/scripts/validate-umbrella-artifact.mjs
+//   phase-*_PLAN_*.md       -> vb-generate-phase-program/scripts/validate-phase-stub.mjs
+//   process/**/*_PLAN_*.md  -> vb-generate-plan/scripts/validate-plan-artifact.mjs
 // Whole-tree scan validators (context/plans/harness groups) run from the Stop hook
 // (stop-validator-sweep.mjs), not here.
 
@@ -27,17 +27,17 @@ const ROUTES = [
   {
     label: "umbrella-artifact",
     re: /(^|\/)[^/]*umbrella_PLAN_[^/]*\.md$/,
-    validator: ".claude/skills/vc-generate-phase-program/scripts/validate-umbrella-artifact.mjs",
+    validator: ".claude/skills/vb-generate-phase-program/scripts/validate-umbrella-artifact.mjs",
   },
   {
     label: "phase-stub",
     re: /(^|\/)phase-\d[^/]*_PLAN_[^/]*\.md$/,
-    validator: ".claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs",
+    validator: ".claude/skills/vb-generate-phase-program/scripts/validate-phase-stub.mjs",
   },
   {
     label: "plan-artifact",
     re: /(^|\/)process\/.*_PLAN_.*\.md$/,
-    validator: ".claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs",
+    validator: ".claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs",
   },
 ];
 

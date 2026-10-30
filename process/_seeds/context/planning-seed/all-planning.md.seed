@@ -31,13 +31,13 @@ Read this entrypoint when:
 
 ## Quick Routing
 
-- use `.claude/skills/vc-generate-plan/references/example-simple-prd.md` to calibrate a one-session plan
-- use `.claude/skills/vc-generate-plan/references/example-complex-prd.md` to calibrate a complex or multi-phase plan
+- use `.claude/skills/vb-generate-plan/references/example-simple-prd.md` to calibrate a one-session plan
+- use `.claude/skills/vb-generate-plan/references/example-complex-prd.md` to calibrate a complex or multi-phase plan
 
 ## Source Paths
 
-- `.claude/skills/vc-generate-plan/references/example-simple-prd.md`
-- `.claude/skills/vc-generate-plan/references/example-complex-prd.md`
+- `.claude/skills/vb-generate-plan/references/example-simple-prd.md`
+- `.claude/skills/vb-generate-plan/references/example-complex-prd.md`
 
 ## Update Triggers
 

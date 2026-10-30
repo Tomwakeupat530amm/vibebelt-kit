@@ -47,7 +47,7 @@ function assertTrue(condition, message) {
 }
 
 function tempCachePath(label) {
-  return path.join(os.tmpdir(), `vc-usage-cache-test-${label}-${process.pid}-${Date.now()}.json`);
+  return path.join(os.tmpdir(), `vb-usage-cache-test-${label}-${process.pid}-${Date.now()}.json`);
 }
 
 async function main() {

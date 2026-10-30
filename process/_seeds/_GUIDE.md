@@ -29,4 +29,4 @@ process/
 - Real files in `context/`, `features/`, `general-plans/` contain actual project content
 - SCAFFOLD phase copies seed structure to create real working folders
 - STUDY phase reads seeds for section guidance, writes real content to working folders
-- Seeds are maintained for reference and future harness updates (vc-update)
+- Seeds are maintained for reference and future harness updates (vb-update)

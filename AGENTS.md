@@ -1,6 +1,6 @@
 # AGENTS.md
 
-**Bootstrap guard:** If `process/context/all-context.md` does not exist, the harness has not been set up yet (a bare `process/context/` holding only `generated-skills-catalog.json` from install does NOT count). Run `vc-setup` before any task — the context router and protocol docs are absent and agents will not route correctly.
+**Bootstrap guard:** If `process/context/all-context.md` does not exist, the harness has not been set up yet (a bare `process/context/` holding only `generated-skills-catalog.json` from install does NOT count). Run `vb-setup` before any task — the context router and protocol docs are absent and agents will not route correctly.
 
 This file is the Codex compatibility layer for the existing `.claude/` system.
 
@@ -43,9 +43,9 @@ Read these files as needed:
 
 Reference docs (harness methodology, not project-specific):
 
-- `.claude/skills/vc-generate-plan/references/example-simple-prd.md` - Reference for simple plan structure
-- `.claude/skills/vc-generate-plan/references/example-complex-prd.md` - Reference for complex plan depth
-- `.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md` - Program Goal Charter template for phase programs
+- `.claude/skills/vb-generate-plan/references/example-simple-prd.md` - Reference for simple plan structure
+- `.claude/skills/vb-generate-plan/references/example-complex-prd.md` - Reference for complex plan depth
+- `.claude/skills/vb-generate-phase-program/references/program-goal-charter-template.md` - Program Goal Charter template for phase programs
 
 ### Orchestrator Role (Main Codex Session)
 
@@ -64,11 +64,11 @@ Your responsibilities:
 
 You do NOT:
 
-- Perform research yourself when the request is explicitly a RESEARCH workflow if the dedicated `vc-research-agent` should be used
-- Brainstorm approaches yourself when the request is explicitly an INNOVATE workflow if the dedicated `vc-innovate-agent` should be used
-- Write plans yourself when the request is explicitly a PLAN workflow if the dedicated `vc-plan-agent` should be used
-- Implement code yourself when the request is explicitly an EXECUTE workflow if the dedicated `vc-execute-agent` should be used
-- Update rules yourself when the request is explicitly an UPDATE PROCESS workflow if the dedicated `vc-update-process-agent` should be used
+- Perform research yourself when the request is explicitly a RESEARCH workflow if the dedicated `vb-research-agent` should be used
+- Brainstorm approaches yourself when the request is explicitly an INNOVATE workflow if the dedicated `vb-innovate-agent` should be used
+- Write plans yourself when the request is explicitly a PLAN workflow if the dedicated `vb-plan-agent` should be used
+- Implement code yourself when the request is explicitly an EXECUTE workflow if the dedicated `vb-execute-agent` should be used
+- Update rules yourself when the request is explicitly an UPDATE PROCESS workflow if the dedicated `vb-update-process-agent` should be used
 
 Exception: Trivial questions that don't require mode-specific work, for example "What is
 RIPER-5?", can be answered directly.
@@ -92,15 +92,15 @@ Before substantial planning or implementation work, consult:
 The complete RIPER-5 protocol is defined in the real agent files at `.claude/agents/` and mirrored
 for Codex through `.codex/agents/`:
 
-- `.claude/agents/vc-research-agent.md`
-- `.claude/agents/vc-spec-agent.md` — SPEC: product-discovery requirements doc before INNOVATE
-- `.claude/agents/vc-innovate-agent.md`
-- `.claude/agents/vc-plan-agent.md`
-- `.claude/agents/vc-validate-agent.md` — VALIDATE: convert plan to executable contract before EXECUTE
-- `.claude/agents/vc-execute-agent.md`
-- `.claude/agents/vc-fast-mode-agent.md`
-- `.claude/agents/vc-update-process-agent.md`
-- `.claude/agents/vc-quick-fix-agent.md` — QUICK FIX lane: lightweight lane for small low-risk changes
+- `.claude/agents/vb-research-agent.md`
+- `.claude/agents/vb-spec-agent.md` — SPEC: product-discovery requirements doc before INNOVATE
+- `.claude/agents/vb-innovate-agent.md`
+- `.claude/agents/vb-plan-agent.md`
+- `.claude/agents/vb-validate-agent.md` — VALIDATE: convert plan to executable contract before EXECUTE
+- `.claude/agents/vb-execute-agent.md`
+- `.claude/agents/vb-fast-mode-agent.md`
+- `.claude/agents/vb-update-process-agent.md`
+- `.claude/agents/vb-quick-fix-agent.md` — QUICK FIX lane: lightweight lane for small low-risk changes
 - `.codex/agents/*.toml` mirrors the same agent roster for Codex
 
 The orchestrator operates outside the RIPER-5 phase modes. It routes, delegates, and monitors.
@@ -118,13 +118,13 @@ Key Requirements:
 
 Auto-Detection Patterns:
 
-- Feature requests -> Step 0 skill discovery -> vc-research-agent -> SPEC -> INNOVATE -> PLAN -> VALIDATE -> EXECUTE
-- Questions -> vc-research-agent for non-trivial investigation or direct answer for trivial conceptual questions
-- Trivial fixes -> vc-execute-agent directly with no plan required
-- Bug/debug -> vc-debugger as the default actor; helper skills like `vc-scout`, `vc-sequential-thinking`, and `vc-problem-solving` may assist
-- UI/frontend -> surface vc-frontend-design skill plus vc-research-agent
-- Refactor/simplify -> vc-code-simplifier for pure style or RESEARCH -> PLAN -> EXECUTE for behavioral refactors
-- Missing context -> suggest the `vc-generate-context` skill
+- Feature requests -> Step 0 skill discovery -> vb-research-agent -> SPEC -> INNOVATE -> PLAN -> VALIDATE -> EXECUTE
+- Questions -> vb-research-agent for non-trivial investigation or direct answer for trivial conceptual questions
+- Trivial fixes -> vb-execute-agent directly with no plan required
+- Bug/debug -> vb-debugger as the default actor; helper skills like `vb-scout`, `vb-sequential-thinking`, and `vb-problem-solving` may assist
+- UI/frontend -> surface vb-frontend-design skill plus vb-research-agent
+- Refactor/simplify -> vb-code-simplifier for pure style or RESEARCH -> PLAN -> EXECUTE for behavioral refactors
+- Missing context -> suggest the `vb-generate-context` skill
 - Existing plan file -> scan `process/general-plans/active/` and `process/features/*/active/`, confirm with user, resume from last phase
 
 Large program rule: a substantial multi-phase effort is not one PLAN -> EXECUTE pass. Use `process/development-protocols/phase-programs.md` (and its kickoff prompt template): first recommend the plan shape, sequencing and next actions; only after approval create an umbrella plan plus explicit phase plans; advance one phase at a time (research subagent -> execution approval -> execute subagent -> validate subagent -> durable report/context update).
@@ -175,7 +175,7 @@ Context group lifecycle: create or promote a context group when a topic has 3+ d
 a single doc exceeds roughly 800 lines with separable subtopics, or multiple agents repeatedly
 need only one slice of a large context file. Move/split one group at a time, use `all-*.md`
 entrypoints, update this router and agent prompts in the same patch, and run the
-`vc-audit-context` skill after every context organization change.
+`vb-audit-context` skill after every context organization change.
 
 ### `process/features/`
 
@@ -187,7 +187,7 @@ Feature-scoped storage for large feature clusters. Each feature folder contains:
 
 Task-folder convention:
 - Reports, references, specs, and plans live inside the task folder under `active/` or `completed/`
-- Legacy sibling `reports/` and `references/` dirs may still appear during migration, but `vc-setup` and `vc-update` should migrate safe cases into task folders and remove emptied legacy dirs
+- Legacy sibling `reports/` and `references/` dirs may still appear during migration, but `vb-setup` and `vb-update` should migrate safe cases into task folders and remove emptied legacy dirs
 
 See `process/context/all-context.md` for current feature list.
 
@@ -219,19 +219,19 @@ Claude command files are compatibility aliases when they still exist.
 
 The active system is intentionally split into four layers:
 
-- **Actor agents** own the actual phase or specialist role: `vc-research-agent`, `vc-innovate-agent`, `vc-plan-agent`, `vc-execute-agent`, `vc-update-process-agent`, `vc-debugger`, `vc-tester`, `vc-code-reviewer`, `vc-code-simplifier`, `vc-ui-ux-designer`, `vc-git-manager`.
-- **Contract skills** define repo workflow artifacts and durable process contracts: `vc-generate-plan`, `vc-generate-context`, `vc-audit-context`, `vc-audit-plans`, `vc-audit-vc`, `vc-update`, `vc-publish`.
-- **Helper skills** improve how agents work but do not own the workflow: `vc-scout`, `vc-sequential-thinking`, `vc-problem-solving`, `vc-docs-seeker`, `vc-agent-browser`, `vc-web-testing`, `vc-frontend-design`, `vc-predict`, `vc-scenario`, `vc-security`, `vc-autoresearch`, `vc-debug`, `vc-agent-strategy-compare`, `vc-intent-clarify`, `vc-autopilot`.
+- **Actor agents** own the actual phase or specialist role: `vb-research-agent`, `vb-innovate-agent`, `vb-plan-agent`, `vb-execute-agent`, `vb-update-process-agent`, `vb-debugger`, `vb-tester`, `vb-code-reviewer`, `vb-code-simplifier`, `vb-ui-ux-designer`, `vb-git-manager`.
+- **Contract skills** define repo workflow artifacts and durable process contracts: `vb-generate-plan`, `vb-generate-context`, `vb-audit-context`, `vb-audit-plans`, `vb-audit-vc`, `vb-update`, `vb-publish`.
+- **Helper skills** improve how agents work but do not own the workflow: `vb-scout`, `vb-sequential-thinking`, `vb-problem-solving`, `vb-docs-seeker`, `vb-agent-browser`, `vb-web-testing`, `vb-frontend-design`, `vb-predict`, `vb-scenario`, `vb-security`, `vb-autoresearch`, `vb-debug`, `vb-agent-strategy-compare`, `vb-intent-clarify`, `vb-autopilot`.
 
-`vc:debug` remains a valid helper skill (not a default workflow owner) alongside the `vc-debugger` agent. Former owner skills (`vc:plan`, `vc:research`, `vc:cook`, `vc:fix`, `vc:code-review`) are migration sources only, not routes.
+`vc:debug` remains a valid helper skill (not a default workflow owner) alongside the `vb-debugger` agent. Former owner skills (`vc:plan`, `vc:research`, `vc:cook`, `vc:fix`, `vc:code-review`) are migration sources only, not routes.
 
 ### Core Skills
 
-- `vc-generate-plan` - Create implementation plans (SIMPLE or COMPLEX) with explicit touchpoints, blast radius, verification evidence, and resume handoff
-- `vc-generate-context` - Generate/update repository context
-- `vc-audit-context` - Audit context routing, grouping, discoverability, and Claude/Codex wiring
-- `vc-audit-plans` - Audit active-plan inventory, staleness, and routing truth
-- `vc-audit-vc` - Audit agent harness health: agent parity, skill registry, README.md sync, and protocol wiring
+- `vb-generate-plan` - Create implementation plans (SIMPLE or COMPLEX) with explicit touchpoints, blast radius, verification evidence, and resume handoff
+- `vb-generate-context` - Generate/update repository context
+- `vb-audit-context` - Audit context routing, grouping, discoverability, and Claude/Codex wiring
+- `vb-audit-plans` - Audit active-plan inventory, staleness, and routing truth
+- `vb-audit-vc` - Audit agent harness health: agent parity, skill registry, README.md sync, and protocol wiring
 
 Legacy `@sync-to-riper5.md` and `@sync-from-riper5.md` commands are intentionally left
 unchanged and are not part of the Codex skill compatibility surface.
@@ -249,48 +249,48 @@ but Claude's YAML `tools:` allowlists are not guaranteed to be enforced by Codex
 
 ### Available Agents
 
-`vc-research-agent`
+`vb-research-agent`
 
 - Purpose: Information gathering only (read-only)
 - Use: Understanding codebase, gathering context
 - Invoke: User says "ENTER RESEARCH MODE" or explicit agent/skill call
 
-`vc-innovate-agent`
+`vb-innovate-agent`
 
 - Purpose: Brainstorming approaches (discussion-only)
 - Use: Exploring implementation options
 - Invoke: After RESEARCH, user says "go" or "ENTER INNOVATE MODE"
 
-`vc-plan-agent`
+`vb-plan-agent`
 
 - Purpose: Creating detailed specifications
 - Claude tools: Read, Write (`process/general-plans/active/` or `process/features/*/active/` only), Grep, Glob, Bash
 - Use: Writing implementation plans
 - Invoke: After INNOVATE, user says "go" or "ENTER PLAN MODE"
 
-`vc-execute-agent`
+`vb-execute-agent`
 
 - Purpose: Implementing per approved plan
 - Use: Code implementation
 - Invoke: ONLY with explicit "ENTER EXECUTE MODE" after plan approval
 
-`vc-fast-mode-agent`
+`vb-fast-mode-agent`
 
 - Purpose: Compressed workflow (RESEARCH -> INNOVATE -> PLAN -> PAUSE -> EXECUTE)
 - Use: Quick end-to-end implementation with safety pause
 - Invoke: "ENTER FAST MODE"
 - CRITICAL: Pauses before EXECUTE for confirmation
 
-`vc-update-process-agent`
+`vb-update-process-agent`
 
 - Purpose: Rule updates, memory storage, plan archiving
 - Codex note: durable shared knowledge belongs in `process/context/`; Claude also has a separate project-memory layer under `~/.claude/projects/.../memory/`
 - Invoke: After EXECUTE, user says "ENTER UPDATE PROCESS MODE"
 - Use: Capturing learnings, updating documentation
 
-> **Tier-1 REQUIRED audits in UPDATE PROCESS (C4):** `vc-audit-vc`, `vc-audit-context`, and `vc-audit-plans` are not merely on-demand tools — they are Tier-1 REQUIRED gates the UPDATE PROCESS phase MUST run per change type (harness/agent edits → `vc-audit-vc`; context-doc edits → `vc-audit-context`; plan/program edits → `vc-audit-plans`). See `process/development-protocols/vc-system-behavior/12-reference.md`.
+> **Tier-1 REQUIRED audits in UPDATE PROCESS (C4):** `vb-audit-vc`, `vb-audit-context`, and `vb-audit-plans` are not merely on-demand tools — they are Tier-1 REQUIRED gates the UPDATE PROCESS phase MUST run per change type (harness/agent edits → `vb-audit-vc`; context-doc edits → `vb-audit-context`; plan/program edits → `vb-audit-plans`). See `process/development-protocols/vb-system-behavior/12-reference.md`.
 
-> **Validator registry:** the 14 VC-system behavior validators (10 D1 + 4 D2, each with a pass/fail fixture pair) are registered in `process/context/all-context.md` §Testing. Run the change-type-relevant validator before closing a phase.
+> **Validator registry:** the 14 VB-system behavior validators (10 D1 + 4 D2, each with a pass/fail fixture pair) are registered in `process/context/all-context.md` §Testing. Run the change-type-relevant validator before closing a phase.
 
 ### Specialist Agents
 
@@ -299,26 +299,26 @@ orchestrator or by execute-agent when specialized work is needed.
 
 During EXECUTE phase:
 
-- `.claude/agents/vc-tester.md` - Diff-aware test verification. Maps changed files to test files, runs only affected tests. Invoke after implementation sub-steps complete.
-- `.claude/agents/vc-debugger.md` - Root cause analysis for bugs. Evidence-before-hypothesis methodology. Can also be invoked standalone.
-- `.claude/agents/vc-code-reviewer.md` - Production-readiness review. Edge case scouting, N+1 detection, auth path validation. Invoke as pre-PR quality gate.
-- `.claude/agents/vc-code-simplifier.md` - Post-implementation refactor for clarity without behavior change. Invoke after code-reviewer passes.
-- `.claude/agents/vc-ui-ux-designer.md` - Design-aware frontend implementation. Invoke for UI/UX tasks within execute phase.
-- `.claude/agents/vc-git-manager.md` - Clean conventional commits. Invoke for git operations.
+- `.claude/agents/vb-tester.md` - Diff-aware test verification. Maps changed files to test files, runs only affected tests. Invoke after implementation sub-steps complete.
+- `.claude/agents/vb-debugger.md` - Root cause analysis for bugs. Evidence-before-hypothesis methodology. Can also be invoked standalone.
+- `.claude/agents/vb-code-reviewer.md` - Production-readiness review. Edge case scouting, N+1 detection, auth path validation. Invoke as pre-PR quality gate.
+- `.claude/agents/vb-code-simplifier.md` - Post-implementation refactor for clarity without behavior change. Invoke after code-reviewer passes.
+- `.claude/agents/vb-ui-ux-designer.md` - Design-aware frontend implementation. Invoke for UI/UX tasks within execute phase.
+- `.claude/agents/vb-git-manager.md` - Clean conventional commits. Invoke for git operations.
 
-Note: shared review methodology has been absorbed into the `vc-code-reviewer` agent prompt. Route to the agent directly instead of a separate review-owner workflow when the agent is the appropriate path.
+Note: shared review methodology has been absorbed into the `vb-code-reviewer` agent prompt. Route to the agent directly instead of a separate review-owner workflow when the agent is the appropriate path.
 
 Cross-phase utilities (skills, not agents):
 
-- `vc-sequential-thinking` - Structured reasoning, usable in any phase
-- `vc-problem-solving` - Cognitive toolkit when stuck in any phase
-- `vc-scout` - Fast codebase scouting, usable in RESEARCH
-- `vc-agent-browser` - Browser automation, primarily EXECUTE
-- `vc:debug` - Specialist root-cause-analysis helper, usable alongside `vc-debugger`
-- `vc-autoresearch` - Autonomous iterative optimization loop after execute phase for measurable metrics
-- `vc-agent-strategy-compare` - Strategy recommendation at every phase boundary
-- `vc-intent-clarify` - Ambiguity scoring and clarification round
-- `vc-autopilot` - Autopilot Mode trigger and per-gate decision policy
+- `vb-sequential-thinking` - Structured reasoning, usable in any phase
+- `vb-problem-solving` - Cognitive toolkit when stuck in any phase
+- `vb-scout` - Fast codebase scouting, usable in RESEARCH
+- `vb-agent-browser` - Browser automation, primarily EXECUTE
+- `vc:debug` - Specialist root-cause-analysis helper, usable alongside `vb-debugger`
+- `vb-autoresearch` - Autonomous iterative optimization loop after execute phase for measurable metrics
+- `vb-agent-strategy-compare` - Strategy recommendation at every phase boundary
+- `vb-intent-clarify` - Ambiguity scoring and clarification round
+- `vb-autopilot` - Autopilot Mode trigger and per-gate decision policy
 
 ### Discovery Note
 
@@ -341,36 +341,36 @@ Skill Registry:
 
 | Skill | Purpose | Trigger Keywords |
 |---|---|---|
-| `vc-frontend-design` | Polished UI from designs/screenshots/videos | UI, design, layout, component, page, interface, visual, CSS, Tailwind, login page, dashboard |
-| `vc-debug` | Root cause-analysis helper used alongside `debugger` | debug, root cause, investigate, why is this |
-| `vc-scenario` | Edge case generation across 12 dimensions | edge cases, test scenarios, what could go wrong |
-| `vc-security` | STRIDE + OWASP security audit | security, vulnerability, auth, XSS, SQL injection |
-| `vc-autoresearch` | Autonomous metric optimization loop | improve coverage, reduce bundle, optimize metric |
-| `vc-predict` | 5-persona pre-implementation debate | risks, predict issues, architectural review |
-| `vc-scout` | Fast parallel codebase scouting | find files, where is, search codebase |
-| `vc-docs-seeker` | Library docs via context7 | how does X work, API docs, version, syntax |
-| `vc-generate-plan` | Durable implementation planning | plan, PRD, implementation plan |
-| `vc-generate-context` | Refresh repository context router | refresh context, regenerate context, repo context |
-| `vc-audit-context` | Context routing and discoverability audit | context audit, reorganize context, stale context |
-| `vc-audit-plans` | Active-plan maintenance and cleanup | stale plans, cleanup plans, archive plans, plan audit |
-| `vc-web-testing` | Playwright/Vitest/k6 test automation | tests, e2e, integration test, performance test |
-| `vc-sequential-thinking` | Step-by-step reasoning | complex problem, think through, analyze step by step |
-| `vc-problem-solving` | Cognitive unblocking techniques | stuck, can't figure out, complex, spiral |
-| `vc-agent-browser` | AI browser automation CLI | long browser session, browserbase, visual testing |
-| `vc-agent-strategy-compare` | Execution strategy recommendation at phase boundaries | strategy, parallel agents, sequential, workflow |
-| `vc-intent-clarify` | Ambiguity scoring and clarification round | clarify intent, ambiguous request |
-| `vc-autopilot` | Autopilot Mode trigger and decision policy | autopilot, autonomous mode, full autonomy |
-| `vc-generate-spec` | Product-discovery requirements doc | spec, requirements, user stories |
-| `vc-feasibility-test` | Empirical feasibility probe before implementation | feasible, viable, probe, test approach |
-| `vc-generate-closeout` | Phase closeout packet and EVL handoff | closeout, archive, wrap up |
-| `vc-risk-evidence-pack` | Evidence pack for high-risk work | risk, auth risk, billing risk, schema risk |
-| `vc-test-coverage-plan` | Test coverage planning for validate-contract | test coverage, test strategy |
-| `vc-plan-discovery` | Active-plan discovery across features | find plan, resume plan |
-| `vc-review-situation` | Situation review and plan orientation | review situation, where am I |
-| `vc-setup` | Scaffold agent harness into new project | seed, harness, bootstrap, new project, scaffold, setup |
-| `vc-update` | Pull latest harness from remote kit repo | update harness, pull kit, sync harness, upgrade agents |
-| `vc-publish` | Push harness improvements to remote kit repo | publish kit, push harness, release kit, publish to remote |
-| `vc-audit-vc` | Agent harness health audit (agents, skills, README.md, protocol wiring) | harness, agent parity, skill audit, guide sync |
+| `vb-frontend-design` | Polished UI from designs/screenshots/videos | UI, design, layout, component, page, interface, visual, CSS, Tailwind, login page, dashboard |
+| `vb-debug` | Root cause-analysis helper used alongside `debugger` | debug, root cause, investigate, why is this |
+| `vb-scenario` | Edge case generation across 12 dimensions | edge cases, test scenarios, what could go wrong |
+| `vb-security` | STRIDE + OWASP security audit | security, vulnerability, auth, XSS, SQL injection |
+| `vb-autoresearch` | Autonomous metric optimization loop | improve coverage, reduce bundle, optimize metric |
+| `vb-predict` | 5-persona pre-implementation debate | risks, predict issues, architectural review |
+| `vb-scout` | Fast parallel codebase scouting | find files, where is, search codebase |
+| `vb-docs-seeker` | Library docs via context7 | how does X work, API docs, version, syntax |
+| `vb-generate-plan` | Durable implementation planning | plan, PRD, implementation plan |
+| `vb-generate-context` | Refresh repository context router | refresh context, regenerate context, repo context |
+| `vb-audit-context` | Context routing and discoverability audit | context audit, reorganize context, stale context |
+| `vb-audit-plans` | Active-plan maintenance and cleanup | stale plans, cleanup plans, archive plans, plan audit |
+| `vb-web-testing` | Playwright/Vitest/k6 test automation | tests, e2e, integration test, performance test |
+| `vb-sequential-thinking` | Step-by-step reasoning | complex problem, think through, analyze step by step |
+| `vb-problem-solving` | Cognitive unblocking techniques | stuck, can't figure out, complex, spiral |
+| `vb-agent-browser` | AI browser automation CLI | long browser session, browserbase, visual testing |
+| `vb-agent-strategy-compare` | Execution strategy recommendation at phase boundaries | strategy, parallel agents, sequential, workflow |
+| `vb-intent-clarify` | Ambiguity scoring and clarification round | clarify intent, ambiguous request |
+| `vb-autopilot` | Autopilot Mode trigger and decision policy | autopilot, autonomous mode, full autonomy |
+| `vb-generate-spec` | Product-discovery requirements doc | spec, requirements, user stories |
+| `vb-feasibility-test` | Empirical feasibility probe before implementation | feasible, viable, probe, test approach |
+| `vb-generate-closeout` | Phase closeout packet and EVL handoff | closeout, archive, wrap up |
+| `vb-risk-evidence-pack` | Evidence pack for high-risk work | risk, auth risk, billing risk, schema risk |
+| `vb-test-coverage-plan` | Test coverage planning for validate-contract | test coverage, test strategy |
+| `vb-plan-discovery` | Active-plan discovery across features | find plan, resume plan |
+| `vb-review-situation` | Situation review and plan orientation | review situation, where am I |
+| `vb-setup` | Scaffold agent harness into new project | seed, harness, bootstrap, new project, scaffold, setup |
+| `vb-update` | Pull latest harness from remote kit repo | update harness, pull kit, sync harness, upgrade agents |
+| `vb-publish` | Push harness improvements to remote kit repo | publish kit, push harness, release kit, publish to remote |
+| `vb-audit-vc` | Agent harness health audit (agents, skills, README.md, protocol wiring) | harness, agent parity, skill audit, guide sync |
 
 Rule: When one or more skills match the request, mention them to the user or include them in
 the subagent prompt context. Never silently skip relevant skills.
@@ -378,40 +378,40 @@ the subagent prompt context. Never silently skip relevant skills.
 ### 1. Detect Intent
 
 Feature Request (keywords: "build", "add", "implement", "create feature")
--> Route to `vc-research-agent` with relevant context files.
+-> Route to `vb-research-agent` with relevant context files.
 
 Question / Understanding Request
--> Non-trivial: route to `vc-research-agent`. Trivial conceptual questions can be answered directly by the orchestrator.
+-> Non-trivial: route to `vb-research-agent`. Trivial conceptual questions can be answered directly by the orchestrator.
 
 Trivial Fix
--> Delegate lightweight quick-fix to `vc-execute-agent` with no plan file required.
+-> Delegate lightweight quick-fix to `vb-execute-agent` with no plan file required.
 Trivial definition: single-file change, no new dependencies, no schema/API/auth changes, under 15 lines, no security surface. Anything else is non-trivial.
 
 Missing Context
--> Suggest or invoke the `vc-generate-context` skill.
+-> Suggest or invoke the `vb-generate-context` skill.
 
 Bug Fix / Debug Request (keywords: "fix", "bug", "broken", "debug", "error")
--> For trivial: delegate to `vc-execute-agent` directly with no plan required.
--> For complex: route to `vc-debugger` agent. Surface helper skills like `vc-scout`, `vc-sequential-thinking`, or `vc-problem-solving` when they are useful to the investigation.
+-> For trivial: delegate to `vb-execute-agent` directly with no plan required.
+-> For complex: route to `vb-debugger` agent. Surface helper skills like `vb-scout`, `vb-sequential-thinking`, or `vb-problem-solving` when they are useful to the investigation.
 
 Existing Plan File Present
 -> Resume from relevant phase; do not recreate plan.
 
 UI / Frontend Request (keywords: "page", "component", "design", "layout", "interface", "UI")
--> Surface `vc-frontend-design` skill alongside `vc-research-agent`. Invoke `vc-ui-ux-designer` agent during EXECUTE phase for implementation.
+-> Surface `vb-frontend-design` skill alongside `vb-research-agent`. Invoke `vb-ui-ux-designer` agent during EXECUTE phase for implementation.
 
 Documentation Question (keywords: "how does X work", "API docs", "syntax", "version")
--> Activate `vc-docs-seeker` skill before routing to `vc-research-agent`.
+-> Activate `vb-docs-seeker` skill before routing to `vb-research-agent`.
 
 Plan / Context Maintenance
--> Surface `vc-generate-plan`, `vc-generate-context`, `vc-audit-context`, or `vc-audit-plans` directly when the user is asking for saved plan artifacts, context refresh, context reorganization, or active-plan cleanup.
+-> Surface `vb-generate-plan`, `vb-generate-context`, `vb-audit-context`, or `vb-audit-plans` directly when the user is asking for saved plan artifacts, context refresh, context reorganization, or active-plan cleanup.
 
 Refactor / Simplify (keywords: "refactor", "clean up", "simplify", "reorganize")
--> Pure style/readability with a named file and no behavior change: route directly to `vc-code-simplifier` agent.
--> Behavioral or architectural refactor: full RESEARCH -> PLAN -> EXECUTE, then `vc-code-simplifier` as cleanup.
+-> Pure style/readability with a named file and no behavior change: route directly to `vb-code-simplifier` agent.
+-> Behavioral or architectural refactor: full RESEARCH -> PLAN -> EXECUTE, then `vb-code-simplifier` as cleanup.
 
 Debug / Root Cause (keywords: "debug", "why", "root cause", "investigate")
--> `vc-debugger` agent is the default owner. Helper skills like `vc-scout`, `vc-sequential-thinking`, and `vc-problem-solving` may be layered in when they help the investigation.
+-> `vb-debugger` agent is the default owner. Helper skills like `vb-scout`, `vb-sequential-thinking`, and `vb-problem-solving` may be layered in when they help the investigation.
 
 When multiple intents match, use this precedence:
 
@@ -419,8 +419,8 @@ When multiple intents match, use this precedence:
 2. Explicit mode command (`ENTER X MODE`) -> obey immediately
 3. Bug/debug -> debugging routing before feature routing
 4. Feature request -> RIPER-5 flow
-5. UI specialization -> surface vc-frontend-design alongside any of the above
-6. Docs question -> surface vc-docs-seeker alongside any of the above
+5. UI specialization -> surface vb-frontend-design alongside any of the above
+6. Docs question -> surface vb-docs-seeker alongside any of the above
 
 When still ambiguous, ask the user one clarifying question before routing.
 
@@ -429,7 +429,7 @@ When still ambiguous, ask the user one clarifying question before routing.
 Before routing to subagent, pass relevant `process/context/` files:
 
 - `process/context/all-context.md` - always pass or consult first for context routing
-- `process/context/tests/all-tests.md` - pass when routing to `vc-tester`, `vc-debugger`, or `vc-execute-agent`
+- `process/context/tests/all-tests.md` - pass when routing to `vb-tester`, `vb-debugger`, or `vb-execute-agent`
 - `process/general-plans/active/` and `process/features/*/active/` - check for existing plans to avoid duplication
 - Relevant code paths - summarize succinctly, don't dump entire files
 
@@ -439,12 +439,12 @@ Before routing to subagent, pass relevant `process/context/` files:
 
 Choose based on current phase:
 
-- Initial understanding -> `vc-research-agent`
-- Exploring options -> `vc-innovate-agent`
-- Creating spec -> `vc-plan-agent`
-- Implementing approved plan -> `vc-execute-agent`
-- Fast workflow -> `vc-fast-mode-agent`
-- Capturing learnings -> `vc-update-process-agent`
+- Initial understanding -> `vb-research-agent`
+- Exploring options -> `vb-innovate-agent`
+- Creating spec -> `vb-plan-agent`
+- Implementing approved plan -> `vb-execute-agent`
+- Fast workflow -> `vb-fast-mode-agent`
+- Capturing learnings -> `vb-update-process-agent`
 
 ### 4. Monitor Compliance
 
@@ -467,37 +467,37 @@ INNOVATE -> PLAN:
 
 - Requires approach discussion completed
 - User confirms with "go" or explicit mode command
-- vc-innovate-agent must produce a brief decision summary with chosen approach, rejected alternatives, and rationale before PLAN begins
+- vb-innovate-agent must produce a brief decision summary with chosen approach, rejected alternatives, and rationale before PLAN begins
 
 PLAN -> EXECUTE:
 
 - Requires written plan file
 - User reviews and explicitly says "ENTER EXECUTE MODE"
 
-Orchestrator preflight before spawning vc-execute-agent: Confirm exactly one plan file is
+Orchestrator preflight before spawning vb-execute-agent: Confirm exactly one plan file is
 selected. Pass the plan file path explicitly in the subagent prompt. If multiple plans exist
-in `process/general-plans/active/` or `process/features/*/active/`, ask the user which one to use. Never let vc-execute-agent infer
+in `process/general-plans/active/` or `process/features/*/active/`, ask the user which one to use. Never let vb-execute-agent infer
 the plan from ambient state.
 
 EXECUTE -> UPDATE PROCESS:
 
 - After non-trivial implementation complete, always surface a cleanup checkpoint
 - UPDATE PROCESS still requires explicit user command.
-- After vc-execute-agent reports DONE, present a short closeout packet: selected plan path, closeout classification, what was finished, what was verified versus still unverified, what cleanup/context capture remains, uncommitted file count and git-manager offer (when the worktree is dirty), a commit-checkpoint recommendation (invoke `vc-git-manager` before UPDATE PROCESS for validated code/test changes; defer it until after UPDATE PROCESS when the rest is mainly `process/`, `.claude/`, `.codex/` or `AGENTS.md`), and the single best next valid state. Schema: `vc-generate-closeout`.
+- After vb-execute-agent reports DONE, present a short closeout packet: selected plan path, closeout classification, what was finished, what was verified versus still unverified, what cleanup/context capture remains, uncommitted file count and git-manager offer (when the worktree is dirty), a commit-checkpoint recommendation (invoke `vb-git-manager` before UPDATE PROCESS for validated code/test changes; defer it until after UPDATE PROCESS when the rest is mainly `process/`, `.claude/`, `.codex/` or `AGENTS.md`), and the single best next valid state. Schema: `vb-generate-closeout`.
 - Then ask one explicit next-step question such as:
   - `Implementation complete. The selected plan appears ready for cleanup. Enter UPDATE PROCESS mode to archive the plan and capture learnings?`
   - or `Implementation is code-complete but still testing. Keep the plan in active for now, or enter UPDATE PROCESS mode anyway?`
   - or `Implementation deviated from plan. Return to PLAN or enter UPDATE PROCESS mode to reconcile?`
 - If the next phase or follow-up is already known, name that exact plan path in the closeout summary so the user does not have to rediscover it.
-- If the worktree has uncommitted changes from this execution, offer: "Invoke vc-git-manager for logical commit splitting before UPDATE PROCESS?" Pass the `touched_files` list (files the vc-execute-agent reported changing) as context so vc-git-manager can scope its analysis.
+- If the worktree has uncommitted changes from this execution, offer: "Invoke vb-git-manager for logical commit splitting before UPDATE PROCESS?" Pass the `touched_files` list (files the vb-execute-agent reported changing) as context so vb-git-manager can scope its analysis.
 - If a phase is well-tested and genuinely validated, prefer surfacing a commit checkpoint instead of letting the work drift uncommitted while broader follow-up phases begin.
 - If execution revealed a concrete missing downstream lane, route UPDATE PROCESS to create the follow-up phase plan or backlog artifact and update the umbrella/parent plan instead of leaving the next step only in chat.
-- If cleanup is skipped and active-plan debt builds up, recommend `vc-audit-plans` as a follow-up maintenance step
-- Drift-signal scoring for UPDATE PROCESS urgency (LOW / MEDIUM / HIGH wording): `vc-generate-closeout` (`.claude/skills/vc-generate-closeout/SKILL.md`).
+- If cleanup is skipped and active-plan debt builds up, recommend `vb-audit-plans` as a follow-up maintenance step
+- Drift-signal scoring for UPDATE PROCESS urgency (LOW / MEDIUM / HIGH wording): `vb-generate-closeout` (`.claude/skills/vb-generate-closeout/SKILL.md`).
 
 **Parallel Fan-Out**
 
-At each phase transition above, invoke `vc-agent-strategy-compare` for the next phase's strategy recommendation. See `process/development-protocols/orchestration.md` for the checkpoint summary.
+At each phase transition above, invoke `vb-agent-strategy-compare` for the next phase's strategy recommendation. See `process/development-protocols/orchestration.md` for the checkpoint summary.
 
 ## Key Principles
 

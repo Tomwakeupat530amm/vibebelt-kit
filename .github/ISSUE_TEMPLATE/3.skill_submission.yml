@@ -14,7 +14,7 @@ body:
     id: name
     attributes:
       label: Skill Name
-      description: "Must NOT use vc- prefix (reserved for core)"
+      description: "Must NOT use vb- prefix (reserved for core)"
       placeholder: "my-awesome-skill"
     validations:
       required: true

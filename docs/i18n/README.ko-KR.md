@@ -49,7 +49,7 @@
 <td valign="top"><strong>🔁 PVL + EVL 자가 치유 루프</strong><br>플랜 검사-수정, 테스트 검사-수정 루프가 문제를 찾고, 고치고, 다시 검사해요 — 각각 최대 10회.</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>플랜, 테스트, 스펙, 문서, 이벨에 적용할 수 있는 재사용 가능한 gaps 찾기 → 수정 → 반복 루프.</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>플랜, 테스트, 스펙, 문서, 이벨에 적용할 수 있는 재사용 가능한 gaps 찾기 → 수정 → 반복 루프.</td>
 <td valign="top"><strong>🧪 실현 가능성 프로브</strong><br>어떤 설계 방식을 확정하기 전에 만들기 전에 테스트하는 VIABLE / NOT-VIABLE 판정.</td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
     <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
   </picture>
   <br>
-  <p><em>단순 장식이 아닙니다. <code>vc-setup</code>을 실행하면 에이전트가 코드베이스를 스캔하고,<br>
+  <p><em>단순 장식이 아닙니다. <code>vb-setup</code>을 실행하면 에이전트가 코드베이스를 스캔하고,<br>
   스택을 감지하여 모든 스킬이 작동 전에 읽는 프로젝트 전용 컨텍스트 그룹을 구축합니다.<br>
   다른 하네스는 에이전트를 특정 언어에 고정합니다——<code>rust-review-agent</code>, <code>python-linter</code>——다른 곳에서는 쓸모없습니다.<br>
   이 킷은 위의 어떤 조합에도 적응하고 기능을 ship할수록 지식을 축적합니다.</em></p>
@@ -154,26 +154,26 @@ curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main
 <h3>🆕 새 프로젝트</h3>
 설치기가 하네스를 감지하지 못하고 출력해요:
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ 에이전트를 열고 <code>Run vc-setup</code>이라고 말하세요</strong>
+<strong>→ 에이전트를 열고 <code>Run vb-setup</code>이라고 말하세요</strong>
 <br><br>
-<sub>vc-setup이 기술 스택을 감지하고, <code>process/</code> 폴더를 만들고, 코드베이스를 스캔해서 실제 아키텍처, 컨벤션, 테스트 명령을 채워요 — 체크리스트가 아니라 진짜 대화예요.</sub>
+<sub>vb-setup이 기술 스택을 감지하고, <code>process/</code> 폴더를 만들고, 코드베이스를 스캔해서 실제 아키텍처, 컨벤션, 테스트 명령을 채워요 — 체크리스트가 아니라 진짜 대화예요.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 기존 하네스 (업그레이드)</h3>
 설치기가 이전 설치를 감지하고 출력해요:
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ 에이전트를 열고 <code>Run vc-update</code>라고 말하세요</strong>
+<strong>→ 에이전트를 열고 <code>Run vb-update</code>라고 말하세요</strong>
 <br><br>
-<sub>vc-update가 최신 버전을 가져오고, 구형 포맷의 플랜이나 폴더를 발견하면 <strong>데이터 손실 없이</strong> 마이그레이션할 복붙 프롬프트를 줘요. <code>process/</code>는 절대 건드리지 않아요.</sub>
+<sub>vb-update가 최신 버전을 가져오고, 구형 포맷의 플랜이나 폴더를 발견하면 <strong>데이터 손실 없이</strong> 마이그레이션할 복붙 프롬프트를 줘요. <code>process/</code>는 절대 건드리지 않아요.</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **명령을 추측할 필요가 없어요.** `install.sh`가 라우팅해줘요: 신규 → `vc-setup`, 업그레이드 → `vc-update`. 설치를 다시 실행해도 항상 안전해요 — 아무것도 망가뜨리지 않아요. **Codex 사용자:** 채팅에서 말하는 대신 `/vc-setup` (또는 `/vc-update`)을 실행하세요.
+> 💡 **명령을 추측할 필요가 없어요.** `install.sh`가 라우팅해줘요: 신규 → `vb-setup`, 업그레이드 → `vb-update`. 설치를 다시 실행해도 항상 안전해요 — 아무것도 망가뜨리지 않아요. **Codex 사용자:** 채팅에서 말하는 대신 `/vb-setup` (또는 `/vb-update`)을 실행하세요.
 
 <br>
 
@@ -194,15 +194,15 @@ your-project/
 ├── AGENTS.md                # 📖 에이전트 + 스킬 레지스트리 (크로스 툴)
 └── process/
     └── development-protocols/  # 📜 22개 공유 워크플로우 문서 (install이 씨앗 파일 생성)
-                                #    context/, plans, features → vc-setup이 구축
+                                #    context/, plans, features → vb-setup이 구축
 ```
 
 - **비파괴적.** 기존 `.claude/skills/`, `.claude/agents/`, `process/`, `settings.json`은 절대 삭제되지 않아요. 킷 소유 파일만 작성 또는 업데이트돼요.
 - **기존 설정이 있다면?** `.vibecode-backup/`에 백업되고, 설치 후 `settings.json`이 복원돼요.
 - **기존 `CLAUDE.md`가 있다면?** `CLAUDE.md.pre-vibecode`로 백업돼요.
-- **기존 `process/`가 있다면?** install은 절대 건드리지 않아요 — `vc-setup` / `vc-update`가 대화식으로 마이그레이션해줘요.
+- **기존 `process/`가 있다면?** install은 절대 건드리지 않아요 — `vb-setup` / `vb-update`가 대화식으로 마이그레이션해줘요.
 
-> **최초 설치 주의사항:** 이름이 `vc-`로 시작하는 커스텀 스킬/에이전트가 있고 *install을 실행한 적이 없다면*, 오래된 파일 제거 단계에서 플래그가 생길 수 있어요. 설치 후 `ls .claude/skills/ .claude/agents/`로 확인하세요. 이걸 완전히 피하려면 직접 추가한 것에 `vc-` 대신 `my-`, `team-`, `proj-` 접두사를 사용하세요.
+> **최초 설치 주의사항:** 이름이 `vb-`로 시작하는 커스텀 스킬/에이전트가 있고 *install을 실행한 적이 없다면*, 오래된 파일 제거 단계에서 플래그가 생길 수 있어요. 설치 후 `ls .claude/skills/ .claude/agents/`로 확인하세요. 이걸 완전히 피하려면 직접 추가한 것에 `vb-` 대신 `my-`, `team-`, `proj-` 접두사를 사용하세요.
 
 </details>
 
@@ -218,7 +218,7 @@ First, install the vibecode-pro-max-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -273,7 +273,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>오토파일럿</strong><br><sub>3개 레인 (quick / fast / full) — 어느 단계에서든 시작, 멈추지 않고 처음부터 끝까지</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>/goal 블록</strong><br><sub>리셋 후에도 핸즈프리 실행을 세션 간에 재개하는 짧은 복붙 텍스트</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>gaps 찾기 → 수정 → 반복 루프 (플랜, 테스트, 이벨에 공유)</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>gaps 찾기 → 수정 → 반복 루프 (플랜, 테스트, 이벨에 공유)</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>실현 가능성 프로브</strong><br><sub>설계를 확정하기 전에 만들기 전에 테스트하는 VIABLE / NOT-VIABLE 판정</sub></td>
 </tr>
 </table>
@@ -491,7 +491,7 @@ PRD 스타일의 SPEC을 생성하고, 코드 작성 전에 승인을 받고, �
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>자동 스킬 탐색</strong><br><br>
-요청을 처리하기 전에 <strong>33개 스킬</strong>을 스캔하고 키워드를 매칭해요. "add webhook support"라고 하면 <code>vc-security</code> + <code>vc-scenario</code>가 자동으로 가져와져요.
+요청을 처리하기 전에 <strong>33개 스킬</strong>을 스캔하고 키워드를 매칭해요. "add webhook support"라고 하면 <code>vb-security</code> + <code>vb-scenario</code>가 자동으로 가져와져요.
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -532,12 +532,12 @@ PRD 스타일의 SPEC을 생성하고, 코드 작성 전에 승인을 받고, �
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>위임하고, 절대 직접 구현하지 않아요</strong><br><br>
-리서치 → <code>vc-research-agent</code>. 플랜 → <code>vc-plan-agent</code>. 코드 → <code>vc-execute-agent</code>. 오케스트레이터는 올바른 컨텍스트를 전달하고 기다려요 — 실제 작업은 직접 하지 않아요.
+리서치 → <code>vb-research-agent</code>. 플랜 → <code>vb-plan-agent</code>. 코드 → <code>vb-execute-agent</code>. 오케스트레이터는 올바른 컨텍스트를 전달하고 기다려요 — 실제 작업은 직접 하지 않아요.
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>숨겨진 실행 없음 — 절대로</strong><br><br>
-합의된 체크리스트가 있는 플랜이 존재하는 순간, "ENTER EXECUTE MODE"는 <strong>항상</strong> <code>vc-execute-agent</code>를 실행해요. 한 줄 수정도 그것을 통해요. 테스트는 전용 <code>vc-tester</code> 안에서만 실행돼요. 변경 크기와 상관없이요.
+합의된 체크리스트가 있는 플랜이 존재하는 순간, "ENTER EXECUTE MODE"는 <strong>항상</strong> <code>vb-execute-agent</code>를 실행해요. 한 줄 수정도 그것을 통해요. 테스트는 전용 <code>vb-tester</code> 안에서만 실행돼요. 변경 크기와 상관없이요.
 </td>
 </tr>
 <tr>
@@ -560,12 +560,12 @@ flowchart TD
     REQ["사용자 요청"]
     SD["0단계: 스킬 탐색\n33개 스킬 스캔, 키워드 매칭"]
     INT{"의도 감지\n+ 모호성 점수"}
-    RES["vc-research-agent\n(기능 / 질문)"]
-    PLN["vc-plan-agent\n(INNOVATE 후)"]
-    VAL["vc-validate-agent\n(PVL 루프)"]
-    EXE["vc-execute-agent\n(EXECUTE)"]
-    TST["vc-tester\n(EVL 루프)"]
-    UPD["vc-update-process-agent\n(마감)"]
+    RES["vb-research-agent\n(기능 / 질문)"]
+    PLN["vb-plan-agent\n(INNOVATE 후)"]
+    VAL["vb-validate-agent\n(PVL 루프)"]
+    EXE["vb-execute-agent\n(EXECUTE)"]
+    TST["vb-tester\n(EVL 루프)"]
+    UPD["vb-update-process-agent\n(마감)"]
     MON["모니터\n상태 코드 · 루프 구동\n인라인 실행 없음"]
 
     REQ --> SD --> INT
@@ -601,13 +601,13 @@ flowchart TD
 
 | 단계 | 무슨 일이 일어나는지 | 에이전트 | 여러분이 할 말 |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | 읽기 전용 팩트 수집 — 코드베이스 + 웹. 파일 수정 없음. | `vc-research-agent` | *(기능 요청 시 자동)* |
-| 📝 **SPEC** | 프로덕트 디스커버리 요구사항 문서 — 사용자 스토리, 인수 기준, 범위 외 — **설계 전에 여러분의 검토를 위해**. | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | 트레이드오프와 함께 2-3가지 접근 방식 탐색. 결정 요약 (선택 + 거절 + 이유). | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | 상세 스펙 작성: 터치포인트, 공개 컨트랙트, 건드릴 수 있는 파일, 검증 증거, 재개 핸드오프. | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | 플랜을 합의된 체크리스트로 변환 (V1–V7 체크포인트). 판정: **PASS / CONDITIONAL / BLOCKED**. PVL 루프 실행. | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | 플랜을 *정확히* 구현. 페이즈 리포트에 진행 노트, 이탈 프로토콜, 셀프 리뷰. 그다음 EVL 루프가 체크포인트를 재실행해요. | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | 학습 내용 캡처, 컨텍스트 업데이트, 플랜 아카이브, 마감 패킷 작성. | `vc-update-process-agent` | *(중요한 작업 후 권장)* |
+| 🔍 **RESEARCH** | 읽기 전용 팩트 수집 — 코드베이스 + 웹. 파일 수정 없음. | `vb-research-agent` | *(기능 요청 시 자동)* |
+| 📝 **SPEC** | 프로덕트 디스커버리 요구사항 문서 — 사용자 스토리, 인수 기준, 범위 외 — **설계 전에 여러분의 검토를 위해**. | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | 트레이드오프와 함께 2-3가지 접근 방식 탐색. 결정 요약 (선택 + 거절 + 이유). | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | 상세 스펙 작성: 터치포인트, 공개 컨트랙트, 건드릴 수 있는 파일, 검증 증거, 재개 핸드오프. | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | 플랜을 합의된 체크리스트로 변환 (V1–V7 체크포인트). 판정: **PASS / CONDITIONAL / BLOCKED**. PVL 루프 실행. | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | 플랜을 *정확히* 구현. 페이즈 리포트에 진행 노트, 이탈 프로토콜, 셀프 리뷰. 그다음 EVL 루프가 체크포인트를 재실행해요. | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | 학습 내용 캡처, 컨텍스트 업데이트, 플랜 아카이브, 마감 패킷 작성. | `vb-update-process-agent` | *(중요한 작업 후 권장)* |
 
 > 📝 **SPEC이 자체 단계인 이유:** 대부분의 하네스는 "이해"에서 "설계"로 바로 넘어가요. 프로덕트 디스커버리 SPEC 단계를 삽입하면 에이전트가 **어떻게** 구현할지 논의하기 *전에* 여러분(또는 PM)이 **무엇을** 만들지를 — 간단한 사용자 스토리와 인수 기준으로 — 승인할 수 있어요. 오해를 잡는 가장 저렴한 지점이에요. (페이즈 프로그램의 내부 루프에서는 SPEC이 건너뛰어져요 — umbrella SPEC이 모든 페이즈를 관할해요.)
 >
@@ -635,7 +635,7 @@ flowchart TD
 ```
 # 🆕 기능 요청
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -648,7 +648,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 버그 수정
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -701,7 +701,7 @@ flowchart TD
     ROUTE["매칭 에이전트로 라우팅\n(research / plan / execute / …)"]
     STILL{"티어 2 후에도\n명확하지 않음?"}
     FINAL["마지막 평이한 질문\n(최대 2회 명확화)"]
-    NARROW["기본값: vc-research-agent\n가장 좁은 범위"]
+    NARROW["기본값: vb-research-agent\n가장 좁은 범위"]
 
     REQ --> AUTO
     AUTO -->|"자동 건너뛰기 매칭"| T0
@@ -769,24 +769,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL — Plan-Validate-Fix</h3>
-EXECUTE 전에 <code>vc-validate-agent</code>가 플랜을 <strong>V1–V7 체크포인트</strong>로 통과시켜요 — 여러 에이전트에 분산해서 인프라, 테스트 커버리지, 브레이킹 체인지, 보안, 섹션별 실현 가능성을 커버해요. 첫 번째 <strong>CONDITIONAL</strong>이나 <strong>BLOCKED</strong>는 끝이 아니에요 — <code>vc-plan-agent</code>로 돌아가 플랜을 업데이트하고 V1부터 다시 확인해요.
+EXECUTE 전에 <code>vb-validate-agent</code>가 플랜을 <strong>V1–V7 체크포인트</strong>로 통과시켜요 — 여러 에이전트에 분산해서 인프라, 테스트 커버리지, 브레이킹 체인지, 보안, 섹션별 실현 가능성을 커버해요. 첫 번째 <strong>CONDITIONAL</strong>이나 <strong>BLOCKED</strong>는 끝이 아니에요 — <code>vb-plan-agent</code>로 돌아가 플랜을 업데이트하고 V1부터 다시 확인해요.
 <br><br>
-<sub><code>vc-autoresearch</code> (domain: plan)로 추적 — gaps 찾기-수정 루프. 10회 상한. 고원 감지. <strong>Gate: PASS</strong>(또는 명시적으로 수락한 CONDITIONAL)만 EXECUTE를 해제해요.</sub>
+<sub><code>vb-autoresearch</code> (domain: plan)로 추적 — gaps 찾기-수정 루프. 10회 상한. 고원 감지. <strong>Gate: PASS</strong>(또는 명시적으로 수락한 CONDITIONAL)만 EXECUTE를 해제해요.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL — Execute-Validate-Fix</h3>
-EXECUTE가 완료를 보고한 후 — <strong>모든 체크포인트가 통과했다고 주장해도</strong> — 리드 에이전트는 <strong>항상</strong> <code>vc-tester</code>를 실행해서 합의된 체크리스트 테스트 명령을 독립적으로 재실행해요. 실패한 체크포인트는 범위를 좁힌 <code>vc-execute-agent</code> 수정으로 라우팅되고, 재테스트해요.
+EXECUTE가 완료를 보고한 후 — <strong>모든 체크포인트가 통과했다고 주장해도</strong> — 리드 에이전트는 <strong>항상</strong> <code>vb-tester</code>를 실행해서 합의된 체크리스트 테스트 명령을 독립적으로 재실행해요. 실패한 체크포인트는 범위를 좁힌 <code>vb-execute-agent</code> 수정으로 라우팅되고, 재테스트해요.
 <br><br>
-<sub><code>vc-autoresearch</code> (domain: tests)로 추적. 10회 상한. execute-agent의 내부 "반복해서 통과까지" 루프는 <strong>절대로</strong> 이 독립 확인을 대체하지 않아요.</sub>
+<sub><code>vb-autoresearch</code> (domain: tests)로 추적. 10회 상한. execute-agent의 내부 "반복해서 통과까지" 루프는 <strong>절대로</strong> 이 독립 확인을 대체하지 않아요.</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **판정 계단:** **PASS** → 진행 · **CONDITIONAL** → 수정 가능한 gaps; 루프가 작동하거나 기록으로 수락 · **BLOCKED** → 더 깊은 문제; PLAN으로 돌아감 (오토파일럿에서: gap은 백로그로 가고 실행 계속).
 
-### 🔁 vc-autoresearch — 공유 루프 엔진
+### 🔁 vb-autoresearch — 공유 루프 엔진
 
-PVL과 EVL 모두 동일한 추적 레이어를 사용해요: **`vc-autoresearch`** — gaps 찾기 → 수정 → 반복 루프. 리드 에이전트가 루프를 구동해요 — 라운드 카운터, 라운드별 리포트, TSV 로그, 고원/상한/리그레션 검사를 소유해요. 작업자 에이전트는 fire-and-forget: 결과를 반환하고 멈춰요. 어떤 에이전트도 스스로 재실행하거나 다른 페이즈 에이전트를 실행하지 않아요.
+PVL과 EVL 모두 동일한 추적 레이어를 사용해요: **`vb-autoresearch`** — gaps 찾기 → 수정 → 반복 루프. 리드 에이전트가 루프를 구동해요 — 라운드 카운터, 라운드별 리포트, TSV 로그, 고원/상한/리그레션 검사를 소유해요. 작업자 에이전트는 fire-and-forget: 결과를 반환하고 멈춰요. 어떤 에이전트도 스스로 재실행하거나 다른 페이즈 에이전트를 실행하지 않아요.
 
 같은 엔진을 독립적으로 실행할 수 있어요: "이 스펙 강화", "모든 린트 수정", "테스트 커버리지 개선", "이 문서 개선" — 6개 도메인(spec · tests · ux · docs · plan · errors)에 걸친 반복적인 gaps 찾기-수정 작업.
 
@@ -822,10 +822,10 @@ flowchart TD
 
 | 모드 | 하는 일 | 멈출 때 |
 |---|---|---|
-| `vc-autoresearch` (기본) | gaps 찾기 → 수정 → 반복 | gaps 없음 OR 메트릭 목표 달성 |
-| `vc-autoresearch:probe` | 8개 페르소나가 포화까지 자료를 심문 | 3라운드 동안 새 제약 없음 |
-| `vc-autoresearch:reason` | 블라인드 심사관으로 적대적 토론 | 심사관 수렴 또는 반복 상한 |
-| `vc-autoresearch:evals` | TSV 결과 분석 — 추세, 고원, 권고 | 분석만 |
+| `vb-autoresearch` (기본) | gaps 찾기 → 수정 → 반복 | gaps 없음 OR 메트릭 목표 달성 |
+| `vb-autoresearch:probe` | 8개 페르소나가 포화까지 자료를 심문 | 3라운드 동안 새 제약 없음 |
+| `vb-autoresearch:reason` | 블라인드 심사관으로 적대적 토론 | 심사관 수렴 또는 반복 상한 |
+| `vb-autoresearch:evals` | TSV 결과 분석 — 추세, 고원, 권고 | 분석만 |
 
 **중지 조건:** SUCCESS (2라운드 연속 이상 없음) · HALT_PLATEAU (3라운드 진전 없음) · HALT_CAP (10라운드 하드 한계) · HALT_REGRESSION (통과하던 검사가 실패).
 
@@ -833,7 +833,7 @@ flowchart TD
 
 ## 👥 전략 비교 + 모델 정책
 
-**모든 단계 전환**에서 리드 에이전트가 `vc-agent-strategy-compare`를 실행해서 다음 단계를 *어떻게* 실행할지 추천해요 — 비용 추정과 함께.
+**모든 단계 전환**에서 리드 에이전트가 `vb-agent-strategy-compare`를 실행해서 다음 단계를 *어떻게* 실행할지 추천해요 — 비용 추정과 함께.
 
 | 전략 | 언제 | 조율 |
 |---|---|---|
@@ -845,7 +845,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n(모든 단계 전환)"]
+    SS["vb-agent-strategy-compare\n(모든 단계 전환)"]
     SC{"신호 점수\n0–7"}
     SEQ["순차\n한 번에 에이전트 하나\n(출력이 다음으로)"]
     PAR["병렬 서브에이전트\nfire-and-forget\n(독립 차원)"]
@@ -955,7 +955,7 @@ You: "autopilot full: add team invitations with email + role management"
 `autopilot full: [task]` 라고 말하거나 `/goal` 블록을 붙여넣으면 다음이 모두 **사람 입력 없이** 일어나요:
 
 - **플랜 검사-수정 루프** — 플랜의 gaps를 찾고, 수정하고, 재확인해요. 스스로 최대 10라운드.
-- **빌드-테스트-수정 루프** — 코드를 작성하고, 테스트를 실행하고, 실패를 수정하고, 재실행해요. 스스로 최대 10라운드. 자체 "모두 통과"를 절대 믿지 않아요 — 별도의 검사기 (vc-tester)가 독립적으로 모든 테스트를 재실행해 확인해요.
+- **빌드-테스트-수정 루프** — 코드를 작성하고, 테스트를 실행하고, 실패를 수정하고, 재실행해요. 스스로 최대 10라운드. 자체 "모두 통과"를 절대 믿지 않아요 — 별도의 검사기 (vb-tester)가 독립적으로 모든 테스트를 재실행해 확인해요.
 - **단계 간 진행** — 리서치에서 플랜, 코드, 완료까지 여러분을 기다리지 않고 이동해요.
 - **메모리 리셋 후 이어받기** — 플랜, 리포트, 진행 상황이 모두 디스크의 파일로 있어요. 압축 후 (AI의 단기 메모리가 지워질 때), 다음 세션이 그 파일을 읽고 정확히 멈춘 곳에서 계속해요.
 - **막힌 기능? 옆에 두고 계속** — 한 단계를 해결할 수 없으면 에이전트가 백로그 노트를 작성하고 다음 기능으로 이동해요. 하나의 블로커가 모든 것을 막지 않고 여러 기능을 병렬로 실행할 수 있어요.
@@ -994,7 +994,7 @@ You: "autopilot full: add team invitations with email + role management"
 
 ### 🔬 실현 가능성 프로브 — 만들기 전에 가정을 테스트해요
 
-SPEC, INNOVATE, 또는 VALIDATE가 읽기만으로는 확인할 수 없는 핵심 가정에 부딪히면 `VC-FEASIBILITY-PROBE-NEEDED`를 발행하고 멈춰요. 리드 에이전트가 `vc-debugger`를 실행해서 실제 테스트를 하고 **VERDICT**를 작성해요:
+SPEC, INNOVATE, 또는 VALIDATE가 읽기만으로는 확인할 수 없는 핵심 가정에 부딪히면 `VB-FEASIBILITY-PROBE-NEEDED`를 발행하고 멈춰요. 리드 에이전트가 `vb-debugger`를 실행해서 실제 테스트를 하고 **VERDICT**를 작성해요:
 
 | 판정 | 의미 |
 |---|---|
@@ -1010,10 +1010,10 @@ SPEC, INNOVATE, 또는 VALIDATE가 읽기만으로는 확인할 수 없는 핵�
 
 | 검증기 계열 | 검사 내용 |
 |---|---|
-| `vc-audit-vc` | 에이전트 패리티 (Claude/Codex), 스킬 레지스트리, 킷 이식성, 에이전트 프론트매터 |
-| `vc-audit-context` | 컨텍스트 라우팅, 탐색 프론트매터, 스킬 키워드 |
-| `vc-audit-plans` | 플랜 인벤토리, umbrella 상태, 페이즈 완전성, 페이즈 리포트, 백로그 노트 |
-| 14개 VC-시스템 행동 검증기 | 각각 통과/실패 픽스처 쌍을 소유 — 전략 비교 출력, 마감, 의도 명확화, 실현 가능성 판정, autoresearch 로그 등 |
+| `vb-audit-vc` | 에이전트 패리티 (Claude/Codex), 스킬 레지스트리, 킷 이식성, 에이전트 프론트매터 |
+| `vb-audit-context` | 컨텍스트 라우팅, 탐색 프론트매터, 스킬 키워드 |
+| `vb-audit-plans` | 플랜 인벤토리, umbrella 상태, 페이즈 완전성, 페이즈 리포트, 백로그 노트 |
+| 14개 VB-시스템 행동 검증기 | 각각 통과/실패 픽스처 쌍을 소유 — 전략 비교 출력, 마감, 의도 명확화, 실현 가능성 판정, autoresearch 로그 등 |
 
 ---
 
@@ -1070,24 +1070,24 @@ SPEC, INNOVATE, 또는 VALIDATE가 읽기만으로는 확인할 수 없는 핵�
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>5페르소나 토론 — <code>vc-predict</code></strong><br><br>
+<strong>5페르소나 토론 — <code>vb-predict</code></strong><br><br>
 Architect, Security, Performance, UX, Devil's Advocate가 플랜을 토론해요. 한 줄 쓰기 전에 <strong>GO / CAUTION / STOP</strong> 판정을 내려요.
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>12차원 엣지 케이스 — <code>vc-scenario</code></strong><br><br>
+<strong>12차원 엣지 케이스 — <code>vb-scenario</code></strong><br><br>
 기능을 12개 차원(사용자 유형, 입력 극단값, 타이밍, 규모, 상태, 환경, 오류, 인증, 데이터, 통합, 규정, 비즈니스 로직)에 걸쳐 분해해요. 출력이 테스트 스펙으로도 사용돼요.
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>STRIDE + OWASP 감사 — <code>vc-security</code></strong><br><br>
+<strong>STRIDE + OWASP 감사 — <code>vb-security</code></strong><br><br>
 의존성 감사, 시크릿 감지, 그리고 심각도별로 정렬해 Critical을 먼저 수정하는 리그레션 가드가 있는 **자동 수정 모드**를 갖춘 이중 방법론 보안 감사예요.
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>증거 우선 디버깅 — <code>vc-debugger</code></strong><br><br>
+<strong>증거 우선 디버깅 — <code>vb-debugger</code></strong><br><br>
 증거 수집 → 2-3개의 경쟁 가설 형성 → 각각 테스트 → 소거 경로 문서화. <strong>절대 추측하지 않아요 — 증명해요.</strong>
 </td>
 </tr>
@@ -1097,7 +1097,7 @@ Architect, Security, Performance, UX, Devil's Advocate가 플랜을 토론해요
 
 ## ✅ 품질 파이프라인 — 실행에 내장
 
-**테스트 먼저, 그다음 코드.** 합의된 체크리스트(코드를 건드리기 전에 작성됨)가 통과해야 하는 정확한 테스트를 정의해요. execute-agent는 테스트가 통과할 때까지 코드를 작성해요. 그다음 별도의 검사기 — `vc-tester` — 가 모든 테스트를 스스로 재실행해서 확인해요. execute-agent의 자체 "모두 통과"는 액면 그대로 받아들이지 않아요. 맨 마지막에 검토자가 새 부분만이 아니라 전체 프로젝트가 함께 잘 작동하는지 확인해요.
+**테스트 먼저, 그다음 코드.** 합의된 체크리스트(코드를 건드리기 전에 작성됨)가 통과해야 하는 정확한 테스트를 정의해요. execute-agent는 테스트가 통과할 때까지 코드를 작성해요. 그다음 별도의 검사기 — `vb-tester` — 가 모든 테스트를 스스로 재실행해서 확인해요. execute-agent의 자체 "모두 통과"는 액면 그대로 받아들이지 않아요. 맨 마지막에 검토자가 새 부분만이 아니라 전체 프로젝트가 함께 잘 작동하는지 확인해요.
 
 execute-agent는 코드만 작성하고 끝이라고 하지 않아요. 자동으로 **품질 파이프라인**을 통과해요:
 
@@ -1188,7 +1188,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent가 태스크 폴더 생성\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent가 태스크 폴더 생성\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— 플랜 파일\n— Validate Contract가 여기에 추가됨"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— 선택적 참조"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— PVL/EVL 사이클당 리포트"]
@@ -1218,7 +1218,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 모든 플랜에 포함: 📍 **터치포인트** (생성/수정된 파일) · 📜 **공개 컨트랙트** · 💥 **건드릴 수 있는 파일** (뭐가 깨질 수 있는지, 어떤 테스트를 할지) · ✅ **검증 증거** · 🔄 **재개 핸드오프**. `vc-plan-discovery`가 재개할 올바른 플랜을 찾고, `post-write-plan-check` 훅이 모든 플랜 작성 시 플랜 구조를 확인해요.
+> 모든 플랜에 포함: 📍 **터치포인트** (생성/수정된 파일) · 📜 **공개 컨트랙트** · 💥 **건드릴 수 있는 파일** (뭐가 깨질 수 있는지, 어떤 테스트를 할지) · ✅ **검증 증거** · 🔄 **재개 핸드오프**. `vb-plan-discovery`가 재개할 올바른 플랜을 찾고, `post-write-plan-check` 훅이 모든 플랜 작성 시 플랜 구조를 확인해요.
 
 ---
 
@@ -1350,11 +1350,11 @@ process/context/
 |---|---|
 | 🧭 **라우터 패턴** | 에이전트가 작업에 관련된 것만 읽어요 |
 | 📏 **자동 승격** | 문서 3개 이상 (또는 단일 파일이 너무 커지면) 자체 그룹을 받아요 |
-| 🔄 **항상 최신** | 중요한 기능 완료 후 `vc-update-process-agent`가 업데이트해요 |
-| 🧪 **감사 가능** | `vc-audit-context`가 라우팅, 탐색 프론트매터, 일관성을 확인해요 |
+| 🔄 **항상 최신** | 중요한 기능 완료 후 `vb-update-process-agent`가 업데이트해요 |
+| 🧪 **감사 가능** | `vb-audit-context`가 라우팅, 탐색 프론트매터, 일관성을 확인해요 |
 | 📨 **Context Envelope** | 모든 내부 루프 에이전트가 시작 시 10개 필드 노트를 발행해요 (기능 → 페이즈 → 세션 목표 → 브랜치 → worktree → 컨텍스트 그룹 → blast-radius-packages → 활성 플랜 → 테스트 러너 → 검증 컨트랙트) 신선한 작업자 에이전트가 정확히 어디에 있는지 알 수 있도록 |
 
-> 킷은 프로토콜 씨앗 파일만 포함해요 — 여러분의 컨텍스트 그룹은 `vc-setup`이 실제 코드를 스캔해서 **여러분의 프로젝트를 위해** 구축돼요. 고정된 목록이 아닌 패턴이에요.
+> 킷은 프로토콜 씨앗 파일만 포함해요 — 여러분의 컨텍스트 그룹은 `vb-setup`이 실제 코드를 스캔해서 **여러분의 프로젝트를 위해** 구축돼요. 고정된 목록이 아닌 패턴이에요.
 
 ---
 
@@ -1392,12 +1392,12 @@ process/features/{feature}/
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Contract skills (20)</strong><br><br>
-각각 특정 파일이나 합의된 출력물을 생성해요 — <code>vc-generate-plan</code>, <code>vc-validate-findings</code>, <code>vc-autopilot</code>, 감사들. 결과를 확인할 수 있어요.
+각각 특정 파일이나 합의된 출력물을 생성해요 — <code>vb-generate-plan</code>, <code>vb-validate-findings</code>, <code>vb-autopilot</code>, 감사들. 결과를 확인할 수 있어요.
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Helper skills (13)</strong><br><br>
-에이전트가 *어떻게* 작동하는지를 개선하고, 자체 파일을 생성하지 않아요 — <code>vc-scout</code>, <code>vc-sequential-thinking</code>, <code>vc-problem-solving</code>, <code>vc-docs-seeker</code>.
+에이전트가 *어떻게* 작동하는지를 개선하고, 자체 파일을 생성하지 않아요 — <code>vb-scout</code>, <code>vb-sequential-thinking</code>, <code>vb-problem-solving</code>, <code>vb-docs-seeker</code>.
 </td>
 </tr>
 </table>
@@ -1418,7 +1418,7 @@ process/features/{feature}/
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["기능 출시\n(EXECUTE + EVL 완료)"]
-    UP["UPDATE PROCESS 단계\nvc-update-process-agent"]
+    UP["UPDATE PROCESS 단계\nvb-update-process-agent"]
     CTX["process/context/ 업데이트\n가장 작은 관련 파일\n+ all-context.md 라우터"]
     AGENT["다음 에이전트 실행\n컨텍스트 라우터 읽기\n→ 올바른 그룹 파일로 라우팅"]
     BETTER["더 나은 다음 기능\n재발견 없음, 오래된 패턴 없음"]
@@ -1436,7 +1436,7 @@ flowchart TD
 
 `process/context/`는 주제 그룹으로 정리된 구조화된 지식을 담아요 — 아키텍처 결정, 코딩 컨벤션, 배포 단계, 테스트 패턴, 인프라 사실. 채팅 히스토리와 달리 이 지식은:
 
-- **모든 작업자 에이전트에게 전달돼요** — `vc-context-discovery`가 실행된 각 에이전트를 작업에 맞는 `all-{group}.md` 라우터로, 그다음 가장 작은 관련 심층 파일로 라우팅해요. 리서치 에이전트, 플랜 에이전트, 코딩 에이전트 모두 같은 공유 이해로 시작해요
+- **모든 작업자 에이전트에게 전달돼요** — `vb-context-discovery`가 실행된 각 에이전트를 작업에 맞는 `all-{group}.md` 라우터로, 그다음 가장 작은 관련 심층 파일로 라우팅해요. 리서치 에이전트, 플랜 에이전트, 코딩 에이전트 모두 같은 공유 이해로 시작해요
 - **메모리 리셋에서 살아남아요** — 디스크에 있고, 컨텍스트 윈도우에 있지 않아요; 압축된 세션은 이것을 잃지 않아요
 - **Claude와 Codex 모두가 읽을 수 있어요** — `.agents/skills`는 `.claude/skills/`의 바로가기 링크라서 같은 컨텍스트 시스템이 중복 없이 두 에이전트를 모두 서비스해요
 
@@ -1457,14 +1457,14 @@ process/context/
 
 "살아있는 문서"는 보통 "최신 상태로 유지하려 하지만 대부분 잊어버리는 문서"를 의미해요. 이 시스템은 그 의도를 기계적으로 강제해요.
 
-**UPDATE PROCESS 단계는 닫히기 전에 파일별 컨텍스트 검토를 필요로 해요.** `vc-update-process-agent`는 잠재적으로 영향 받은 모든 컨텍스트 파일이 파일당 구체적인 이유로 검토될 때까지 페이즈를 완료할 수 없어요. "업데이트 불필요"는 허용되지만 각 검토된 파일을 명시하고 이유를 설명해야 해요. 모호한 이유는 거부돼요. 체크포인트는 이진: 검토를 기록하거나, 페이즈가 닫히지 않거나.
+**UPDATE PROCESS 단계는 닫히기 전에 파일별 컨텍스트 검토를 필요로 해요.** `vb-update-process-agent`는 잠재적으로 영향 받은 모든 컨텍스트 파일이 파일당 구체적인 이유로 검토될 때까지 페이즈를 완료할 수 없어요. "업데이트 불필요"는 허용되지만 각 검토된 파일을 명시하고 이유를 설명해야 해요. 모호한 이유는 거부돼요. 체크포인트는 이진: 검토를 기록하거나, 페이즈가 닫히지 않거나.
 
 완료된 기능당 전체 피드백 루프:
 
 | 단계 | 소유자 | 무슨 일이 일어나는지 |
 |------|-------|-------------|
-| 1. Git diff 분석 | `vc-scout` | 변경된 파일 → 영향 받은 컨텍스트 영역 매핑 |
-| 2. 파일별 검토 | `vc-update-process-agent` | 각 컨텍스트 파일을 명시하고, 업데이트 또는 명시적 "변경 없음 + 이유" 서술 |
+| 1. Git diff 분석 | `vb-scout` | 변경된 파일 → 영향 받은 컨텍스트 영역 매핑 |
+| 2. 파일별 검토 | `vb-update-process-agent` | 각 컨텍스트 파일을 명시하고, 업데이트 또는 명시적 "변경 없음 + 이유" 서술 |
 | 3. 업데이트 적용 | 병렬 작업자 에이전트 | 각 영역의 컨텍스트 파일이 새 패턴, 결정, 학습으로 업데이트됨 |
 | 4. 라우팅 검증 | `validate-context-discovery.mjs` | 모든 문서가 인덱싱되고 라우터가 일관됨을 확인 |
 | 5. 탐색 확인 | `validate-all-context.mjs` | `all-context.md`와 그룹 라우터가 디스크의 현재 파일과 일치함을 확인 |
@@ -1500,7 +1500,7 @@ process/context/
 
 주제가 문서 3개 이상이나 단일 파일이 ~800줄을 넘으면 그룹이 자동으로 만들어져요. 에이전트는 라우터를 따르고 경로를 하드코딩하지 않아요 — 그래서 새 그룹 추가(예: `process/context/billing/all-billing.md`)는 라우터 업데이트만 필요하고, 빌링을 언급하는 모든 에이전트를 변경할 필요가 없어요. 라우터가 안정적인 참조이고; 뒤의 파일들은 자유롭게 재조직될 수 있어요.
 
-> 킷은 실제 코드베이스에서 컨텍스트 그룹을 씨앗 파일로 생성해요 (`vc-setup`을 통해). 그룹은 고정된 목록이 아니에요 — 패턴이에요. 여러분의 인증 영역, 인프라 영역, 결제 영역이 프로젝트가 성장하면서 각각 1등급 라우팅 가능한 지식이 돼요.
+> 킷은 실제 코드베이스에서 컨텍스트 그룹을 씨앗 파일로 생성해요 (`vb-setup`을 통해). 그룹은 고정된 목록이 아니에요 — 패턴이에요. 여러분의 인증 영역, 인프라 영역, 결제 영역이 프로젝트가 성장하면서 각각 1등급 라우팅 가능한 지식이 돼요.
 
 ---
 
@@ -1519,15 +1519,15 @@ process/context/
 
 | 에이전트 | 모델 | 역할 |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | 코드베이스 + 웹 리서치, 읽기 전용. 모순 추적 내장 |
-| 📝 `vc-spec-agent` | sonnet | INNOVATE 전 프로덕트 디스커버리 요구사항 문서. `*_SPEC_*.md` 생성 |
-| 💡 `vc-innovate-agent` | sonnet | 2-3가지 접근 방식 비교. PLAN 전 결정 요약 (선택 + 거절) |
-| 📋 `vc-plan-agent` | **opus** | 지름길 방지 가드와 함께 플랜 작성. "이미 알아요"는 플랜이 아님 |
-| ✅ `vc-validate-agent` | **opus** | 플랜 → 합의된 체크리스트 (V1–V7). 체크포인트: PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | 플랜대로 구현. 페이즈 리포트에 진행 노트, 이탈 프로토콜, 셀프 리뷰 |
-| ⏩ `vc-fast-mode-agent` | **opus** | EXECUTE 전 필수 안전 일시 정지와 함께 압축 R→S→I→P→V |
-| 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX 레인: 소규모 저위험 편집 하나 + 범위 내 검사, 플랜/검증 없음 |
-| 🧠 `vc-update-process-agent` | sonnet | 7단계 마감: 아카이브, 컨텍스트 업데이트, 오래된 산출물 스캔, 학습 |
+| 🔍 `vb-research-agent` | **opus** | 코드베이스 + 웹 리서치, 읽기 전용. 모순 추적 내장 |
+| 📝 `vb-spec-agent` | sonnet | INNOVATE 전 프로덕트 디스커버리 요구사항 문서. `*_SPEC_*.md` 생성 |
+| 💡 `vb-innovate-agent` | sonnet | 2-3가지 접근 방식 비교. PLAN 전 결정 요약 (선택 + 거절) |
+| 📋 `vb-plan-agent` | **opus** | 지름길 방지 가드와 함께 플랜 작성. "이미 알아요"는 플랜이 아님 |
+| ✅ `vb-validate-agent` | **opus** | 플랜 → 합의된 체크리스트 (V1–V7). 체크포인트: PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | 플랜대로 구현. 페이즈 리포트에 진행 노트, 이탈 프로토콜, 셀프 리뷰 |
+| ⏩ `vb-fast-mode-agent` | **opus** | EXECUTE 전 필수 안전 일시 정지와 함께 압축 R→S→I→P→V |
+| 🔧 `vb-quick-fix-agent` | **opus** | QUICK FIX 레인: 소규모 저위험 편집 하나 + 범위 내 검사, 플랜/검증 없음 |
+| 🧠 `vb-update-process-agent` | sonnet | 7단계 마감: 아카이브, 컨텍스트 업데이트, 오래된 산출물 스캔, 학습 |
 
 <br>
 
@@ -1535,12 +1535,12 @@ process/context/
 
 | 에이전트 | 역할 |
 |-------|------|
-| 🐛 `vc-debugger` | 가설 형성 전 증거 수집. 경쟁 가설, 소거 체인, 실현 가능성 프로브 |
-| 🧪 `vc-tester` | 변경 인식. 합의된 체크리스트 테스트 재실행 (EVL). 설정 변경 시 자동 에스컬레이션 |
-| 🔎 `vc-code-reviewer` | 리뷰 전 엣지 케이스 스카우트 발송. N+1 감지, 인증 경로 확인 |
-| ✨ `vc-code-simplifier` | 동작 변경 없는 명확성 코드 정리 |
-| 🎨 `vc-ui-ux-designer` | 디자인 인식 프론트엔드. 구현 중 리서치 작업자 실행 가능 |
-| 📦 `vc-git-manager` | `touched_files`에서 논리적 커밋으로 분할. 알 수 없는 파일 거부 |
+| 🐛 `vb-debugger` | 가설 형성 전 증거 수집. 경쟁 가설, 소거 체인, 실현 가능성 프로브 |
+| 🧪 `vb-tester` | 변경 인식. 합의된 체크리스트 테스트 재실행 (EVL). 설정 변경 시 자동 에스컬레이션 |
+| 🔎 `vb-code-reviewer` | 리뷰 전 엣지 케이스 스카우트 발송. N+1 감지, 인증 경로 확인 |
+| ✨ `vb-code-simplifier` | 동작 변경 없는 명확성 코드 정리 |
+| 🎨 `vb-ui-ux-designer` | 디자인 인식 프론트엔드. 구현 중 리서치 작업자 실행 가능 |
+| 📦 `vb-git-manager` | `touched_files`에서 논리적 커밋으로 분할. 알 수 없는 파일 거부 |
 
 </details>
 
@@ -1553,13 +1553,13 @@ process/context/
 
 <br>
 
-**📜 Contract skills (20)** — 산출물 소유: `vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Contract skills (20)** — 산출물 소유: `vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Helper skills (13)** — 에이전트 작동 방식 개선: `vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Helper skills (13)** — 에이전트 작동 방식 개선: `vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ 이름 규칙:** 직접 만드는 스킬이나 에이전트에 `vc-` 접두사를 사용하지 마세요 — 해당 네임스페이스는 킷 파일용으로 예약되어 있고, 오래된 파일 제거 가드가 `.claude/skills/`와 `.claude/agents/` 아래의 모든 `vc-*` 경로를 킷 소유로 처리해요. 대신 `my-`, `team-`, `proj-`를 사용하세요.
+> **⚠️ 이름 규칙:** 직접 만드는 스킬이나 에이전트에 `vb-` 접두사를 사용하지 마세요 — 해당 네임스페이스는 킷 파일용으로 예약되어 있고, 오래된 파일 제거 가드가 `.claude/skills/`와 `.claude/agents/` 아래의 모든 `vb-*` 경로를 킷 소유로 처리해요. 대신 `my-`, `team-`, `proj-`를 사용하세요.
 
 <br>
 
@@ -1606,7 +1606,7 @@ your-project/
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Quick Fix</strong> — <code>"quick fix: …"</code><br><br>
-사소한 한 줄짜리보다 크고, "플랜이 필요해"보다 작아요. 리드 에이전트가 읽기 전용으로 스카우트 → 한 줄 확인 → 편집 + 건드린 파일만 범위 내 검사를 위해 <code>vc-quick-fix-agent</code>를 실행해요. <strong>플랜 없음, 합의된 체크리스트 없음, EVL 없음.</strong>
+사소한 한 줄짜리보다 크고, "플랜이 필요해"보다 작아요. 리드 에이전트가 읽기 전용으로 스카우트 → 한 줄 확인 → 편집 + 건드린 파일만 범위 내 검사를 위해 <code>vb-quick-fix-agent</code>를 실행해요. <strong>플랜 없음, 합의된 체크리스트 없음, EVL 없음.</strong>
 <br><br>
 <sub>변경이 스키마, 인증, API, 빌링, 또는 마이그레이션 표면을 건드리면 즉시 취소되고 완전한 RESEARCH로 라우팅돼요.</sub>
 </td>
@@ -1627,24 +1627,24 @@ RESEARCH + SPEC + INNOVATE + PLAN + VALIDATE를 한 번에 압축해요 — 하�
 | 명령 | 하는 일 | 언제 |
 |---|---|---|
 | `curl … install.sh \| bash` | 여러분의 파일을 덮어쓰지 않고 킷 파일을 동기화해요; 신규 vs 업그레이드를 자동 감지하고 라우팅해요 | 첫 설치 + 모든 업그레이드 |
-| **Run vc-setup** | 스택 감지, `process/` 스캐폴딩, 코드베이스 딥스캔, 실제 컨텍스트 채우기 | 새 설치 후 |
-| **Run vc-update** | 정확한 diff를 계산하고, 변경될 것을 보여주고, OK를 기다려요; 데이터 손실 없이 구형 포맷 플랜/폴더 마이그레이션 | 모든 업그레이드 시 |
-| **Run vc-publish** *(관리자)* | 하네스 변경을 킷 레포지토리로 다시 게시해요 | 킷 자체에 기여할 때 |
+| **Run vb-setup** | 스택 감지, `process/` 스캐폴딩, 코드베이스 딥스캔, 실제 컨텍스트 채우기 | 새 설치 후 |
+| **Run vb-update** | 정확한 diff를 계산하고, 변경될 것을 보여주고, OK를 기다려요; 데이터 손실 없이 구형 포맷 플랜/폴더 마이그레이션 | 모든 업그레이드 시 |
+| **Run vb-publish** *(관리자)* | 하네스 변경을 킷 레포지토리로 다시 게시해요 | 킷 자체에 기여할 때 |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE 완료\nENTER UPDATE PROCESS MODE"]
-    AGT["vc-update-process-agent 실행"]
+    AGT["vb-update-process-agent 실행"]
     A["(a) 플랜 아카이브\nactive/ → completed/"]
     B["(b) process/context/ 업데이트\n가장 작은 관련 파일\n+ all-context.md 라우터"]
     C["(c) Tier-1 감사\n(변경 유형 게이트)"]
-    AVC["vc-audit-vc\n하네스/에이전트 편집"]
-    ACX["vc-audit-context\n컨텍스트 문서 편집"]
-    APL["vc-audit-plans\n플랜/프로그램 편집"]
+    AVC["vb-audit-vc\n하네스/에이전트 편집"]
+    ACX["vb-audit-context\n컨텍스트 문서 편집"]
+    APL["vb-audit-plans\n플랜/프로그램 편집"]
     D["(d) 학습 캡처\n메모리로"]
-    E["(e) 마감 패킷 작성\nvc-generate-closeout"]
-    F["(f) Conventional 커밋\nvc-git-manager"]
+    E["(e) 마감 패킷 작성\nvb-generate-closeout"]
+    F["(f) Conventional 커밋\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1668,7 +1668,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update`는 미리 보기 diff를 보여주고 OK를 기다려요. `process/` 디렉토리와 프로젝트별 내용은 **절대** 조용히 변경되지 않아요. 설치를 두 번 실행해도 안전해요.
+> 💡 `vb-update`는 미리 보기 diff를 보여주고 OK를 기다려요. `process/` 디렉토리와 프로젝트별 내용은 **절대** 조용히 변경되지 않아요. 설치를 두 번 실행해도 안전해요.
 
 ---
 

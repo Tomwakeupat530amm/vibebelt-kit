@@ -40,7 +40,7 @@
 <td valign="top"><strong>🔁 Vòng lặp tự sửa PVL + EVL</strong><br>Vòng lặp kiểm tra-sửa kế hoạch và kiểm tra-sửa bài test tự tìm lỗ hổng, sửa chúng, và kiểm tra lại — tối đa 10 lần mỗi vòng.</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>Vòng lặp tìm lỗ hổng → sửa → lặp lại có thể tái sử dụng, áp dụng được cho kế hoạch, bài test, spec, tài liệu, hoặc đánh giá.</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>Vòng lặp tìm lỗ hổng → sửa → lặp lại có thể tái sử dụng, áp dụng được cho kế hoạch, bài test, spec, tài liệu, hoặc đánh giá.</td>
 <td valign="top"><strong>🧪 Kiểm tra tính khả thi</strong><br>Kết quả VIABLE / NOT-VIABLE trước khi agent cam kết với bất kỳ phương án thiết kế nào.</td>
 </tr>
 <tr>
@@ -103,7 +103,7 @@
   Ruby · Rails · Go · Rust · Java · Spring · Kotlin · Swift · PHP · Laravel · C# · .NET · Elixir · GraphQL · Prisma<br>
   Supabase · Firebase · PostgreSQL · MongoDB · Redis · Docker · Kubernetes · AWS · Google Cloud · Azure · Vercel · Cloudflare · Tailwind CSS · Electron
   <br>
-  <p><em>Không chỉ để trưng bày. Khi bạn chạy <code>vc-setup</code>, các agent quét codebase,<br>
+  <p><em>Không chỉ để trưng bày. Khi bạn chạy <code>vb-setup</code>, các agent quét codebase,<br>
   phát hiện công nghệ bạn dùng, và xây dựng nhóm kiến thức dành riêng cho dự án mà mọi skill đọc trước khi làm việc.<br>
   Các bộ harness khác khóa agent vào một ngôn ngữ — <code>rust-review-agent</code>, <code>python-linter</code> — vô dụng ở nơi khác.<br>
   Cái này thích nghi với mọi tổ hợp ở trên và tích lũy kiến thức khi bạn phát triển.</em></p>
@@ -131,26 +131,26 @@ Khi xong, nó in ra một trong hai thông báo — **đọc phần cuối của
 <h3>🆕 Dự án mới</h3>
 Installer phát hiện chưa có harness và in:
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ Mở agent của bạn và nói <code>Run vc-setup</code></strong>
+<strong>→ Mở agent của bạn và nói <code>Run vb-setup</code></strong>
 <br><br>
-<sub>vc-setup phát hiện công nghệ bạn dùng, tạo thư mục <code>process/</code>, quét codebase, và điền vào kiến trúc, quy ước, và lệnh test <em>thực tế</em> của bạn — một cuộc trò chuyện, không phải danh sách việc cần làm.</sub>
+<sub>vb-setup phát hiện công nghệ bạn dùng, tạo thư mục <code>process/</code>, quét codebase, và điền vào kiến trúc, quy ước, và lệnh test <em>thực tế</em> của bạn — một cuộc trò chuyện, không phải danh sách việc cần làm.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 Có harness cũ (nâng cấp)</h3>
 Installer phát hiện lần cài trước và in:
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ Mở agent của bạn và nói <code>Run vc-update</code></strong>
+<strong>→ Mở agent của bạn và nói <code>Run vb-update</code></strong>
 <br><br>
-<sub>vc-update kéo phiên bản mới nhất và nếu tìm thấy kế hoạch hay thư mục định dạng cũ, sẽ cung cấp prompt sẵn để hoàn tất việc chuyển đổi với <strong>không mất dữ liệu</strong>. Thư mục <code>process/</code> của bạn không bao giờ bị đụng tới.</sub>
+<sub>vb-update kéo phiên bản mới nhất và nếu tìm thấy kế hoạch hay thư mục định dạng cũ, sẽ cung cấp prompt sẵn để hoàn tất việc chuyển đổi với <strong>không mất dữ liệu</strong>. Thư mục <code>process/</code> của bạn không bao giờ bị đụng tới.</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **Bạn không bao giờ phải đoán lệnh.** `install.sh` dẫn đường: mới → `vc-setup`, nâng cấp → `vc-update`. Chạy lại install luôn an toàn — không bao giờ làm hỏng gì. **Người dùng Codex:** chạy `/vc-setup` (hoặc `/vc-update`) thay vì nói trong chat.
+> 💡 **Bạn không bao giờ phải đoán lệnh.** `install.sh` dẫn đường: mới → `vb-setup`, nâng cấp → `vb-update`. Chạy lại install luôn an toàn — không bao giờ làm hỏng gì. **Người dùng Codex:** chạy `/vb-setup` (hoặc `/vb-update`) thay vì nói trong chat.
 
 <br>
 
@@ -171,15 +171,15 @@ your-project/
 ├── AGENTS.md                # 📖 Agent + skill registry (cross-tool)
 └── process/
     └── development-protocols/  # 📜 22 shared workflow docs (seeded by install)
-                                #    context/, plans, features → built by vc-setup
+                                #    context/, plans, features → built by vb-setup
 ```
 
 - **Không phá hủy.** Các file `.claude/skills/`, `.claude/agents/`, `process/`, và `settings.json` hiện có của bạn không bao giờ bị xóa. Chỉ có file thuộc kit mới được ghi hoặc cập nhật.
 - **Có config sẵn?** Được sao lưu vào `.vibecode-backup/`; `settings.json` của bạn được khôi phục sau đó.
 - **Có `CLAUDE.md` sẵn?** Được sao lưu thành `CLAUDE.md.pre-vibecode`.
-- **Có `process/` sẵn?** Install không bao giờ đụng tới — `vc-setup` / `vc-update` di chuyển tương tác, cho bạn xem diff trước.
+- **Có `process/` sẵn?** Install không bao giờ đụng tới — `vb-setup` / `vb-update` di chuyển tương tác, cho bạn xem diff trước.
 
-> **Lưu ý một lần khi cài lần đầu:** nếu bạn có skill/agent tùy chỉnh mà tên bắt đầu bằng `vc-` (namespace dành riêng cho kit) và *chưa bao giờ* chạy install trước đây, bước xóa file cũ có thể đánh dấu chúng. Sau khi install, chạy `ls .claude/skills/ .claude/agents/` để xác nhận. Dùng tiền tố không phải `vc-` (`my-`, `team-`, `proj-`) cho các bổ sung của riêng bạn để tránh hoàn toàn vấn đề này.
+> **Lưu ý một lần khi cài lần đầu:** nếu bạn có skill/agent tùy chỉnh mà tên bắt đầu bằng `vb-` (namespace dành riêng cho kit) và *chưa bao giờ* chạy install trước đây, bước xóa file cũ có thể đánh dấu chúng. Sau khi install, chạy `ls .claude/skills/ .claude/agents/` để xác nhận. Dùng tiền tố không phải `vb-` (`my-`, `team-`, `proj-`) cho các bổ sung của riêng bạn để tránh hoàn toàn vấn đề này.
 
 </details>
 
@@ -195,7 +195,7 @@ First, install the vibebelt-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -250,7 +250,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>Autopilot</strong><br><sub>3 chế độ (quick / fast / full) — bắt đầu từ bất kỳ giai đoạn nào, chạy từ đầu đến cuối không dừng</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>/goal blocks</strong><br><sub>Đoạn văn ngắn có thể dán vào để tiếp tục chạy tự động qua các phiên sau khi reset</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>Vòng lặp tìm lỗ hổng → sửa → lặp lại (công cụ dùng chung cho kế hoạch, bài test, và đánh giá)</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>Vòng lặp tìm lỗ hổng → sửa → lặp lại (công cụ dùng chung cho kế hoạch, bài test, và đánh giá)</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>Kiểm tra tính khả thi</strong><br><sub>Kết quả VIABLE / NOT-VIABLE trước khi cam kết với một thiết kế</sub></td>
 </tr>
 </table>
@@ -468,7 +468,7 @@ Coordinator định tuyến, giám sát, và điều khiển vòng lặp — nó
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>Khám Phá Skill Tự Động</strong><br><br>
-Trước khi xử lý bất kỳ yêu cầu nào, nó quét <strong>33 skill</strong> và khớp từ khóa. Nói "thêm hỗ trợ webhook" và <code>vc-security</code> + <code>vc-scenario</code> được kéo vào tự động.
+Trước khi xử lý bất kỳ yêu cầu nào, nó quét <strong>33 skill</strong> và khớp từ khóa. Nói "thêm hỗ trợ webhook" và <code>vb-security</code> + <code>vb-scenario</code> được kéo vào tự động.
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -509,12 +509,12 @@ Yêu cầu của bạn
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>Ủy quyền, không bao giờ tự triển khai</strong><br><br>
-Nghiên cứu → <code>vc-research-agent</code>. Kế hoạch → <code>vc-plan-agent</code>. Code → <code>vc-execute-agent</code>. Coordinator bàn giao đúng ngữ cảnh và chờ — nó không bao giờ tự làm công việc thực tế.
+Nghiên cứu → <code>vb-research-agent</code>. Kế hoạch → <code>vb-plan-agent</code>. Code → <code>vb-execute-agent</code>. Coordinator bàn giao đúng ngữ cảnh và chờ — nó không bao giờ tự làm công việc thực tế.
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>Không có thực thi ẩn — bao giờ hết</strong><br><br>
-Khi một kế hoạch với checklist đã thống nhất tồn tại, "ENTER EXECUTE MODE" <strong>luôn luôn</strong> khởi chạy <code>vc-execute-agent</code>. Ngay cả sửa một dòng cũng phải qua đó. Bài test chỉ chạy bên trong một <code>vc-tester</code> chuyên dụng. Điều này áp dụng bất kể quy mô thay đổi.
+Khi một kế hoạch với checklist đã thống nhất tồn tại, "ENTER EXECUTE MODE" <strong>luôn luôn</strong> khởi chạy <code>vb-execute-agent</code>. Ngay cả sửa một dòng cũng phải qua đó. Bài test chỉ chạy bên trong một <code>vb-tester</code> chuyên dụng. Điều này áp dụng bất kể quy mô thay đổi.
 </td>
 </tr>
 <tr>
@@ -537,12 +537,12 @@ flowchart TD
     REQ["User request"]
     SD["Step 0: Skill Discovery\nscan 33 skills, match keywords"]
     INT{"Detect intent\n+ score ambiguity"}
-    RES["vc-research-agent\n(feature / question)"]
-    PLN["vc-plan-agent\n(after INNOVATE)"]
-    VAL["vc-validate-agent\n(PVL loop)"]
-    EXE["vc-execute-agent\n(EXECUTE)"]
-    TST["vc-tester\n(EVL loop)"]
-    UPD["vc-update-process-agent\n(closeout)"]
+    RES["vb-research-agent\n(feature / question)"]
+    PLN["vb-plan-agent\n(after INNOVATE)"]
+    VAL["vb-validate-agent\n(PVL loop)"]
+    EXE["vb-execute-agent\n(EXECUTE)"]
+    TST["vb-tester\n(EVL loop)"]
+    UPD["vb-update-process-agent\n(closeout)"]
     MON["Monitor\nstatus codes · loop driving\nno inline execution ever"]
 
     REQ --> SD --> INT
@@ -577,13 +577,13 @@ flowchart TD
 
 | Giai đoạn | Nội dung | Agent | Bạn nói |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | Thu thập thông tin chỉ đọc — codebase và web. Không bao giờ sửa file. | `vc-research-agent` | *(tự động khi có yêu cầu tính năng)* |
-| 📝 **SPEC** | Tài liệu yêu cầu khám phá sản phẩm — câu chuyện người dùng, tiêu chí chấp nhận, phạm vi ngoài — để **bạn xem xét trước khi thiết kế**. | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | Khám phá 2-3 hướng tiếp cận kèm đánh đổi. Tóm tắt quyết định (được chọn + bị loại + lý do). | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | Viết đặc tả chi tiết: các điểm chạm, hợp đồng công khai, file được phép sửa, bằng chứng xác minh, bàn giao tiếp nối. | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | Chuyển kế hoạch thành danh sách kiểm tra đã thống nhất (các checkpoint V1–V7). Kết quả: **PASS / CONDITIONAL / BLOCKED**. Chạy vòng lặp PVL. | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | Triển khai *đúng theo* kế hoạch. Ghi chú tiến độ vào báo cáo giai đoạn, quy trình xử lý sai lệch, tự đánh giá. Sau đó vòng lặp EVL chạy lại các checkpoint. | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | Ghi lại bài học, cập nhật ngữ cảnh, lưu trữ kế hoạch, viết gói đóng gói. | `vc-update-process-agent` | *(khuyến nghị sau công việc không tầm thường)* |
+| 🔍 **RESEARCH** | Thu thập thông tin chỉ đọc — codebase và web. Không bao giờ sửa file. | `vb-research-agent` | *(tự động khi có yêu cầu tính năng)* |
+| 📝 **SPEC** | Tài liệu yêu cầu khám phá sản phẩm — câu chuyện người dùng, tiêu chí chấp nhận, phạm vi ngoài — để **bạn xem xét trước khi thiết kế**. | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | Khám phá 2-3 hướng tiếp cận kèm đánh đổi. Tóm tắt quyết định (được chọn + bị loại + lý do). | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | Viết đặc tả chi tiết: các điểm chạm, hợp đồng công khai, file được phép sửa, bằng chứng xác minh, bàn giao tiếp nối. | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | Chuyển kế hoạch thành danh sách kiểm tra đã thống nhất (các checkpoint V1–V7). Kết quả: **PASS / CONDITIONAL / BLOCKED**. Chạy vòng lặp PVL. | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | Triển khai *đúng theo* kế hoạch. Ghi chú tiến độ vào báo cáo giai đoạn, quy trình xử lý sai lệch, tự đánh giá. Sau đó vòng lặp EVL chạy lại các checkpoint. | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | Ghi lại bài học, cập nhật ngữ cảnh, lưu trữ kế hoạch, viết gói đóng gói. | `vb-update-process-agent` | *(khuyến nghị sau công việc không tầm thường)* |
 
 > 📝 **Lý do SPEC là giai đoạn riêng:** hầu hết các hệ thống agent nhảy thẳng từ "hiểu" sang "thiết kế." Việc thêm bước khám phá sản phẩm SPEC có nghĩa là *bạn* (hoặc PM của bạn) phê duyệt **cái gì** sẽ được xây dựng — dưới dạng câu chuyện người dùng và tiêu chí chấp nhận đơn giản — *trước khi* agent tranh luận về **cách** làm. Đây là nơi rẻ nhất có thể để phát hiện hiểu nhầm. (Trong vòng lặp bên trong của chương trình theo giai đoạn, SPEC bị bỏ qua — SPEC tổng quát điều hành tất cả các giai đoạn.)
 >
@@ -611,7 +611,7 @@ flowchart TD
 ```
 # 🆕 Feature request
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -624,7 +624,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 Bug fix
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -677,7 +677,7 @@ flowchart TD
     ROUTE["Định tuyến đến agent phù hợp\n(research / plan / execute / …)"]
     STILL{"vẫn chưa rõ\nsau Cấp 2?"}
     FINAL["Một câu hỏi cuối cùng đơn giản\n(tối đa 2 vòng làm rõ)"]
-    NARROW["Mặc định: vc-research-agent\nphạm vi hợp lý hẹp nhất"]
+    NARROW["Mặc định: vb-research-agent\nphạm vi hợp lý hẹp nhất"]
 
     REQ --> AUTO
     AUTO -->|"auto-skip matches"| T0
@@ -745,24 +745,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL — Plan-Validate-Fix</h3>
-Trước EXECUTE, <code>vc-validate-agent</code> chạy kế hoạch qua <strong>các checkpoint V1–V7</strong> — phân chia công việc cho nhiều agent để bao phủ hạ tầng, độ phủ kiểm thử, thay đổi phá vỡ, bảo mật, và tính khả thi từng phần. Kết quả <strong>CONDITIONAL</strong> hoặc <strong>BLOCKED</strong> ở lần chạy đầu không bao giờ là kết thúc — nó định tuyến về <code>vc-plan-agent</code> để cập nhật kế hoạch, rồi kiểm tra lại từ V1.
+Trước EXECUTE, <code>vb-validate-agent</code> chạy kế hoạch qua <strong>các checkpoint V1–V7</strong> — phân chia công việc cho nhiều agent để bao phủ hạ tầng, độ phủ kiểm thử, thay đổi phá vỡ, bảo mật, và tính khả thi từng phần. Kết quả <strong>CONDITIONAL</strong> hoặc <strong>BLOCKED</strong> ở lần chạy đầu không bao giờ là kết thúc — nó định tuyến về <code>vb-plan-agent</code> để cập nhật kế hoạch, rồi kiểm tra lại từ V1.
 <br><br>
-<sub>Được theo dõi bởi <code>vc-autoresearch</code> (domain: plan) — vòng lặp tìm-lỗ hổng-và-sửa. Giới hạn 10 vòng. Phát hiện bình nguyên. Chỉ <strong>Gate: PASS</strong> (hoặc CONDITIONAL bạn chấp nhận rõ ràng) mới mở khóa EXECUTE.</sub>
+<sub>Được theo dõi bởi <code>vb-autoresearch</code> (domain: plan) — vòng lặp tìm-lỗ hổng-và-sửa. Giới hạn 10 vòng. Phát hiện bình nguyên. Chỉ <strong>Gate: PASS</strong> (hoặc CONDITIONAL bạn chấp nhận rõ ràng) mới mở khóa EXECUTE.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL — Execute-Validate-Fix</h3>
-Sau khi EXECUTE báo cáo xong — <strong>ngay cả khi nó tuyên bố tất cả checkpoint đều xanh</strong> — agent dẫn dắt <strong>luôn luôn</strong> triển khai <code>vc-tester</code> để độc lập chạy lại đúng các lệnh kiểm thử trong danh sách đã thống nhất. Checkpoint thất bại sẽ định tuyến đến <code>vc-execute-agent</code> sửa lỗi có phạm vi, rồi kiểm thử lại.
+Sau khi EXECUTE báo cáo xong — <strong>ngay cả khi nó tuyên bố tất cả checkpoint đều xanh</strong> — agent dẫn dắt <strong>luôn luôn</strong> triển khai <code>vb-tester</code> để độc lập chạy lại đúng các lệnh kiểm thử trong danh sách đã thống nhất. Checkpoint thất bại sẽ định tuyến đến <code>vb-execute-agent</code> sửa lỗi có phạm vi, rồi kiểm thử lại.
 <br><br>
-<sub>Được theo dõi bởi <code>vc-autoresearch</code> (domain: tests). Giới hạn 10 vòng. Vòng lặp "lặp cho đến khi xanh" nội bộ của execute-agent <strong>không bao giờ</strong> thay thế được bước xác nhận độc lập này.</sub>
+<sub>Được theo dõi bởi <code>vb-autoresearch</code> (domain: tests). Giới hạn 10 vòng. Vòng lặp "lặp cho đến khi xanh" nội bộ của execute-agent <strong>không bao giờ</strong> thay thế được bước xác nhận độc lập này.</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **Bậc thang kết quả:** **PASS** → tiếp tục · **CONDITIONAL** → lỗ hổng có thể sửa; vòng lặp kích hoạt (hoặc bạn chấp nhận chúng có ghi chú) · **BLOCKED** → vấn đề sâu hơn; quay về PLAN (khi dùng autopilot: lỗ hổng vào backlog và quá trình tiếp tục).
 
-### 🔁 vc-autoresearch — Động cơ vòng lặp chung
+### 🔁 vb-autoresearch — Động cơ vòng lặp chung
 
-Cả PVL lẫn EVL đều dùng cùng một lớp theo dõi: **`vc-autoresearch`** — vòng lặp tìm-lỗ hổng → sửa → lặp lại. Agent dẫn dắt điều khiển vòng lặp — nó sở hữu bộ đếm vòng, báo cáo mỗi vòng, nhật ký TSV, và kiểm tra bình nguyên/giới hạn/hồi quy. Các agent làm việc là fire-and-forget: chúng trả về kết quả và dừng. Không agent nào tự triển khai lại hay triển khai agent giai đoạn khác.
+Cả PVL lẫn EVL đều dùng cùng một lớp theo dõi: **`vb-autoresearch`** — vòng lặp tìm-lỗ hổng → sửa → lặp lại. Agent dẫn dắt điều khiển vòng lặp — nó sở hữu bộ đếm vòng, báo cáo mỗi vòng, nhật ký TSV, và kiểm tra bình nguyên/giới hạn/hồi quy. Các agent làm việc là fire-and-forget: chúng trả về kết quả và dừng. Không agent nào tự triển khai lại hay triển khai agent giai đoạn khác.
 
 Cùng một động cơ có thể chạy độc lập: "củng cố đặc tả này", "sửa tất cả lint", "cải thiện độ phủ kiểm thử", "cải thiện tài liệu này" — bất kỳ tác vụ tìm-lỗ hổng-và-sửa lặp đi lặp lại nào trên 6 miền (spec · tests · ux · docs · plan · errors).
 
@@ -798,10 +798,10 @@ flowchart TD
 
 | Chế độ | Làm gì | Dừng khi |
 |---|---|---|
-| `vc-autoresearch` (cốt lõi) | tìm lỗ hổng → sửa → lặp lại | không còn lỗ hổng HOẶC đạt mục tiêu chỉ số |
-| `vc-autoresearch:probe` | 8 chân dung hỏi vặn corpus cho đến bão hòa | không có ràng buộc mới trong 3 vòng |
-| `vc-autoresearch:reason` | tranh luận đối nghịch với giám khảo mù | giám khảo hội tụ hoặc đạt giới hạn lặp |
-| `vc-autoresearch:evals` | phân tích kết quả TSV — xu hướng, bình nguyên, khuyến nghị | chỉ phân tích |
+| `vb-autoresearch` (cốt lõi) | tìm lỗ hổng → sửa → lặp lại | không còn lỗ hổng HOẶC đạt mục tiêu chỉ số |
+| `vb-autoresearch:probe` | 8 chân dung hỏi vặn corpus cho đến bão hòa | không có ràng buộc mới trong 3 vòng |
+| `vb-autoresearch:reason` | tranh luận đối nghịch với giám khảo mù | giám khảo hội tụ hoặc đạt giới hạn lặp |
+| `vb-autoresearch:evals` | phân tích kết quả TSV — xu hướng, bình nguyên, khuyến nghị | chỉ phân tích |
 
 **Điều kiện dừng:** SUCCESS (thông thoáng hai vòng liên tiếp) · HALT_PLATEAU (không tiến triển trong 3 vòng) · HALT_CAP (giới hạn cứng 10 vòng) · HALT_REGRESSION (một kiểm tra đang pass nay thất bại).
 
@@ -809,7 +809,7 @@ flowchart TD
 
 ## 👥 So sánh chiến lược + Chính sách chọn model
 
-Tại **mỗi lần chuyển giai đoạn**, agent dẫn dắt gọi `vc-agent-strategy-compare` để khuyến nghị *cách* chạy giai đoạn tiếp theo — kèm ước tính chi phí.
+Tại **mỗi lần chuyển giai đoạn**, agent dẫn dắt gọi `vb-agent-strategy-compare` để khuyến nghị *cách* chạy giai đoạn tiếp theo — kèm ước tính chi phí.
 
 | Chiến lược | Khi nào | Phối hợp |
 |---|---|---|
@@ -821,7 +821,7 @@ Tại **mỗi lần chuyển giai đoạn**, agent dẫn dắt gọi `vc-agent-s
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n(mỗi lần chuyển giai đoạn)"]
+    SS["vb-agent-strategy-compare\n(mỗi lần chuyển giai đoạn)"]
     SC{"điểm tín hiệu\n0–7"}
     SEQ["Sequential\nmột agent mỗi lúc\n(đầu ra dẫn vào tiếp theo)"]
     PAR["Parallel subagents\nfire-and-forget\n(các chiều độc lập)"]
@@ -931,7 +931,7 @@ You: "autopilot full: add team invitations with email + role management"
 Nói `autopilot full: [task]` — hoặc dán một khối `/goal` — và tất cả những điều sau xảy ra với **không cần input từ người dùng**:
 
 - **Vòng lặp kiểm tra-và-sửa kế hoạch** — tìm lỗ hổng trong kế hoạch, sửa chúng, và kiểm tra lại. Tự chạy đến 10 vòng.
-- **Vòng lặp xây dựng-kiểm thử-và-sửa** — viết code, chạy kiểm thử, sửa lỗi, chạy lại. Tự chạy đến 10 vòng. Nó không bao giờ tin vào "tất cả xanh" của chính mình — một người kiểm tra riêng biệt (vc-tester) độc lập chạy lại mọi kiểm thử để xác nhận.
+- **Vòng lặp xây dựng-kiểm thử-và-sửa** — viết code, chạy kiểm thử, sửa lỗi, chạy lại. Tự chạy đến 10 vòng. Nó không bao giờ tin vào "tất cả xanh" của chính mình — một người kiểm tra riêng biệt (vb-tester) độc lập chạy lại mọi kiểm thử để xác nhận.
 - **Chuyển giai đoạn tự động** — chuyển từ nghiên cứu sang kế hoạch sang code sang xong mà không chờ bạn.
 - **Tiếp tục sau reset bộ nhớ** — kế hoạch, báo cáo và tiến độ đều là file trên đĩa. Sau khi nén (khi bộ nhớ ngắn hạn của AI bị xóa), phiên tiếp theo đọc những file đó và tiếp tục đúng chỗ đã dừng.
 - **Tính năng bị kẹt? Gác lại, tiếp tục** — nếu một giai đoạn không thể giải quyết được, agent viết ghi chú backlog và chuyển sang tính năng tiếp theo. Bạn có thể chạy nhiều tính năng song song mà không bị một tắc nghẽn chặn tất cả.
@@ -970,7 +970,7 @@ Lệnh `/goal` từ chối các khối dài hơn 4000 ký tự. Giữ ngắn g�
 
 ### 🔬 Thăm dò tính khả thi — kiểm tra giả định trước khi xây dựng trên đó
 
-Khi SPEC, INNOVATE, hoặc VALIDATE gặp một giả định then chốt không thể xác nhận chỉ bằng đọc, nó phát hành `VC-FEASIBILITY-PROBE-NEEDED` và dừng. Agent dẫn dắt triển khai `vc-debugger` để chạy kiểm thử thực và viết một **VERDICT**:
+Khi SPEC, INNOVATE, hoặc VALIDATE gặp một giả định then chốt không thể xác nhận chỉ bằng đọc, nó phát hành `VB-FEASIBILITY-PROBE-NEEDED` và dừng. Agent dẫn dắt triển khai `vb-debugger` để chạy kiểm thử thực và viết một **VERDICT**:
 
 | Kết quả | Ý nghĩa |
 |---|---|
@@ -986,9 +986,9 @@ Bộ kit đi kèm **38 script validator** biến "agent có tuân theo quy tắc
 
 | Nhóm Validator | Kiểm tra |
 |---|---|
-| `vc-audit-vc` | Parity agent (Claude/Codex), registry skill, tính di động kit, frontmatter agent |
-| `vc-audit-context` | Định tuyến ngữ cảnh, frontmatter khám phá, từ khóa skill |
-| `vc-audit-plans` | Kiểm kê kế hoạch, trạng thái umbrella, tính đầy đủ giai đoạn, báo cáo giai đoạn, ghi chú backlog |
+| `vb-audit-vc` | Parity agent (Claude/Codex), registry skill, tính di động kit, frontmatter agent |
+| `vb-audit-context` | Định tuyến ngữ cảnh, frontmatter khám phá, từ khóa skill |
+| `vb-audit-plans` | Kiểm kê kế hoạch, trạng thái umbrella, tính đầy đủ giai đoạn, báo cáo giai đoạn, ghi chú backlog |
 | 14 validator hành vi hệ thống VC | Mỗi validator sở hữu một cặp fixture pass/fail — đầu ra strategy-compare, closeout, intent-clarify, kết quả khả thi, nhật ký autoresearch, và nhiều hơn |
 
 ---
@@ -1046,24 +1046,24 @@ Trước khi một dòng code nào được viết, ba skill chuyên biệt có 
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>Tranh luận 5 chân dung — <code>vc-predict</code></strong><br><br>
+<strong>Tranh luận 5 chân dung — <code>vb-predict</code></strong><br><br>
 Kiến trúc sư, Bảo mật, Hiệu suất, UX, và Người biện hộ phản đối tranh luận về kế hoạch của bạn. Tạo ra kết quả <strong>GO / CAUTION / STOP</strong> trước khi bạn viết một dòng.
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>Trường hợp biên 12 chiều — <code>vc-scenario</code></strong><br><br>
+<strong>Trường hợp biên 12 chiều — <code>vb-scenario</code></strong><br><br>
 Phân tách một tính năng theo 12 chiều (loại người dùng, giá trị cực biên đầu vào, thời gian, quy mô, trạng thái, môi trường, lỗi, auth, dữ liệu, tích hợp, tuân thủ, logic nghiệp vụ). Đầu ra kiêm luôn làm spec kiểm thử.
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>Kiểm tra STRIDE + OWASP — <code>vc-security</code></strong><br><br>
+<strong>Kiểm tra STRIDE + OWASP — <code>vb-security</code></strong><br><br>
 Kiểm tra bảo mật hai phương pháp kèm kiểm tra phụ thuộc, phát hiện secret, và <strong>chế độ tự động sửa</strong> sắp xếp theo mức độ nghiêm trọng và sửa Critical trước với bảo vệ hồi quy.
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>Gỡ lỗi dựa trên bằng chứng — <code>vc-debugger</code></strong><br><br>
+<strong>Gỡ lỗi dựa trên bằng chứng — <code>vb-debugger</code></strong><br><br>
 Thu thập bằng chứng → hình thành 2-3 giả thuyết cạnh tranh → kiểm thử từng cái → ghi lại con đường loại trừ. <strong>Không bao giờ đoán — chứng minh.</strong>
 </td>
 </tr>
@@ -1073,7 +1073,7 @@ Thu thập bằng chứng → hình thành 2-3 giả thuyết cạnh tranh → k
 
 ## ✅ Quy trình chất lượng — Tích hợp trong quá trình thực thi
 
-**Kiểm thử trước, rồi code.** Danh sách kiểm tra đã thống nhất (được viết trước khi bất kỳ code nào được chạm vào) xác định chính xác các kiểm thử phải pass. Execute-agent viết code cho đến khi những kiểm thử đó chuyển xanh. Sau đó một người kiểm tra riêng biệt — `vc-tester` — tự chạy lại mọi kiểm thử để xác nhận. "Tất cả xanh" của execute-agent không bao giờ được chấp nhận mặt giá trị. Cuối cùng, reviewer kiểm tra rằng toàn bộ dự án vẫn hoạt động cùng nhau, không chỉ phần mới.
+**Kiểm thử trước, rồi code.** Danh sách kiểm tra đã thống nhất (được viết trước khi bất kỳ code nào được chạm vào) xác định chính xác các kiểm thử phải pass. Execute-agent viết code cho đến khi những kiểm thử đó chuyển xanh. Sau đó một người kiểm tra riêng biệt — `vb-tester` — tự chạy lại mọi kiểm thử để xác nhận. "Tất cả xanh" của execute-agent không bao giờ được chấp nhận mặt giá trị. Cuối cùng, reviewer kiểm tra rằng toàn bộ dự án vẫn hoạt động cùng nhau, không chỉ phần mới.
 
 Execute-agent không chỉ viết code và gọi là xong. Nó đi qua một **quy trình chất lượng** tự động:
 
@@ -1163,7 +1163,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent tạo thư mục nhiệm vụ\nprocess/general-plans/active/{slug}_{date}/\nHOẶC features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent tạo thư mục nhiệm vụ\nprocess/general-plans/active/{slug}_{date}/\nHOẶC features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— tệp kế hoạch\n— Validate Contract được thêm vào đây"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— tài liệu tham khảo tùy chọn"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— báo cáo mỗi chu kỳ PVL/EVL"]
@@ -1193,7 +1193,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> Mỗi kế hoạch đều có: 📍 **điểm tiếp xúc** (tệp được tạo/sửa đổi) · 📜 **hợp đồng công khai** · 💥 **tệp nào có thể chạm vào** (điều gì có thể hỏng, điều gì cần kiểm thử) · ✅ **bằng chứng xác minh** · 🔄 **chuyển giao để tiếp tục**. `vc-plan-discovery` tìm đúng kế hoạch để tiếp tục; hook `post-write-plan-check` kiểm tra cấu trúc kế hoạch mỗi lần ghi kế hoạch.
+> Mỗi kế hoạch đều có: 📍 **điểm tiếp xúc** (tệp được tạo/sửa đổi) · 📜 **hợp đồng công khai** · 💥 **tệp nào có thể chạm vào** (điều gì có thể hỏng, điều gì cần kiểm thử) · ✅ **bằng chứng xác minh** · 🔄 **chuyển giao để tiếp tục**. `vb-plan-discovery` tìm đúng kế hoạch để tiếp tục; hook `post-write-plan-check` kiểm tra cấu trúc kế hoạch mỗi lần ghi kế hoạch.
 
 ---
 
@@ -1325,11 +1325,11 @@ process/context/
 |---|---|
 | 🧭 **Mẫu định tuyến** | AI chỉ đọc những gì liên quan đến nhiệm vụ của nó |
 | 📏 **Tự động thăng cấp** | Chủ đề có 3+ tài liệu (hoặc một tệp duy nhất trở nên quá lớn) có nhóm riêng |
-| 🔄 **Luôn cập nhật** | Được cập nhật bởi `vc-update-process-agent` sau mỗi tính năng không tầm thường |
-| 🧪 **Có thể kiểm toán** | `vc-audit-context` kiểm tra định tuyến, siêu dữ liệu khám phá, và tính nhất quán |
+| 🔄 **Luôn cập nhật** | Được cập nhật bởi `vb-update-process-agent` sau mỗi tính năng không tầm thường |
+| 🧪 **Có thể kiểm toán** | `vb-audit-context` kiểm tra định tuyến, siêu dữ liệu khám phá, và tính nhất quán |
 | 📨 **Context Envelope** | Mọi AI vòng lặp bên trong phát ra ghi chú 10 trường khi bắt đầu (tính năng → giai đoạn → mục tiêu phiên → nhánh → worktree → nhóm ngữ cảnh → gói blast-radius → kế hoạch hiện tại → bộ chạy kiểm thử → validate-contract) để AI công việc mới biết chính xác mình đang đứng ở đâu |
 
-> Bộ kit chỉ cung cấp hạt giống giao thức — các nhóm ngữ cảnh của bạn được **xây dựng cho dự án của bạn** bởi `vc-setup`, quét code thực tế của bạn. Chúng là mẫu, không phải danh sách cố định.
+> Bộ kit chỉ cung cấp hạt giống giao thức — các nhóm ngữ cảnh của bạn được **xây dựng cho dự án của bạn** bởi `vb-setup`, quét code thực tế của bạn. Chúng là mẫu, không phải danh sách cố định.
 
 ---
 
@@ -1367,12 +1367,12 @@ Sở hữu một giai đoạn hoặc vai trò. Sống trong <code>.claude/agents
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Kỹ năng hợp đồng (20)</strong><br><br>
-Mỗi cái tạo ra một tệp cụ thể hoặc kết quả đã thỏa thuận — <code>vc-generate-plan</code>, <code>vc-validate-findings</code>, <code>vc-autopilot</code>, các kiểm toán. Kết quả có thể được kiểm tra.
+Mỗi cái tạo ra một tệp cụ thể hoặc kết quả đã thỏa thuận — <code>vb-generate-plan</code>, <code>vb-validate-findings</code>, <code>vb-autopilot</code>, các kiểm toán. Kết quả có thể được kiểm tra.
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Kỹ năng hỗ trợ (13)</strong><br><br>
-Cải thiện <em>cách</em> AI làm việc, không tạo ra tệp riêng — <code>vc-scout</code>, <code>vc-sequential-thinking</code>, <code>vc-problem-solving</code>, <code>vc-docs-seeker</code>.
+Cải thiện <em>cách</em> AI làm việc, không tạo ra tệp riêng — <code>vb-scout</code>, <code>vb-sequential-thinking</code>, <code>vb-problem-solving</code>, <code>vb-docs-seeker</code>.
 </td>
 </tr>
 </table>
@@ -1393,7 +1393,7 @@ Sáu tháng và nhiều lần reset bộ nhớ sau, AI vẫn biết *tại sao* 
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["Tính năng được phát hành\n(EXECUTE + EVL hoàn thành)"]
-    UP["Giai đoạn UPDATE PROCESS\nvc-update-process-agent"]
+    UP["Giai đoạn UPDATE PROCESS\nvb-update-process-agent"]
     CTX["process/context/ được cập nhật\ntệp liên quan nhỏ nhất\n+ định tuyến all-context.md"]
     AGENT["AI tiếp theo được khởi động\nđọc định tuyến ngữ cảnh\n→ định tuyến đến tệp nhóm đúng"]
     BETTER["Tính năng tiếp theo tốt hơn\nkhông khám phá lại, không mẫu lỗi thời"]
@@ -1411,7 +1411,7 @@ flowchart TD
 
 `process/context/` chứa kiến thức có cấu trúc được tổ chức thành các nhóm chủ đề — quyết định kiến trúc, quy ước lập trình, các bước triển khai, mẫu kiểm thử, dữ kiện hạ tầng. Không giống lịch sử trò chuyện, kiến thức này:
 
-- **truyền vào mỗi AI công việc** — `vc-context-discovery` định tuyến mỗi AI được khởi động đến đúng định tuyến `all-{group}.md` cho nhiệm vụ của nó, rồi đến tệp sâu liên quan nhỏ nhất. AI nghiên cứu, AI kế hoạch, và AI lập trình đều bắt đầu với sự hiểu biết chung như nhau
+- **truyền vào mỗi AI công việc** — `vb-context-discovery` định tuyến mỗi AI được khởi động đến đúng định tuyến `all-{group}.md` cho nhiệm vụ của nó, rồi đến tệp sâu liên quan nhỏ nhất. AI nghiên cứu, AI kế hoạch, và AI lập trình đều bắt đầu với sự hiểu biết chung như nhau
 - **sống sót sau khi bộ nhớ bị reset** — nó trên đĩa, không trong cửa sổ ngữ cảnh; một phiên bị nén không mất gì trong đó
 - **có thể đọc bởi cả Claude và Codex** — `.agents/skills` là liên kết tắt đến `.claude/skills/`, vì vậy cùng một hệ thống ngữ cảnh phục vụ cả hai AI mà không trùng lặp
 
@@ -1432,14 +1432,14 @@ process/context/
 
 Cụm từ "tài liệu sống" thường có nghĩa là "tài liệu chúng ta dự định cập nhật nhưng hầu như quên." Hệ thống này thực thi ý định một cách máy móc.
 
-**Giai đoạn UPDATE PROCESS yêu cầu xem xét ngữ cảnh mỗi tệp trước khi có thể đóng.** `vc-update-process-agent` không thể hoàn thành một giai đoạn cho đến khi mọi tệp ngữ cảnh có thể bị ảnh hưởng đã được xem xét với lý do cụ thể mỗi tệp. "Không cần cập nhật" được phép — nhưng phải nêu tên từng tệp đã xem xét và giải thích tại sao. Lý do mơ hồ bị từ chối. Điểm kiểm tra là nhị phân: ghi lại đánh giá, hoặc giai đoạn không đóng.
+**Giai đoạn UPDATE PROCESS yêu cầu xem xét ngữ cảnh mỗi tệp trước khi có thể đóng.** `vb-update-process-agent` không thể hoàn thành một giai đoạn cho đến khi mọi tệp ngữ cảnh có thể bị ảnh hưởng đã được xem xét với lý do cụ thể mỗi tệp. "Không cần cập nhật" được phép — nhưng phải nêu tên từng tệp đã xem xét và giải thích tại sao. Lý do mơ hồ bị từ chối. Điểm kiểm tra là nhị phân: ghi lại đánh giá, hoặc giai đoạn không đóng.
 
 Vòng phản hồi đầy đủ mỗi tính năng hoàn thành:
 
 | Bước | Chủ sở hữu | Điều gì xảy ra |
 |------|-------|-------------|
-| 1. Phân tích git diff | `vc-scout` | Ánh xạ tệp đã thay đổi → các lĩnh vực ngữ cảnh bị ảnh hưởng |
-| 2. Xem xét mỗi tệp | `vc-update-process-agent` | Nêu tên từng tệp ngữ cảnh, ghi lại cập nhật hoặc "không thay đổi + lý do" rõ ràng |
+| 1. Phân tích git diff | `vb-scout` | Ánh xạ tệp đã thay đổi → các lĩnh vực ngữ cảnh bị ảnh hưởng |
+| 2. Xem xét mỗi tệp | `vb-update-process-agent` | Nêu tên từng tệp ngữ cảnh, ghi lại cập nhật hoặc "không thay đổi + lý do" rõ ràng |
 | 3. Cập nhật được áp dụng | các AI công việc song song | Tệp ngữ cảnh của mỗi lĩnh vực được cập nhật với mẫu mới, quyết định, bài học |
 | 4. Định tuyến được xác minh | `validate-context-discovery.mjs` | Xác nhận mọi tài liệu được lập chỉ mục và các định tuyến nhất quán |
 | 5. Khám phá được xác nhận | `validate-all-context.mjs` | Xác nhận `all-context.md` và các định tuyến nhóm khớp với tệp hiện tại trên đĩa |
@@ -1475,7 +1475,7 @@ Chúng chạy như kiểm tra tự động — một tài liệu lỗi thời ho
 
 Các nhóm được tạo tự động khi một chủ đề đạt 3+ tài liệu hoặc một tệp duy nhất vượt quá ~800 dòng. AI theo định tuyến và không bao giờ mã cứng đường dẫn — vì vậy thêm một nhóm mới (ví dụ `process/context/billing/all-billing.md`) chỉ cần cập nhật định tuyến, không thay đổi mọi AI đề cập đến billing. Định tuyến là tham chiếu ổn định; các tệp đằng sau nó có thể tự do tổ chức lại.
 
-> Bộ kit tạo ra các nhóm ngữ cảnh từ codebase thực tế của bạn (thông qua `vc-setup`). Các nhóm không phải danh sách cố định — chúng là mẫu. Lĩnh vực xác thực, hạ tầng, thanh toán của bạn đều trở thành kiến thức có thể định tuyến hạng nhất khi dự án phát triển.
+> Bộ kit tạo ra các nhóm ngữ cảnh từ codebase thực tế của bạn (thông qua `vb-setup`). Các nhóm không phải danh sách cố định — chúng là mẫu. Lĩnh vực xác thực, hạ tầng, thanh toán của bạn đều trở thành kiến thức có thể định tuyến hạng nhất khi dự án phát triển.
 
 ---
 
@@ -1494,15 +1494,15 @@ Các nhóm được tạo tự động khi một chủ đề đạt 3+ tài li�
 
 | AI | Mô hình | Vai trò |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | Nghiên cứu codebase + web, chỉ đọc. Theo dõi mâu thuẫn tích hợp sẵn |
-| 📝 `vc-spec-agent` | sonnet | Tài liệu yêu cầu khám phá sản phẩm trước INNOVATE. Tạo ra `*_SPEC_*.md` |
-| 💡 `vc-innovate-agent` | sonnet | So sánh 2-3 phương án. Tóm tắt quyết định (được chọn + bị từ chối) trước PLAN |
-| 📋 `vc-plan-agent` | **opus** | Viết kế hoạch với các biện pháp bảo vệ chống lối tắt. "Tôi đã biết cách làm" không phải là kế hoạch |
-| ✅ `vc-validate-agent` | **opus** | Chuyển kế hoạch → danh sách kiểm tra đã thỏa thuận (V1–V7). Điểm kiểm tra: PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | Triển khai theo kế hoạch. Ghi chú tiến độ vào báo cáo giai đoạn, giao thức sai lệch, tự xem xét |
-| ⏩ `vc-fast-mode-agent` | **opus** | R→S→I→P→V nén với tạm dừng an toàn bắt buộc trước EXECUTE |
-| 🔧 `vc-quick-fix-agent` | **opus** | Làn QUICK FIX: một chỉnh sửa nhỏ ít rủi ro + kiểm tra có phạm vi, không kế hoạch/xác nhận |
-| 🧠 `vc-update-process-agent` | sonnet | Đóng giai đoạn 7 bước: lưu trữ, cập nhật ngữ cảnh, quét tài liệu lỗi thời, bài học |
+| 🔍 `vb-research-agent` | **opus** | Nghiên cứu codebase + web, chỉ đọc. Theo dõi mâu thuẫn tích hợp sẵn |
+| 📝 `vb-spec-agent` | sonnet | Tài liệu yêu cầu khám phá sản phẩm trước INNOVATE. Tạo ra `*_SPEC_*.md` |
+| 💡 `vb-innovate-agent` | sonnet | So sánh 2-3 phương án. Tóm tắt quyết định (được chọn + bị từ chối) trước PLAN |
+| 📋 `vb-plan-agent` | **opus** | Viết kế hoạch với các biện pháp bảo vệ chống lối tắt. "Tôi đã biết cách làm" không phải là kế hoạch |
+| ✅ `vb-validate-agent` | **opus** | Chuyển kế hoạch → danh sách kiểm tra đã thỏa thuận (V1–V7). Điểm kiểm tra: PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | Triển khai theo kế hoạch. Ghi chú tiến độ vào báo cáo giai đoạn, giao thức sai lệch, tự xem xét |
+| ⏩ `vb-fast-mode-agent` | **opus** | R→S→I→P→V nén với tạm dừng an toàn bắt buộc trước EXECUTE |
+| 🔧 `vb-quick-fix-agent` | **opus** | Làn QUICK FIX: một chỉnh sửa nhỏ ít rủi ro + kiểm tra có phạm vi, không kế hoạch/xác nhận |
+| 🧠 `vb-update-process-agent` | sonnet | Đóng giai đoạn 7 bước: lưu trữ, cập nhật ngữ cảnh, quét tài liệu lỗi thời, bài học |
 
 <br>
 
@@ -1510,12 +1510,12 @@ Các nhóm được tạo tự động khi một chủ đề đạt 3+ tài li�
 
 | AI | Vai trò |
 |-------|------|
-| 🐛 `vc-debugger` | Thu thập bằng chứng trước khi đưa ra giả thuyết. Giả thuyết cạnh tranh, chuỗi loại trừ, kiểm tra khả thi |
-| 🧪 `vc-tester` | Nhận biết thay đổi. Chạy lại kiểm thử danh sách đã thỏa thuận (EVL). Tự động leo thang khi cấu hình thay đổi |
-| 🔎 `vc-code-reviewer` | Gửi AI thám tử trường hợp biên TRƯỚC khi xem xét. Phát hiện N+1, kiểm tra đường dẫn xác thực |
-| ✨ `vc-code-simplifier` | Dọn dẹp code để rõ ràng mà không thay đổi hành vi |
-| 🎨 `vc-ui-ux-designer` | Frontend nhận biết thiết kế. Có thể khởi động AI nghiên cứu giữa quá trình xây dựng |
-| 📦 `vc-git-manager` | Chia thành các commit logic từ `touched_files`. Từ chối các tệp không xác định |
+| 🐛 `vb-debugger` | Thu thập bằng chứng trước khi đưa ra giả thuyết. Giả thuyết cạnh tranh, chuỗi loại trừ, kiểm tra khả thi |
+| 🧪 `vb-tester` | Nhận biết thay đổi. Chạy lại kiểm thử danh sách đã thỏa thuận (EVL). Tự động leo thang khi cấu hình thay đổi |
+| 🔎 `vb-code-reviewer` | Gửi AI thám tử trường hợp biên TRƯỚC khi xem xét. Phát hiện N+1, kiểm tra đường dẫn xác thực |
+| ✨ `vb-code-simplifier` | Dọn dẹp code để rõ ràng mà không thay đổi hành vi |
+| 🎨 `vb-ui-ux-designer` | Frontend nhận biết thiết kế. Có thể khởi động AI nghiên cứu giữa quá trình xây dựng |
+| 📦 `vb-git-manager` | Chia thành các commit logic từ `touched_files`. Từ chối các tệp không xác định |
 
 </details>
 
@@ -1528,13 +1528,13 @@ Các nhóm được tạo tự động khi một chủ đề đạt 3+ tài li�
 
 <br>
 
-**📜 Kỹ năng hợp đồng (20)** — sở hữu một tài liệu: `vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Kỹ năng hợp đồng (20)** — sở hữu một tài liệu: `vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Kỹ năng hỗ trợ (13)** — cải thiện cách AI làm việc: `vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Kỹ năng hỗ trợ (13)** — cải thiện cách AI làm việc: `vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ Quy tắc đặt tên:** KHÔNG dùng tiền tố `vc-` cho kỹ năng hoặc AI của riêng bạn — không gian tên đó được dành riêng cho các tệp do kit cung cấp, và bộ bảo vệ xóa cũ coi bất kỳ đường dẫn `vc-*` nào trong `.claude/skills/` và `.claude/agents/` là thuộc sở hữu của kit. Dùng `my-`, `team-`, hoặc `proj-` thay thế.
+> **⚠️ Quy tắc đặt tên:** KHÔNG dùng tiền tố `vb-` cho kỹ năng hoặc AI của riêng bạn — không gian tên đó được dành riêng cho các tệp do kit cung cấp, và bộ bảo vệ xóa cũ coi bất kỳ đường dẫn `vb-*` nào trong `.claude/skills/` và `.claude/agents/` là thuộc sở hữu của kit. Dùng `my-`, `team-`, hoặc `proj-` thay thế.
 
 <br>
 
@@ -1581,7 +1581,7 @@ Hai tùy chọn nhẹ hơn cho khi quy trình RIPER-5 đầy đủ quá nhiều 
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Quick Fix</strong> — <code>"quick fix: …"</code><br><br>
-Lớn hơn một dòng lệnh tầm thường, nhỏ hơn "cần kế hoạch." AI trưởng thám hiểm chỉ đọc → xác nhận một dòng → khởi động <code>vc-quick-fix-agent</code> để chỉnh sửa + kiểm tra có phạm vi chỉ trên tệp đã chạm. <strong>Không kế hoạch, không danh sách kiểm tra đã thỏa thuận, không EVL.</strong>
+Lớn hơn một dòng lệnh tầm thường, nhỏ hơn "cần kế hoạch." AI trưởng thám hiểm chỉ đọc → xác nhận một dòng → khởi động <code>vb-quick-fix-agent</code> để chỉnh sửa + kiểm tra có phạm vi chỉ trên tệp đã chạm. <strong>Không kế hoạch, không danh sách kiểm tra đã thỏa thuận, không EVL.</strong>
 <br><br>
 <sub>Bị hủy ngay lập tức nếu thay đổi chạm vào schema, xác thực, API, thanh toán, hoặc các bề mặt di chuyển — sau đó định tuyến đến RESEARCH đầy đủ.</sub>
 </td>
@@ -1602,24 +1602,24 @@ Nén RESEARCH + SPEC + INNOVATE + PLAN + VALIDATE vào một lượt — nhưng 
 | Lệnh | Chức năng | Khi nào |
 |---|---|---|
 | `curl … install.sh \| bash` | Đồng bộ tệp kit mà không ghi đè tệp của bạn; tự động phát hiện cài mới vs nâng cấp và hướng dẫn bạn | Cài đầu tiên + mỗi lần nâng cấp |
-| **Chạy vc-setup** | Phát hiện stack, tạo khung `process/`, quét sâu codebase, điền ngữ cảnh thực | Sau khi cài mới |
-| **Chạy vc-update** | Tính toán diff chính xác, hiển thị những gì sẽ thay đổi, đợi sự đồng ý của bạn; di chuyển kế hoạch/thư mục định dạng cũ mà không mất dữ liệu | Mỗi lần nâng cấp |
-| **Chạy vc-publish** *(người bảo trì)* | Xuất bản thay đổi harness trở lại kho kit | Đóng góp vào kit |
+| **Chạy vb-setup** | Phát hiện stack, tạo khung `process/`, quét sâu codebase, điền ngữ cảnh thực | Sau khi cài mới |
+| **Chạy vb-update** | Tính toán diff chính xác, hiển thị những gì sẽ thay đổi, đợi sự đồng ý của bạn; di chuyển kế hoạch/thư mục định dạng cũ mà không mất dữ liệu | Mỗi lần nâng cấp |
+| **Chạy vb-publish** *(người bảo trì)* | Xuất bản thay đổi harness trở lại kho kit | Đóng góp vào kit |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE hoàn thành\nENTER UPDATE PROCESS MODE"]
-    AGT["khởi động vc-update-process-agent"]
+    AGT["khởi động vb-update-process-agent"]
     A["(a) Lưu trữ kế hoạch\nactive/ → completed/"]
     B["(b) Cập nhật process/context/\ntệp liên quan nhỏ nhất\n+ định tuyến all-context.md"]
     C["(c) Kiểm toán Tầng 1\n(phân loại theo loại thay đổi)"]
-    AVC["vc-audit-vc\nchỉnh sửa harness/AI"]
-    ACX["vc-audit-context\nchỉnh sửa tài liệu ngữ cảnh"]
-    APL["vc-audit-plans\nchỉnh sửa kế hoạch/chương trình"]
+    AVC["vb-audit-vc\nchỉnh sửa harness/AI"]
+    ACX["vb-audit-context\nchỉnh sửa tài liệu ngữ cảnh"]
+    APL["vb-audit-plans\nchỉnh sửa kế hoạch/chương trình"]
     D["(d) Ghi lại bài học\nvào bộ nhớ"]
-    E["(e) Viết gói đóng giai đoạn\nvc-generate-closeout"]
-    F["(f) Commit theo quy ước\nvc-git-manager"]
+    E["(e) Viết gói đóng giai đoạn\nvb-generate-closeout"]
+    F["(f) Commit theo quy ước\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1643,7 +1643,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update` hiển thị bản xem trước diff và đợi sự đồng ý của bạn. Thư mục `process/` và nội dung cụ thể của dự án **không bao giờ** bị thay đổi lặng lẽ. Chạy lại cài đặt là an toàn để chạy hai lần.
+> 💡 `vb-update` hiển thị bản xem trước diff và đợi sự đồng ý của bạn. Thư mục `process/` và nội dung cụ thể của dự án **không bao giờ** bị thay đổi lặng lẽ. Chạy lại cài đặt là an toàn để chạy hai lần.
 
 ---
 

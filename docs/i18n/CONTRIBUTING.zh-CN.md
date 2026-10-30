@@ -46,7 +46,7 @@ Skills 是位于 `.claude/skills/` 下的可复用能力模块。每个 skill �
 
 - 有自己的目录（例如 `.claude/skills/my-skill/`）
 - 包含带 YAML frontmatter 的 `SKILL.md` 文件（name、description、triggers）
-- **不要**使用 `vc-` 前缀——该前缀保留给官方 harness skills
+- **不要**使用 `vb-` 前缀——该前缀保留给官方 harness skills
 - 如需辅助脚本，放在 `scripts/` 子目录下
 
 ### Agents
@@ -101,14 +101,14 @@ Agent 定义为不同工作流阶段提供专用角色。每个 agent 必须：
 
    ```bash
    # Inside a Claude Code session in the test project
-   # Invoke the vc-setup skill
+   # Invoke the vb-setup skill
    ```
 
 5. **运行验证脚本**确认环境正确：
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    开始改代码前，所有验证都应该通过。
@@ -165,7 +165,7 @@ Skills 通过 `.agents/skills` symlink 在两个平台间共享，Codex 用它�
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -189,11 +189,11 @@ PR 描述中需要包含：
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-仓库根目录的 `vc-manifest.json` 文件追踪 harness 中所有受管文件。当你添加新文件（skills、agents、hooks、protocols、seeds）时，必须更新这个 manifest。
+仓库根目录的 `vb-manifest.json` 文件追踪 harness 中所有受管文件。当你添加新文件（skills、agents、hooks、protocols、seeds）时，必须更新这个 manifest。
 
-`install.sh` 和 `vc-update` 用这个 manifest 来决定复制和同步哪些文件。如果你的新文件没在 manifest 里，用户安装或更新时就不会包含它。
+`install.sh` 和 `vb-update` 用这个 manifest 来决定复制和同步哪些文件。如果你的新文件没在 manifest 里，用户安装或更新时就不会包含它。
 
 更新 manifest 时：
 
@@ -209,13 +209,13 @@ PR 描述中需要包含：
 
 - [ ] Skill 位于 `.claude/skills/<skill-name>/` 下自己的目录中
 - [ ] `SKILL.md` 存在且有合法的 YAML frontmatter（至少有 name、description）
-- [ ] Skill 名称**没有**使用 `vc-` 前缀（保留给官方 skills）
+- [ ] Skill 名称**没有**使用 `vb-` 前缀（保留给官方 skills）
 - [ ] 辅助脚本放在 `scripts/` 子目录下
-- [ ] `vc-manifest.json` 已更新所有新文件路径
+- [ ] `vb-manifest.json` 已更新所有新文件路径
 - [ ] 验证通过：
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -230,7 +230,7 @@ PR 描述中需要包含：
 - [ ] Agent 一致性验证通过：
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

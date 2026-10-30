@@ -33,7 +33,7 @@ This protocol standardizes the stronger flow used in the Autonomous Testing Foun
 
 ## Kickoff Prompt
 
-Full kickoff template: invoke `vc-generate-phase-program`.
+Full kickoff template: invoke `vb-generate-phase-program`.
 
 ## Kickoff Recommendation Format
 
@@ -56,14 +56,14 @@ Before creating any plan files for a new large program, present a short recommen
    - ask whether to proceed with creating the plan artifacts
 
 5. **Compressed session-goal block** — full shape and hard-rule (4000 char limit):
-   invoke `vc-generate-phase-program`.
+   invoke `vb-generate-phase-program`.
 
 ### Autonomous Session-Goal Variant
 
 This is an explicit opt-in variant. It does NOT weaken the default supervised loop; it only applies
 when the user sets a persistent autonomous session-goal (e.g. a standing `/goal`).
 
-Full autonomy rules, GREEN/RED tier table, and safety constraints: invoke `vc-generate-phase-program`.
+Full autonomy rules, GREEN/RED tier table, and safety constraints: invoke `vb-generate-phase-program`.
 
 ## When To Use A Phase Program
 
@@ -131,8 +131,8 @@ The charter is program-specific intent and safety only, not workflow rules. Do N
 7-step inner loop (`R → I → P → PVL → E → EVL → UP`) or execution discipline prose into the charter
 — those are governed by this protocol.
 
-Full blank template and filled-in reference example: invoke `vc-generate-phase-program` or read
-`.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md`.
+Full blank template and filled-in reference example: invoke `vb-generate-phase-program` or read
+`.claude/skills/vb-generate-phase-program/references/program-goal-charter-template.md`.
 
 ## Program Setup Sequence
 
@@ -157,7 +157,7 @@ Every phase plan should include:
 
 The canonical per-phase loop is the **7-step inner loop** `R → I → P → PVL → E → EVL → UP`. It
 SKIPS SPEC — SPEC runs once in the outer program loop (`R → S → I → P → V → E`), not per phase.
-Full prose expansion: invoke `vc-generate-phase-program`.
+Full prose expansion: invoke `vb-generate-phase-program`.
 The 7 steps are: 1 RESEARCH → 2 INNOVATE → 3 PLAN-SUPPLEMENT → 4 PVL (validate-contract) →
 5 EXECUTE → 6 EVL (validate + regression + regression-found workflow) →
 7 UPDATE-PROCESS (durable capture + commit + inter-phase UPDATE PROCESS + move-on).
@@ -172,7 +172,7 @@ Each phase plan's `## Phase Loop Progress` section must track the canonical 7-st
 1. `1. RESEARCH` — research-agent: prior phase reports read, context loaded, plan drift checked, findings documented
 2. `2. INNOVATE` — innovate-agent: approach decided, Decision Summary written
 3. `3. PLAN-SUPPLEMENT` — plan-agent: gaps/pre-conditions from research/innovate written into checklist (or "n/a — research clean")
-4. `4. PVL` — vc-validate-agent: full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
+4. `4. PVL` — vb-validate-agent: full V1-V7; validate-contract written per `.claude/skills/vb-validate-findings/references/example-validate-output.md`
 5. `5. EXECUTE` — all checklist items done; per-section test gates run and green (or gaps documented)
 6. `6. EVL` — all EVL gates green; regression checked; follow-up stubs registered; EVL HANDOFF SUMMARY written
 7. `7. UPDATE-PROCESS` — phase report written, umbrella state updated, commit done
@@ -191,8 +191,8 @@ For single plans without a phase program umbrella, the loop template is:
 1. `1. research` — research-agent completes
 2. `2. innovate` — innovate-agent produces Decision Summary
 3. `3. plan` — plan-agent creates plan file
-4. `4. validate` — vc-validate-agent: validate-contract written
-5. `5. execute` — vc-execute-agent: implementation complete
+4. `4. validate` — vb-validate-agent: validate-contract written
+5. `5. execute` — vb-execute-agent: implementation complete
 6. `6. update-process` — archival and context updates
 
 Single-plan note: no plan-supplement step — INNOVATE + PLAN phases are the creation and
@@ -292,11 +292,11 @@ After validating the current phase's own gates (step 4), check that previously v
 - if the phase touches shared infrastructure (DB, container, proxy, auth), include at least one check from each earlier phase that depends on that infrastructure
 - if no earlier phases are verified yet, skip this step
 
-Evidence format and what counts as a representative check: invoke `vc-generate-phase-program`.
+Evidence format and what counts as a representative check: invoke `vb-generate-phase-program`.
 
 ## Regression-Found Workflow
 
-Full decision tree (classification table + fix/revalidate/route rules): invoke `vc-generate-phase-program`.
+Full decision tree (classification table + fix/revalidate/route rules): invoke `vb-generate-phase-program`.
 
 Never paper over a regression. Always classify it and record it in the phase report, even if the fix is trivial.
 

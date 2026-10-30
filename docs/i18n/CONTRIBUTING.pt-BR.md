@@ -46,7 +46,7 @@ Skills são módulos de capacidade reutilizáveis que ficam em `.claude/skills/`
 
 - Ter seu próprio diretório (ex: `.claude/skills/my-skill/`)
 - Conter um arquivo `SKILL.md` com YAML frontmatter (name, description, triggers)
-- **Não** usar o prefixo `vc-` — esse prefixo é reservado para skills oficiais do harness
+- **Não** usar o prefixo `vb-` — esse prefixo é reservado para skills oficiais do harness
 - Incluir scripts auxiliares em um subdiretório `scripts/` se necessário
 
 ### Agentes
@@ -101,14 +101,14 @@ Correções para scripts de validação, lógica de instalação, templates seed
 
    ```bash
    # Dentro de uma sessão do Claude Code no projeto de teste
-   # Invoque a skill vc-setup
+   # Invoque a skill vb-setup
    ```
 
 5. **Rode os scripts de validação** pra confirmar que seu ambiente está correto:
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    Todas as validações devem passar antes de você começar a fazer mudanças.
@@ -165,7 +165,7 @@ Exemplos:
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -189,11 +189,11 @@ Inclua na descrição do seu pull request:
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-O arquivo `vc-manifest.json` na raiz do repositório rastreia todos os arquivos gerenciados no harness. Quando você adicionar novos arquivos (skills, agentes, hooks, protocolos, seeds), você deve atualizar esse manifest.
+O arquivo `vb-manifest.json` na raiz do repositório rastreia todos os arquivos gerenciados no harness. Quando você adicionar novos arquivos (skills, agentes, hooks, protocolos, seeds), você deve atualizar esse manifest.
 
-O manifest é usado pelo `install.sh` e `vc-update` pra saber quais arquivos copiar e sincronizar. Se seu novo arquivo não estiver listado no manifest, ele não será incluído quando usuários instalarem ou atualizarem o harness.
+O manifest é usado pelo `install.sh` e `vb-update` pra saber quais arquivos copiar e sincronizar. Se seu novo arquivo não estiver listado no manifest, ele não será incluído quando usuários instalarem ou atualizarem o harness.
 
 Ao modificar o manifest:
 
@@ -209,13 +209,13 @@ Antes de submeter uma nova skill, verifique:
 
 - [ ] Skill está em seu próprio diretório em `.claude/skills/<skill-name>/`
 - [ ] `SKILL.md` existe com YAML frontmatter válido (name, description, no mínimo)
-- [ ] Nome da skill **não** usa o prefixo `vc-` (reservado para skills oficiais)
+- [ ] Nome da skill **não** usa o prefixo `vb-` (reservado para skills oficiais)
 - [ ] Scripts auxiliares estão em um subdiretório `scripts/`
-- [ ] `vc-manifest.json` foi atualizado com todos os novos paths de arquivo
+- [ ] `vb-manifest.json` foi atualizado com todos os novos paths de arquivo
 - [ ] Validação passa:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -230,7 +230,7 @@ Antes de submeter um novo agente, verifique:
 - [ ] Validação de paridade de agentes passa:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

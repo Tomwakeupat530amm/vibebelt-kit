@@ -46,7 +46,7 @@ Skills là các capability modules tái sử dụng nằm dưới `.claude/skill
 
 - Có thư mục riêng (ví dụ: `.claude/skills/my-skill/`)
 - Chứa file `SKILL.md` với YAML frontmatter (name, description, triggers)
-- **Không** dùng prefix `vc-` -- prefix đó dành riêng cho official harness skills
+- **Không** dùng prefix `vb-` -- prefix đó dành riêng cho official harness skills
 - Bao gồm helper scripts trong thư mục con `scripts/` nếu cần
 
 ### Agents
@@ -101,14 +101,14 @@ Sửa lỗi cho validation scripts, install logic, seed templates, hoặc bất 
 
    ```bash
    # Trong Claude Code session ở test project
-   # Gọi skill vc-setup
+   # Gọi skill vb-setup
    ```
 
 5. **Chạy validation scripts** để confirm môi trường đúng:
 
    ```bash
-   node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-   node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+   node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
    ```
 
    Tất cả validations phải pass trước khi bạn bắt đầu thay đổi.
@@ -165,7 +165,7 @@ Ví dụ:
 ```
 feat: add code-coverage skill with lcov parsing
 fix: correct symlink detection in install.sh on WSL2
-docs: add examples to vc-generate-plan SKILL.md
+docs: add examples to vb-generate-plan SKILL.md
 chore: update validate-skills.mjs to check frontmatter
 ```
 
@@ -189,11 +189,11 @@ Bao gồm trong mô tả pull request:
 
 ---
 
-## vc-manifest.json
+## vb-manifest.json
 
-File `vc-manifest.json` ở root repository theo dõi tất cả managed files trong harness. Khi bạn thêm files mới (skills, agents, hooks, protocols, seeds), bạn phải cập nhật manifest này.
+File `vb-manifest.json` ở root repository theo dõi tất cả managed files trong harness. Khi bạn thêm files mới (skills, agents, hooks, protocols, seeds), bạn phải cập nhật manifest này.
 
-Manifest được dùng bởi `install.sh` và `vc-update` để biết files nào cần copy và sync. Nếu file mới không có trong manifest, nó sẽ không được include khi users install hoặc update harness.
+Manifest được dùng bởi `install.sh` và `vb-update` để biết files nào cần copy và sync. Nếu file mới không có trong manifest, nó sẽ không được include khi users install hoặc update harness.
 
 Khi sửa manifest:
 
@@ -209,13 +209,13 @@ Trước khi submit skill mới, verify:
 
 - [ ] Skill nằm trong thư mục riêng dưới `.claude/skills/<skill-name>/`
 - [ ] `SKILL.md` tồn tại với YAML frontmatter hợp lệ (tối thiểu name, description)
-- [ ] Tên skill **không** dùng prefix `vc-` (dành riêng cho official skills)
+- [ ] Tên skill **không** dùng prefix `vb-` (dành riêng cho official skills)
 - [ ] Helper scripts nằm trong thư mục con `scripts/`
-- [ ] `vc-manifest.json` đã được cập nhật với tất cả file paths mới
+- [ ] `vb-manifest.json` đã được cập nhật với tất cả file paths mới
 - [ ] Validation pass:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
   ```
 
 ---
@@ -230,7 +230,7 @@ Trước khi submit agent mới, verify:
 - [ ] Agent parity validation pass:
 
   ```bash
-  node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+  node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
   ```
 
 ---

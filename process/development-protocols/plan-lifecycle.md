@@ -106,7 +106,7 @@ When general artifacts for a single topic reach 5+, or when a user requests it:
 3. Update the **Current features** list in `process/context/all-context.md`
 4. Inform subagents of the new feature scope going forward
 
-**Feature list maintenance:** The current features list in `process/context/all-context.md` must be updated whenever a new feature folder is created or an empty one is removed. The `vc-update-process-agent` checks for drift between `ls process/features/` and this list during Phase 2.
+**Feature list maintenance:** The current features list in `process/context/all-context.md` must be updated whenever a new feature folder is created or an empty one is removed. The `vb-update-process-agent` checks for drift between `ls process/features/` and this list during Phase 2.
 
 ### Closed Feature State
 
@@ -178,7 +178,7 @@ failures. Add frontmatter to legacy plans opportunistically when they are next t
 ## Stronger Direct-Plan Contract
 
 For new or newly touched direct `*_PLAN_*.md` files, required sections are defined in
-`.claude/skills/vc-generate-plan/SKILL.md`. Use Markdown-structured sections, not a second
+`.claude/skills/vb-generate-plan/SKILL.md`. Use Markdown-structured sections, not a second
 machine-only schema.
 
 ## Reports and References
@@ -195,7 +195,7 @@ Legacy paths (deprecated for new writes; existing content is read-only):
 - `process/features/{feature}/references/` — legacy feature references
 
 Migration expectation:
-- `vc-setup` and `vc-update` should migrate safe legacy `reports/` / `references/` artifacts into the relevant task folder when exactly one destination task folder can be inferred in the same scope.
+- `vb-setup` and `vb-update` should migrate safe legacy `reports/` / `references/` artifacts into the relevant task folder when exactly one destination task folder can be inferred in the same scope.
 - After safe migration, remove the emptied legacy sibling dir so the target steady-state is `active/`, `completed/`, and `backlog/` only.
 - Leave ambiguous, shared, or unowned legacy artifacts in place and surface them for manual review rather than forcing a risky move.
 
@@ -240,7 +240,7 @@ For non-trivial work, prefer routing archive decisions through UPDATE PROCESS so
 For non-trivial work, a selected plan should not end with only "done" or "still testing."
 
 Full closeout packet schema, drift scoring, archive-readiness states, and move-on
-next-state examples: invoke `vc-generate-closeout`.
+next-state examples: invoke `vb-generate-closeout`.
 
 ## Task-Folder Framework
 

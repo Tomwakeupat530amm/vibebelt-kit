@@ -32,7 +32,7 @@ Rule: if the current shell CWD differs from the real work context, pass the work
 Agent frontmatter fields (`effort`, `skills`, `disallowedTools`, `hooks`, `background`) are
 documented in `process/development-protocols/implementation-standards.md`
 §Agent Frontmatter Conventions. The `effort:` value aligns with the model selection policy
-(max for the opus execution agents, low for vc-git-manager; every other agent keeps the effort set in its own file).
+(max for the opus execution agents, low for vb-git-manager; every other agent keeps the effort set in its own file).
 The per-agent `skills:` list preloads context window context for that agent's phase.
 The `disallowedTools:` list is enforced by the harness and must be reconciled against the
 agent's tool grant before applying. The `hooks:` PreToolUse(Write) block is advisory only
@@ -150,7 +150,7 @@ Controller rules for phase programs:
    - regression checkpoint (against previously verified overlapping surfaces)
    - regression-found workflow (conditional, if regression detected)
    - durable report/context update
-   - commit checkpoint (vc-git-manager for execution changes)
+   - commit checkpoint (vb-git-manager for execution changes)
    - inter-phase UPDATE PROCESS (archive phase, capture learnings)
    - move-on recommendation
 4. after each phase, update reports and downstream phase plans before advancing
@@ -188,7 +188,7 @@ phase plan checklist. Plan-agent in supplement mode:
 This is Phase Loop Progress step 1b. It runs after 1a (research) and before
 step 2 (validate). It is never skipped — it either adds items or marks n/a.
 
-The validate-contract must follow full `.claude/skills/vc-validate-findings/references/example-validate-output.md`
+The validate-contract must follow full `.claude/skills/vb-validate-findings/references/example-validate-output.md`
 format — partial contract (missing Plan updates applied / Execute-agent instructions / Test gates)
 is treated as a placeholder.
 
@@ -204,28 +204,28 @@ Read `## Phase Loop Progress` section of the phase plan file.
 
 | Phase State | Action |
 |---|---|
-| Step 1 (RESEARCH) | vc-research-agent |
-| Step 2 (INNOVATE) | vc-innovate-agent |
-| Step 3 (PLAN-SUPPLEMENT) | vc-plan-agent — supplement mode: update existing outer-loop phase plan; do NOT create a new plan file |
-| Step 4 (PVL) OR validate-contract is placeholder | vc-validate-agent |
+| Step 1 (RESEARCH) | vb-research-agent |
+| Step 2 (INNOVATE) | vb-innovate-agent |
+| Step 3 (PLAN-SUPPLEMENT) | vb-plan-agent — supplement mode: update existing outer-loop phase plan; do NOT create a new plan file |
+| Step 4 (PVL) OR validate-contract is placeholder | vb-validate-agent |
 | Step 0 checkpoint shows "Dependency-BLOCKED" (detected from Phase Loop Progress checkbox notation — `Dependency-BLOCKED` text in Step 0) | Advance to Phase N+1 Step 0; do NOT spawn any agent for this phase |
-| Step 4 checkbox marked BLOCKED-skipped (via `PHASE_SKIPPED: BLOCKED` signal) | Advance to Phase N+1 Step 0 — do NOT spawn vc-execute-agent for this phase; Steps 5–7 are not run |
+| Step 4 checkbox marked BLOCKED-skipped (via `PHASE_SKIPPED: BLOCKED` signal) | Advance to Phase N+1 Step 0 — do NOT spawn vb-execute-agent for this phase; Steps 5–7 are not run |
 
-**Supplement mode note:** Step 3 (PLAN-SUPPLEMENT) invokes vc-plan-agent in supplement mode. Supplement mode is required whenever the outer-loop phase plan file already exists. Creation mode applies only when no plan file exists yet for this phase.
+**Supplement mode note:** Step 3 (PLAN-SUPPLEMENT) invokes vb-plan-agent in supplement mode. Supplement mode is required whenever the outer-loop phase plan file already exists. Creation mode applies only when no plan file exists yet for this phase.
 
-After Step 3 completion (PHASE_COMPLETE: PLAN-SUPPLEMENT signal received): tick Step 3 checkbox; advance to Step 4 — spawn vc-validate-agent for inner PVL. The SUPPLEMENT_APPLIED signal routes differently (V7 PVL re-trigger — see behavior-reference Section 5 V7).
+After Step 3 completion (PHASE_COMPLETE: PLAN-SUPPLEMENT signal received): tick Step 3 checkbox; advance to Step 4 — spawn vb-validate-agent for inner PVL. The SUPPLEMENT_APPLIED signal routes differently (V7 PVL re-trigger — see behavior-reference Section 5 V7).
 
 **Step 4 (PVL) — outer vs inner branch:**
-- **Outer PVL** (umbrella plan present AND validate-contract absent from all phase plans): spawn vc-validate-agent agent-team — one vc-validate-agent per phase plan running concurrently. See behavior-reference Section 8 §Outer PVL for coordination token and registry initialization.
-- **Inner PVL** (phase plan has existing validate-contract and Inner Loop Refresh Note triggers re-run): spawn single vc-validate-agent for the specific phase plan.
+- **Outer PVL** (umbrella plan present AND validate-contract absent from all phase plans): spawn vb-validate-agent agent-team — one vb-validate-agent per phase plan running concurrently. See behavior-reference Section 8 §Outer PVL for coordination token and registry initialization.
+- **Inner PVL** (phase plan has existing validate-contract and Inner Loop Refresh Note triggers re-run): spawn single vb-validate-agent for the specific phase plan.
 
-**Loop bookkeeping (vc-autoresearch):** the plan-validate-fix loop is run by the `vc-autoresearch` skill (`domain: plan`) as its shared bookkeeper — iteration counter, plateau detection, iteration report, regression flag, 10-cycle cap. The validate step itself fans out in parallel via `vc-validate-findings` (Layer 1 dimension agents + Layer 2 feasibility agents), owned by vc-validate-agent. When a CONDITIONAL/BLOCKED gap set spans independent plan sections, the orchestrator spawns **multiple parallel plan-fix agents**, one per independent gap group, partitioned so no two agents edit the same plan region; when gaps are interdependent or touch one section, fall back to a single plan-fix agent. See `.claude/skills/vc-autoresearch/SKILL.md` §PVL Wiring. **The ORCHESTRATOR executes this bookkeeping itself at every cycle boundary — no agent runs it implicitly; per-verdict routing table: §PVL/EVL Loop Routing.**
-| Steps 1–4 done | vc-execute-agent |
+**Loop bookkeeping (vb-autoresearch):** the plan-validate-fix loop is run by the `vb-autoresearch` skill (`domain: plan`) as its shared bookkeeper — iteration counter, plateau detection, iteration report, regression flag, 10-cycle cap. The validate step itself fans out in parallel via `vb-validate-findings` (Layer 1 dimension agents + Layer 2 feasibility agents), owned by vb-validate-agent. When a CONDITIONAL/BLOCKED gap set spans independent plan sections, the orchestrator spawns **multiple parallel plan-fix agents**, one per independent gap group, partitioned so no two agents edit the same plan region; when gaps are interdependent or touch one section, fall back to a single plan-fix agent. See `.claude/skills/vb-autoresearch/SKILL.md` §PVL Wiring. **The ORCHESTRATOR executes this bookkeeping itself at every cycle boundary — no agent runs it implicitly; per-verdict routing table: §PVL/EVL Loop Routing.**
+| Steps 1–4 done | vb-execute-agent |
 | Step 6 (EVL) unchecked | Orchestrator runs EVL directly |
-| Step 7 (UPDATE PROCESS) unchecked | vc-update-process-agent |
+| Step 7 (UPDATE PROCESS) unchecked | vb-update-process-agent |
 
 **Step 4b — generated-by check (runs when Steps 1–4 appear done):**
-Pre-check: if Step 4 checkbox is marked "BLOCKED-skipped" (no validate-contract written): route to Phase N+1 Step 0 — do NOT run the generated-by check and do NOT spawn vc-execute-agent. Validate-contract absence for a BLOCKED-skipped phase is expected, not an error.
+Pre-check: if Step 4 checkbox is marked "BLOCKED-skipped" (no validate-contract written): route to Phase N+1 Step 0 — do NOT run the generated-by check and do NOT spawn vb-execute-agent. Validate-contract absence for a BLOCKED-skipped phase is expected, not an error.
 (Note: the Pre-Routing Check table above routes BLOCKED-skipped phases directly to Phase N+1 before reaching this check. Step 4b's pre-check is a safety fallback for cases where the checkbox text is ambiguous or the routing table is bypassed.)
 
 Check the `generated-by:` field in the validate-contract.
@@ -235,15 +235,15 @@ Check the `generated-by:` field in the validate-contract.
   - If note ABSENT or note date ≤ contract date → "inner R+I has run" = FALSE → do NOT re-run PVL.
 - If `generated-by: inner-pvl: phase-N` → proceed to EXECUTE (inner PVL is already current).
 
-  Note: "Re-run PVL from V1" means the orchestrator re-spawns vc-validate-agent for this plan. The spawned validate-agent starts at V1 naturally. The `## Inner Loop Refresh Note` date check inside validate-agent's V1 Step 4 will confirm re-validation is needed and will skip the early-exit, proceeding to V2 fan-out after completing V1 structural checks. No V1 structural checks are skipped.
+  Note: "Re-run PVL from V1" means the orchestrator re-spawns vb-validate-agent for this plan. The spawned validate-agent starts at V1 naturally. The `## Inner Loop Refresh Note` date check inside validate-agent's V1 Step 4 will confirm re-validation is needed and will skip the early-exit, proceeding to V2 fan-out after completing V1 structural checks. No V1 structural checks are skipped.
 
-**Signal exception — mid-program plan creation:** when vc-plan-agent creates a new plan mid-program (conflict resolution or phase insertion), it emits `MID_PROGRAM_PLAN_CREATED: [path] — inner PVL required` instead of `PHASE_COMPLETE: PLAN`. Orchestrator action: trigger inner PVL for that plan only; do NOT output a new /goal block; umbrella plan is unchanged. See behavior-reference Section 8 §MID_PROGRAM_PLAN_CREATED.
+**Signal exception — mid-program plan creation:** when vb-plan-agent creates a new plan mid-program (conflict resolution or phase insertion), it emits `MID_PROGRAM_PLAN_CREATED: [path] — inner PVL required` instead of `PHASE_COMPLETE: PLAN`. Orchestrator action: trigger inner PVL for that plan only; do NOT output a new /goal block; umbrella plan is unchanged. See behavior-reference Section 8 §MID_PROGRAM_PLAN_CREATED.
 
 **Legacy 5-step plan mapping:** 1a → Step 1, 1b → Step 3, 2 → Step 4, 3 → Step 5, 4 → Step 7.
 
-Never route to `vc-execute-agent` for a phase program phase without confirming
+Never route to `vb-execute-agent` for a phase program phase without confirming
 research and validate have completed. A placeholder validate-contract is not a
-completed validate — "vc-validate-agent writes this section" is a placeholder.
+completed validate — "vb-validate-agent writes this section" is a placeholder.
 
 Under a standing /goal, step 2 (execution approval checkpoint) is
 STANDING-GRANTED but steps 1–4 of the Phase Loop Progress are never skipped.
@@ -258,9 +258,9 @@ containing a copy-pasteable /goal block. Requirements:
   SAFETY / TEST GATES / VALIDATE CONTRACT / START
 - PER-PHASE LOOP must state: research → validate → execute → update-process,
   validate never skipped, placeholder contract = blocked, every subagent first
-  action runs vc-context-discovery + vc-plan-discovery, every phase-END invokes
-  vc-agent-strategy-compare
-  (Full canonical 7-step form: research → innovate → plan-supplement → pvl → execute → evl → update-process — abbreviated 4-step form acceptable in /goal block for character limit; see vc-system-behavior/11-phase-programs.md for full sequence.)
+  action runs vb-context-discovery + vb-plan-discovery, every phase-END invokes
+  vb-agent-strategy-compare
+  (Full canonical 7-step form: research → innovate → plan-supplement → pvl → execute → evl → update-process — abbreviated 4-step form acceptable in /goal block for character limit; see vb-system-behavior/11-phase-programs.md for full sequence.)
 - TEST GATES must list all 5 validator commands with full paths
 - START must name the current phase and loop step explicitly
 - When updating the goal block after phases complete, re-verify char count before
@@ -321,9 +321,9 @@ Tier 1 routing summary with updated understanding. If research confirms the orig
 proceed to SPEC, INNOVATE, or PLAN without re-asking. Do not repeat clarification that was already resolved.
 
 **SPEC handoff signals (outer/standalone flow):** RESEARCH advances to SPEC by `ENTER SPEC MODE`
-(or "go"); `vc-spec-agent` emits `PHASE_COMPLETE: SPEC` when the locked `*_SPEC_*.md` requirements
+(or "go"); `vb-spec-agent` emits `PHASE_COMPLETE: SPEC` when the locked `*_SPEC_*.md` requirements
 doc is written, after which the orchestrator advances to INNOVATE. If the user's intent for the
-requirements doc is ambiguous and cannot be resolved interactively, `vc-spec-agent` stops with
+requirements doc is ambiguous and cannot be resolved interactively, `vb-spec-agent` stops with
 `SPEC_INTENT_BLOCKED`. The phase-program INNER loop skips SPEC entirely — RESEARCH advances
 directly to INNOVATE there (`R → I → P → PVL → E → EVL → UP`).
 
@@ -342,7 +342,7 @@ resolved.
 
 Never loop clarification more than twice. Two rounds max, then route to research.
 
-Full scoring formula, tier workflows, and question menu: invoke `vc-intent-clarify`.
+Full scoring formula, tier workflows, and question menu: invoke `vb-intent-clarify`.
 
 ## Autopilot Trigger Routing
 
@@ -374,7 +374,7 @@ Issue exactly ONE structured clarification round using `AskUserQuestion`. This i
 interaction before the autonomous run begins. It covers:
 - Intent restatement
 - Scope, hard-stop, and gate-deviation questions (all dimensions needed)
-- Autonomy boundaries confirmation (vc-intent-clarify Dimension 6, treated as CRITICAL)
+- Autonomy boundaries confirmation (vb-intent-clarify Dimension 6, treated as CRITICAL)
 - Strategy options for the first remaining phase
 
 After the user responds, the session is fully locked — no more questions during the run
@@ -431,7 +431,7 @@ provisional block format, and D1 validator contract: read autopilot.md directly.
 
 ## Parallel Fan-Out Checkpoints
 
-At these phase transitions, consult `vc-agent-strategy-compare` for the full signal-based
+At these phase transitions, consult `vb-agent-strategy-compare` for the full signal-based
 fan-out scoring and strategy options:
 
 1. After initial research identifies multiple directions
@@ -451,7 +451,7 @@ that needs coordination.
 ### Strategy Selection at Every Phase Step
 
 At the END of every RIPER-5 phase step (research/innovate/plan/validate/execute/update-process),
-the active agent invokes `vc-agent-strategy-compare` to recommend the execution strategy for the
+the active agent invokes `vb-agent-strategy-compare` to recommend the execution strategy for the
 NEXT phase step. This is not optional and not only at VALIDATE V4. Specifically:
 - End of RESEARCH → strategy recommendation for SPEC
 - End of SPEC → strategy recommendation for INNOVATE
@@ -462,7 +462,7 @@ NEXT phase step. This is not optional and not only at VALIDATE V4. Specifically:
 
 The orchestrator reads this recommendation before spawning the next subagent.
 
-For multi-phase programs: `vc-generate-phase-program` invokes `vc-agent-strategy-compare`
+For multi-phase programs: `vb-generate-phase-program` invokes `vb-agent-strategy-compare`
 for each individual phase during scaffold (not once at program level).
 
 During autonomous /goal execution: orchestrator reads the per-phase strategy recommendation
@@ -479,53 +479,53 @@ When parallel subagents are recommended, use the appropriate tier:
 - Orchestrator collects all outputs and synthesizes them
 - Use when: agents work on independent dimensions, directions, or review concerns
 
-### Tier 2: vc-team (Escalation)
+### Tier 2: vb-team (Escalation)
 
 - Full Agent Teams with worktree isolation and inter-agent messaging
 - Use when: agents need adversarial debate, cross-layer implementation touching the same files,
   or results that depend on each other
 - Escalation trigger: if any parallel agent's output could conflict with or depend on another
-  parallel agent's output, use vc-team instead of Tier 1
+  parallel agent's output, use vb-team instead of Tier 1
 - Tier 2 is an **agent team** with the full machinery: TeamCreate provisions named teammates,
   each gets a TaskCreate assignment, they coordinate via SendMessage, and TaskList tracks
   in-flight work. Spawning bare parallel Agent calls and *calling* it a team is the failure mode
   this tier exists to prevent — without TeamCreate + SendMessage there is no team, only
   uncoordinated subagents.
 
-When in doubt, start with Tier 1. The orchestrator can always escalate to vc-team if the first
+When in doubt, start with Tier 1. The orchestrator can always escalate to vb-team if the first
 round reveals inter-dependencies.
 
-Full signal scoring and strategy options: invoke `vc-agent-strategy-compare`.
+Full signal scoring and strategy options: invoke `vb-agent-strategy-compare`.
 
-## VC-PREDICT-DEEP-NEEDED Signal Routing
+## VB-PREDICT-DEEP-NEEDED Signal Routing
 
-When vc-innovate-agent emits `VC-PREDICT-DEEP-NEEDED: [surface/pattern] — pausing for research subagent`:
+When vb-innovate-agent emits `VB-PREDICT-DEEP-NEEDED: [surface/pattern] — pausing for research subagent`:
 
-1. Spawn vc-research-agent scoped to the named surface/pattern.
-2. Pass research findings back to vc-innovate-agent as `Prior Research: [findings]` context in a re-spawn.
+1. Spawn vb-research-agent scoped to the named surface/pattern.
+2. Pass research findings back to vb-innovate-agent as `Prior Research: [findings]` context in a re-spawn.
 3. Do NOT tick the INNOVATE phase complete — PHASE_COMPLETE: INNOVATE fires only after the re-spawn completes normally.
-4. vc-research-agent will emit `VC-PREDICT-RESEARCH-COMPLETE: [surface/pattern] — findings ready for vc-innovate re-spawn` (NOT `PHASE_COMPLETE: RESEARCH`) when completing this scoped research. On receipt: extract the `Prior Research:` findings block and include it as context in the vc-innovate-agent re-spawn prompt.
+4. vb-research-agent will emit `VB-PREDICT-RESEARCH-COMPLETE: [surface/pattern] — findings ready for vb-innovate re-spawn` (NOT `PHASE_COMPLETE: RESEARCH`) when completing this scoped research. On receipt: extract the `Prior Research:` findings block and include it as context in the vb-innovate-agent re-spawn prompt.
 
-Note: `PHASE_COMPLETE: RESEARCH` emitted from a VC-PREDICT-DEEP-NEEDED scoped session is not expected — the agent emits `VC-PREDICT-RESEARCH-COMPLETE` instead. If `PHASE_COMPLETE: RESEARCH` is received, treat it as VC-PREDICT-RESEARCH-COMPLETE (same routing: re-spawn vc-innovate-agent with findings, do NOT advance inner loop Step 1).
+Note: `PHASE_COMPLETE: RESEARCH` emitted from a VB-PREDICT-DEEP-NEEDED scoped session is not expected — the agent emits `VB-PREDICT-RESEARCH-COMPLETE` instead. If `PHASE_COMPLETE: RESEARCH` is received, treat it as VB-PREDICT-RESEARCH-COMPLETE (same routing: re-spawn vb-innovate-agent with findings, do NOT advance inner loop Step 1).
 
-Note on state tracking under /goal: The orchestrator tracks active VC-PREDICT-DEEP-NEEDED state implicitly from conversation context — the signal `VC-PREDICT-DEEP-NEEDED: [surface/pattern]` appears in the current session before the scoped research agent is spawned. Under /goal autonomous execution: if session context is lost (compaction or restart), treat any RESEARCH-complete signal as a normal `PHASE_COMPLETE: RESEARCH` (safe default — tick Step 1 RESEARCH as complete, but do NOT tick Step 2 INNOVATE; re-run INNOVATE in the next session which will re-trigger vc-predict normally).
+Note on state tracking under /goal: The orchestrator tracks active VB-PREDICT-DEEP-NEEDED state implicitly from conversation context — the signal `VB-PREDICT-DEEP-NEEDED: [surface/pattern]` appears in the current session before the scoped research agent is spawned. Under /goal autonomous execution: if session context is lost (compaction or restart), treat any RESEARCH-complete signal as a normal `PHASE_COMPLETE: RESEARCH` (safe default — tick Step 1 RESEARCH as complete, but do NOT tick Step 2 INNOVATE; re-run INNOVATE in the next session which will re-trigger vb-predict normally).
 
 This signal is listed in behavior-reference Section 3 §[I3] and the Signal Inventory. INNOVATE does not self-spawn the research subagent — it emits the signal and halts, waiting for the orchestrator to coordinate.
 
-## VC-FEASIBILITY-PROBE-NEEDED Signal Routing
+## VB-FEASIBILITY-PROBE-NEEDED Signal Routing
 
-When vc-spec-agent, vc-innovate-agent, OR vc-validate-agent (Layer 2) emits `VC-FEASIBILITY-PROBE-NEEDED: [hypothesis] — cost-class: [class]` and halts:
+When vb-spec-agent, vb-innovate-agent, OR vb-validate-agent (Layer 2) emits `VB-FEASIBILITY-PROBE-NEEDED: [hypothesis] — cost-class: [class]` and halts:
 
 0. **Resolve the cost/safety gate FIRST** (from the declared `cost-class`):
    - `cheap-local` → proceed, no gate.
-   - `needs-container` → vc-debugger must use a **disposable** container only; NEVER `docker exec` the shared dev container (`app-*`) or shared Postgres. If no disposable container is available, the verdict will be `INCONCLUSIVE`.
+   - `needs-container` → vb-debugger must use a **disposable** container only; NEVER `docker exec` the shared dev container (`app-*`) or shared Postgres. If no disposable container is available, the verdict will be `INCONCLUSIVE`.
    - `needs-live-provider` → requires explicit **double opt-in** from the user before dispatching (billed/live 3rd-party call). Under /goal: do NOT auto-grant — surface the opt-in request; if not granted, the verdict is `INCONCLUSIVE`.
    - `needs-browser` / `needs-cf` → ensure a browser session / `wrangler dev` sandbox is available; never drive a shared user session or a deployed production worker.
-   The cost class is the agent's best guess; vc-debugger finalizes and records the actual class in the VERDICT's `## Probe Cost Class` section.
-1. Spawn `vc-debugger` with the `vc-feasibility-test` playbook context, the hypothesis text, the resolved cost class, and the active task folder path.
-2. `vc-debugger` runs the empirical probe and writes the VERDICT artifact: `{task_folder}/{slug}_FEASIBILITY_{dd-mm-yy}.md`.
-3. `vc-debugger` emits `VC-FEASIBILITY-VERDICT-READY: [verdict keyword] — [full VERDICT file path]` (NOT `PHASE_COMPLETE:` — the emitting phase is NOT complete yet).
-4. On receipt of `VC-FEASIBILITY-VERDICT-READY`: orchestrator reads the VERDICT file, extracts the `Prior Feasibility:` summary block, and re-spawns the emitting phase agent.
+   The cost class is the agent's best guess; vb-debugger finalizes and records the actual class in the VERDICT's `## Probe Cost Class` section.
+1. Spawn `vb-debugger` with the `vb-feasibility-test` playbook context, the hypothesis text, the resolved cost class, and the active task folder path.
+2. `vb-debugger` runs the empirical probe and writes the VERDICT artifact: `{task_folder}/{slug}_FEASIBILITY_{dd-mm-yy}.md`.
+3. `vb-debugger` emits `VB-FEASIBILITY-VERDICT-READY: [verdict keyword] — [full VERDICT file path]` (NOT `PHASE_COMPLETE:` — the emitting phase is NOT complete yet).
+4. On receipt of `VB-FEASIBILITY-VERDICT-READY`: orchestrator reads the VERDICT file, extracts the `Prior Feasibility:` summary block, and re-spawns the emitting phase agent.
 5. Re-spawn prompt includes: `Prior Feasibility: [hypothesis] — verdict: [VIABLE|NOT-VIABLE|INCONCLUSIVE] — licenses: [What this licenses] — forbids: [What this forbids] — uncertain: [What remains uncertain (known-gap)]` (the three lines verbatim from the VERDICT's `## Resulting Design Constraint` section).
 6. Do NOT tick the emitting phase complete — PHASE_COMPLETE: SPEC, PHASE_COMPLETE: INNOVATE, or PHASE_COMPLETE: VALIDATE fires only after the re-spawn completes normally.
 
@@ -536,13 +536,13 @@ Example re-spawn block:
 Prior Feasibility: Does the gateway forward params.provider.sort? — verdict: NOT-VIABLE — licenses: Designs may rely on params.model and params.messages reaching the gateway unchanged. — forbids: Do not design any approach that depends on params.provider.sort being forwarded; the forwarding layer strips it. — uncertain: Whether params.provider.order survives is untested — treat as a known-gap until probed.
 ```
 
-**Structural difference from VC-PREDICT-DEEP-NEEDED:**
-- VC-PREDICT-DEEP-NEEDED spawns `vc-research-agent` for deeper context; VC-FEASIBILITY-PROBE-NEEDED spawns `vc-debugger` for an empirical probe.
-- VC-PREDICT-DEEP-NEEDED produces research findings; VC-FEASIBILITY-PROBE-NEEDED produces a one-shot VERDICT artifact with a structured verdict and design constraint.
-- VC-FEASIBILITY-PROBE-NEEDED can fire from SPEC (vc-spec-agent), INNOVATE (vc-innovate-agent), OR VALIDATE Layer 2 (vc-validate-agent dimension agents); VC-PREDICT-DEEP-NEEDED fires only from INNOVATE.
-- When VALIDATE Layer 2 emits a probe: the orchestrator waits for ALL Layer 2 agents in the current V2 pass to complete (or emit a probe), then VALIDATE halts at the END of V2 before V3 synthesis. Multiple simultaneous probes from one V2 pass are batched; orchestrator resolves them (parallel where cost-class permits) and re-spawns vc-validate-agent ONCE with multiple `Prior Feasibility:` blocks.
+**Structural difference from VB-PREDICT-DEEP-NEEDED:**
+- VB-PREDICT-DEEP-NEEDED spawns `vb-research-agent` for deeper context; VB-FEASIBILITY-PROBE-NEEDED spawns `vb-debugger` for an empirical probe.
+- VB-PREDICT-DEEP-NEEDED produces research findings; VB-FEASIBILITY-PROBE-NEEDED produces a one-shot VERDICT artifact with a structured verdict and design constraint.
+- VB-FEASIBILITY-PROBE-NEEDED can fire from SPEC (vb-spec-agent), INNOVATE (vb-innovate-agent), OR VALIDATE Layer 2 (vb-validate-agent dimension agents); VB-PREDICT-DEEP-NEEDED fires only from INNOVATE.
+- When VALIDATE Layer 2 emits a probe: the orchestrator waits for ALL Layer 2 agents in the current V2 pass to complete (or emit a probe), then VALIDATE halts at the END of V2 before V3 synthesis. Multiple simultaneous probes from one V2 pass are batched; orchestrator resolves them (parallel where cost-class permits) and re-spawns vb-validate-agent ONCE with multiple `Prior Feasibility:` blocks.
 
-**Under /goal autonomous execution:** The orchestrator routes `VC-FEASIBILITY-PROBE-NEEDED` without user input. Spawn vc-debugger, await `VC-FEASIBILITY-VERDICT-READY`, extract Prior Feasibility block, re-spawn the emitting agent. This is non-blocking in /goal context.
+**Under /goal autonomous execution:** The orchestrator routes `VB-FEASIBILITY-PROBE-NEEDED` without user input. Spawn vb-debugger, await `VB-FEASIBILITY-VERDICT-READY`, extract Prior Feasibility block, re-spawn the emitting agent. This is non-blocking in /goal context.
 
 This signal is listed in `12-reference.md` §Signal Inventory. The emitting agent does not self-spawn the probe — it emits and halts, waiting for orchestrator coordination.
 
@@ -556,32 +556,32 @@ neither artifact and runs no EVL. It covers the band *above* a trivial single-fi
 
 **Trigger:** `ENTER QUICK FIX MODE`, or intent keywords ("quick fix", "hotfix", "small fix",
 "just patch"). Distinct from the **Trivial Fix** route (single-file, <15 lines → straight to
-`vc-execute-agent`, no scout): QUICK FIX adds a cheap scout + confirm and allows multi-line / multi-file
+`vb-execute-agent`, no scout): QUICK FIX adds a cheap scout + confirm and allows multi-line / multi-file
 edits within a small bounded scope.
 
 **Protocol (orchestrator-driven — preserves §PVL/EVL "no inline execution"):**
 
 1. **Read-only scout.** The orchestrator locates the gap with Grep/Read/Glob and drafts the exact
    edit. Reading inline is allowed; only *editing source* and *running gate commands* inline are
-   forbidden. This replaces a full `vc-research-agent` spawn for small fixes.
+   forbidden. This replaces a full `vb-research-agent` spawn for small fixes.
 2. **One-line confirm.** Emit `Quick fix: edit \`path:line\` — [what] to [why]. Proceed?` and wait.
    Under a standing `/goal`, auto-proceed (no user gate) unless the scope guard trips.
-3. **One spawn.** Spawn `vc-quick-fix-agent` (opus) with the exact target (file + line + change). The
+3. **One spawn.** Spawn `vb-quick-fix-agent` (opus) with the exact target (file + line + change). The
    agent re-checks scope, applies the edit, and runs a **scoped check on touched files only** —
    typecheck of the touched package and/or the single covering test file. It does NOT run the full
-   suite and the orchestrator does NOT spawn `vc-tester` / run EVL.
+   suite and the orchestrator does NOT spawn `vb-tester` / run EVL.
 4. **No plan file, no validate-contract, no EVL, no UPDATE PROCESS.** The orchestrator may still
-   recommend a commit (via `vc-git-manager`) when the user asks.
+   recommend a commit (via `vb-git-manager`) when the user asks.
 
 **Scope guard (mandatory — the lane is VOID otherwise):** abort to full RESEARCH if the change
 touches schema, auth, API contract, billing/credits, or migration surfaces, introduces a new
 dependency/agent/runtime surface, spans multiple feature areas, or exceeds a small bounded size
-(~100 lines). `vc-quick-fix-agent` emits `QUICK_FIX_ABORT: [target] — out of quick-fix scope
+(~100 lines). `vb-quick-fix-agent` emits `QUICK_FIX_ABORT: [target] — out of quick-fix scope
 ([reason]); route to RESEARCH.` and returns `BLOCKED`; on receipt the orchestrator re-routes to
-`vc-research-agent`. **Exception — active autopilot lane:** under an active autopilot goal block, `QUICK_FIX_ABORT` instead escalates one lane up (quick → fast) per `autopilot.md` §Lanes — clarifications carry over, the orchestrator emits the one-line `escalated to fast: [reason]` notice, and does NOT re-route to RESEARCH. When unsure whether something qualifies, it does not — use RIPER-5.
+`vb-research-agent`. **Exception — active autopilot lane:** under an active autopilot goal block, `QUICK_FIX_ABORT` instead escalates one lane up (quick → fast) per `autopilot.md` §Lanes — clarifications carry over, the orchestrator emits the one-line `escalated to fast: [reason]` notice, and does NOT re-route to RESEARCH. When unsure whether something qualifies, it does not — use RIPER-5.
 
 **Why this is still no-inline-execution-compliant:** the orchestrator never edits source files and
-never runs the scoped check itself — the spawned `vc-quick-fix-agent` does both. The orchestrator's
+never runs the scoped check itself — the spawned `vb-quick-fix-agent` does both. The orchestrator's
 inline work is read-only scouting plus the confirm. An edit applied by the orchestrator in its own
 shell remains a protocol violation here as everywhere else.
 
@@ -591,7 +591,7 @@ VALIDATE is a mandatory phase between PLAN and EXECUTE (outer sequence: R → S 
 
 ### When VALIDATE runs
 
-After `vc-plan-agent` creates or updates a plan file, before routing to `vc-execute-agent`.
+After `vb-plan-agent` creates or updates a plan file, before routing to `vb-execute-agent`.
 
 ### Skip conditions
 
@@ -600,14 +600,14 @@ VALIDATE may be skipped when ALL of the following are true:
 1. The change is a single-file edit under 15 lines with no schema, auth, API, or billing surface
 2. No new dependencies, agents, or runtime surfaces are introduced
 3. The user explicitly skips with a stated reason ("skip VALIDATE — trivial rename")
-4. Existing `## Validate Contract` with PASS gate — ask user: "Plan has an existing PASS validate-contract. Re-validate or proceed to EXECUTE?" Under /goal: if `## Inner Loop Refresh Note` exists in the plan file with a date newer than the existing validate-contract date → re-run PVL from V1; if no Refresh Note is found (or Refresh Note date ≤ contract date) → auto-proceed to EXECUTE (vc-validate-agent V1 will independently confirm via the same Refresh Note check). Do not use contract origin (outer vs inner) as the routing signal — the Refresh Note date is the authoritative trigger. **When the auto-proceed path fires, the orchestrator MUST relay the `V1 AUTO-PROCEED: ...` line verbatim in its own chat response — the literal token must appear in the main thread, not only inside the subagent transcript.**
+4. Existing `## Validate Contract` with PASS gate — ask user: "Plan has an existing PASS validate-contract. Re-validate or proceed to EXECUTE?" Under /goal: if `## Inner Loop Refresh Note` exists in the plan file with a date newer than the existing validate-contract date → re-run PVL from V1; if no Refresh Note is found (or Refresh Note date ≤ contract date) → auto-proceed to EXECUTE (vb-validate-agent V1 will independently confirm via the same Refresh Note check). Do not use contract origin (outer vs inner) as the routing signal — the Refresh Note date is the authoritative trigger. **When the auto-proceed path fires, the orchestrator MUST relay the `V1 AUTO-PROCEED: ...` line verbatim in its own chat response — the literal token must appear in the main thread, not only inside the subagent transcript.**
 
 When VALIDATE is skipped, note the skip reason in the plan file or handoff prompt. A plan without
 a validate-contract must document why VALIDATE was skipped.
 
 ### What to pass to execute-agent after VALIDATE
 
-When routing to vc-execute-agent after VALIDATE completes:
+When routing to vb-execute-agent after VALIDATE completes:
 - Pass the validate-contract section path or note "inline in plan"
 - Pass the gate status (PASS or CONDITIONAL) and any accepted concerns
 - Pass the test gate commands from the validate-contract so execute-agent knows which tier to run
@@ -617,12 +617,12 @@ When routing to vc-execute-agent after VALIDATE completes:
 - **PASS** — no FAILs and no unresolved CONCERNs. Proceed to EXECUTE.
 - **CONDITIONAL** — one or more CONCERNs exist, but the user has reviewed and accepted the
   documented gaps. Proceed to EXECUTE with those gaps on record.
-- **BLOCKED** — unresolved FAILs. Return to PLAN. Do not route to vc-execute-agent.
+- **BLOCKED** — unresolved FAILs. Return to PLAN. Do not route to vb-execute-agent.
 
 ### BLOCKED Escalation Path
 
-1. vc-validate-agent surfaces FAIL gap list.
-2. Orchestrator invokes plan-validate-fix loop (vc-plan-agent supplements checklist addressing FAIL gaps); PVL re-runs from V1. Plan-agent emits `SUPPLEMENT_APPLIED: [plan path] — [N] gap(s) addressed` when supplement is complete. Orchestrator reacts: re-run PVL from V1. (Full SUPPLEMENT_APPLIED definition: behavior-reference Section 5 V7.)
+1. vb-validate-agent surfaces FAIL gap list.
+2. Orchestrator invokes plan-validate-fix loop (vb-plan-agent supplements checklist addressing FAIL gaps); PVL re-runs from V1. Plan-agent emits `SUPPLEMENT_APPLIED: [plan path] — [N] gap(s) addressed` when supplement is complete. Orchestrator reacts: re-run PVL from V1. (Full SUPPLEMENT_APPLIED definition: behavior-reference Section 5 V7.)
 3. If still BLOCKED after validate-fix loop: surface FAIL list to user with one-time choice: (a) revise plan further / (b) descope blocked items / (c) accept as CONDITIONAL.
 4. If second validate also BLOCKED after user choice: orchestrator stops and asks user whether to continue or defer to backlog.
 5. **Supplement cycle limit: 10 cycles maximum** (matching PVL supplement limit in behavior reference).
@@ -633,7 +633,7 @@ When routing to vc-execute-agent after VALIDATE completes:
 
    **Step-class distinction:** The above applies to PVL BLOCKED (Step 4). For BLOCKED at R, I, plan-validate-fix, EXECUTE, EVL, or UPDATE PROCESS step types, see behavior-reference Section 8 `What Moves Forward Without User Input` §NEEDS_CONTEXT step-class rule.
 
-   Under /goal inner PVL (Step 4): vc-validate-agent emits `PHASE_SKIPPED: BLOCKED — [phase N] backlog note written; advancing to Phase [N+1]`. Orchestrator detects this signal and advances Phase Loop Progress without waiting for PHASE_COMPLETE: VALIDATE.
+   Under /goal inner PVL (Step 4): vb-validate-agent emits `PHASE_SKIPPED: BLOCKED — [phase N] backlog note written; advancing to Phase [N+1]`. Orchestrator detects this signal and advances Phase Loop Progress without waiting for PHASE_COMPLETE: VALIDATE.
 
    **Registry status vocabulary reminder:** writable values are `BLOCKED-skipped / DONE / SUPERSEDED / (no field)`. `status: BLOCKED` is a read-compatibility alias only — never write it in new entries; always write `status: BLOCKED-skipped`. See behavior-reference Section 8 §Valid status values for the complete vocabulary.
 
@@ -651,22 +651,22 @@ Cascade BLOCKED (phase program hard stop): for consecutive BLOCKED phases in a p
 
 ## PHASE_RESTRUCTURE_NOTICE and CASCADE_BLOCKED Routing
 
-**PHASE_RESTRUCTURE_NOTICE** (emitted by orchestrator from RESEARCH findings, or by vc-execute-agent mid-EXECUTE under /goal): treat as audit trail only — no agent spawn, no inner loop step advancement. Consume from the phase report.
+**PHASE_RESTRUCTURE_NOTICE** (emitted by orchestrator from RESEARCH findings, or by vb-execute-agent mid-EXECUTE under /goal): treat as audit trail only — no agent spawn, no inner loop step advancement. Consume from the phase report.
 
 **CASCADE_BLOCKED** (two consecutive phases BLOCKED in a phase program): this is a program-level hard stop. See behavior-reference Section 8 §Cascade BLOCKED Protocol for the full protocol — this is distinct from standard BLOCKED escalation and requires user input before continuing.
 
 ### Validate-Contract Required Fields
 
-Every validate-contract written by `vc-validate-agent` MUST include a `generated-by:` field. Valid values:
+Every validate-contract written by `vb-validate-agent` MUST include a `generated-by:` field. Valid values:
 - `generated-by: outer-pvl` — contract produced during the outer RIPER-5 loop (before inner-loop R+I have run for this phase)
 - `generated-by: inner-pvl: phase-N` — contract produced during the inner-loop PVL pass for phase N
 
 This field distinguishes outer-loop contracts from inner-loop contracts and drives the pre-routing re-validation decision (see Phase Program Pre-Routing Check Step 4b below).
 
-`date: [YYYY-MM-DD]` — lowercase, machine-parseable. Same value as the display `Date:` field written at V6. Required for supersedes chain ordering by vc-plan-discovery and D2 validators. See behavior-reference Section 5 V6 for the complete required fields list.
+`date: [YYYY-MM-DD]` — lowercase, machine-parseable. Same value as the display `Date:` field written at V6. Required for supersedes chain ordering by vb-plan-discovery and D2 validators. See behavior-reference Section 5 V6 for the complete required fields list.
 
-Full V1-V7 sequence and validate-contract schema: invoke `vc-validate-findings` and
-`vc-test-coverage-plan`.
+Full V1-V7 sequence and validate-contract schema: invoke `vb-validate-findings` and
+`vb-test-coverage-plan`.
 
 ## Plain-Language Gate Rendering
 
@@ -694,8 +694,8 @@ Phase-end gate messages (`PHASE_COMPLETE: EXECUTE`, `Gate: PASS`, `Gate: CONDITI
 
 ## Mode Detection — VALIDATE Trigger
 
-After `vc-plan-agent` creates a plan file, the orchestrator auto-suggests VALIDATE before
-routing to `vc-execute-agent`:
+After `vb-plan-agent` creates a plan file, the orchestrator auto-suggests VALIDATE before
+routing to `vb-execute-agent`:
 
 > "Plan complete. Run VALIDATE before EXECUTE? (recommended) — say ENTER VALIDATE MODE or skip with reason."
 
@@ -704,7 +704,7 @@ This auto-suggestion fires after every new plan file is created. It does not fir
 - The user has already said "skip VALIDATE" with a stated reason
 - The change is trivially single-file (under 15 lines, no surface changes)
 
-**Advisory:** Even when the skip condition appears satisfied, prefer routing to vc-validate-agent and letting V1 make the final auto-proceed decision via fresh file scan (V1 checks for newer Inner Loop Refresh Notes itself). The orchestrator's pre-routing check is based on cached state and may be stale. Never skip spawning vc-validate-agent solely based on the orchestrator's cached view.
+**Advisory:** Even when the skip condition appears satisfied, prefer routing to vb-validate-agent and letting V1 make the final auto-proceed decision via fresh file scan (V1 checks for newer Inner Loop Refresh Notes itself). The orchestrator's pre-routing check is based on cached state and may be stale. Never skip spawning vb-validate-agent solely based on the orchestrator's cached view.
 
 If the user says "ENTER EXECUTE MODE" immediately after PLAN without having done VALIDATE and without a stated skip reason, the orchestrator must ask once: "Did you mean to skip VALIDATE? If so, say why (e.g. trivial change, already validated). Otherwise say ENTER VALIDATE MODE." Do not route to execute-agent until one of the above conditions is met.
 
@@ -712,7 +712,7 @@ If the user says "ENTER EXECUTE MODE" immediately after PLAN without having done
 
 ALWAYS pass `process/context/all-context.md` (the root context router) AND run
 `find process/context/ -type f` to produce a full recursive listing of all files under
-`process/context/` when routing to `vc-execute-agent` or `vc-tester`.
+`process/context/` when routing to `vb-execute-agent` or `vb-tester`.
 
 Agents read the router, see all available files, then follow the routing table to decide
 which to load. Do not hardcode specific deeper file paths — the router plus full file listing
@@ -735,7 +735,7 @@ After any non-trivial EXECUTE completion, the orchestrator must surface an expli
 The checkpoint should not be a vague "want cleanup?" prompt. It should include a short closeout
 packet so the user can approve the next move quickly.
 
-Full closeout packet schema, drift scoring, and move-on examples: invoke `vc-generate-closeout`.
+Full closeout packet schema, drift scoring, and move-on examples: invoke `vb-generate-closeout`.
 
 Required closeout choices:
 
@@ -751,7 +751,7 @@ Rules:
 - Do automatically recommend the next valid state when it is clear from the selected plan and latest verification.
 - Do explicitly recommend a commit checkpoint when a selected phase is well-tested and validated.
 - If cleanup/context capture is the only remaining safe action, say that directly instead of ending with a generic summary.
-- If cleanup was skipped and active-plan debt accumulates, recommend `vc-audit-plans` as a maintenance follow-up.
+- If cleanup was skipped and active-plan debt accumulates, recommend `vb-audit-plans` as a maintenance follow-up.
 
 ## High-Risk Execution Handoff
 
@@ -769,7 +769,7 @@ High-risk classes:
 Controller rules:
 
 1. Note the risk class in the task summary or selected plan context.
-2–4. Full 5-artifact schema and auto-stop rule: invoke `vc-risk-evidence-pack`.
+2–4. Full 5-artifact schema and auto-stop rule: invoke `vb-risk-evidence-pack`.
 5. Keep this manual-first. Do not invent a blocking hook or alternate workflow owner.
 
 ## Research First for Service-Shaped Features
@@ -784,22 +784,22 @@ Research must check:
 
 ## PVL/EVL Loop Routing (Orchestrator Is the Loop Driver)
 
-Subagents are fire-and-forget: they emit a verdict and terminate. NO subagent can self-loop or spawn another phase agent — any instruction that reads as "the agent continues in the same session" is void. The ORCHESTRATOR drives both fix loops by re-spawning agents, and the ORCHESTRATOR executes the `vc-autoresearch` bookkeeping at every cycle boundary (Step 0 init, per-cycle iteration report, TSV row, plateau/cap/regression checks). "The loop is run by vc-autoresearch as bookkeeper" means: the orchestrator runs those steps itself — no agent performs them implicitly.
+Subagents are fire-and-forget: they emit a verdict and terminate. NO subagent can self-loop or spawn another phase agent — any instruction that reads as "the agent continues in the same session" is void. The ORCHESTRATOR drives both fix loops by re-spawning agents, and the ORCHESTRATOR executes the `vb-autoresearch` bookkeeping at every cycle boundary (Step 0 init, per-cycle iteration report, TSV row, plateau/cap/regression checks). "The loop is run by vb-autoresearch as bookkeeper" means: the orchestrator runs those steps itself — no agent performs them implicitly.
 
 ### PVL routing (plan-validate-fix)
 
-On receiving vc-validate-agent's V7 verdict, route mechanically:
+On receiving vb-validate-agent's V7 verdict, route mechanically:
 
 | Verdict received | Orchestrator action |
 |---|---|
 | `Gate: PASS` | Verify `grep -c 'Gate: PASS' <plan-file>` ≥ 1 → proceed toward EXECUTE (emit /goal block first). Append final TSV row (`loop_status: HALTED_SUCCESS`). |
-| `Gate: CONDITIONAL`, first pass (no cycle row in `results.tsv` beyond baseline, or no TSV yet) | NOT terminal — never route to EXECUTE. Run bookkeeping Step 0 if needed (create task-folder `results.tsv` with header + baseline). Spawn vc-plan-agent (PVL-supplement mode) passing the SUPPLEMENT REQUEST block. **`PHASE_COMPLETE: VALIDATE` MUST NOT be emitted here — a first-pass `Gate: CONDITIONAL` (or `Gate: BLOCKED`) is never terminal. `PHASE_COMPLETE: VALIDATE` is only valid after `Gate: PASS` or after explicit user/known-gap acceptance of a CONDITIONAL that has completed at least one supplement cycle.** |
-| `SUPPLEMENT_APPLIED: [plan path] — [N] gap(s) addressed` (from vc-plan-agent) | One PVL cycle completes: increment cycle counter; write `{plan-slug}-pvl-iteration-{NNN}_REPORT_{dd-mm-yy}.md`; append TSV row; re-spawn vc-validate-agent from V1 with the updated plan. |
+| `Gate: CONDITIONAL`, first pass (no cycle row in `results.tsv` beyond baseline, or no TSV yet) | NOT terminal — never route to EXECUTE. Run bookkeeping Step 0 if needed (create task-folder `results.tsv` with header + baseline). Spawn vb-plan-agent (PVL-supplement mode) passing the SUPPLEMENT REQUEST block. **`PHASE_COMPLETE: VALIDATE` MUST NOT be emitted here — a first-pass `Gate: CONDITIONAL` (or `Gate: BLOCKED`) is never terminal. `PHASE_COMPLETE: VALIDATE` is only valid after `Gate: PASS` or after explicit user/known-gap acceptance of a CONDITIONAL that has completed at least one supplement cycle.** |
+| `SUPPLEMENT_APPLIED: [plan path] — [N] gap(s) addressed` (from vb-plan-agent) | One PVL cycle completes: increment cycle counter; write `{plan-slug}-pvl-iteration-{NNN}_REPORT_{dd-mm-yy}.md`; append TSV row; re-spawn vb-validate-agent from V1 with the updated plan. |
 | `Gate: CONDITIONAL` after N≥1 cycles | Check plateau (3 cycles without gap-count improvement) and cap (10 cycles). Neither hit → run another supplement cycle. Plateau/cap hit → surface to user (non-/goal) or accept remaining gaps as known-gaps (/goal); only then is EXECUTE legal. |
 | `Gate: BLOCKED` | §BLOCKED Escalation Path below — supplement cycles count toward the same 10-cycle cap. |
-| `VC-FEASIBILITY-PROBE-NEEDED` from Layer 2 (during V2 fan-out) | Wait for ALL Layer 2 agents to complete (or emit probe). Then: resolve cost-class gate (see §VC-FEASIBILITY-PROBE-NEEDED Signal Routing step 0). Spawn `vc-debugger` per probe. Await `VC-FEASIBILITY-VERDICT-READY` for each. Batch multiple probes: re-spawn `vc-validate-agent` ONCE from V1 with all `Prior Feasibility:` blocks. **No TSV row written. No PVL cycle counter incremented.** Validate-contract is NOT written during probe halt; "no contract + VC-FEASIBILITY-PROBE-NEEDED signal" IS the routing signal. |
+| `VB-FEASIBILITY-PROBE-NEEDED` from Layer 2 (during V2 fan-out) | Wait for ALL Layer 2 agents to complete (or emit probe). Then: resolve cost-class gate (see §VB-FEASIBILITY-PROBE-NEEDED Signal Routing step 0). Spawn `vb-debugger` per probe. Await `VB-FEASIBILITY-VERDICT-READY` for each. Batch multiple probes: re-spawn `vb-validate-agent` ONCE from V1 with all `Prior Feasibility:` blocks. **No TSV row written. No PVL cycle counter incremented.** Validate-contract is NOT written during probe halt; "no contract + VB-FEASIBILITY-PROBE-NEEDED signal" IS the routing signal. |
 
-**Mechanical gate before spawning vc-execute-agent (always run):** `grep -c 'Gate: PASS' <plan-file>` ≥ 1 OR `wc -l < {task_folder}/results.tsv` ≥ 3 (header + baseline + ≥1 cycle row) OR explicit user acceptance of CONDITIONAL gaps quoted in this session. None hold → do NOT spawn vc-execute-agent.
+**Mechanical gate before spawning vb-execute-agent (always run):** `grep -c 'Gate: PASS' <plan-file>` ≥ 1 OR `wc -l < {task_folder}/results.tsv` ≥ 3 (header + baseline + ≥1 cycle row) OR explicit user acceptance of CONDITIONAL gaps quoted in this session. None hold → do NOT spawn vb-execute-agent.
 
 ### EVL routing (execute-validate-fix)
 
@@ -807,25 +807,25 @@ On receiving `PHASE_COMPLETE: EXECUTE` (under /goal) or DONE/DONE_WITH_CONCERNS 
 
 | Event | Orchestrator action |
 |---|---|
-| EXECUTE reports done — gates claimed green or not | ALWAYS spawn vc-tester for the EVL confirmation run: re-run the EXACT validate-contract gate commands. Execute-agent's internal iterate-until-green loop NEVER substitutes for this independent confirmation. Run bookkeeping Step 0 (ensure `results.tsv` baseline exists). |
-| vc-tester: all gates pass | Append TSV row (`HALTED_SUCCESS`); continue EVL Steps → EVL HANDOFF SUMMARY → vc-update-process-agent. |
-| vc-tester: ≥1 gate fails | One EVL cycle begins: increment cycle counter; **write `{plan-slug}-evl-iteration-{NNN}_REPORT_{dd-mm-yy}.md` FIRST — a TSV cycle row append is valid ONLY AFTER the matching iteration report file has been written (report first, TSV row second; a TSV row without its report is a bookkeeping violation)**; append TSV row; spawn vc-execute-agent (supplement mode) scoped to exactly the failing gate(s) — parallel fix agents when failing gates touch disjoint file groups; then re-spawn vc-tester to confirm. |
+| EXECUTE reports done — gates claimed green or not | ALWAYS spawn vb-tester for the EVL confirmation run: re-run the EXACT validate-contract gate commands. Execute-agent's internal iterate-until-green loop NEVER substitutes for this independent confirmation. Run bookkeeping Step 0 (ensure `results.tsv` baseline exists). |
+| vb-tester: all gates pass | Append TSV row (`HALTED_SUCCESS`); continue EVL Steps → EVL HANDOFF SUMMARY → vb-update-process-agent. |
+| vb-tester: ≥1 gate fails | One EVL cycle begins: increment cycle counter; **write `{plan-slug}-evl-iteration-{NNN}_REPORT_{dd-mm-yy}.md` FIRST — a TSV cycle row append is valid ONLY AFTER the matching iteration report file has been written (report first, TSV row second; a TSV row without its report is a bookkeeping violation)**; append TSV row; spawn vb-execute-agent (supplement mode) scoped to exactly the failing gate(s) — parallel fix agents when failing gates touch disjoint file groups; then re-spawn vb-tester to confirm. |
 | 10 cycles reached or plateau | Under /goal: accept as known-gap, record in the phase report's `## Test Infra Gaps Found`, continue. Interactive: surface to user. |
 
-**No inline execution (mechanical rule):** under `ENTER EXECUTE MODE` and throughout EVL, the orchestrator NEVER edits source files and NEVER runs validate-contract gate commands in its own shell. The gate run is valid ONLY when performed by a spawned vc-tester agent; the fix is valid ONLY when performed by a spawned vc-execute-agent. This holds regardless of change size — a one-line fix still requires the spawns. The trivial-fix inline path is VOID the moment a plan file with a validate-contract exists: "ENTER EXECUTE MODE for [plan]" ALWAYS means spawn vc-execute-agent with the plan path. An EXECUTE/EVL pass with zero Agent tool spawns is a protocol violation even if every gate ends green and all bookkeeping artifacts are correct — correct artifacts do not retroactively legitimize inline execution.
+**No inline execution (mechanical rule):** under `ENTER EXECUTE MODE` and throughout EVL, the orchestrator NEVER edits source files and NEVER runs validate-contract gate commands in its own shell. The gate run is valid ONLY when performed by a spawned vb-tester agent; the fix is valid ONLY when performed by a spawned vb-execute-agent. This holds regardless of change size — a one-line fix still requires the spawns. The trivial-fix inline path is VOID the moment a plan file with a validate-contract exists: "ENTER EXECUTE MODE for [plan]" ALWAYS means spawn vb-execute-agent with the plan path. An EXECUTE/EVL pass with zero Agent tool spawns is a protocol violation even if every gate ends green and all bookkeeping artifacts are correct — correct artifacts do not retroactively legitimize inline execution.
 
-### Bookkeeping ownership (per `vc-autoresearch`)
+### Bookkeeping ownership (per `vb-autoresearch`)
 
 | Item | Owner |
 |---|---|
-| Task-folder + `results.tsv` init, cycle counter, per-cycle `{NNN}` iteration reports, TSV rows, plateau/cap/regression checks, parallel-fix partitioning | Orchestrator (executing the vc-autoresearch steps directly) |
-| V1–V7 gate sequence, SUPPLEMENT REQUEST format, validate-contract write, known-gap exclusion | vc-validate-agent |
-| Which gate commands run, EVL HANDOFF SUMMARY format | vc-tester |
-| Applying plan supplements / code fixes (scoped, no expansion) | vc-plan-agent / vc-execute-agent in supplement mode |
+| Task-folder + `results.tsv` init, cycle counter, per-cycle `{NNN}` iteration reports, TSV rows, plateau/cap/regression checks, parallel-fix partitioning | Orchestrator (executing the vb-autoresearch steps directly) |
+| V1–V7 gate sequence, SUPPLEMENT REQUEST format, validate-contract write, known-gap exclusion | vb-validate-agent |
+| Which gate commands run, EVL HANDOFF SUMMARY format | vb-tester |
+| Applying plan supplements / code fixes (scoped, no expansion) | vb-plan-agent / vb-execute-agent in supplement mode |
 
 ## EXECUTE-VALIDATE-LOOP (EVL)
 
-**Owner:** orchestrator (loop COORDINATION runs in main thread, not delegated to a subagent — but the work inside the loop is still spawned: gate confirmation = vc-tester spawn; fixes = vc-execute-agent spawn. "Owner" never licenses the orchestrator to run gates or edit files itself; see §No inline execution above).
+**Owner:** orchestrator (loop COORDINATION runs in main thread, not delegated to a subagent — but the work inside the loop is still spawned: gate confirmation = vb-tester spawn; fixes = vb-execute-agent spawn. "Owner" never licenses the orchestrator to run gates or edit files itself; see §No inline execution above).
 **Trigger:** execute-agent reports DONE or DONE_WITH_CONCERNS.
 **Full spec:** behavior-reference Section 6.
 
@@ -834,14 +834,14 @@ Under /goal: canonical detection trigger is the `PHASE_COMPLETE: EXECUTE — ...
 **Orchestrator EVL responsibilities (summary):**
 1. Run EVL Steps 1–6 in the main thread.
 2. At Step 6: write the EVL HANDOFF SUMMARY yaml block (6 fields: gates_green, known_gaps, follow_up_stubs, context_partial, preliminary_packet_path, closeout_classification).
-3. Route to vc-update-process-agent with the EVL HANDOFF SUMMARY block in the handoff prompt.
+3. Route to vb-update-process-agent with the EVL HANDOFF SUMMARY block in the handoff prompt.
 4. Under /goal: all EVL steps are autonomous (no user gate) unless a EVL gate cannot be resolved after 10 execute-validate-fix loops — matching the behavior-reference Section 6 canonical cap. After 10 cycles: accept the gap as a known-gap, record in the phase report's ## Test Infra Gaps Found section, and continue.
 
-**Loop bookkeeping (vc-autoresearch):** the execute-validate-fix loop is run by the `vc-autoresearch` skill (`domain: tests`) as its shared bookkeeper — it owns the iteration counter, plateau/regression detection, the TSV log, and the 10-cycle cap. vc-tester owns which validate-contract gate commands to run; orchestrator owns routing. When multiple independent gates fail across non-overlapping file groups, the orchestrator spawns **multiple parallel execute-fix agents** (vc-execute-agent in supplement mode), one per failing gate / file group, partitioned so no two agents edit the same file; when failing gates share files or a single root cause, fall back to a single execute-fix agent. See `.claude/skills/vc-autoresearch/SKILL.md` §EVL Wiring. **The ORCHESTRATOR executes this bookkeeping itself at every cycle boundary — no agent runs it implicitly; per-event routing table: §PVL/EVL Loop Routing.**
+**Loop bookkeeping (vb-autoresearch):** the execute-validate-fix loop is run by the `vb-autoresearch` skill (`domain: tests`) as its shared bookkeeper — it owns the iteration counter, plateau/regression detection, the TSV log, and the 10-cycle cap. vb-tester owns which validate-contract gate commands to run; orchestrator owns routing. When multiple independent gates fail across non-overlapping file groups, the orchestrator spawns **multiple parallel execute-fix agents** (vb-execute-agent in supplement mode), one per failing gate / file group, partitioned so no two agents edit the same file; when failing gates share files or a single root cause, fall back to a single execute-fix agent. See `.claude/skills/vb-autoresearch/SKILL.md` §EVL Wiring. **The ORCHESTRATOR executes this bookkeeping itself at every cycle boundary — no agent runs it implicitly; per-event routing table: §PVL/EVL Loop Routing.**
 
 Under /goal autonomous execution: orchestrator emits and records `PHASE_COMPLETE: EVL — EVL HANDOFF SUMMARY emitted; preliminary packet written` to advance from Step 6 → Step 7 (UPDATE PROCESS).
 
-**PHASE_COMPLETE: UPDATE PROCESS** — emitted by vc-update-process-agent when the phase closeout is complete. Format: `PHASE_COMPLETE: UPDATE PROCESS — [phase name] archived; phase report written; process commit invoked. Proceed to next phase Step 0.`
+**PHASE_COMPLETE: UPDATE PROCESS** — emitted by vb-update-process-agent when the phase closeout is complete. Format: `PHASE_COMPLETE: UPDATE PROCESS — [phase name] archived; phase report written; process commit invoked. Proceed to next phase Step 0.`
 
 Orchestrator reaction: tick Step 7 (UPDATE PROCESS) checkbox → advance to Phase N+1 Step 0. Note: orchestrator matches on prefix `PHASE_COMPLETE: UPDATE PROCESS` — the suffix fields are informational and non-strict. Full spec in behavior-reference Section 7.
 
@@ -852,16 +852,16 @@ This section closes the F2 gap documented in behavior-reference Section 6.
 The core validator suite runs after every phase that touches harness artifacts:
 
 ```
-node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-kit-portability.mjs
-node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
-node .claude/skills/vc-audit-plans/scripts/validate-plan-inventory.mjs     # (also conditional: run when plan inventory changed)
-node .claude/skills/vc-audit-vc/scripts/validate-guide-sync.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-protocol-wiring.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-skill-invocation-wiring.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-agent-frontmatter.mjs
-node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-agent-parity.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-kit-portability.mjs
+node .claude/skills/vb-audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vb-audit-plans/scripts/validate-plan-inventory.mjs     # (also conditional: run when plan inventory changed)
+node .claude/skills/vb-audit-vc/scripts/validate-guide-sync.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-protocol-wiring.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-skill-invocation-wiring.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-agent-frontmatter.mjs
+node .claude/skills/vb-audit-vc/scripts/validate-model-effort-policy.mjs
 git diff --check                                                             # (merge-conflict marker check)
 ```
 
@@ -870,9 +870,9 @@ CI (`.github/workflows/validate.yml`) runs the full set of 38 validator scripts;
 These additional validators are available for phase programs and plan artifact quality checks:
 
 ```
-node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan.md>      # direct plan structure
-node .claude/skills/vc-generate-phase-program/scripts/validate-umbrella-artifact.mjs <umbrella-plan.md>   # umbrella plan structure
-node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs <phase-plan.md>             # phase stub structure
+node .claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs <plan.md>      # direct plan structure
+node .claude/skills/vb-generate-phase-program/scripts/validate-umbrella-artifact.mjs <umbrella-plan.md>   # umbrella plan structure
+node .claude/skills/vb-generate-phase-program/scripts/validate-phase-stub.mjs <phase-plan.md>             # phase stub structure
 ```
 
 Run `validate-umbrella-artifact.mjs` after creating a new program umbrella plan. Run `validate-phase-stub.mjs` after generating phase stubs. These are not part of the core 5-validator suite but should be run by execute-agents operating within a phase program.
@@ -886,22 +886,22 @@ section; the authoritative detail lives here.
 
 ### Auto-Detection Patterns (summary)
 
-- Feature requests → Step 0 skill discovery → vc-research-agent → SPEC → INNOVATE → PLAN → VALIDATE → EXECUTE
-- Questions → vc-research-agent (non-trivial) or direct answer (trivial conceptual)
-- Trivial fixes → vc-execute-agent directly (no plan required)
-- Bug/debug → vc-debugger as default owner; helper skills like `vc-scout`, `vc-sequential-thinking`, and `vc-problem-solving` may assist
-- UI/frontend → surface vc-frontend-design skill + vc-research-agent
-- Refactor/simplify → vc-code-simplifier (pure style) or RESEARCH→PLAN→EXECUTE (behavioral)
-- Missing context → suggest the `vc-generate-context` skill
+- Feature requests → Step 0 skill discovery → vb-research-agent → SPEC → INNOVATE → PLAN → VALIDATE → EXECUTE
+- Questions → vb-research-agent (non-trivial) or direct answer (trivial conceptual)
+- Trivial fixes → vb-execute-agent directly (no plan required)
+- Bug/debug → vb-debugger as default owner; helper skills like `vb-scout`, `vb-sequential-thinking`, and `vb-problem-solving` may assist
+- UI/frontend → surface vb-frontend-design skill + vb-research-agent
+- Refactor/simplify → vb-code-simplifier (pure style) or RESEARCH→PLAN→EXECUTE (behavioral)
+- Missing context → suggest the `vb-generate-context` skill
 - Existing plan file → scan process/general-plans/active/ and process/features/*/active/ (plans inside `{slug}_{date}/` task subfolders), confirm with user, resume from last phase
 
 **Intent clarification**: Before auto-routing, the orchestrator scores request ambiguity per
-`vc-intent-clarify` (see §Intent Clarification). Clear requests (score 0-1) auto-route silently.
+`vb-intent-clarify` (see §Intent Clarification). Clear requests (score 0-1) auto-route silently.
 Ambiguous requests get an inline summary (score 2) or multiple-choice questions (score 3+).
 
 ### 0. Skill Discovery (Do This First)
 
-Before routing, run `node .claude/skills/vc-context-discovery/scripts/discover-skills.mjs` (reads
+Before routing, run `node .claude/skills/vb-context-discovery/scripts/discover-skills.mjs` (reads
 the generated skills catalog inventory) to list every skill grouped by layer with its
 trigger keywords. Match keywords from the user request to surface relevant skills, and attach
 candidate skill names to the subagent prompt.
@@ -922,51 +922,51 @@ prompt context. Never silently skip relevant skills.
   → Full lane spec: `process/development-protocols/autopilot.md §Lanes`.
 
 - **Feature Request** (keywords: "build", "add", "implement", "create feature")
-  → Route to `vc-research-agent` with relevant context files
+  → Route to `vb-research-agent` with relevant context files
 
 - **Question / Understanding Request**
-  → Non-trivial: route to `vc-research-agent`. Trivial conceptual questions ("What is X?") may be answered directly by the orchestrator.
+  → Non-trivial: route to `vb-research-agent`. Trivial conceptual questions ("What is X?") may be answered directly by the orchestrator.
 
 - **Trivial Fix**
-  → Delegate lightweight quick-fix to `vc-execute-agent` (no plan file required).
+  → Delegate lightweight quick-fix to `vb-execute-agent` (no plan file required).
   **Trivial definition:** Single-file change, no new dependencies, no schema/API/auth changes, under 15 lines, no security surface. Anything else is non-trivial.
 
 - **Quick Fix** (keywords: "quick fix", "hotfix", "small fix", "just patch", or `ENTER QUICK FIX MODE`)
   → Run the QUICK FIX lane (see §QUICK FIX Lane): orchestrator read-only scout → one-line confirm →
-  spawn `vc-quick-fix-agent`. Use for the band *above* trivial (multi-line / known target) but
+  spawn `vb-quick-fix-agent`. Use for the band *above* trivial (multi-line / known target) but
   *below* "needs a plan" — bounded, no schema/auth/API/billing/migration surface. Aborts to RESEARCH
   if the scope guard trips.
 
 - **Missing Context**
-  → Suggest or invoke the `vc-generate-context` skill
+  → Suggest or invoke the `vb-generate-context` skill
 
 - **Bug Fix / Debug Request** (keywords: "fix", "bug", "broken", "debug", "error")
-  → For trivial: delegate to `vc-execute-agent` directly (no plan required)
-  → For complex: Route to `vc-debugger` agent. Surface helper skills like `vc-scout`, `vc-sequential-thinking`, or `vc-problem-solving` when useful.
+  → For trivial: delegate to `vb-execute-agent` directly (no plan required)
+  → For complex: Route to `vb-debugger` agent. Surface helper skills like `vb-scout`, `vb-sequential-thinking`, or `vb-problem-solving` when useful.
 
 - **Existing Plan File Present**
   → Resume from relevant phase, don't recreate plan
 
 - **UI / Frontend Request** (keywords: "page", "component", "design", "layout", "interface", "UI")
-  → Surface `vc-frontend-design` skill alongside `vc-research-agent`. Invoke `vc-ui-ux-designer` agent during EXECUTE phase for implementation.
+  → Surface `vb-frontend-design` skill alongside `vb-research-agent`. Invoke `vb-ui-ux-designer` agent during EXECUTE phase for implementation.
 
 - **Documentation Question** (keywords: "how does X work", "API docs", "syntax", "version")
-  → Activate `vc-docs-seeker` skill before routing to `vc-research-agent`
+  → Activate `vb-docs-seeker` skill before routing to `vb-research-agent`
 
 - **Refactor / Simplify** (keywords: "refactor", "clean up", "simplify", "reorganize")
-  - *Pure style/readability* (named file, no behavior change): route directly to `vc-code-simplifier` agent
-  - *Behavioral or architectural refactor*: full RESEARCH → PLAN → EXECUTE, then `vc-code-simplifier` as cleanup
+  - *Pure style/readability* (named file, no behavior change): route directly to `vb-code-simplifier` agent
+  - *Behavioral or architectural refactor*: full RESEARCH → PLAN → EXECUTE, then `vb-code-simplifier` as cleanup
 
 - **Debug / Root Cause** (keywords: "debug", "why", "root cause", "investigate")
-  → `vc-debugger` agent = default owner. Helper skills like `vc-scout`, `vc-sequential-thinking`, and `vc-problem-solving` may be layered in as needed.
+  → `vb-debugger` agent = default owner. Helper skills like `vb-scout`, `vb-sequential-thinking`, and `vb-problem-solving` may be layered in as needed.
 
 **When multiple intents match** (e.g., UI bug with docs question), use this precedence:
 1. Existing plan file in process/general-plans/active/ or process/features/*/active/ → always resume first
 2. Explicit mode command (ENTER X MODE) → obey immediately
 3. Bug/debug → debugging routing before feature routing
 4. Feature request → RIPER-5 flow
-5. UI specialization → surface vc-frontend-design alongside any of the above
-6. Docs question → surface vc-docs-seeker alongside any of the above
+5. UI specialization → surface vb-frontend-design alongside any of the above
+6. Docs question → surface vb-docs-seeker alongside any of the above
 When still ambiguous, ask the user one clarifying question before routing.
 
 ### 2. Gather Context
@@ -977,10 +977,10 @@ Execute and Tester.
 
 ### 3. Route to Subagent
 
-Route by current phase to the matching agent (understanding → `vc-research-agent`; requirements →
-`vc-spec-agent`; options → `vc-innovate-agent`; plan → `vc-plan-agent`; validate / resume →
-`vc-validate-agent`; implement → `vc-execute-agent`; fast → `vc-fast-mode-agent`; learnings →
-`vc-update-process-agent`). See the RIPER-5 Phase Table in CLAUDE.md for triggers and artifacts.
+Route by current phase to the matching agent (understanding → `vb-research-agent`; requirements →
+`vb-spec-agent`; options → `vb-innovate-agent`; plan → `vb-plan-agent`; validate / resume →
+`vb-validate-agent`; implement → `vb-execute-agent`; fast → `vb-fast-mode-agent`; learnings →
+`vb-update-process-agent`). See the RIPER-5 Phase Table in CLAUDE.md for triggers and artifacts.
 
 ### 4. Monitor Compliance
 

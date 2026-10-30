@@ -22,7 +22,7 @@ fs.mkdirSync(path.join(home, '.claude'), { recursive: true });
 process.env.HOME = home;
 process.env.USERPROFILE = home;
 
-const { loadConfig } = require('../vc-config-utils.cjs');
+const { loadConfig } = require('../vb-config-utils.cjs');
 const { getUsageCachePath } = require('../usage-limits-cache.cjs');
 const { isPrivacyBlockDisabled } = require('../privacy-checker.cjs');
 

@@ -8,7 +8,7 @@ date: 29-10-26
 
 # Planning Context
 
-This file is the canonical planning context entrypoint for vibebelt-kit (repo directory still named `vibecode-pro-max-kit-main`; the `vc-` to `vb-` rename is pending, see `process/context/all-context.md`).
+This file is the canonical planning context entrypoint for vibebelt-kit (repo directory still named `vibecode-pro-max-kit-main`; the `vb-` to `vb-` rename is pending, see `process/context/all-context.md`).
 
 Use it after `process/context/all-context.md` when the task needs plan-shape calibration, planning conventions, or implementation-plan examples.
 
@@ -30,7 +30,7 @@ It does not cover:
 
 Read this entrypoint when:
 
-- creating a new plan with the `vc-generate-plan` skill
+- creating a new plan with the `vb-generate-plan` skill
 - checking whether work should be SIMPLE or COMPLEX
 - resuming or auditing the active rebrand program
 - deciding whether a new plan goes under `process/general-plans/` or a feature folder
@@ -39,9 +39,9 @@ Read this entrypoint when:
 
 | If you need... | Read |
 |---|---|
-| calibration for a one-session plan | `.claude/skills/vc-generate-plan/references/example-simple-prd.md` |
-| calibration for a multi-phase plan | `.claude/skills/vc-generate-plan/references/example-complex-prd.md` |
-| plan-writing procedure | `.claude/skills/vc-generate-plan/references/generate-plan.md` |
+| calibration for a one-session plan | `.claude/skills/vb-generate-plan/references/example-simple-prd.md` |
+| calibration for a multi-phase plan | `.claude/skills/vb-generate-plan/references/example-complex-prd.md` |
+| plan-writing procedure | `.claude/skills/vb-generate-plan/references/generate-plan.md` |
 | naming, folders, archive rules | `process/development-protocols/plan-lifecycle.md` |
 | multi-phase program rules (umbrella plan, 7-step inner loop) | `process/development-protocols/phase-programs.md` |
 | the current program | `process/general-plans/active/vibebelt-rebrand_29-10-26/` |
@@ -54,13 +54,13 @@ Read this entrypoint when:
 
 ## Current Program
 
-`process/general-plans/active/vibebelt-rebrand_29-10-26/` is the only active program: renaming the kit to vibebelt-kit (prefix `vc-` to `vb-` in Phase 6), fixing inconsistencies, slimming agents, de-duplicating docs, and writing vibecoder-facing docs. It has an umbrella plan (`vibebelt-rebrand-umbrella_PLAN_29-10-26.md`), nine phase plans (`phase-00-foundation` ... `phase-08-install-release`), `phase-blast-radius-registry.md`, `results.tsv`, and a `baseline/` folder holding the pre-change validator results. Do not duplicate its content here; read the umbrella plan's `## Current Execution State` for status.
+`process/general-plans/active/vibebelt-rebrand_29-10-26/` is the only active program: renaming the kit to vibebelt-kit (prefix `vb-` to `vb-` in Phase 6), fixing inconsistencies, slimming agents, de-duplicating docs, and writing vibecoder-facing docs. It has an umbrella plan (`vibebelt-rebrand-umbrella_PLAN_29-10-26.md`), nine phase plans (`phase-00-foundation` ... `phase-08-install-release`), `phase-blast-radius-registry.md`, `results.tsv`, and a `baseline/` folder holding the pre-change validator results. Do not duplicate its content here; read the umbrella plan's `## Current Execution State` for status.
 
 ## Source Paths
 
-- `.claude/skills/vc-generate-plan/references/example-simple-prd.md`
-- `.claude/skills/vc-generate-plan/references/example-complex-prd.md`
-- `.claude/skills/vc-generate-plan/references/generate-plan.md`
+- `.claude/skills/vb-generate-plan/references/example-simple-prd.md`
+- `.claude/skills/vb-generate-plan/references/example-complex-prd.md`
+- `.claude/skills/vb-generate-plan/references/generate-plan.md`
 - `process/development-protocols/plan-lifecycle.md`
 - `process/development-protocols/phase-programs.md`
 - `process/general-plans/active/vibebelt-rebrand_29-10-26/`
@@ -69,7 +69,7 @@ Read this entrypoint when:
 
 Update this group when:
 
-- the plan artifact contract changes (`vc-generate-plan` expects different sections or statuses)
+- the plan artifact contract changes (`vb-generate-plan` expects different sections or statuses)
 - the example plan shapes move, split, or become stale
 - the rebrand program finishes (move the program folder to `completed/` and update "Current Program")
 - a feature folder is created (add a row to the routing table)

@@ -3,7 +3,7 @@
 /**
  * resolve-manifest.mjs — Glob-based manifest resolver for vibebelt-kit.
  *
- * Resolves vc-manifest.json include/exclude/kitOnly patterns to a flat file list.
+ * Resolves vb-manifest.json include/exclude/kitOnly patterns to a flat file list.
  * Supports both v2.1+ (glob) and legacy v2.0.x (explicit list) formats.
  *
  * Usage:
@@ -39,7 +39,7 @@ const kitOnlyMode = flag("--kit-only");
 
 // The manifest is read under its current name first; kits released before the
 // prefix rename ship the old name, which is still accepted as a fallback.
-const MANIFEST_NAME = "vc-manifest.json";
+const MANIFEST_NAME = "vb-manifest.json";
 const OLD_MANIFEST_NAME = "vc-manifest.json"; // legacy-vc-fallback (manifest name before the prefix rename)
 const manifestPath = [MANIFEST_NAME, OLD_MANIFEST_NAME]
   .map((name) => path.join(rootDir, name))

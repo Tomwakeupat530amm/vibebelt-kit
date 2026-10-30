@@ -18,19 +18,19 @@ Use this folder for durable, repo-specific operating instructions that must stay
 
 ## Read Order
 
-1. `vc-system-behavior/` — complete system behavior reference, 12-file split (start here: `vc-system-behavior/01-overview.md` is the entrypoint). The former single-file monolith was removed; this split replaces it.
+1. `vb-system-behavior/` — complete system behavior reference, 12-file split (start here: `vb-system-behavior/01-overview.md` is the entrypoint). The former single-file monolith was removed; this split replaces it.
 2. `orchestration.md`
 3. `implementation-standards.md`
 4. `plan-lifecycle.md`
 5. `phase-programs.md`
 6. `context-maintenance.md`
 7. `communication-standards.md`
-8. `vc-autoresearch-spec.md` (optional deep reference — read only when designing or deeply understanding the autoresearch gap-loop primitive)
+8. `vb-autoresearch-spec.md` (optional deep reference — read only when designing or deeply understanding the autoresearch gap-loop primitive)
 9. `autopilot.md` — Autopilot Mode trigger phrases, consolidated clarification, provisional goal block format, mode markers, per-gate decision policy, hard stops, and deactivation rules. Read when: user says autopilot / autonomous mode / /autopilot trigger phrases, or when understanding orchestrator §Autonomy Mode integration.
 
 ## File Roles
 
-- `vc-system-behavior/` (12-file split — canonical live reference; `01-overview.md` entrypoint)
+- `vb-system-behavior/` (12-file split — canonical live reference; `01-overview.md` entrypoint)
   Authoritative end-to-end system behavior reference: every phase, every required skill (with
   REQUIRED vs CONDITIONAL labels), both test loops, /goal block format, phase program inner loop,
   infrastructure gaps (D1/H4/G1/I2), and before/after hardening table. Split into numbered files
@@ -47,8 +47,8 @@ Use this folder for durable, repo-specific operating instructions that must stay
   How `process/context/` is organized, when to create or split groups, how to keep `all-context.md` accurate, and how long-lived knowledge differs from feature plans.
 - `communication-standards.md`
   How agents write human-facing output: answer-first (BLUF), plain language, TL;DR, no filler. Single source of truth for output style; CLAUDE.md, AGENTS.md, prose-producing agents, and report/spec/closeout/clarify skills point here instead of restating it.
-- `vc-autoresearch-spec.md` (optional deep reference; `read_order: 7`, `required: false`)
-  Deeper design reference for the `vc-autoresearch` loop primitive (the find-gaps → fix → repeat bookkeeper wired into PVL and EVL): canonical domain configs, iteration-report frontmatter schema, and TSV log format. The operative contract is `.claude/skills/vc-autoresearch/SKILL.md`; this file is the design rationale behind it.
+- `vb-autoresearch-spec.md` (optional deep reference; `read_order: 7`, `required: false`)
+  Deeper design reference for the `vb-autoresearch` loop primitive (the find-gaps → fix → repeat bookkeeper wired into PVL and EVL): canonical domain configs, iteration-report frontmatter schema, and TSV log format. The operative contract is `.claude/skills/vb-autoresearch/SKILL.md`; this file is the design rationale behind it.
 - `autopilot.md`
   Autopilot Mode protocol: trigger phrase detection, consolidated clarification round (one-round rule),
   provisional goal block format (9 fields, ≤4000 chars, EXECUTE CONSENT required), [MODE: AUTOPILOT | X]
@@ -59,20 +59,20 @@ Use this folder for durable, repo-specific operating instructions that must stay
 - `references/program-goal-charter-template.md`
   Blank and filled Program Goal Charter template for phase-program umbrella plans. Read when building
   an umbrella plan or needing the compressed session-goal block format. Canonical content also mirrored
-  at `.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md`.
+  at `.claude/skills/vb-generate-phase-program/references/program-goal-charter-template.md`.
 
 Note: Protocol procedures for intent clarification, parallel strategy scoring, validate fan-out,
 and closeout are now in the corresponding skills. See `process/context/all-context.md` skill
-registry for skill names (`vc-intent-clarify`, `vc-agent-strategy-compare`, `vc-validate-findings`,
-`vc-generate-closeout`, `vc-risk-evidence-pack`, `vc-generate-phase-program`).
+registry for skill names (`vb-intent-clarify`, `vb-agent-strategy-compare`, `vb-validate-findings`,
+`vb-generate-closeout`, `vb-risk-evidence-pack`, `vb-generate-phase-program`).
 
 ## Maintenance Rules
 
 - Update these files first when shared workflow behavior changes.
 - When `AGENTS.md`, `CLAUDE.md`, agent prompts, hook reminders, or skill guides describe shared repo workflow, they should point here instead of duplicating large blocks.
 - After changing protocol files, re-run the relevant validators and any hook tests that resolve rule paths.
-- **Discovery frontmatter:** every file in this folder (recursive, incl. `vc-system-behavior/`) carries
+- **Discovery frontmatter:** every file in this folder (recursive, incl. `vb-system-behavior/`) carries
   leading YAML frontmatter (`name: protocol:<slug>`, `description`, `date`,
-  `metadata: {node_type, type: protocol, read_order, required, read_when}`) so `vc-context-discovery`
+  `metadata: {node_type, type: protocol, read_order, required, read_when}`) so `vb-context-discovery`
   can route on it. `note.md` is the single intentional exception (raw scratch dump). Enforced by
-  `node .claude/skills/vc-audit-context/scripts/validate-protocol-discovery.mjs` (run via `vc-audit-context`).
+  `node .claude/skills/vb-audit-context/scripts/validate-protocol-discovery.mjs` (run via `vb-audit-context`).

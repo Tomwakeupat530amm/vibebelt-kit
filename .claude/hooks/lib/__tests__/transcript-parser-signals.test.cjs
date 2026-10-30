@@ -1,5 +1,5 @@
 /**
- * Tests for additive signal extraction in transcript-parser.cjs (Phase 2 — vc-runtime-harness).
+ * Tests for additive signal extraction in transcript-parser.cjs (Phase 2 — vb-runtime-harness).
  *
  * Covers fixtures F1–F15 from the phase-02 plan: phaseCompletes (spaced/unspaced, 3 sources,
  * ordering), teamCreates, taskCreates (additive vs legacy todos[]), sendMessages, writes,
@@ -144,11 +144,11 @@ asyncTest('F7: TeamCreate tool_use → teamCreates[0] {team_name, id, index}', a
   const r = await parse([{
     message: {
       role: 'assistant',
-      content: [{ type: 'tool_use', id: 'toolu_y', name: 'TeamCreate', input: { team_name: 'vc-rh-plan' } }]
+      content: [{ type: 'tool_use', id: 'toolu_y', name: 'TeamCreate', input: { team_name: 'vb-rh-plan' } }]
     }
   }]);
   assertEquals(r.teamCreates.length, 1, 'one teamCreate');
-  assertDeepEquals(r.teamCreates[0], { team_name: 'vc-rh-plan', id: 'toolu_y', index: 0 }, 'F7 element');
+  assertDeepEquals(r.teamCreates[0], { team_name: 'vb-rh-plan', id: 'toolu_y', index: 0 }, 'F7 element');
 });
 
 // F7b — TaskCreate tool_use: taskCreates populated AND legacy todos[] still populated
@@ -228,17 +228,17 @@ asyncTest('F11: Task → agentSpawns[0] {subagent_type,id,index} AND legacy agen
       role: 'assistant',
       content: [{
         type: 'tool_use', id: 'toolu_x', name: 'Task',
-        input: { subagent_type: 'vc-research-agent', description: 'research' }
+        input: { subagent_type: 'vb-research-agent', description: 'research' }
       }]
     }
   }]);
   assertEquals(r.agentSpawns.length, 1, 'one agentSpawn');
   assertDeepEquals(r.agentSpawns[0], {
-    subagent_type: 'vc-research-agent', model: null, id: 'toolu_x', index: 0
+    subagent_type: 'vb-research-agent', model: null, id: 'toolu_x', index: 0
   }, 'F11 agentSpawns element');
   // legacy agents[] map view unchanged
   assertEquals(r.agents.length, 1, 'legacy agents[] populated');
-  assertEquals(r.agents[0].type, 'vc-research-agent', 'legacy agents[0].type');
+  assertEquals(r.agents[0].type, 'vb-research-agent', 'legacy agents[0].type');
   assertEquals(r.agents[0].id, 'toolu_x', 'legacy agents[0].id');
 });
 
@@ -252,21 +252,21 @@ asyncTest('F11b: Agent (live tool name) → agentSpawns[0] with model captured',
       role: 'assistant',
       content: [{
         type: 'tool_use', id: 'toolu_ag', name: 'Agent',
-        input: { subagent_type: 'vc-research-agent', model: 'sonnet', description: 'research' }
+        input: { subagent_type: 'vb-research-agent', model: 'sonnet', description: 'research' }
       }]
     }
   }]);
   assertEquals(r.agentSpawns.length, 1, 'one agentSpawn via Agent name');
   assertDeepEquals(r.agentSpawns[0], {
-    subagent_type: 'vc-research-agent', model: 'sonnet', id: 'toolu_ag', index: 0
+    subagent_type: 'vb-research-agent', model: 'sonnet', id: 'toolu_ag', index: 0
   }, 'F11b agentSpawns element (model captured)');
-  assertEquals(r.agents[0].type, 'vc-research-agent', 'F11b legacy agents[0].type');
+  assertEquals(r.agents[0].type, 'vb-research-agent', 'F11b legacy agents[0].type');
 });
 
 // F12 — cross-signal ordering: Task → Write → SendMessage → PHASE_COMPLETE (0,1,2,3)
 asyncTest('F12: cross-signal shared monotonic index sequence 0,1,2,3', async () => {
   const r = await parse([
-    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 't1', name: 'Task', input: { subagent_type: 'vc-plan-agent' } }] } },
+    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 't1', name: 'Task', input: { subagent_type: 'vb-plan-agent' } }] } },
     { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'w1', name: 'Write', input: { file_path: 'a.md' } }] } },
     { message: { role: 'assistant', content: [{ type: 'tool_use', id: 's1', name: 'SendMessage', input: { to: 'x', summary: 'y' } }] } },
     assistantText('PHASE_COMPLETE: EXECUTE')
@@ -281,7 +281,7 @@ asyncTest('F12: cross-signal shared monotonic index sequence 0,1,2,3', async () 
 asyncTest('F13: backward-compat — existing fields intact; new arrays []; no _signalIndex key', async () => {
   const r = await parse([
     { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'b1', name: 'Bash', input: { command: 'ls' } }] } },
-    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'a1', name: 'Task', input: { subagent_type: 'vc-tester' } }] } },
+    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'a1', name: 'Task', input: { subagent_type: 'vb-tester' } }] } },
     { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'tc1', name: 'TaskCreate', input: { subject: 'task one' } }] } }
   ]);
   // existing fields populated as before
@@ -327,7 +327,7 @@ asyncTest('F15: direct processEntry call (bare result) → no throw; clean numer
       role: 'assistant',
       content: [
         { type: 'text', text: 'PHASE_COMPLETE: EXECUTE' },
-        { type: 'tool_use', id: 'd1', name: 'Task', input: { subagent_type: 'vc-execute-agent' } }
+        { type: 'tool_use', id: 'd1', name: 'Task', input: { subagent_type: 'vb-execute-agent' } }
       ]
     }
   }, toolMap, agentMap, latestTodos, result);
@@ -346,12 +346,12 @@ asyncTest('F15: direct processEntry call (bare result) → no throw; clean numer
 //        shared monotonic index across Bash + other signals.
 asyncTest('F16: Bash tool_use → bashCommands[0] {command,id,index} AND tools[] populated', async () => {
   const r = await parse([
-    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'bsh1', name: 'Bash', input: { command: 'node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs' } }] } },
-    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'tsk1', name: 'Task', input: { subagent_type: 'vc-tester' } }] } }
+    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'bsh1', name: 'Bash', input: { command: 'node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs' } }] } },
+    { message: { role: 'assistant', content: [{ type: 'tool_use', id: 'tsk1', name: 'Task', input: { subagent_type: 'vb-tester' } }] } }
   ]);
   assertEquals(r.bashCommands.length, 1, 'one bashCommand');
   assertDeepEquals(r.bashCommands[0], {
-    command: 'node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs', id: 'bsh1', index: 0
+    command: 'node .claude/skills/vb-audit-vc/scripts/validate-skills.mjs', id: 'bsh1', index: 0
   }, 'F16 bashCommands element');
   // legacy tools[] map view still captures Bash
   assertEquals(r.tools.length, 1, 'legacy tools[] populated with Bash');
@@ -387,15 +387,15 @@ asyncTest('F19: "PHASE_SKIPPED: BLOCKED" → token PHASE_SKIPPED, qualifier BLOC
   assertEquals(r.controlTokens[0].raw, 'PHASE_SKIPPED: BLOCKED', 'raw spans qualifier');
 });
 
-// F20 — controlTokens: hyphenated VC-PREDICT tokens match whole
-asyncTest('F20: VC-PREDICT-DEEP-NEEDED + VC-PREDICT-RESEARCH-COMPLETE both captured', async () => {
+// F20 — controlTokens: hyphenated VB-PREDICT tokens match whole
+asyncTest('F20: VB-PREDICT-DEEP-NEEDED + VB-PREDICT-RESEARCH-COMPLETE both captured', async () => {
   const r = await parse([
-    assistantText('VC-PREDICT-DEEP-NEEDED: auth surface — pausing'),
-    assistantText('VC-PREDICT-RESEARCH-COMPLETE: auth surface — findings ready')
+    assistantText('VB-PREDICT-DEEP-NEEDED: auth surface — pausing'),
+    assistantText('VB-PREDICT-RESEARCH-COMPLETE: auth surface — findings ready')
   ]);
   assertEquals(r.controlTokens.length, 2, 'two controlTokens');
-  assertEquals(r.controlTokens[0].token, 'VC-PREDICT-DEEP-NEEDED', 'first hyphen token');
-  assertEquals(r.controlTokens[1].token, 'VC-PREDICT-RESEARCH-COMPLETE', 'second hyphen token');
+  assertEquals(r.controlTokens[0].token, 'VB-PREDICT-DEEP-NEEDED', 'first hyphen token');
+  assertEquals(r.controlTokens[1].token, 'VB-PREDICT-RESEARCH-COMPLETE', 'second hyphen token');
 });
 
 // F21 — controlTokens from tool_result source, shared monotonic index with phaseCompletes

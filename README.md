@@ -40,7 +40,7 @@
 <td valign="top"><strong>🔁 PVL + EVL self-healing loops</strong><br>Plan-check-fix and test-check-fix loops find gaps, fix them, and re-check on their own — up to 10 cycles each.</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>A reusable find-gaps → fix → repeat loop you can point at plans, tests, specs, docs, or evals.</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>A reusable find-gaps → fix → repeat loop you can point at plans, tests, specs, docs, or evals.</td>
 <td valign="top"><strong>🧪 Feasibility probes</strong><br>Test-before-you-build verdicts (VIABLE / NOT-VIABLE) before the agent commits to any design approach.</td>
 </tr>
 <tr>
@@ -103,7 +103,7 @@
   Ruby · Rails · Go · Rust · Java · Spring · Kotlin · Swift · PHP · Laravel · C# · .NET · Elixir · GraphQL · Prisma<br>
   Supabase · Firebase · PostgreSQL · MongoDB · Redis · Docker · Kubernetes · AWS · Google Cloud · Azure · Vercel · Cloudflare · Tailwind CSS · Electron
   <br>
-  <p><em>Not just for show. When you run <code>vc-setup</code>, agents scan your codebase,<br>
+  <p><em>Not just for show. When you run <code>vb-setup</code>, agents scan your codebase,<br>
   detect your stack, and build project-specific knowledge groups that every skill reads before it works.<br>
   Other harnesses lock agents to one language — <code>rust-review-agent</code>, <code>python-linter</code> — useless elsewhere.<br>
   This one adapts to any combination above and builds up knowledge as you ship.</em></p>
@@ -117,7 +117,7 @@
 
 > **Prerequisites:** Node.js ≥ 22, git, bash (macOS / Linux / WSL / **Git Bash**; on Alpine: `apk add bash`).
 >
-> **Windows:** the installer is a bash script — run it inside **Git Bash** (ships with [Git for Windows](https://git-scm.com/download/win)) or **WSL**, *not* PowerShell or `cmd.exe`. Both work out of the box: the installer detects Windows shells and, when symlinks aren't permitted, automatically falls back to copying (install still completes). For true symlinks (so Codex auto-reflects `vc-update` changes), [enable Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development).
+> **Windows:** the installer is a bash script — run it inside **Git Bash** (ships with [Git for Windows](https://git-scm.com/download/win)) or **WSL**, *not* PowerShell or `cmd.exe`. Both work out of the box: the installer detects Windows shells and, when symlinks aren't permitted, automatically falls back to copying (install still completes). For true symlinks (so Codex auto-reflects `vb-update` changes), [enable Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development).
 
 **There is only one command, and it works for everyone.** Run it inside your project folder. It detects whether you are a new or returning user, installs safely without overwriting your files, and then *tells you the exact next thing to say.*
 
@@ -133,26 +133,26 @@ When it finishes, it prints one of two messages — **read the bottom of the out
 <h3>🆕 Fresh project</h3>
 Installer detects no harness and prints:
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ Open your agent and say <code>Run vc-setup</code></strong>
+<strong>→ Open your agent and say <code>Run vb-setup</code></strong>
 <br><br>
-<sub>vc-setup detects your tech stack, creates the <code>process/</code> folder, scans your codebase, and fills in your <em>real</em> architecture, conventions, and test commands — a conversation, not a checklist.</sub>
+<sub>vb-setup detects your tech stack, creates the <code>process/</code> folder, scans your codebase, and fills in your <em>real</em> architecture, conventions, and test commands — a conversation, not a checklist.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 Existing harness (upgrade)</h3>
 Installer detects a prior install and prints:
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ Open your agent and say <code>Run vc-update</code></strong>
+<strong>→ Open your agent and say <code>Run vb-update</code></strong>
 <br><br>
-<sub>vc-update pulls the latest version and, if it finds old-format plans or folders, gives you a ready-to-paste prompt to finish the move with <strong>zero data loss</strong>. Your <code>process/</code> is never touched.</sub>
+<sub>vb-update pulls the latest version and, if it finds old-format plans or folders, gives you a ready-to-paste prompt to finish the move with <strong>zero data loss</strong>. Your <code>process/</code> is never touched.</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **You never have to guess the command.** `install.sh` routes you: fresh → `vc-setup`, upgrade → `vc-update`. Re-running install is always safe — it never breaks things. **Codex users:** run `/vc-setup` (or `/vc-update`) instead of saying it in chat.
+> 💡 **You never have to guess the command.** `install.sh` routes you: fresh → `vb-setup`, upgrade → `vb-update`. Re-running install is always safe — it never breaks things. **Codex users:** run `/vb-setup` (or `/vb-update`) instead of saying it in chat.
 
 <br>
 
@@ -173,15 +173,15 @@ your-project/
 ├── AGENTS.md                # 📖 Agent + skill registry (cross-tool)
 └── process/
     └── development-protocols/  # 📜 22 shared workflow docs (seeded by install)
-                                #    context/, plans, features → built by vc-setup
+                                #    context/, plans, features → built by vb-setup
 ```
 
 - **Non-destructive.** Your existing `.claude/skills/`, `.claude/agents/`, `process/`, and `settings.json` are never wiped. Only kit-owned files are written or updated.
 - **Existing config?** Backed up to `.vibecode-backup/`; your `settings.json` is restored afterward.
 - **Existing `CLAUDE.md`?** Backed up as `CLAUDE.md.pre-vibecode`.
-- **Existing `process/`?** Never touched by install — `vc-setup` / `vc-update` migrate it interactively, showing you the diff first.
+- **Existing `process/`?** Never touched by install — `vb-setup` / `vb-update` migrate it interactively, showing you the diff first.
 
-> **One-time first-install caveat:** if you have custom skills/agents whose names start with `vc-` (the reserved kit namespace) and have *never* run install before, the stale-removal step may flag them. After install, run `ls .claude/skills/ .claude/agents/` to confirm. Use a non-`vc-` prefix (`my-`, `team-`, `proj-`) for your own additions to avoid this entirely.
+> **One-time first-install caveat:** if you have custom skills/agents whose names start with `vb-` (the reserved kit namespace) and have *never* run install before, the stale-removal step may flag them. After install, run `ls .claude/skills/ .claude/agents/` to confirm. Use a non-`vb-` prefix (`my-`, `team-`, `proj-`) for your own additions to avoid this entirely.
 
 </details>
 
@@ -197,7 +197,7 @@ First, install the vibebelt-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -252,7 +252,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>Autopilot</strong><br><sub>3 lanes (quick / fast / full) — start at any phase, runs start to finish without stopping</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>/goal blocks</strong><br><sub>Short copy-pasteable texts that resume hands-free runs across sessions after a reset</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>Find-gaps → fix → repeat loop (shared tool for plans, tests, and evals)</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>Find-gaps → fix → repeat loop (shared tool for plans, tests, and evals)</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>Feasibility probes</strong><br><sub>Test-before-you-build verdicts (VIABLE / NOT-VIABLE) before locking in a design</sub></td>
 </tr>
 </table>
@@ -470,7 +470,7 @@ The coordinator routes, monitors, and drives loops — it <strong>never edits so
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>Automatic Skill Discovery</strong><br><br>
-Before handling any request, it scans <strong>33 skills</strong> and matches keywords. Say "add webhook support" and <code>vc-security</code> + <code>vc-scenario</code> are pulled in automatically.
+Before handling any request, it scans <strong>33 skills</strong> and matches keywords. Say "add webhook support" and <code>vb-security</code> + <code>vb-scenario</code> are pulled in automatically.
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -511,12 +511,12 @@ Your request
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>It delegates, never implements</strong><br><br>
-Research → <code>vc-research-agent</code>. Plan → <code>vc-plan-agent</code>. Code → <code>vc-execute-agent</code>. The coordinator hands off the right context and waits — it never does the actual work itself.
+Research → <code>vb-research-agent</code>. Plan → <code>vb-plan-agent</code>. Code → <code>vb-execute-agent</code>. The coordinator hands off the right context and waits — it never does the actual work itself.
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>No hidden execution — ever</strong><br><br>
-The moment a plan with an agreed checklist exists, "ENTER EXECUTE MODE" <strong>always</strong> launches <code>vc-execute-agent</code>. Even a one-line fix goes through it. Tests run only inside a dedicated <code>vc-tester</code>. This holds regardless of change size.
+The moment a plan with an agreed checklist exists, "ENTER EXECUTE MODE" <strong>always</strong> launches <code>vb-execute-agent</code>. Even a one-line fix goes through it. Tests run only inside a dedicated <code>vb-tester</code>. This holds regardless of change size.
 </td>
 </tr>
 <tr>
@@ -539,12 +539,12 @@ flowchart TD
     REQ["User request"]
     SD["Step 0: Skill Discovery\nscan 33 skills, match keywords"]
     INT{"Detect intent\n+ score ambiguity"}
-    RES["vc-research-agent\n(feature / question)"]
-    PLN["vc-plan-agent\n(after INNOVATE)"]
-    VAL["vc-validate-agent\n(PVL loop)"]
-    EXE["vc-execute-agent\n(EXECUTE)"]
-    TST["vc-tester\n(EVL loop)"]
-    UPD["vc-update-process-agent\n(closeout)"]
+    RES["vb-research-agent\n(feature / question)"]
+    PLN["vb-plan-agent\n(after INNOVATE)"]
+    VAL["vb-validate-agent\n(PVL loop)"]
+    EXE["vb-execute-agent\n(EXECUTE)"]
+    TST["vb-tester\n(EVL loop)"]
+    UPD["vb-update-process-agent\n(closeout)"]
     MON["Monitor\nstatus codes · loop driving\nno inline execution ever"]
 
     REQ --> SD --> INT
@@ -580,13 +580,13 @@ flowchart TD
 
 | Phase | What happens | Agent | You say |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | Read-only fact gathering — codebase + web. Never modifies files. | `vc-research-agent` | *(auto on feature requests)* |
-| 📝 **SPEC** | Product-discovery requirements doc — user stories, acceptance criteria, out-of-scope — for **your review before any design**. | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | Explore 2-3 approaches with trade-offs. Decision summary (chosen + rejected + why). | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | Write the detailed spec: touchpoints, public contracts, which files it can touch, verification evidence, resume handoff. | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | Turn the plan into an agreed checklist (V1–V7 checkpoints). Verdict: **PASS / CONDITIONAL / BLOCKED**. Runs the PVL loop. | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | Implement *exactly* the plan. Progress notes to the phase report, deviation protocol, self-review. Then the EVL loop re-runs the checkpoints. | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | Capture learnings, update context, archive plan, write closeout packet. | `vc-update-process-agent` | *(recommended after non-trivial work)* |
+| 🔍 **RESEARCH** | Read-only fact gathering — codebase + web. Never modifies files. | `vb-research-agent` | *(auto on feature requests)* |
+| 📝 **SPEC** | Product-discovery requirements doc — user stories, acceptance criteria, out-of-scope — for **your review before any design**. | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | Explore 2-3 approaches with trade-offs. Decision summary (chosen + rejected + why). | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | Write the detailed spec: touchpoints, public contracts, which files it can touch, verification evidence, resume handoff. | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | Turn the plan into an agreed checklist (V1–V7 checkpoints). Verdict: **PASS / CONDITIONAL / BLOCKED**. Runs the PVL loop. | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | Implement *exactly* the plan. Progress notes to the phase report, deviation protocol, self-review. Then the EVL loop re-runs the checkpoints. | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | Capture learnings, update context, archive plan, write closeout packet. | `vb-update-process-agent` | *(recommended after non-trivial work)* |
 
 > 📝 **Why SPEC is its own phase:** most harnesses jump from "understand" to "design." Inserting a product-discovery SPEC step means *you* (or your PM) sign off on **what** is being built — in plain user stories and acceptance criteria — *before* the agent debates **how**. It is the cheapest possible place to catch a misunderstanding. (Inside a phase program's inner loop, SPEC is skipped — the umbrella SPEC governs all phases.)
 >
@@ -614,7 +614,7 @@ flowchart TD
 ```
 # 🆕 Feature request
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -627,7 +627,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 Bug fix
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -680,7 +680,7 @@ flowchart TD
     ROUTE["Route to matching agent\n(research / plan / execute / …)"]
     STILL{"still unclear\nafter Tier 2?"}
     FINAL["One final plain question\n(max 2 clarification rounds)"]
-    NARROW["Default: vc-research-agent\nnarrowest reasonable scope"]
+    NARROW["Default: vb-research-agent\nnarrowest reasonable scope"]
 
     REQ --> AUTO
     AUTO -->|"auto-skip matches"| T0
@@ -748,24 +748,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL — Plan-Validate-Fix</h3>
-Before EXECUTE, <code>vc-validate-agent</code> runs the plan through <strong>V1–V7 checkpoints</strong> — splitting the work across several agents to cover infra, test coverage, breaking changes, security, and per-section feasibility. A first-pass <strong>CONDITIONAL</strong> or <strong>BLOCKED</strong> is never the end — it routes back to <code>vc-plan-agent</code> to update the plan, then re-checks from V1.
+Before EXECUTE, <code>vb-validate-agent</code> runs the plan through <strong>V1–V7 checkpoints</strong> — splitting the work across several agents to cover infra, test coverage, breaking changes, security, and per-section feasibility. A first-pass <strong>CONDITIONAL</strong> or <strong>BLOCKED</strong> is never the end — it routes back to <code>vb-plan-agent</code> to update the plan, then re-checks from V1.
 <br><br>
-<sub>Tracked by <code>vc-autoresearch</code> (domain: plan) — a find-gaps-and-fix loop. 10-cycle cap. Plateau detection. Only <strong>Gate: PASS</strong> (or a CONDITIONAL you explicitly accept) unlocks EXECUTE.</sub>
+<sub>Tracked by <code>vb-autoresearch</code> (domain: plan) — a find-gaps-and-fix loop. 10-cycle cap. Plateau detection. Only <strong>Gate: PASS</strong> (or a CONDITIONAL you explicitly accept) unlocks EXECUTE.</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL — Execute-Validate-Fix</h3>
-After EXECUTE reports done — <strong>even when it claims all checkpoints are green</strong> — the lead agent <strong>always</strong> spawns <code>vc-tester</code> to independently re-run the exact agreed-checklist test commands. A failing checkpoint routes to a scoped <code>vc-execute-agent</code> fix, then re-tests.
+After EXECUTE reports done — <strong>even when it claims all checkpoints are green</strong> — the lead agent <strong>always</strong> spawns <code>vb-tester</code> to independently re-run the exact agreed-checklist test commands. A failing checkpoint routes to a scoped <code>vb-execute-agent</code> fix, then re-tests.
 <br><br>
-<sub>Tracked by <code>vc-autoresearch</code> (domain: tests). 10-cycle cap. The execute-agent's own internal "iterate until green" loop <strong>never</strong> substitutes for this independent confirmation.</sub>
+<sub>Tracked by <code>vb-autoresearch</code> (domain: tests). 10-cycle cap. The execute-agent's own internal "iterate until green" loop <strong>never</strong> substitutes for this independent confirmation.</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **The verdict ladder:** **PASS** → proceed · **CONDITIONAL** → fixable gaps; the loop fires (or you accept them on record) · **BLOCKED** → a deeper problem; returns to PLAN (under autopilot: the gap goes to a backlog and the run continues).
 
-### 🔁 vc-autoresearch — Shared Loop Engine
+### 🔁 vb-autoresearch — Shared Loop Engine
 
-Both PVL and EVL use the same tracking layer: **`vc-autoresearch`** — a find-gaps → fix → repeat loop. The lead agent drives the loop — it owns the round counter, per-round reports, TSV log, and plateau/cap/regression checks. Worker agents are fire-and-forget: they return a result and stop. No agent re-spawns itself or spawns another phase agent.
+Both PVL and EVL use the same tracking layer: **`vb-autoresearch`** — a find-gaps → fix → repeat loop. The lead agent drives the loop — it owns the round counter, per-round reports, TSV log, and plateau/cap/regression checks. Worker agents are fire-and-forget: they return a result and stop. No agent re-spawns itself or spawns another phase agent.
 
 The same engine can run on its own: "harden this spec", "fix all lint", "improve test coverage", "improve these docs" — any repeated find-gaps-and-fix task across 6 domains (spec · tests · ux · docs · plan · errors).
 
@@ -801,10 +801,10 @@ flowchart TD
 
 | Mode | Does | Stops when |
 |---|---|---|
-| `vc-autoresearch` (core) | find gaps → fix → repeat | no gaps found OR metric goal hit |
-| `vc-autoresearch:probe` | 8 personas interrogate the corpus until saturation | no new constraints for 3 rounds |
-| `vc-autoresearch:reason` | adversarial debate with blind judges | judges converge or iteration cap |
-| `vc-autoresearch:evals` | analyze TSV results — trends, plateaus, recommendations | analysis only |
+| `vb-autoresearch` (core) | find gaps → fix → repeat | no gaps found OR metric goal hit |
+| `vb-autoresearch:probe` | 8 personas interrogate the corpus until saturation | no new constraints for 3 rounds |
+| `vb-autoresearch:reason` | adversarial debate with blind judges | judges converge or iteration cap |
+| `vb-autoresearch:evals` | analyze TSV results — trends, plateaus, recommendations | analysis only |
 
 **Stop conditions:** SUCCESS (all-clear two rounds in a row) · HALT_PLATEAU (no progress for 3 rounds) · HALT_CAP (10-round hard limit) · HALT_REGRESSION (a check that was passing now fails).
 
@@ -812,7 +812,7 @@ flowchart TD
 
 ## 👥 Strategy Compare + Model Policy
 
-At **every phase transition**, the lead agent invokes `vc-agent-strategy-compare` to recommend *how* to run the next phase — with cost estimates.
+At **every phase transition**, the lead agent invokes `vb-agent-strategy-compare` to recommend *how* to run the next phase — with cost estimates.
 
 | Strategy | When | Coordination |
 |---|---|---|
@@ -824,7 +824,7 @@ At **every phase transition**, the lead agent invokes `vc-agent-strategy-compare
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n(every phase transition)"]
+    SS["vb-agent-strategy-compare\n(every phase transition)"]
     SC{"signal score\n0–7"}
     SEQ["Sequential\none agent at a time\n(output feeds next)"]
     PAR["Parallel subagents\nfire-and-forget\n(independent dimensions)"]
@@ -934,7 +934,7 @@ You: "autopilot full: add team invitations with email + role management"
 Say `autopilot full: [task]` — or paste a `/goal` block — and the following all happen with **zero human input**:
 
 - **Plan-check-and-fix loop** — finds gaps in the plan, fixes them, and re-checks. Up to 10 rounds on its own.
-- **Build-test-and-fix loop** — writes code, runs tests, fixes failures, re-runs. Up to 10 rounds on its own. It never trusts its own "all green" — a separate checker (vc-tester) independently re-runs every test to confirm.
+- **Build-test-and-fix loop** — writes code, runs tests, fixes failures, re-runs. Up to 10 rounds on its own. It never trusts its own "all green" — a separate checker (vb-tester) independently re-runs every test to confirm.
 - **Phase-to-phase advancement** — moves from research to plan to code to done without waiting for you.
 - **Picks up after a memory reset** — plans, reports, and progress all live as files on disk. After compaction (when the AI's short-term memory clears), the next session reads those files and continues exactly where it left off.
 - **Stuck feature? Set it aside, keep going** — if one phase can't be resolved, the agent writes a backlog note and moves on to the next feature. You can run many features in parallel without one blocker stopping everything.
@@ -973,7 +973,7 @@ Validated by `validate-autopilot-goal-block.mjs`.
 
 ### 🔬 Feasibility probes — test the assumption before building on it
 
-When SPEC, INNOVATE, or VALIDATE hits a key assumption it cannot confirm by reading alone, it emits `VC-FEASIBILITY-PROBE-NEEDED` and stops. The lead agent spawns `vc-debugger` to run a real test and write a **VERDICT**:
+When SPEC, INNOVATE, or VALIDATE hits a key assumption it cannot confirm by reading alone, it emits `VB-FEASIBILITY-PROBE-NEEDED` and stops. The lead agent spawns `vb-debugger` to run a real test and write a **VERDICT**:
 
 | Verdict | Meaning |
 |---|---|
@@ -989,10 +989,10 @@ The kit ships **38 validator scripts** that turn "did the agent follow the rules
 
 | Validator family | Checks |
 |---|---|
-| `vc-audit-vc` | Agent parity (Claude/Codex), skill registry, kit portability, agent frontmatter |
-| `vc-audit-context` | Context routing, discovery frontmatter, skill keywords |
-| `vc-audit-plans` | Plan inventory, umbrella state, phase completeness, phase reports, backlog notes |
-| 14 VC-system behavior validators | Each owns a pass/fail fixture pair — strategy-compare output, closeout, intent-clarify, feasibility verdict, autoresearch log, and more |
+| `vb-audit-vc` | Agent parity (Claude/Codex), skill registry, kit portability, agent frontmatter |
+| `vb-audit-context` | Context routing, discovery frontmatter, skill keywords |
+| `vb-audit-plans` | Plan inventory, umbrella state, phase completeness, phase reports, backlog notes |
+| 14 VB-system behavior validators | Each owns a pass/fail fixture pair — strategy-compare output, closeout, intent-clarify, feasibility verdict, autoresearch log, and more |
 
 ---
 
@@ -1049,24 +1049,24 @@ Before a single line of code is written, three specialist skills can catch issue
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>5-Persona Debate — <code>vc-predict</code></strong><br><br>
+<strong>5-Persona Debate — <code>vb-predict</code></strong><br><br>
 Architect, Security, Performance, UX, and Devil's Advocate debate your plan. Produces a <strong>GO / CAUTION / STOP</strong> verdict before you write a line.
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>12-Dimension Edge Cases — <code>vc-scenario</code></strong><br><br>
+<strong>12-Dimension Edge Cases — <code>vb-scenario</code></strong><br><br>
 Decomposes a feature across 12 dimensions (user types, input extremes, timing, scale, state, env, errors, auth, data, integrations, compliance, business logic). Output doubles as test specs.
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>STRIDE + OWASP Audit — <code>vc-security</code></strong><br><br>
+<strong>STRIDE + OWASP Audit — <code>vb-security</code></strong><br><br>
 Dual-methodology security audit with dependency auditing, secret detection, and an <strong>auto-fix mode</strong> that sorts by severity and fixes Critical first with regression guards.
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>Evidence-First Debugging — <code>vc-debugger</code></strong><br><br>
+<strong>Evidence-First Debugging — <code>vb-debugger</code></strong><br><br>
 Gathers evidence → forms 2-3 competing hypotheses → tests each → documents the elimination path. <strong>Never guesses — proves.</strong>
 </td>
 </tr>
@@ -1076,7 +1076,7 @@ Gathers evidence → forms 2-3 competing hypotheses → tests each → documents
 
 ## ✅ Quality Pipeline — Built Into Execution
 
-**Tests first, then code.** The agreed checklist (written before any code is touched) defines the exact tests that must pass. The execute-agent writes code until those tests go green. Then a separate checker — `vc-tester` — re-runs every test on its own to confirm. The execute-agent's own "all green" is never taken at face value. At the very end, the reviewer checks that the whole project still works together, not just the new piece.
+**Tests first, then code.** The agreed checklist (written before any code is touched) defines the exact tests that must pass. The execute-agent writes code until those tests go green. Then a separate checker — `vb-tester` — re-runs every test on its own to confirm. The execute-agent's own "all green" is never taken at face value. At the very end, the reviewer checks that the whole project still works together, not just the new piece.
 
 The execute-agent does not just write code and call it done. It moves through a **quality pipeline** automatically:
 
@@ -1167,7 +1167,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent creates task folder\nprocess/general-plans/active/{slug}_{date}/\nOR features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— plan file\n— Validate Contract appended here"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— optional references"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— per PVL/EVL cycle report"]
@@ -1197,7 +1197,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> Every plan carries: 📍 **touchpoints** (files created/modified) · 📜 **public contracts** · 💥 **which files it can touch** (what could break, what to test) · ✅ **verification evidence** · 🔄 **resume handoff**. `vc-plan-discovery` finds the right plan to resume; the `post-write-plan-check` hook checks plan structure on every plan write.
+> Every plan carries: 📍 **touchpoints** (files created/modified) · 📜 **public contracts** · 💥 **which files it can touch** (what could break, what to test) · ✅ **verification evidence** · 🔄 **resume handoff**. `vb-plan-discovery` finds the right plan to resume; the `post-write-plan-check` hook checks plan structure on every plan write.
 
 ---
 
@@ -1329,11 +1329,11 @@ process/context/
 |---|---|
 | 🧭 **Router pattern** | Agents read only what is relevant to their task |
 | 📏 **Auto-promotion** | Topics with 3+ docs (or a single file that gets too large) get their own group |
-| 🔄 **Always current** | Updated by `vc-update-process-agent` after every non-trivial feature |
-| 🧪 **Auditable** | `vc-audit-context` checks routing, discovery frontmatter, and consistency |
+| 🔄 **Always current** | Updated by `vb-update-process-agent` after every non-trivial feature |
+| 🧪 **Auditable** | `vb-audit-context` checks routing, discovery frontmatter, and consistency |
 | 📨 **Context Envelope** | Every inner-loop agent emits a 10-field note at start (feature → phase → session-goal → branch → worktree → context-group → blast-radius-packages → active-plan → test-runner → validate-contract) so a fresh worker agent knows exactly where it stands |
 
-> The kit ships only the protocol seed — your context groups are **built for your project** by `vc-setup`, scanning your real code. They are a pattern, not a fixed list.
+> The kit ships only the protocol seed — your context groups are **built for your project** by `vb-setup`, scanning your real code. They are a pattern, not a fixed list.
 
 ---
 
@@ -1371,12 +1371,12 @@ Own a phase or role. Live in <code>.claude/agents/</code> — these are the 15 a
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Contract skills (20)</strong><br><br>
-Each one produces a specific file or agreed output — <code>vc-generate-plan</code>, <code>vc-validate-findings</code>, <code>vc-autopilot</code>, the audits. Results can be checked.
+Each one produces a specific file or agreed output — <code>vb-generate-plan</code>, <code>vb-validate-findings</code>, <code>vb-autopilot</code>, the audits. Results can be checked.
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Helper skills (13)</strong><br><br>
-Improve <em>how</em> agents work, produce no file of their own — <code>vc-scout</code>, <code>vc-sequential-thinking</code>, <code>vc-problem-solving</code>, <code>vc-docs-seeker</code>.
+Improve <em>how</em> agents work, produce no file of their own — <code>vb-scout</code>, <code>vb-sequential-thinking</code>, <code>vb-problem-solving</code>, <code>vb-docs-seeker</code>.
 </td>
 </tr>
 </table>
@@ -1397,7 +1397,7 @@ Six months and many memory resets later, the agent still knows *why* your auth w
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["Feature ships\n(EXECUTE + EVL complete)"]
-    UP["UPDATE PROCESS phase\nvc-update-process-agent"]
+    UP["UPDATE PROCESS phase\nvb-update-process-agent"]
     CTX["process/context/ updated\nsmallest relevant file\n+ all-context.md router"]
     AGENT["Next agent spawned\nreads context router\n→ routes to correct group file"]
     BETTER["Better next feature\nno re-discovery, no stale patterns"]
@@ -1415,7 +1415,7 @@ flowchart TD
 
 `process/context/` holds structured knowledge organized into topic groups — architecture decisions, coding conventions, deployment steps, test patterns, infrastructure facts. Unlike a chat history, this knowledge:
 
-- **travels into every worker agent** — `vc-context-discovery` routes each spawned agent to the right `all-{group}.md` router for its task, then to the smallest relevant deep file. A research agent, a plan agent, and a coding agent all start with the same shared understanding
+- **travels into every worker agent** — `vb-context-discovery` routes each spawned agent to the right `all-{group}.md` router for its task, then to the smallest relevant deep file. A research agent, a plan agent, and a coding agent all start with the same shared understanding
 - **survives a memory reset** — it is on disk, not in a context window; a squeezed session loses none of it
 - **is readable by both Claude and Codex** — `.agents/skills` is a shortcut link to `.claude/skills/`, so the same context system serves both agents without duplication
 
@@ -1436,14 +1436,14 @@ process/context/
 
 The phrase "living docs" usually means "docs we intend to keep up to date but mostly forget." This system enforces the intention mechanically.
 
-**The UPDATE PROCESS phase requires a per-file context review before it can close.** `vc-update-process-agent` cannot finish a phase until every potentially-affected context file has been reviewed with a concrete reason per file. "No updates needed" is allowed — but it must name each reviewed file and explain why. Vague reasons are rejected. The checkpoint is binary: record the review, or the phase does not close.
+**The UPDATE PROCESS phase requires a per-file context review before it can close.** `vb-update-process-agent` cannot finish a phase until every potentially-affected context file has been reviewed with a concrete reason per file. "No updates needed" is allowed — but it must name each reviewed file and explain why. Vague reasons are rejected. The checkpoint is binary: record the review, or the phase does not close.
 
 The full feedback loop per completed feature:
 
 | Step | Owner | What happens |
 |------|-------|-------------|
-| 1. Git diff analysis | `vc-scout` | Maps changed files → affected context areas |
-| 2. Per-file review | `vc-update-process-agent` | Names each context file, states the update or an explicit "no change + reason" |
+| 1. Git diff analysis | `vb-scout` | Maps changed files → affected context areas |
+| 2. Per-file review | `vb-update-process-agent` | Names each context file, states the update or an explicit "no change + reason" |
 | 3. Updates applied | parallel worker agents | Each area's context file is updated with new patterns, decisions, learnings |
 | 4. Routing verified | `validate-context-discovery.mjs` | Confirms every doc is indexed and routers are consistent |
 | 5. Discovery confirmed | `validate-all-context.mjs` | Confirms `all-context.md` and group routers match the current files on disk |
@@ -1479,7 +1479,7 @@ These run like automated checks — a stale or orphaned doc fails. The system po
 
 Groups are created automatically when a topic reaches 3+ docs or a single file goes past ~800 lines. Agents follow routers and never hard-code paths — so adding a new group (e.g. `process/context/billing/all-billing.md`) requires only a router update, not changes to every agent that mentions billing. The router is the stable reference; the files behind it can reorganize freely.
 
-> The kit seeds context groups from your real codebase (via `vc-setup`). The groups are not a fixed list — they are a pattern. Your auth area, your infra area, your payments area each become first-class routable knowledge as the project grows.
+> The kit seeds context groups from your real codebase (via `vb-setup`). The groups are not a fixed list — they are a pattern. Your auth area, your infra area, your payments area each become first-class routable knowledge as the project grows.
 
 ---
 
@@ -1498,15 +1498,15 @@ Groups are created automatically when a topic reaches 3+ docs or a single file g
 
 | Agent | Model | Role |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | Codebase + web research, read-only. Contradiction tracking built in |
-| 📝 `vc-spec-agent` | sonnet | Product-discovery requirements doc before INNOVATE. Produces `*_SPEC_*.md` |
-| 💡 `vc-innovate-agent` | sonnet | Compare 2-3 approaches. Decision summary (chosen + rejected) before PLAN |
-| 📋 `vc-plan-agent` | **opus** | Write the plan with anti-shortcut guards. "I already know how" is not a plan |
-| ✅ `vc-validate-agent` | **opus** | Turn plan → agreed checklist (V1–V7). Checkpoint: PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | Implement per plan. Progress notes to phase report, deviation protocol, self-review |
-| ⏩ `vc-fast-mode-agent` | **opus** | Compressed R→S→I→P→V with a required safety pause before EXECUTE |
-| 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX lane: one small low-risk edit + scoped check, no plan/validate |
-| 🧠 `vc-update-process-agent` | sonnet | 7-phase closeout: archive, update context, stale-artifact scan, learnings |
+| 🔍 `vb-research-agent` | **opus** | Codebase + web research, read-only. Contradiction tracking built in |
+| 📝 `vb-spec-agent` | sonnet | Product-discovery requirements doc before INNOVATE. Produces `*_SPEC_*.md` |
+| 💡 `vb-innovate-agent` | sonnet | Compare 2-3 approaches. Decision summary (chosen + rejected) before PLAN |
+| 📋 `vb-plan-agent` | **opus** | Write the plan with anti-shortcut guards. "I already know how" is not a plan |
+| ✅ `vb-validate-agent` | **opus** | Turn plan → agreed checklist (V1–V7). Checkpoint: PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | Implement per plan. Progress notes to phase report, deviation protocol, self-review |
+| ⏩ `vb-fast-mode-agent` | **opus** | Compressed R→S→I→P→V with a required safety pause before EXECUTE |
+| 🔧 `vb-quick-fix-agent` | **opus** | QUICK FIX lane: one small low-risk edit + scoped check, no plan/validate |
+| 🧠 `vb-update-process-agent` | sonnet | 7-phase closeout: archive, update context, stale-artifact scan, learnings |
 
 <br>
 
@@ -1514,12 +1514,12 @@ Groups are created automatically when a topic reaches 3+ docs or a single file g
 
 | Agent | Role |
 |-------|------|
-| 🐛 `vc-debugger` | Gathers evidence before forming a hypothesis. Competing hypotheses, elimination chains, feasibility probes |
-| 🧪 `vc-tester` | Change-aware. Re-runs agreed-checklist tests (EVL). Auto-escalates on config changes |
-| 🔎 `vc-code-reviewer` | Sends an edge-case scout BEFORE review. N+1 detection, auth-path checking |
-| ✨ `vc-code-simplifier` | Tidies code for clarity without changing behavior |
-| 🎨 `vc-ui-ux-designer` | Design-aware frontend. Can spawn a research worker mid-build |
-| 📦 `vc-git-manager` | Splits into logical commits from `touched_files`. Refuses unknown files |
+| 🐛 `vb-debugger` | Gathers evidence before forming a hypothesis. Competing hypotheses, elimination chains, feasibility probes |
+| 🧪 `vb-tester` | Change-aware. Re-runs agreed-checklist tests (EVL). Auto-escalates on config changes |
+| 🔎 `vb-code-reviewer` | Sends an edge-case scout BEFORE review. N+1 detection, auth-path checking |
+| ✨ `vb-code-simplifier` | Tidies code for clarity without changing behavior |
+| 🎨 `vb-ui-ux-designer` | Design-aware frontend. Can spawn a research worker mid-build |
+| 📦 `vb-git-manager` | Splits into logical commits from `touched_files`. Refuses unknown files |
 
 </details>
 
@@ -1532,13 +1532,13 @@ Groups are created automatically when a topic reaches 3+ docs or a single file g
 
 <br>
 
-**📜 Contract skills (20)** — own an artifact: `vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Contract skills (20)** — own an artifact: `vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Helper skills (13)** — improve how agents work: `vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Helper skills (13)** — improve how agents work: `vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ Naming rule:** Do NOT use the `vc-` prefix for your own skills or agents — that namespace is reserved for kit-shipped files, and the stale-removal guard treats any `vc-*` path under `.claude/skills/` and `.claude/agents/` as kit-owned. Use `my-`, `team-`, or `proj-` instead.
+> **⚠️ Naming rule:** Do NOT use the `vb-` prefix for your own skills or agents — that namespace is reserved for kit-shipped files, and the stale-removal guard treats any `vb-*` path under `.claude/skills/` and `.claude/agents/` as kit-owned. Use `my-`, `team-`, or `proj-` instead.
 
 <br>
 
@@ -1585,7 +1585,7 @@ Two lighter options for when the full RIPER-5 process is more than the job needs
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Quick Fix</strong> — <code>"quick fix: …"</code><br><br>
-Bigger than a trivial one-liner, smaller than "needs a plan." The lead agent scouts read-only → one-line confirm → spawns <code>vc-quick-fix-agent</code> for the edit + a scoped check on touched files only. <strong>No plan, no agreed checklist, no EVL.</strong>
+Bigger than a trivial one-liner, smaller than "needs a plan." The lead agent scouts read-only → one-line confirm → spawns <code>vb-quick-fix-agent</code> for the edit + a scoped check on touched files only. <strong>No plan, no agreed checklist, no EVL.</strong>
 <br><br>
 <sub>Cancelled immediately if the change touches schema, auth, API, billing, or migration surfaces — then it routes to full RESEARCH.</sub>
 </td>
@@ -1606,24 +1606,24 @@ Squeezes RESEARCH + SPEC + INNOVATE + PLAN + VALIDATE into one pass — but stil
 | Command | What it does | When |
 |---|---|---|
 | `curl … install.sh \| bash` | Syncs kit files without overwriting yours; auto-detects fresh vs upgrade and routes you | First install + every upgrade |
-| **Run vc-setup** | Detects stack, scaffolds `process/`, deep-scans codebase, populates real context | After a fresh install |
-| **Run vc-update** | Computes a precise diff, shows what will change, waits for your OK; migrates old-format plans/folders with zero data loss | On every upgrade |
-| **Run vc-publish** *(maintainers)* | Publishes harness changes back out to the kit repo | Contributing to the kit itself |
+| **Run vb-setup** | Detects stack, scaffolds `process/`, deep-scans codebase, populates real context | After a fresh install |
+| **Run vb-update** | Computes a precise diff, shows what will change, waits for your OK; migrates old-format plans/folders with zero data loss | On every upgrade |
+| **Run vb-publish** *(maintainers)* | Publishes harness changes back out to the kit repo | Contributing to the kit itself |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE complete\nENTER UPDATE PROCESS MODE"]
-    AGT["spawn vc-update-process-agent"]
+    AGT["spawn vb-update-process-agent"]
     A["(a) Archive plan\nactive/ → completed/"]
     B["(b) Update process/context/\nsmallest relevant file\n+ all-context.md router"]
     C["(c) Tier-1 audits\n(change-type gated)"]
-    AVC["vc-audit-vc\nharness/agent edits"]
-    ACX["vc-audit-context\ncontext-doc edits"]
-    APL["vc-audit-plans\nplan/program edits"]
+    AVC["vb-audit-vc\nharness/agent edits"]
+    ACX["vb-audit-context\ncontext-doc edits"]
+    APL["vb-audit-plans\nplan/program edits"]
     D["(d) Capture learnings\nto memory"]
-    E["(e) Write closeout packet\nvc-generate-closeout"]
-    F["(f) Conventional commit\nvc-git-manager"]
+    E["(e) Write closeout packet\nvb-generate-closeout"]
+    F["(f) Conventional commit\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1647,7 +1647,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update` shows a preview diff and waits for your OK. Your `process/` directory and project-specific content are **never** silently changed. Re-running install is safe to run twice.
+> 💡 `vb-update` shows a preview diff and waits for your OK. Your `process/` directory and project-specific content are **never** silently changed. Re-running install is safe to run twice.
 
 ---
 

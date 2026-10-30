@@ -19,7 +19,7 @@
 ## Checklist
 
 - [ ] No project-specific content leaked (no hardcoded paths, secrets, or personal data)
-- [ ] `vc-manifest.json` updated (if adding/removing managed files)
+- [ ] `vb-manifest.json` updated (if adding/removing managed files)
 - [ ] Tested in a real project via `install.sh` (not just unit tests)
 - [ ] Both `.claude/` and `.codex/` versions created (if adding agents)
 

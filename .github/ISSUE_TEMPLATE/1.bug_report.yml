@@ -29,7 +29,7 @@ body:
       description: Minimal steps to reproduce the issue
       placeholder: |
         1. Install the kit via install.sh
-        2. Run vc-setup
+        2. Run vb-setup
         3. ...
     validations:
       required: true
@@ -74,7 +74,7 @@ body:
     id: version
     attributes:
       label: Kit Version
-      description: "Check vc-manifest.json for version"
+      description: "Check vb-manifest.json for version"
       placeholder: "2.0.4"
     validations:
       required: true

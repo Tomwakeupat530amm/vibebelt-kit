@@ -26,7 +26,7 @@ try {
     resolveNamingPattern,
     extractTaskListId,
     isHookEnabled
-  } = require('./lib/vc-config-utils.cjs');
+  } = require('./lib/vb-config-utils.cjs');
   const { createHookTimer, logHookCrash } = require('./lib/hook-logger.cjs');
   const { loadState, refreshStatuslineSnapshot } = require('./lib/session-state-manager.cjs');
   const { createEmptyActivitySnapshot } = require('./lib/statusline-session-cache.cjs');
@@ -262,7 +262,7 @@ async function main() {
         writeEnv(envFile, 'CK_RESPONSE_LANGUAGE', config.locale.responseLanguage);
       }
 
-      // Plan validation config for vc-kit RIPER-5 plan generation and validation workflows
+      // Plan validation config for vb-kit RIPER-5 plan generation and validation workflows
       const validation = config.plan?.validation || {};
       writeEnv(envFile, 'CK_VALIDATION_MODE', validation.mode || 'prompt');
       writeEnv(envFile, 'CK_VALIDATION_MIN_QUESTIONS', validation.minQuestions || 3);

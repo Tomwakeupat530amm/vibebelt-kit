@@ -49,7 +49,7 @@
 <td valign="top"><strong>🔁 PVL + EVL 自我修复循环</strong><br>计划检查修复循环和测试检查修复循环，自动发现问题、修复、再检查——各最多 10 轮。</td>
 </tr>
 <tr>
-<td valign="top"><strong>🔍 vc-autoresearch</strong><br>可复用的"找问题 → 修复 → 重复"循环，可用于计划、测试、规格、文档或评估。</td>
+<td valign="top"><strong>🔍 vb-autoresearch</strong><br>可复用的"找问题 → 修复 → 重复"循环，可用于计划、测试、规格、文档或评估。</td>
 <td valign="top"><strong>🧪 可行性探针</strong><br>在 agent 确定设计方案前，先给出"先测后建"的裁定（VIABLE / NOT-VIABLE）。</td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
     <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
   </picture>
   <br>
-  <p><em>不只是装饰。运行 <code>vc-setup</code> 时，agent 会扫描你的代码库，<br>
+  <p><em>不只是装饰。运行 <code>vb-setup</code> 时，agent 会扫描你的代码库，<br>
   检测你的技术栈，并构建项目专属的知识组——每个 skill 在工作前都会读取它。<br>
   其他 harness 把 agent 绑死在某个语言——<code>rust-review-agent</code>、<code>python-linter</code>——换个地方就没用了。<br>
   这个 kit 适配上方任意组合，并随着你持续交付积累知识。</em></p>
@@ -154,26 +154,26 @@ curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main
 <h3>🆕 全新项目</h3>
 安装程序检测到没有 harness，打印：
 <br><br>
-<code>Next: Run: claude → Say: "Run vc-setup"</code>
+<code>Next: Run: claude → Say: "Run vb-setup"</code>
 <br><br>
-<strong>→ 打开你的 agent，说 <code>Run vc-setup</code></strong>
+<strong>→ 打开你的 agent，说 <code>Run vb-setup</code></strong>
 <br><br>
-<sub>vc-setup 会检测你的技术栈，创建 <code>process/</code> 文件夹，扫描你的代码库，用<em>真实的</em>架构、规范和测试命令填充内容——是一次对话，不是走清单。</sub>
+<sub>vb-setup 会检测你的技术栈，创建 <code>process/</code> 文件夹，扫描你的代码库，用<em>真实的</em>架构、规范和测试命令填充内容——是一次对话，不是走清单。</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🔄 已有 harness（升级）</h3>
 安装程序检测到旧版本，打印：
 <br><br>
-<code>Next (upgrade detected): Run: claude → Say: "Run vc-update"</code>
+<code>Next (upgrade detected): Run: claude → Say: "Run vb-update"</code>
 <br><br>
-<strong>→ 打开你的 agent，说 <code>Run vc-update</code></strong>
+<strong>→ 打开你的 agent，说 <code>Run vb-update</code></strong>
 <br><br>
-<sub>vc-update 拉取最新版本，如果发现旧格式的计划或文件夹，会给你一段可直接粘贴的提示词来完成迁移，<strong>零数据丢失</strong>。你的 <code>process/</code> 永远不会被动。</sub>
+<sub>vb-update 拉取最新版本，如果发现旧格式的计划或文件夹，会给你一段可直接粘贴的提示词来完成迁移，<strong>零数据丢失</strong>。你的 <code>process/</code> 永远不会被动。</sub>
 </td>
 </tr>
 </table>
 
-> 💡 **你永远不需要猜命令。** `install.sh` 帮你路由：全新项目 → `vc-setup`，升级 → `vc-update`。重复运行安装脚本永远是安全的——不会破坏任何东西。**Codex 用户：** 输入 `/vc-setup`（或 `/vc-update`）而非在聊天中说出来。
+> 💡 **你永远不需要猜命令。** `install.sh` 帮你路由：全新项目 → `vb-setup`，升级 → `vb-update`。重复运行安装脚本永远是安全的——不会破坏任何东西。**Codex 用户：** 输入 `/vb-setup`（或 `/vb-update`）而非在聊天中说出来。
 
 <br>
 
@@ -194,15 +194,15 @@ your-project/
 ├── AGENTS.md                # 📖 Agent + skill 注册表（跨工具）
 └── process/
     └── development-protocols/  # 📜 22 个共享工作流文档（由安装脚本播种）
-                                #    context/、plans、features → 由 vc-setup 构建
+                                #    context/、plans、features → 由 vb-setup 构建
 ```
 
 - **非破坏性。** 你现有的 `.claude/skills/`、`.claude/agents/`、`process/` 和 `settings.json` 永远不会被清空。只有 kit 拥有的文件会被写入或更新。
 - **已有配置？** 备份到 `.vibecode-backup/`；之后你的 `settings.json` 会被恢复。
 - **已有 `CLAUDE.md`？** 备份为 `CLAUDE.md.pre-vibecode`。
-- **已有 `process/`？** install 绝对不会碰它——`vc-setup` / `vc-update` 会交互式迁移，并先给你看 diff。
+- **已有 `process/`？** install 绝对不会碰它——`vb-setup` / `vb-update` 会交互式迁移，并先给你看 diff。
 
-> **首次安装注意事项：** 如果你有自定义的 skill/agent，名字以 `vc-` 开头（kit 保留命名空间），且*从未*运行过 install，废弃文件清理步骤可能会标记它们。安装后运行 `ls .claude/skills/ .claude/agents/` 确认。用非 `vc-` 前缀（`my-`、`team-`、`proj-`）命名你自己的内容可以完全避免这个问题。
+> **首次安装注意事项：** 如果你有自定义的 skill/agent，名字以 `vb-` 开头（kit 保留命名空间），且*从未*运行过 install，废弃文件清理步骤可能会标记它们。安装后运行 `ls .claude/skills/ .claude/agents/` 确认。用非 `vb-` 前缀（`my-`、`team-`、`proj-`）命名你自己的内容可以完全避免这个问题。
 
 </details>
 
@@ -218,7 +218,7 @@ First, install the vibecode-pro-max-kit agent harness by running this command:
 
 curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
 
-After install completes, run vc-setup and follow the full interactive flow:
+After install completes, run vb-setup and follow the full interactive flow:
 
 1. DETECT — Read package.json (or go.mod, Cargo.toml, pyproject.toml, etc.), detect my
    stack: framework, package manager, monorepo structure, test framework, database, auth.
@@ -273,7 +273,7 @@ and wait for my OK; never create empty placeholder files; ask before reorganizin
 <tr>
 <td align="center" width="25%" valign="top"><h1>🛩️</h1><strong>Autopilot</strong><br><sub>3 种模式（quick / fast / full）——从任意阶段启动，一路跑到完成不停歇</sub></td>
 <td align="center" width="25%" valign="top"><h1>📌</h1><strong>/goal 块</strong><br><sub>简短的可复制粘贴文字，在会话重置后恢复免手动运行</sub></td>
-<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vc-autoresearch</strong><br><sub>找问题 → 修复 → 重复循环（计划、测试、评估的共享工具）</sub></td>
+<td align="center" width="25%" valign="top"><h1>🔁</h1><strong>vb-autoresearch</strong><br><sub>找问题 → 修复 → 重复循环（计划、测试、评估的共享工具）</sub></td>
 <td align="center" width="25%" valign="top"><h1>🔬</h1><strong>可行性探针</strong><br><sub>在确定设计前给出"先测后建"裁定（VIABLE / NOT-VIABLE）</sub></td>
 </tr>
 </table>
@@ -491,7 +491,7 @@ agent 调研你的技术栈，写一份你可以 review 的架构方案，带测
 <td width="50%" valign="top">
 <h1>🔍</h1>
 <strong>自动 Skill 发现</strong><br><br>
-在处理任何请求前，它会扫描 <strong>33 个 skill</strong> 并匹配关键词。说"add webhook support"，<code>vc-security</code> + <code>vc-scenario</code> 就自动浮现。
+在处理任何请求前，它会扫描 <strong>33 个 skill</strong> 并匹配关键词。说"add webhook support"，<code>vb-security</code> + <code>vb-scenario</code> 就自动浮现。
 </td>
 <td width="50%" valign="top">
 <h1>💾</h1>
@@ -532,12 +532,12 @@ agent 调研你的技术栈，写一份你可以 review 的架构方案，带测
 <td width="50%" valign="top">
 <h1>🧑‍✈️</h1>
 <strong>它只委派，从不自己实现</strong><br><br>
-Research → <code>vc-research-agent</code>。Plan → <code>vc-plan-agent</code>。Code → <code>vc-execute-agent</code>。协调者交接正确的 context 然后等待——它从不自己做实际工作。
+Research → <code>vb-research-agent</code>。Plan → <code>vb-plan-agent</code>。Code → <code>vb-execute-agent</code>。协调者交接正确的 context 然后等待——它从不自己做实际工作。
 </td>
 <td width="50%" valign="top">
 <h1>🚫</h1>
 <strong>永远没有隐藏执行</strong><br><br>
-一旦存在带有约定清单的计划，"ENTER EXECUTE MODE" <strong>始终</strong>会启动 <code>vc-execute-agent</code>。即使是一行修改也要经过它。测试只在专用的 <code>vc-tester</code> 内运行。不论改动大小，这条规则都适用。
+一旦存在带有约定清单的计划，"ENTER EXECUTE MODE" <strong>始终</strong>会启动 <code>vb-execute-agent</code>。即使是一行修改也要经过它。测试只在专用的 <code>vb-tester</code> 内运行。不论改动大小，这条规则都适用。
 </td>
 </tr>
 <tr>
@@ -560,12 +560,12 @@ flowchart TD
     REQ["用户请求"]
     SD["第 0 步：Skill 发现\n扫描 33 个 skill，匹配关键词"]
     INT{"识别意图\n+ 评分模糊度"}
-    RES["vc-research-agent\n（功能 / 问题）"]
-    PLN["vc-plan-agent\n（INNOVATE 后）"]
-    VAL["vc-validate-agent\n（PVL loop）"]
-    EXE["vc-execute-agent\n（EXECUTE）"]
-    TST["vc-tester\n（EVL loop）"]
-    UPD["vc-update-process-agent\n（closeout）"]
+    RES["vb-research-agent\n（功能 / 问题）"]
+    PLN["vb-plan-agent\n（INNOVATE 后）"]
+    VAL["vb-validate-agent\n（PVL loop）"]
+    EXE["vb-execute-agent\n（EXECUTE）"]
+    TST["vb-tester\n（EVL loop）"]
+    UPD["vb-update-process-agent\n（closeout）"]
     MON["监控\n状态码 · 循环驱动\n绝不内联执行"]
 
     REQ --> SD --> INT
@@ -601,13 +601,13 @@ flowchart TD
 
 | 阶段 | 做什么 | Agent | 你说 |
 |-------|-------------|-------|---------|
-| 🔍 **RESEARCH** | 只读事实收集——代码库 + 网络。不修改文件。 | `vc-research-agent` | *（功能请求时自动触发）* |
-| 📝 **SPEC** | 产品发现需求文档——用户故事、验收标准、范围外——**供你在任何设计前审阅**。 | `vc-spec-agent` | `go` / `ENTER SPEC MODE` |
-| 💡 **INNOVATE** | 探索 2-3 种方案及其权衡。决策总结（选中的 + 被拒绝的 + 原因）。 | `vc-innovate-agent` | `go` |
-| 📋 **PLAN** | 写详细 spec：接触点、公开契约、可以碰哪些文件、验证证据、恢复交接。 | `vc-plan-agent` | `go` |
-| ✅ **VALIDATE** | 将计划转化为约定清单（V1–V7 关卡）。裁定：**PASS / CONDITIONAL / BLOCKED**。运行 PVL 循环。 | `vc-validate-agent` | `ENTER VALIDATE MODE` |
-| ⚡ **EXECUTE** | *严格按照*计划实现。进度记录到阶段报告，偏离协议，自审。然后 EVL 循环重跑关卡。 | `vc-execute-agent` | `ENTER EXECUTE MODE` |
-| 🧠 **UPDATE PROCESS** | 捕获经验，更新 context，归档计划，写 closeout packet。 | `vc-update-process-agent` | *（非平凡工作后建议执行）* |
+| 🔍 **RESEARCH** | 只读事实收集——代码库 + 网络。不修改文件。 | `vb-research-agent` | *（功能请求时自动触发）* |
+| 📝 **SPEC** | 产品发现需求文档——用户故事、验收标准、范围外——**供你在任何设计前审阅**。 | `vb-spec-agent` | `go` / `ENTER SPEC MODE` |
+| 💡 **INNOVATE** | 探索 2-3 种方案及其权衡。决策总结（选中的 + 被拒绝的 + 原因）。 | `vb-innovate-agent` | `go` |
+| 📋 **PLAN** | 写详细 spec：接触点、公开契约、可以碰哪些文件、验证证据、恢复交接。 | `vb-plan-agent` | `go` |
+| ✅ **VALIDATE** | 将计划转化为约定清单（V1–V7 关卡）。裁定：**PASS / CONDITIONAL / BLOCKED**。运行 PVL 循环。 | `vb-validate-agent` | `ENTER VALIDATE MODE` |
+| ⚡ **EXECUTE** | *严格按照*计划实现。进度记录到阶段报告，偏离协议，自审。然后 EVL 循环重跑关卡。 | `vb-execute-agent` | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | 捕获经验，更新 context，归档计划，写 closeout packet。 | `vb-update-process-agent` | *（非平凡工作后建议执行）* |
 
 > 📝 **为什么 SPEC 是独立阶段：** 大多数 harness 从"理解"直接跳到"设计"。插入一个产品发现 SPEC 步骤，意味着*你*（或你的 PM）在 agent 讨论*如何*实现之前，先对**要做什么**——用简单的用户故事和验收标准——点头确认。这是发现误解最便宜的地方。（在阶段程序的内循环中，SPEC 会被跳过——umbrella SPEC 覆盖所有阶段。）
 >
@@ -635,7 +635,7 @@ flowchart TD
 ```
 # 🆕 功能请求
 You: "add webhook support to the API"
-→ Skill discovery surfaces: vc-scenario, vc-security
+→ Skill discovery surfaces: vb-scenario, vb-security
 → research-agent gathers context (read-only, can't touch code)
 → "go" → spec-agent writes requirements doc → you approve
 → "go" → innovate-agent compares approaches → decision summary
@@ -648,7 +648,7 @@ You: "add webhook support to the API"
 ```
 # 🐛 缺陷修复
 You: "login redirect is broken"
-→ Routes to vc-debugger → gathers evidence FIRST → 2-3 competing hypotheses
+→ Routes to vb-debugger → gathers evidence FIRST → 2-3 competing hypotheses
 → Systematically eliminates each → root cause with proof chain
 → execute-agent implements the fix → EVL re-test → quality pipeline
 ```
@@ -701,7 +701,7 @@ flowchart TD
     ROUTE["路由到匹配的 agent\n（research / plan / execute / …）"]
     STILL{"层级 2 后\n仍不清楚？"}
     FINAL["最后一个直接问题\n（最多 2 轮确认）"]
-    NARROW["默认：vc-research-agent\n最窄合理范围"]
+    NARROW["默认：vb-research-agent\n最窄合理范围"]
 
     REQ --> AUTO
     AUTO -->|"自动跳过匹配"| T0
@@ -769,24 +769,24 @@ flowchart TD
 <tr>
 <td width="50%" valign="top">
 <h3>📋 PVL——Plan-Validate-Fix</h3>
-在 EXECUTE 前，<code>vc-validate-agent</code> 对计划运行 <strong>V1–V7 关卡</strong>——将工作分配给多个 agent，分别覆盖基础设施、测试覆盖率、破坏性变更、安全性和逐部分可行性。第一次 <strong>CONDITIONAL</strong> 或 <strong>BLOCKED</strong> 不是终点——它路由回 <code>vc-plan-agent</code> 更新计划，然后从 V1 重检。
+在 EXECUTE 前，<code>vb-validate-agent</code> 对计划运行 <strong>V1–V7 关卡</strong>——将工作分配给多个 agent，分别覆盖基础设施、测试覆盖率、破坏性变更、安全性和逐部分可行性。第一次 <strong>CONDITIONAL</strong> 或 <strong>BLOCKED</strong> 不是终点——它路由回 <code>vb-plan-agent</code> 更新计划，然后从 V1 重检。
 <br><br>
-<sub>由 <code>vc-autoresearch</code>（domain: plan）跟踪——一个找问题修复循环。10 轮上限。平台检测。只有 <strong>Gate: PASS</strong>（或你明确接受的 CONDITIONAL）才能解锁 EXECUTE。</sub>
+<sub>由 <code>vb-autoresearch</code>（domain: plan）跟踪——一个找问题修复循环。10 轮上限。平台检测。只有 <strong>Gate: PASS</strong>（或你明确接受的 CONDITIONAL）才能解锁 EXECUTE。</sub>
 </td>
 <td width="50%" valign="top">
 <h3>🧪 EVL——Execute-Validate-Fix</h3>
-EXECUTE 报告完成后——<strong>即使它声称所有关卡都通过了</strong>——主 agent <strong>始终</strong>会启动 <code>vc-tester</code>，独立重跑约定清单中的精确测试命令。关卡失败会路由到限定范围的 <code>vc-execute-agent</code> 修复，然后重测。
+EXECUTE 报告完成后——<strong>即使它声称所有关卡都通过了</strong>——主 agent <strong>始终</strong>会启动 <code>vb-tester</code>，独立重跑约定清单中的精确测试命令。关卡失败会路由到限定范围的 <code>vb-execute-agent</code> 修复，然后重测。
 <br><br>
-<sub>由 <code>vc-autoresearch</code>（domain: tests）跟踪。10 轮上限。execute-agent 自己的"迭代直到通过"循环<strong>绝不</strong>能代替这次独立确认。</sub>
+<sub>由 <code>vb-autoresearch</code>（domain: tests）跟踪。10 轮上限。execute-agent 自己的"迭代直到通过"循环<strong>绝不</strong>能代替这次独立确认。</sub>
 </td>
 </tr>
 </table>
 
 > 💎 **裁定阶梯：** **PASS** → 继续 · **CONDITIONAL** → 可修复的问题；循环启动（或你书面接受） · **BLOCKED** → 更深的问题；返回 PLAN（在 autopilot 下：问题进入 backlog，运行继续）。
 
-### 🔁 vc-autoresearch——共享循环引擎
+### 🔁 vb-autoresearch——共享循环引擎
 
-PVL 和 EVL 使用同一个跟踪层：**`vc-autoresearch`**——一个找问题 → 修复 → 重复循环。主 agent 驱动循环——它拥有轮次计数器、每轮报告、TSV 日志和平台/上限/回归检查。工作 agent 是即发即忘的：它们返回结果然后停止。没有 agent 会自己重新启动或启动另一个阶段 agent。
+PVL 和 EVL 使用同一个跟踪层：**`vb-autoresearch`**——一个找问题 → 修复 → 重复循环。主 agent 驱动循环——它拥有轮次计数器、每轮报告、TSV 日志和平台/上限/回归检查。工作 agent 是即发即忘的：它们返回结果然后停止。没有 agent 会自己重新启动或启动另一个阶段 agent。
 
 同样的引擎可以独立运行："加固这个 spec"、"修复所有 lint"、"提升测试覆盖率"、"改进这些文档"——任何跨 6 个域的重复找问题修复任务（spec · tests · ux · docs · plan · errors）。
 
@@ -822,10 +822,10 @@ flowchart TD
 
 | 模式 | 做什么 | 停止条件 |
 |---|---|---|
-| `vc-autoresearch`（核心） | 找问题 → 修复 → 重复 | 无问题 或 达到指标目标 |
-| `vc-autoresearch:probe` | 8 个角色审问语料库直到饱和 | 连续 3 轮无新约束 |
-| `vc-autoresearch:reason` | 带盲评审的对抗性辩论 | 评审收敛或达到迭代上限 |
-| `vc-autoresearch:evals` | 分析 TSV 结果——趋势、平台、建议 | 仅分析 |
+| `vb-autoresearch`（核心） | 找问题 → 修复 → 重复 | 无问题 或 达到指标目标 |
+| `vb-autoresearch:probe` | 8 个角色审问语料库直到饱和 | 连续 3 轮无新约束 |
+| `vb-autoresearch:reason` | 带盲评审的对抗性辩论 | 评审收敛或达到迭代上限 |
+| `vb-autoresearch:evals` | 分析 TSV 结果——趋势、平台、建议 | 仅分析 |
 
 **停止条件：** SUCCESS（连续两轮全通过）· HALT_PLATEAU（3 轮无进展）· HALT_CAP（10 轮硬上限）· HALT_REGRESSION（之前通过的检查现在失败了）。
 
@@ -833,7 +833,7 @@ flowchart TD
 
 ## 👥 策略比较 + 模型策略
 
-在**每次阶段切换时**，主 agent 调用 `vc-agent-strategy-compare` 来推荐*如何*运行下一个阶段——带成本估算。
+在**每次阶段切换时**，主 agent 调用 `vb-agent-strategy-compare` 来推荐*如何*运行下一个阶段——带成本估算。
 
 | 策略 | 什么时候 | 协调方式 |
 |---|---|---|
@@ -845,7 +845,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    SS["vc-agent-strategy-compare\n（每次阶段切换）"]
+    SS["vb-agent-strategy-compare\n（每次阶段切换）"]
     SC{"信号分数\n0–7"}
     SEQ["顺序\n每次一个 agent\n（输出喂给下一个）"]
     PAR["并行子 agent\n即发即忘\n（独立维度）"]
@@ -955,7 +955,7 @@ You: "autopilot full: add team invitations with email + role management"
 说 `autopilot full: [task]`——或粘贴一个 `/goal` 块——以下所有事情都会在**零人工干预**下发生：
 
 - **计划检查修复循环**——找到计划中的问题，修复，重检。自己最多跑 10 轮。
-- **构建测试修复循环**——写代码，跑测试，修复失败，重跑。自己最多跑 10 轮。它从不信任自己的"全通过"——一个独立检查器（vc-tester）会独立重跑每个测试来确认。
+- **构建测试修复循环**——写代码，跑测试，修复失败，重跑。自己最多跑 10 轮。它从不信任自己的"全通过"——一个独立检查器（vb-tester）会独立重跑每个测试来确认。
 - **阶段间推进**——从调研推进到计划，推进到代码，推进到完成，无需等你。
 - **内存重置后继续**——计划、进度和证明都以文件形式存在磁盘上，不只在 agent 的脑袋里。压缩后（AI 短期记忆清空时），下一个会话读取这些文件，从中断处继续。
 - **功能卡住？搁置，继续前进**——如果一个阶段无法解决，agent 写一条 backlog 记录然后继续下一个功能。你可以并行运行多个功能，一个阻塞不会拖住所有东西。
@@ -994,7 +994,7 @@ You: "autopilot full: add team invitations with email + role management"
 
 ### 🔬 可行性探针——在基于假设构建之前先测试假设
 
-当 SPEC、INNOVATE 或 VALIDATE 遇到一个无法仅靠阅读来确认的关键假设时，它会发出 `VC-FEASIBILITY-PROBE-NEEDED` 然后停止。主 agent 启动 `vc-debugger` 来运行真实测试并写一份 **VERDICT**：
+当 SPEC、INNOVATE 或 VALIDATE 遇到一个无法仅靠阅读来确认的关键假设时，它会发出 `VB-FEASIBILITY-PROBE-NEEDED` 然后停止。主 agent 启动 `vb-debugger` 来运行真实测试并写一份 **VERDICT**：
 
 | 裁定 | 含义 |
 |---|---|
@@ -1010,10 +1010,10 @@ Kit 附带 **38 个验证器脚本**，把"agent 是否遵循了规则？"变成
 
 | 验证器家族 | 检查内容 |
 |---|---|
-| `vc-audit-vc` | Agent 一致性（Claude/Codex）、skill 注册表、kit 可移植性、agent frontmatter |
-| `vc-audit-context` | Context 路由、发现 frontmatter、skill 关键词 |
-| `vc-audit-plans` | 计划清单、umbrella 状态、阶段完整性、阶段报告、backlog 记录 |
-| 14 个 VC-system 行为验证器 | 每个拥有通过/失败 fixture 对——strategy-compare 输出、closeout、intent-clarify、可行性裁定、autoresearch 日志等 |
+| `vb-audit-vc` | Agent 一致性（Claude/Codex）、skill 注册表、kit 可移植性、agent frontmatter |
+| `vb-audit-context` | Context 路由、发现 frontmatter、skill 关键词 |
+| `vb-audit-plans` | 计划清单、umbrella 状态、阶段完整性、阶段报告、backlog 记录 |
+| 14 个 VB-system 行为验证器 | 每个拥有通过/失败 fixture 对——strategy-compare 输出、closeout、intent-clarify、可行性裁定、autoresearch 日志等 |
 
 ---
 
@@ -1070,24 +1070,24 @@ Kit 附带 **38 个验证器脚本**，把"agent 是否遵循了规则？"变成
 <tr>
 <td width="50%" valign="top">
 <h1>🎭</h1>
-<strong>5 角色辩论——<code>vc-predict</code></strong><br><br>
+<strong>5 角色辩论——<code>vb-predict</code></strong><br><br>
 架构师、安全专家、性能专家、UX 专家和魔鬼代言人辩论你的方案。在你写一行代码之前给出 <strong>GO / CAUTION / STOP</strong> 裁定。
 </td>
 <td width="50%" valign="top">
 <h1>🎲</h1>
-<strong>12 维度边界情况——<code>vc-scenario</code></strong><br><br>
+<strong>12 维度边界情况——<code>vb-scenario</code></strong><br><br>
 从 12 个维度分解功能（用户类型、输入极端值、时序、规模、状态、环境、错误、auth、数据、集成、合规、业务逻辑）。输出可直接用作测试 spec。
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <h1>🔐</h1>
-<strong>STRIDE + OWASP 审计——<code>vc-security</code></strong><br><br>
+<strong>STRIDE + OWASP 审计——<code>vb-security</code></strong><br><br>
 双方法论安全审计，含依赖审计、密钥检测，以及按严重性排序、先修 Critical 的<strong>自动修复模式</strong>——每步带回归防护。
 </td>
 <td width="50%" valign="top">
 <h1>🔬</h1>
-<strong>先证据后假设的调试——<code>vc-debugger</code></strong><br><br>
+<strong>先证据后假设的调试——<code>vb-debugger</code></strong><br><br>
 收集证据 → 形成 2-3 个竞争假设 → 逐一测试 → 记录排除路径。<strong>从不猜测——它证明。</strong>
 </td>
 </tr>
@@ -1097,7 +1097,7 @@ Kit 附带 **38 个验证器脚本**，把"agent 是否遵循了规则？"变成
 
 ## ✅ 质量流水线——内嵌于执行
 
-**先测试，后代码。** 约定清单（在任何代码被触碰前写就）定义了必须通过的精确测试。execute-agent 写代码直到这些测试变绿。然后一个独立检查器——`vc-tester`——自己独立重跑每个测试来确认。execute-agent 自己的"全通过"永远不会被轻信。最后，审阅者检查整个项目仍然协同工作，而不只是新部分。
+**先测试，后代码。** 约定清单（在任何代码被触碰前写就）定义了必须通过的精确测试。execute-agent 写代码直到这些测试变绿。然后一个独立检查器——`vb-tester`——自己独立重跑每个测试来确认。execute-agent 自己的"全通过"永远不会被轻信。最后，审阅者检查整个项目仍然协同工作，而不只是新部分。
 
 execute-agent 不只是写代码就完事。它自动经过一条**质量流水线**：
 
@@ -1188,7 +1188,7 @@ process/
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
-    PC["vc-plan-agent 创建任务文件夹\nprocess/general-plans/active/{slug}_{date}/\n或 features/{feature}/active/{slug}_{date}/"]
+    PC["vb-plan-agent 创建任务文件夹\nprocess/general-plans/active/{slug}_{date}/\n或 features/{feature}/active/{slug}_{date}/"]
     PLAN["{slug}_PLAN_{dd-mm-yy}.md\n— 计划文件\n— Validate Contract 追加于此"]
     REF["{slug}_REF_{dd-mm-yy}.md\n— 可选参考"]
     RPT["{slug}-iteration-{NNN}_REPORT_{dd-mm-yy}.md\n— 每 PVL/EVL 轮次报告"]
@@ -1218,7 +1218,7 @@ flowchart TD
     style REG fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 每份计划包含：📍 **接触点**（创建/修改的文件）· 📜 **公开契约** · 💥 **可触碰哪些文件**（什么可能挂掉，跑什么测试）· ✅ **验证证据** · 🔄 **恢复交接**。`vc-plan-discovery` 找到正确的计划来恢复；`post-write-plan-check` hook 在每次计划写入时检查计划结构。
+> 每份计划包含：📍 **接触点**（创建/修改的文件）· 📜 **公开契约** · 💥 **可触碰哪些文件**（什么可能挂掉，跑什么测试）· ✅ **验证证据** · 🔄 **恢复交接**。`vb-plan-discovery` 找到正确的计划来恢复；`post-write-plan-check` hook 在每次计划写入时检查计划结构。
 
 ---
 
@@ -1337,11 +1337,11 @@ process/context/
 |---|---|
 | 🧭 **路由模式** | Agent 只读与任务相关的内容 |
 | 📏 **自动提升** | 有 3+ 文档（或单个文件过大）的主题获得自己的组 |
-| 🔄 **始终最新** | 每次非平凡功能后由 `vc-update-process-agent` 更新 |
-| 🧪 **可审计** | `vc-audit-context` 检查路由、发现 frontmatter 和一致性 |
+| 🔄 **始终最新** | 每次非平凡功能后由 `vb-update-process-agent` 更新 |
+| 🧪 **可审计** | `vb-audit-context` 检查路由、发现 frontmatter 和一致性 |
 | 📨 **Context Envelope** | 每个内循环 agent 在开始时发出一个 10 字段注释（feature → phase → session-goal → branch → worktree → context-group → blast-radius-packages → active-plan → test-runner → validate-contract），让新工作 agent 精确知道它的处境 |
 
-> Kit 只播种协议——你的 context 组由 `vc-setup` **为你的项目构建**，扫描你的真实代码。它们是一个模式，不是固定列表。
+> Kit 只播种协议——你的 context 组由 `vb-setup` **为你的项目构建**，扫描你的真实代码。它们是一个模式，不是固定列表。
 
 ---
 
@@ -1379,12 +1379,12 @@ process/features/{feature}/
 <td width="33%" valign="top">
 <h1>📜</h1>
 <strong>Contract skill（20 个）</strong><br><br>
-每个产生一个特定文件或约定输出——<code>vc-generate-plan</code>、<code>vc-validate-findings</code>、<code>vc-autopilot</code>、审计类。结果可以被检查。
+每个产生一个特定文件或约定输出——<code>vb-generate-plan</code>、<code>vb-validate-findings</code>、<code>vb-autopilot</code>、审计类。结果可以被检查。
 </td>
 <td width="33%" valign="top">
 <h1>🛠️</h1>
 <strong>Helper skill（13 个）</strong><br><br>
-改进 agent <em>如何</em>工作，不产生自己的文件——<code>vc-scout</code>、<code>vc-sequential-thinking</code>、<code>vc-problem-solving</code>、<code>vc-docs-seeker</code>。
+改进 agent <em>如何</em>工作，不产生自己的文件——<code>vb-scout</code>、<code>vb-sequential-thinking</code>、<code>vb-problem-solving</code>、<code>vb-docs-seeker</code>。
 </td>
 </tr>
 </table>
@@ -1405,7 +1405,7 @@ process/features/{feature}/
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     FEAT["功能交付\n（EXECUTE + EVL 完成）"]
-    UP["UPDATE PROCESS 阶段\nvc-update-process-agent"]
+    UP["UPDATE PROCESS 阶段\nvb-update-process-agent"]
     CTX["process/context/ 更新\n最小相关文件\n+ all-context.md 路由"]
     AGENT["下一个 agent 启动\n读取 context 路由\n→ 路由到正确的组文件"]
     BETTER["下一个功能更好\n无重新发现，无过时模式"]
@@ -1423,7 +1423,7 @@ flowchart TD
 
 `process/context/` 持有按主题组织的结构化知识——架构决策、编码规范、部署步骤、测试模式、基础设施事实。与聊天历史不同，这些知识：
 
-- **进入每个工作 agent**——`vc-context-discovery` 将每个启动的 agent 路由到其任务的正确 `all-{group}.md` 路由，然后到最小的相关深层文件。调研 agent、计划 agent 和编码 agent 都从同样的共享理解开始
+- **进入每个工作 agent**——`vb-context-discovery` 将每个启动的 agent 路由到其任务的正确 `all-{group}.md` 路由，然后到最小的相关深层文件。调研 agent、计划 agent 和编码 agent 都从同样的共享理解开始
 - **在内存重置后存活**——它在磁盘上，不在 context 窗口中；被压缩的会话不会丢失任何内容
 - **可被 Claude 和 Codex 读取**——`.agents/skills` 是 `.claude/skills/` 的快捷链接，所以同一个 context 系统无需重复服务两个 agent
 
@@ -1444,14 +1444,14 @@ process/context/
 
 "活文档"这个说法通常意味着"我们打算保持更新但大多忘了的文档"。这个系统用机械方式强制执行这个意图。
 
-**UPDATE PROCESS 阶段在关闭前需要逐文件 context 审阅。** `vc-update-process-agent` 在每个可能受影响的 context 文件都被逐文件（附带具体原因）审阅之前无法完成阶段。"不需要更新"是允许的——但必须命名每个审阅过的文件并解释原因。模糊原因被拒绝。关卡是二元的：记录审阅，或者阶段不关闭。
+**UPDATE PROCESS 阶段在关闭前需要逐文件 context 审阅。** `vb-update-process-agent` 在每个可能受影响的 context 文件都被逐文件（附带具体原因）审阅之前无法完成阶段。"不需要更新"是允许的——但必须命名每个审阅过的文件并解释原因。模糊原因被拒绝。关卡是二元的：记录审阅，或者阶段不关闭。
 
 每个完成功能的完整反馈循环：
 
 | 步骤 | 负责人 | 发生什么 |
 |------|-------|-------------|
-| 1. Git diff 分析 | `vc-scout` | 把变更文件映射到受影响的 context 域 |
-| 2. 逐文件审阅 | `vc-update-process-agent` | 命名每个 context 文件，说明更新或明确的"无变更 + 原因" |
+| 1. Git diff 分析 | `vb-scout` | 把变更文件映射到受影响的 context 域 |
+| 2. 逐文件审阅 | `vb-update-process-agent` | 命名每个 context 文件，说明更新或明确的"无变更 + 原因" |
 | 3. 应用更新 | 并行工作 agent | 每个域的 context 文件用新模式、决策、经验更新 |
 | 4. 路由验证 | `validate-context-discovery.mjs` | 确认每个文档都被索引，路由器一致 |
 | 5. 发现确认 | `validate-all-context.mjs` | 确认 `all-context.md` 和组路由与磁盘上的当前文件匹配 |
@@ -1487,7 +1487,7 @@ process/context/
 
 当一个主题达到 3+ 个文档或单个文件超过约 800 行时，组会自动创建。Agent 遵循路由器，从不硬编码路径——所以添加新组（例如 `process/context/billing/all-billing.md`）只需要路由更新，不需要修改每个提到计费的 agent。路由器是稳定的参考；它背后的文件可以自由重组。
 
-> Kit 从你的真实代码库中播种 context 组（通过 `vc-setup`）。这些组不是固定列表——它们是一个模式。你的 auth 域、你的基础设施域、你的支付域，随着项目成长，各自成为一等可路由知识。
+> Kit 从你的真实代码库中播种 context 组（通过 `vb-setup`）。这些组不是固定列表——它们是一个模式。你的 auth 域、你的基础设施域、你的支付域，随着项目成长，各自成为一等可路由知识。
 
 ---
 
@@ -1506,15 +1506,15 @@ process/context/
 
 | Agent | 模型 | 角色 |
 |-------|:---:|------|
-| 🔍 `vc-research-agent` | **opus** | 代码库 + 网络调研，只读。内置矛盾追踪 |
-| 📝 `vc-spec-agent` | sonnet | INNOVATE 前的产品发现需求文档。产出 `*_SPEC_*.md` |
-| 💡 `vc-innovate-agent` | sonnet | 比较 2-3 种方案。PLAN 前的决策总结（选中 + 被拒绝） |
-| 📋 `vc-plan-agent` | **opus** | 带防走捷径守卫地写计划。"我已经知道怎么做"不是一个计划 |
-| ✅ `vc-validate-agent` | **opus** | 把计划转化为约定清单（V1–V7）。关卡：PASS/CONDITIONAL/BLOCKED |
-| ⚡ `vc-execute-agent` | **opus** | 按计划实现。进度记录到阶段报告，偏离协议，自审 |
-| ⏩ `vc-fast-mode-agent` | **opus** | 压缩 R→S→I→P→V，EXECUTE 前有强制安全暂停 |
-| 🔧 `vc-quick-fix-agent` | **opus** | QUICK FIX 通道：一个小低风险编辑 + 限定范围检查，无需计划/验证 |
-| 🧠 `vc-update-process-agent` | sonnet | 7 阶段 closeout：归档、更新 context、过时产物扫描、经验 |
+| 🔍 `vb-research-agent` | **opus** | 代码库 + 网络调研，只读。内置矛盾追踪 |
+| 📝 `vb-spec-agent` | sonnet | INNOVATE 前的产品发现需求文档。产出 `*_SPEC_*.md` |
+| 💡 `vb-innovate-agent` | sonnet | 比较 2-3 种方案。PLAN 前的决策总结（选中 + 被拒绝） |
+| 📋 `vb-plan-agent` | **opus** | 带防走捷径守卫地写计划。"我已经知道怎么做"不是一个计划 |
+| ✅ `vb-validate-agent` | **opus** | 把计划转化为约定清单（V1–V7）。关卡：PASS/CONDITIONAL/BLOCKED |
+| ⚡ `vb-execute-agent` | **opus** | 按计划实现。进度记录到阶段报告，偏离协议，自审 |
+| ⏩ `vb-fast-mode-agent` | **opus** | 压缩 R→S→I→P→V，EXECUTE 前有强制安全暂停 |
+| 🔧 `vb-quick-fix-agent` | **opus** | QUICK FIX 通道：一个小低风险编辑 + 限定范围检查，无需计划/验证 |
+| 🧠 `vb-update-process-agent` | sonnet | 7 阶段 closeout：归档、更新 context、过时产物扫描、经验 |
 
 <br>
 
@@ -1522,12 +1522,12 @@ process/context/
 
 | Agent | 角色 |
 |-------|------|
-| 🐛 `vc-debugger` | 形成假设前先收集证据。竞争假设，排除链，可行性探针 |
-| 🧪 `vc-tester` | 变更感知。重跑约定清单测试（EVL）。配置变更时自动升级 |
-| 🔎 `vc-code-reviewer` | review 前先派边界情况侦查。N+1 检测，auth 路径检查 |
-| ✨ `vc-code-simplifier` | 不改行为地整理代码可读性 |
-| 🎨 `vc-ui-ux-designer` | 设计感知的前端。构建中可以启动调研工作 agent |
-| 📦 `vc-git-manager` | 从 `touched_files` 拆分为逻辑 commit。拒绝未知文件 |
+| 🐛 `vb-debugger` | 形成假设前先收集证据。竞争假设，排除链，可行性探针 |
+| 🧪 `vb-tester` | 变更感知。重跑约定清单测试（EVL）。配置变更时自动升级 |
+| 🔎 `vb-code-reviewer` | review 前先派边界情况侦查。N+1 检测，auth 路径检查 |
+| ✨ `vb-code-simplifier` | 不改行为地整理代码可读性 |
+| 🎨 `vb-ui-ux-designer` | 设计感知的前端。构建中可以启动调研工作 agent |
+| 📦 `vb-git-manager` | 从 `touched_files` 拆分为逻辑 commit。拒绝未知文件 |
 
 </details>
 
@@ -1540,13 +1540,13 @@ process/context/
 
 <br>
 
-**📜 Contract skill（20 个）**——拥有产物：`vc-generate-plan` · `vc-generate-context` · `vc-generate-spec` · `vc-generate-closeout` · `vc-generate-phase-program` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-update` · `vc-publish` · `vc-feasibility-test` · `vc-risk-evidence-pack` · `vc-test-coverage-plan` · `vc-validate-findings` · `vc-autoresearch` · `vc-intent-clarify` · `vc-autopilot` · `vc-agent-strategy-compare` · `vc-plan-discovery` · `vc-context-discovery`
+**📜 Contract skill（20 个）**——拥有产物：`vb-generate-plan` · `vb-generate-context` · `vb-generate-spec` · `vb-generate-closeout` · `vb-generate-phase-program` · `vb-audit-context` · `vb-audit-plans` · `vb-audit-vc` · `vb-update` · `vb-publish` · `vb-feasibility-test` · `vb-risk-evidence-pack` · `vb-test-coverage-plan` · `vb-validate-findings` · `vb-autoresearch` · `vb-intent-clarify` · `vb-autopilot` · `vb-agent-strategy-compare` · `vb-plan-discovery` · `vb-context-discovery`
 
-**🛠️ Helper skill（13 个）**——改进 agent 工作方式：`vc-review-situation` · `vc-sequential-thinking` · `vc-problem-solving` · `vc-scout` · `vc-debug` · `vc-docs-seeker` · `vc-frontend-design` · `vc-agent-browser` · `vc-web-testing` · `vc-setup` · `vc-predict` · `vc-scenario` · `vc-security`
+**🛠️ Helper skill（13 个）**——改进 agent 工作方式：`vb-review-situation` · `vb-sequential-thinking` · `vb-problem-solving` · `vb-scout` · `vb-debug` · `vb-docs-seeker` · `vb-frontend-design` · `vb-agent-browser` · `vb-web-testing` · `vb-setup` · `vb-predict` · `vb-scenario` · `vb-security`
 
 </details>
 
-> **⚠️ 命名规则：** 不要对你自己的 skill 或 agent 使用 `vc-` 前缀——该命名空间为 kit 自带文件保留，过时文件清理守卫将 `.claude/skills/` 和 `.claude/agents/` 下的任何 `vc-*` 路径视为 kit 所有。改用 `my-`、`team-` 或 `proj-`。
+> **⚠️ 命名规则：** 不要对你自己的 skill 或 agent 使用 `vb-` 前缀——该命名空间为 kit 自带文件保留，过时文件清理守卫将 `.claude/skills/` 和 `.claude/agents/` 下的任何 `vb-*` 路径视为 kit 所有。改用 `my-`、`team-` 或 `proj-`。
 
 <br>
 
@@ -1593,7 +1593,7 @@ your-project/
 <td width="50%" valign="top">
 <h1>🔧</h1>
 <strong>Quick Fix</strong> — <code>"quick fix: …"</code><br><br>
-比平凡的单行修改大，比"需要计划"的小。主 agent 只读侦察 → 一行确认 → 启动 <code>vc-quick-fix-agent</code> 进行编辑 + 只对触碰的文件做限定范围检查。<strong>无计划，无约定清单，无 EVL。</strong>
+比平凡的单行修改大，比"需要计划"的小。主 agent 只读侦察 → 一行确认 → 启动 <code>vb-quick-fix-agent</code> 进行编辑 + 只对触碰的文件做限定范围检查。<strong>无计划，无约定清单，无 EVL。</strong>
 <br><br>
 <sub>如果变更触碰 schema、auth、API、计费或迁移面，立即取消——然后路由到完整 RESEARCH。</sub>
 </td>
@@ -1614,24 +1614,24 @@ your-project/
 | 命令 | 做什么 | 什么时候 |
 |---|---|---|
 | `curl … install.sh \| bash` | 同步 kit 文件而不覆盖你的；自动检测全新 vs 升级并引导你 | 首次安装 + 每次升级 |
-| **Run vc-setup** | 检测技术栈，搭建 `process/`，深度扫描代码库，填充真实 context | 全新安装后 |
-| **Run vc-update** | 计算精确 diff，显示将变更什么，等你确认；零数据丢失迁移旧格式计划/文件夹 | 每次升级时 |
-| **Run vc-publish** *（维护者）* | 把 harness 变更发布回 kit 仓库 | 为 kit 本身贡献时 |
+| **Run vb-setup** | 检测技术栈，搭建 `process/`，深度扫描代码库，填充真实 context | 全新安装后 |
+| **Run vb-update** | 计算精确 diff，显示将变更什么，等你确认；零数据丢失迁移旧格式计划/文件夹 | 每次升级时 |
+| **Run vb-publish** *（维护者）* | 把 harness 变更发布回 kit 仓库 | 为 kit 本身贡献时 |
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px', 'lineColor': '#8888AA'}} }%%
 flowchart TD
     TRG["EXECUTE 完成\nENTER UPDATE PROCESS MODE"]
-    AGT["启动 vc-update-process-agent"]
+    AGT["启动 vb-update-process-agent"]
     A["（a）归档计划\nactive/ → completed/"]
     B["（b）更新 process/context/\n最小相关文件\n+ all-context.md 路由"]
     C["（c）一级审计\n（按变更类型门控）"]
-    AVC["vc-audit-vc\nharness/agent 编辑"]
-    ACX["vc-audit-context\ncontext 文档编辑"]
-    APL["vc-audit-plans\n计划/程序编辑"]
+    AVC["vb-audit-vc\nharness/agent 编辑"]
+    ACX["vb-audit-context\ncontext 文档编辑"]
+    APL["vb-audit-plans\n计划/程序编辑"]
     D["（d）捕获经验\n到记忆"]
-    E["（e）写 closeout packet\nvc-generate-closeout"]
-    F["（f）Conventional commit\nvc-git-manager"]
+    E["（e）写 closeout packet\nvb-generate-closeout"]
+    F["（f）Conventional commit\nvb-git-manager"]
 
     TRG --> AGT --> A --> B --> C
     C --> AVC
@@ -1655,7 +1655,7 @@ flowchart TD
     style F fill:#37474F,stroke:#263238,color:#FFFFFF
 ```
 
-> 💡 `vc-update` 展示预览 diff 并等你确认。你的 `process/` 目录和项目特定内容**永远**不会被静默更改。重复运行安装脚本是安全的。
+> 💡 `vb-update` 展示预览 diff 并等你确认。你的 `process/` 目录和项目特定内容**永远**不会被静默更改。重复运行安装脚本是安全的。
 
 ---
 
