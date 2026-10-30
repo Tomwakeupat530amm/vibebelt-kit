@@ -453,3 +453,12 @@ Date: 29-10-26 | Mode: PVL-supplement | Gaps addressed: 5 of 5 | The Validate Co
 - H1: B4.3 uses the real Phase 3 C2 interface: `run-record.mjs record <sandbox> <run-id>`, `subagents <stream.jsonl> <run-id>`, `verify <sandbox> <run-id>`.
 - H2: B4.6(b) aligned with Phase 7 check 4a: both sides VC->VB mapped, count column removed (`cut -f1-4 | LC_ALL=C sort -u`), strictness stated, with-count diff kept as a record.
 - H4 (history text about a Phase 3 pointer-check): no action. Validate Contract left verbatim.
+
+## Phase 6 Hand-offs (added by UPDATE PROCESS, 30-10-26)
+
+- Step B4 (quality-equivalence run) is SKIPPED by user decision 2026-10-30. Release notes must list as known gaps: C-EQ unmeasured, KG1 (live routing), KG2 (split-skill behavior).
+- Pushing needs a token with the `workflow` scope (first push of 0d33214 was rejected) and the user's go-ahead; remote `origin` is set, nothing is pushed.
+- Trial D fix: `git clone --no-hardlinks` (cross-device link on the drvfs mount); Trial E needs the `upstream-baseline` tag in the kit repo.
+- Named residual: the installer backup folder is still `.vibecode-backup/` (also the `.vibecode-backup*/` gitignore guard and `CLAUDE.md.pre-vibecode`).
+- `gen-guardrails.mjs` hashes raw text: the OLD side of any guardrail identity check needs a rename-mapped OLD tree.
+- Umbrella DoD 3 wording is narrower than the designed residual set; align it (see Phase 6 report, hand-off 5).

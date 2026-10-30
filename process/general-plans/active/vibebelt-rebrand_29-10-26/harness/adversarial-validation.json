@@ -1,0 +1,55 @@
+{
+  "task": "vibebelt-rebrand Phase 6: vc- to vb- prefix rename and upgrade safety",
+  "scenarios": [
+    {
+      "scenario": "An update deletes an old kit file the user edited",
+      "ruled_out": true,
+      "rationale": "The legacy gate deletes a hashed file only when its sha256 equals the upstream-baseline hash; otherwise it is kept and reported. Proven by scripts/test-compute-sync-plan.mjs (modified -> kept) and Trial E (edited vc-scout/SKILL.md kept and reported); a mutation that deletes modified files makes Trial E fail."
+    },
+    {
+      "scenario": "A user file inside an old kit folder is deleted together with the folder",
+      "ruled_out": true,
+      "rationale": "Folders are never removed whole: hashed folders are expanded per file (unknown file -> kept), snapshot-gated folders are deleted only when every file is in the old install snapshot. Unit tests: 'unknown file inside a hashed folder' and 'one extra user file keeps the whole entry'."
+    },
+    {
+      "scenario": "A user's own skill with the old prefix (vc-custom) or without it (my-skill) is deleted",
+      "ruled_out": true,
+      "rationale": "Only paths from the old install snapshot or listed in legacyDeletions reach a deletion site; user skills are neither. Unit test and Trial E assert both are byte-identical after the update."
+    },
+    {
+      "scenario": "No install snapshot or an older kit source without legacy-hashes.json makes the gate delete blindly",
+      "ruled_out": true,
+      "rationale": "Both cases keep every gated path and report it; install.sh keeps old-prefix paths when the gate cannot run at all. Unit tests 'no install snapshot' and 'kit without legacy-hashes.json'."
+    },
+    {
+      "scenario": "The rename tool writes outside the repository through a symlink",
+      "ruled_out": true,
+      "rationale": "Files are listed by git, read with lstat, symlinks are skipped, any path whose ancestor is a symlink or whose real parent is outside the real root is skipped. Fixture test 'never follows symlinks and never touches files outside the root'."
+    },
+    {
+      "scenario": "The rename tool overwrites uncommitted work",
+      "ruled_out": true,
+      "rationale": "--apply refuses a dirty tree outside the task folder (exit 3, nothing written); every check (keep-regions, collisions) runs before the first write. Fixture tests for untracked, modified and task-folder-only cases and for an unterminated keep-region."
+    },
+    {
+      "scenario": "An environment variable steers rm -rf to an arbitrary folder",
+      "ruled_out": true,
+      "rationale": "The install and update temp-folder variables are assigned by the scripts, never read from the environment, so no env fallback was added for them (umbrella decision e: fallbacks only where code reads a name)."
+    },
+    {
+      "scenario": "At the intermediate tool commit the gate deletes files the kit itself ships (old names are still the kit's current names there)",
+      "ruled_out": true,
+      "rationale": "The gate skips any path that exists in the kit tree. Unit test 'a path the kit itself still ships is never treated as legacy'."
+    },
+    {
+      "scenario": "A crash between --apply and the rename commit leaves a half-renamed tree, and recovery deletes user files",
+      "ruled_out": true,
+      "rationale": "The plan's recovery block is self-contained and fails closed (M6-18): it restores tracked files outside the task folder, moves ignored screenshots back, previews git clean and stops on any non-vb- path. Rehearsed on a scratch clone (see verification.json)."
+    },
+    {
+      "scenario": "A hostile kit source lists arbitrary paths in legacy-hashes.json",
+      "ruled_out": false,
+      "rationale": "Accepted residual, unchanged trust boundary: the kit source already controls every installed file. The gate only acts on old-prefix paths and on snapshot-gated entries whose files are all in the project's own install snapshot, and only deletes content that matches the recorded hash."
+    }
+  ]
+}

@@ -35,7 +35,7 @@ Measured results:
 - Five proposed new skills are listed in `proposed-new-skills.md`; none were added.
 - Zero billed calls.
 
-Process commit `67a3af9` (`process:`): `p5-tools/**`, `proposed-new-skills.md`, `process/general-plans/backlog/vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md`.
+Process commit `67a3af9` (`process:`): `p5-tools/**`, `proposed-new-skills.md`, `process/general-plans/backlog/vb-agent-browser-screenshots-untrack_NOTE_29-10-26.md`.
 
 **Who did what (Phase Loop Progress):** 1 RESEARCH done; 2 INNOVATE by the orchestrator under user delegation (minimal safe tuning); 3 PLAN-SUPPLEMENT done; 4 PVL `Gate: PASS` (pass 1, inner-pvl: phase-5); 5 EXECUTE one `fix:` commit (vc-execute-agent, opus); 6 EVL independent vc-tester (opus) PASS; 7 UPDATE PROCESS this report (no commit made here).
 
@@ -44,7 +44,7 @@ Process commit `67a3af9` (`process:`): `p5-tools/**`, `proposed-new-skills.md`, 
 | Item | Why | Destination |
 |---|---|---|
 | Splitting `vc-setup`, `vc-update`, `vc-generate-phase-program`, `vc-agent-strategy-compare` | Out of scope by decision F (minimal safe tuning) | none; not planned |
-| Untracking or deleting the agent-browser screenshots | Non-destructive stance; already ignored and excluded by the manifest | backlog note `vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md` (matches the doomed regex, removed at C-CLEAN) |
+| Untracking or deleting the agent-browser screenshots | Non-destructive stance; already ignored and excluded by the manifest | backlog note `vb-agent-browser-screenshots-untrack_NOTE_29-10-26.md` (matches the doomed regex, removed at C-CLEAN) |
 | Adding the 5 proposed new skills | Proposals only in Phase 5 | `proposed-new-skills.md` (doomed set, removed at C-CLEAN) |
 | `AGENTS.md` Skill Registry rows (vc-publish `update remote`, vc-generate-plan `spec`) | Phase 5 must not edit `AGENTS.md` | Phase 6 hand-off 1 |
 
@@ -112,4 +112,4 @@ None unmet. KG1 and KG2 are measurement residuals for Phase 8, not unmet criteri
 2. Phase 6: the rename sweep must cover `vc-intent-clarify/references/*.md` (they contain no `vc-` tokens by design) and the 19 `author: vibecode-pro-max-kit` SKILL.md files.
 3. Phases 6, 7, 8 each need a fresh inner PVL before execution (the umbrella says so; their contracts are outer-pvl).
 4. Phase 8 B4 owns KG1 (live routing) and KG2 (split-skill behavior).
-5. Doomed set for C-CLEAN: `p5-tools/**` and `proposed-new-skills.md` are removed; the backlog note `process/general-plans/backlog/vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md` matches `harness/doomed.regex` (the `backlog/*_NOTE_*.md` pattern), so it is removed from the clean tree too.
+5. Doomed set for C-CLEAN: `p5-tools/**` and `proposed-new-skills.md` are removed; the backlog note `process/general-plans/backlog/vb-agent-browser-screenshots-untrack_NOTE_29-10-26.md` matches `harness/doomed.regex` (the `backlog/*_NOTE_*.md` pattern), so it is removed from the clean tree too.

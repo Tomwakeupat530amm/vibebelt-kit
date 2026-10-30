@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: Trial A: new install on empty project
+ok 1 - Trial A: new install on empty project
+  ---
+  duration_ms: 13501.383815
+  type: 'test'
+  ...
+# Subtest: Trial B: coexistence — user skills survive install
+ok 2 - Trial B: coexistence — user skills survive install
+  ---
+  duration_ms: 14166.227655
+  type: 'test'
+  ...
+# Subtest: Trial C: v2.x to v3 migration via install
+ok 3 - Trial C: v2.x to v3 migration via install
+  ---
+  duration_ms: 14366.294399
+  type: 'test'
+  ...
+# Subtest: Trial E: old install to new install
+ok 4 - Trial E: old install to new install
+  ---
+  duration_ms: 80405.166829
+  type: 'test'
+  ...
+# .vb-version after the old-to-new install: 1.0.0
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 122564.625197

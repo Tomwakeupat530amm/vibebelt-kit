@@ -1,0 +1,10 @@
+      1 vc:
+      2 vc:autoresearch
+      3 vc:code-review
+      3 vc:cook
+      2 vc:debug
+      3 vc:fix
+      1 vc:journal
+      4 vc:plan
+      1 vc:plan-
+      3 vc:research

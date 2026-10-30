@@ -1,45 +1,218 @@
 {
-  "_note": "Phase 5 record, replaces the Phase 4 content (preserved in git history, commit f43f597, and in phase-04-doc-dedup_REPORT_30-10-26.md). Results come from the independent vc-tester (opus) EVL run of 2026-10-30 plus the UPDATE PROCESS re-checks. Same shape as earlier phases.",
-  "phase": "phase-05-tune-skills",
+  "_note": "Phase 6 EXECUTE record (replaces the Phase 5 content, which stays in git history at 0d33214 and in phase-05-tune-skills_REPORT_30-10-26.md). Written by vc-execute-agent (opus) after the rename commit; the independent EVL by vb-tester in the restarted session must re-run these gates and may extend this file.",
+  "task": "vibebelt-rebrand Phase 6: vc- to vb- prefix rename and upgrade safety",
+  "phase": "phase-06-prefix-rename",
   "date": "2026-10-30",
-  "tester": "vc-tester (opus), independent EVL confirmation run",
-  "gate": "PASS",
   "commits": {
-    "p5_start": "f43f597",
-    "tools": "67a3af9",
-    "execution": "abb68c0"
+    "start": "0d33214",
+    "tools": "11b19c2 feat: add rename tool and upgrade safety (58 files)",
+    "rename": "1e86c12 refactor: rename vc- prefix to vb- (475 files: 369 renames, 94 modified, 6 add/delete pairs)",
+    "rollback_point": "11b19c2e0f37a4c3595364374d08f634a30cad43 (harness/pre-vb-rename.sha; no tag)"
   },
-  "steps": [
+  "commands": [
     {
-      "step": "Exit Gate (all rows, literal committed form) and X1-X5",
-      "command": "Phase 5 plan Exit Gate commands incl. claim check over f43f597..HEAD, routing/conservation checks, catalog --check, validator suite",
+      "gate": "G0",
+      "command": "node scripts/rename-prefix.mjs --dry-run | tail -1",
       "result": "PASS",
-      "notes": "33 top-3 trigger lists preserved in order; word-sharing pairs 2 -> 0; contained-phrase collisions 12 -> 10; vc-intent-clarify 26,600 -> 19,611 bytes, 154 lines conserved, byte-exact rebuild; skillCount 33; resolver ships 418 files"
+      "output": "RESULT edits=0 renames=0"
     },
     {
-      "step": "Positive controls (8)",
-      "command": "mutation and negative controls over the claim, routing, conservation and size checks",
+      "gate": "G1",
+      "command": "no vc-* in .claude/skills, .claude/agents, .codex/agents",
       "result": "PASS",
-      "notes": "all behaved as expected; X2 accepts a valid >- block by design E3"
+      "output": "0"
     },
     {
-      "step": "Shipped files unchanged outside the claim",
-      "command": "git diff --stat f43f597 abb68c0 -- AGENTS.md CLAUDE.md .codex process/development-protocols",
+      "gate": "G2",
+      "command": "test -f vb-manifest.json && test ! -f vc-manifest.json",
       "result": "PASS",
-      "notes": "AGENTS.md, CLAUDE.md, agents, hooks, protocols byte-identical to f43f597"
+      "output": "0"
     },
     {
-      "step": "Validator baseline not worse",
-      "command": "bash baseline/compare.sh",
+      "gate": "G3",
+      "command": "node scripts/test-rename-prefix.mjs",
       "result": "PASS",
-      "notes": "exit 0"
+      "output": "10 pass, 0 fail, exit 0"
+    },
+    {
+      "gate": "G4",
+      "command": "node scripts/test-compute-sync-plan.mjs",
+      "result": "PASS",
+      "output": "9 pass, 0 fail, exit 0"
+    },
+    {
+      "gate": "G5",
+      "command": "path find vs scripts/rename-prefix.path-allowlist.txt",
+      "result": "PASS",
+      "output": "empty diff (10 protected fixture paths allowed)"
+    },
+    {
+      "gate": "G6",
+      "command": "scan list never lists task-folder files",
+      "result": "PASS",
+      "output": "0"
+    },
+    {
+      "gate": "G7",
+      "command": "content sweep vs scripts/rename-prefix.allowlist.txt",
+      "result": "PASS",
+      "output": "empty diff (17 files with tagged lines, keep-regions or legacyDeletions)"
+    },
+    {
+      "gate": "G8",
+      "command": "readers keep old names only on legacy-vc-fallback lines",
+      "result": "PASS",
+      "output": "0"
+    },
+    {
+      "gate": "G9",
+      "command": "signal census after vs before (VC- -> VB-)",
+      "result": "PASS",
+      "output": "empty diff (105 named signals: 43 + 40 + 13 + 9, plus 9 bare VB-, VB-PREDICT, VB-S)"
+    },
+    {
+      "gate": "G10",
+      "command": "vc:* colon census unchanged",
+      "result": "PASS",
+      "output": "empty diff (23 hits)"
+    },
+    {
+      "gate": "G11",
+      "command": "resolve-manifest --json at 1.0.0, no scripts/** or legacy-hashes.json shipped",
+      "result": "PASS",
+      "output": "exit 0 (418 files, 0 bad)"
+    },
+    {
+      "gate": "G12",
+      "command": "legacy-config-fallback.test.cjs x2",
+      "result": "PASS",
+      "output": "5/5 and 7/7, exit 0"
+    },
+    {
+      "gate": "G13",
+      "command": "bash harness/compare-vb.sh",
+      "result": "PASS",
+      "output": "exit 0, 'OK: nothing worse than validators_after_setup.tsv' (incl. LICENSE rule)"
+    },
+    {
+      "gate": "G13c",
+      "command": "every release.yml run: node step, exit codes vs release-validators-before.tsv",
+      "result": "PASS",
+      "output": "no output (38 steps; 34 x 0 + 4 x 1 before and after: validate-skills and validate-context-discovery red only on .agents/skills (drvfs baseline), validate-eval-coverage and validate-risk-artifacts red at baseline)"
+    },
+    {
+      "gate": "G14",
+      "command": "validate-agent-parity",
+      "result": "PASS",
+      "output": "exit 0, failures []"
+    },
+    {
+      "gate": "G15",
+      "command": "node --test --test-name-pattern 'Trial [ABCE]' e2e-kit-flows.test.mjs",
+      "result": "PASS",
+      "output": "0 4 (.vb-version after the old-to-new install: 1.0.0)"
+    },
+    {
+      "gate": "G15 Trial D (carved out)",
+      "command": "node --test --test-name-pattern 'Trial D' e2e-kit-flows.test.mjs",
+      "result": "FAIL (baseline, not worse)",
+      "output": "exit 1, Invalid cross-device link (Phase 8 A0)"
+    },
+    {
+      "gate": "G15b",
+      "command": "AC-5 predicate offenders in vb-manifest.json",
+      "result": "PASS",
+      "output": "0"
+    },
+    {
+      "gate": "G18b",
+      "command": "compare-vb used the vb- list",
+      "result": "PASS",
+      "output": "0 (29 command headers, 26 with /vb-, 0 with /vc-)"
+    },
+    {
+      "gate": "G13b",
+      "command": "LICENSE lines",
+      "result": "PASS",
+      "output": "1 and 1"
+    },
+    {
+      "gate": "G18",
+      "command": "author lines",
+      "result": "PASS",
+      "output": "0 (before 19; after: 0 old, 19 new)"
+    },
+    {
+      "gate": "G19",
+      "command": "AGENTS.md <= 32,768 bytes",
+      "result": "PASS",
+      "output": "0 (31,981 bytes)"
+    },
+    {
+      "gate": "G20",
+      "command": "pointer-check before/after with the G20X filter",
+      "result": "PASS",
+      "output": "no output (before 178 rows, after 204 rows; no new broken pointer outside the by-design files)"
+    },
+    {
+      "gate": "G21",
+      "command": "AGENTS.md registry rows",
+      "result": "PASS",
+      "output": "0"
+    },
+    {
+      "gate": "G22",
+      "command": "generate-skills-catalog.mjs --check",
+      "result": "PASS",
+      "output": "0 (skillCount 33)"
+    },
+    {
+      "gate": "G16",
+      "command": "git diff --check",
+      "result": "PASS",
+      "output": "no output"
+    },
+    {
+      "gate": "G17",
+      "command": "git log --oneline -1",
+      "result": "PASS",
+      "output": "1e86c12 refactor: rename vc- prefix to vb-"
     }
   ],
+  "manualChecks": [
+    "Entry Gate 1-6 green on 0d33214; P2 author-before 19 (taken before any fixture existed)",
+    "red-first: fixture runner 10/10 red without the tool; gate test 6/8 red before the gate; hook fallback tests red on the new-name cases before the rename",
+    "dry run before the apply: RESULT edits=272 renames=104 (270 + the 2 new hook tests; scan list 567)",
+    "C1b trial apply: every allowlist entry reviewed; no untagged leftover outside tagged lines, keep-regions and legacyDeletions",
+    "rehearsal on two scratch clones: full Exit Gate block green; G13c differs only on the two .agents/skills validators (real symlink there); Trial E mutation (gate deletes modified files) caught; crash recovery block: full crash recovered from a subdirectory with no variables set, 53 screenshots back and ignored; with an untracked user file it stops (exit 1) and keeps the file",
+    "hook suites: failing-subtest counts identical before and after the rename in every baseline-red file",
+    "no push, no tag created (only upstream-baseline), no git reset --hard, staging by explicit lists only"
+  ],
+  "result": "PASS (EXECUTE self-check) and PASS (independent EVL by vb-tester, opus, on 1e86c12, 2026-10-30)",
   "known_gaps": [
-    "KG1 live model routing after the keyword edits is unmeasured (Phase 8 B4)",
-    "KG2 split-skill behaviour proven by conservation and byte-exact rebuild only (Phase 8 B4)",
-    "raw validate-skills passes only via the .agents/skills filter (X1; known drvfs baseline)",
-    "plan E1 text names the phase-04 report _29-10-26 but the real file is _30-10-26 (stale text only)",
-    "p5-tools/body-before.txt and body-after.txt are committed leftovers (doomed at C-CLEAN)"
-  ]
+    "Trial D red on this host (cross-device clone), Phase 8 A0",
+    ".codex/hooks/lib/__tests__/usage-limits-cache.test.cjs red before and after (pre-existing)",
+    "C-P6-g live resolution of vb- agents and skills: Agent-Probe after the restart",
+    "Trial E needs the upstream-baseline tag in the kit repo"
+  ],
+  "independentEvl": {
+    "agent": "vb-tester (opus)",
+    "date": "2026-10-30",
+    "commit": "1e86c12",
+    "verdict": "all Exit Gate G0-G22 PASS",
+    "closeout": "WITH_GAPS",
+    "positiveControls": [
+      "untagged token caught",
+      "deleted toml mirror caught",
+      "corrupted legacy hash caught",
+      "crash-recovery block caught"
+    ],
+    "install": "empty target and upgrade from upstream-baseline OK; .vb-version 1.0.0; old .vc-version and .vc-installed-files removed; user content kept",
+    "e2e": "native disk: Trials A,B,C,D,E pass; Windows-mounted drive: Trial D red (cross-device link, Phase 8 A0)",
+    "signals": "PHASE_COMPLETE:, Gate: PASS, SUPPLEMENT_APPLIED:, QUICK_FIX_ABORT: counts identical",
+    "parity": "agent parity, frontmatter, model-effort policy exit 0 (15 md + 15 toml, 7 opus / 8 sonnet)",
+    "leftoverScan": "739 vc- hits, all in allowed classes",
+    "agentProbe": "vb-research-agent loaded and answered; vb-context-discovery shown by injection only",
+    "note": "recorded by vb-update-process-agent because the EVL agent could not write this file"
+  }
 }

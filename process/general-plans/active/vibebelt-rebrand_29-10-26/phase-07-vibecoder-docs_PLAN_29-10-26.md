@@ -388,3 +388,11 @@ Supplement (ripple of 2026-10-29 decisions): model labels corrected to front-mat
 - `AGENTS.md` <= 32,768 bytes at entry and exit (standing contract from Phase 4; Phase 7 does not edit it).
 - `golden/guardrails.json` exists from Phase 3 step B (agents unchanged since `b17294d`); wording about guardrails frozen 'by slimming' is obsolete. The Validate Contract (R7-6, E7) is kept verbatim as history.
 - Not changed here: the QUICKSTART/GLOSSARY files and 8 banners still in this plan conflict with the umbrella decision to fold them into the READMEs (umbrella C-CLEAN 'Phase-plan wording needed'); that belongs to Phase 7's own PVL.
+
+## Phase 6 Hand-offs (added by UPDATE PROCESS, 30-10-26)
+
+- Names are `vb-` now (agents, skills, `vb-manifest.json`, `.vb-version`); the rename is done and verified (`phase-06-prefix-rename_REPORT_30-10-26.md`).
+- Pointer check: use `$TF/p4-tools/pointer-check.mjs` (Phase 4 tool).
+- README: QUICKSTART and GLOSSARY content is folded into the README (umbrella decision); do not create separate files unless Phase 7 research says otherwise.
+- A Vietnamese README is required (user request).
+- User decision 2026-10-30: Phase 7 skips its separate PVL to save quota; its existing contract is used, and an independent check runs after writing.

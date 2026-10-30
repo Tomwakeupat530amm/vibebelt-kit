@@ -98,10 +98,11 @@ Baseline reds on 2026-10-29 (saved in `process/general-plans/active/vibebelt-reb
 |---|---|---|---|
 | `validate-skills.mjs` | 1 | `.agents/skills` is a 17-byte text file in the Windows work tree (a symlink in the git index, mode 120000); the validator cannot follow it | environment; red under both node.exe and Linux node on this drvfs mount (exit 1 in both baseline TSVs); green only on a native Linux or CI checkout where .agents/skills is a real symlink |
 | `validate-context-discovery.mjs` | 1 | same `.agents/skills` text file | environment; red under both node.exe and Linux node on this drvfs mount (exit 1 in both baseline TSVs); green only on a native Linux or CI checkout where .agents/skills is a real symlink |
-| `node --test e2e-kit-flows.test.mjs` | 1 | Under node.exe: Windows path bug (`new URL(import.meta.url).pathname`, `/tmp` paths). Under Linux node on this drvfs mount: Trial C fails the AC-5 legacyDeletions predicate (fix in Phase 6 task B4) and Trial D fails with a cross-device git clone link error; Trials A and B pass | Phases 6 and 8 of the rebrand program |
+| `node --test e2e-kit-flows.test.mjs` | 1 | Under node.exe: Windows path bug (`new URL(import.meta.url).pathname`, `/tmp` paths). Under Linux node on this drvfs mount (after Phase 6): Trials A, B, C, E pass; Trial D fails with a cross-device git clone link error (green on a native disk); Trial E needs the `upstream-baseline` tag in the kit repo | Phase 8 A0 (Trial D `--no-hardlinks`, Windows paths) |
 | `.claude/hooks/lib/__tests__/statusline-integration.test.cjs` | 1 | baseline red (Linux node) | none |
 | `.claude/hooks/lib/__tests__/statusline-scenarios.test.cjs` | 1 | baseline red (Linux node) | none |
 | `.claude/hooks/lib/__tests__/transcript-parser-signals.test.cjs` | 1 | baseline red (Linux node) | none |
+| `.codex/hooks/lib/__tests__/usage-limits-cache.test.cjs` | 1 | pre-existing red (5 failing cases), same before and after the Phase 6 rename; found at Phase 6 EVL | none |
 | `.claude/skills/vb-review-situation/scripts/review-situation-scan.test.cjs` | 1 | 1 of 10 fails: 'task-folder convention plan is detected as primary plan' (`payload.plans.finished is not iterable`) | none |
 | `.claude/skills/vb-sequential-thinking/tests/*.test.js` | 1 | 'describe is not defined' (tests use `describe` globals) | none |
 
