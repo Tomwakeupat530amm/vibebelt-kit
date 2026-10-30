@@ -3,7 +3,7 @@
  * e2e-kit-flows.test.mjs
  * Four end-to-end trials for vibebelt-kit (written for upstream v3.0.0).
  * Uses Node built-in node:test — no external test dependencies.
- * ALL writes go to /tmp — never touches the target/source repo.
+ * ALL writes go to the OS temp folder (os.tmpdir(), /tmp on Linux) — never touches the target/source repo.
  *
  * Run: node e2e-kit-flows.test.mjs
  * Or:  node --test e2e-kit-flows.test.mjs
@@ -14,12 +14,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const KIT_PATH = process.env.VB_KIT_SOURCE
-  ?? path.dirname(new URL(import.meta.url).pathname);
+  ?? path.dirname(fileURLToPath(import.meta.url));
 const INSTALL_SH = path.join(KIT_PATH, 'install.sh');
+// bash (Git Bash or WSL) on Windows needs forward slashes; callers also quote the path.
+const toBashPath = (p) => (process.platform === 'win32' ? p.replace(/\\/g, '/') : p);
 // Kit manifest: the current name first; kits from before the prefix rename ship the old name.
 const KIT_MANIFEST_NEW = path.join(KIT_PATH, 'vb-manifest.json');
 const KIT_MANIFEST_OLD = path.join(KIT_PATH, 'vc-manifest.json'); // legacy-vc-fallback
@@ -35,7 +39,7 @@ const KIT_MANIFEST = fs.existsSync(KIT_MANIFEST_NEW) ? KIT_MANIFEST_NEW : KIT_MA
  * @returns {string} projectPath
  */
 function seedProject(opts) {
-  const projectPath = fs.mkdtempSync('/tmp/vb-e2e-');
+  const projectPath = fs.mkdtempSync(path.join(os.tmpdir(), 'vb-e2e-'));
 
   // Every project needs git init — discover-skills.mjs runs git rev-parse
   execSync('git init -q', { cwd: projectPath });
@@ -107,7 +111,7 @@ function seedProject(opts) {
 test('Trial A: new install on empty project', async () => {
   const projectPath = seedProject({ seed: 'empty' });
   try {
-    execSync(`bash ${INSTALL_SH}`, {
+    execSync(`bash "${toBashPath(INSTALL_SH)}"`, {
       cwd: projectPath,
       env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
@@ -177,7 +181,7 @@ test('Trial B: coexistence — user skills survive install', async () => {
   const settingsBefore = fs.readFileSync(settingsPath);
 
   try {
-    execSync(`bash ${INSTALL_SH}`, {
+    execSync(`bash "${toBashPath(INSTALL_SH)}"`, {
       cwd: projectPath,
       env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
@@ -238,7 +242,7 @@ test('Trial C: v2.x to v3 migration via install', async () => {
   const userToolBefore = fs.readFileSync(userToolPath);
 
   try {
-    execSync(`bash ${INSTALL_SH}`, {
+    execSync(`bash "${toBashPath(INSTALL_SH)}"`, {
       cwd: projectPath,
       env: { ...process.env, VB_KIT_SOURCE: KIT_PATH },
       stdio: 'pipe',
@@ -339,10 +343,11 @@ test('Trial D: publish dry-run — no git push occurs without explicit approval'
   );
 
   // Proxy: run compute-sync-plan.mjs in publish direction and assert git state unchanged
-  const tmpKitClone = fs.mkdtempSync('/tmp/vb-e2e-publish-');
+  const tmpKitClone = fs.mkdtempSync(path.join(os.tmpdir(), 'vb-e2e-publish-'));
   try {
-    // Clone the local kit to a tmpdir (simulates kitRepoPath in vb-publish)
-    execSync(`git clone --local --quiet "${KIT_PATH}" "${tmpKitClone}"`, {
+    // Clone the local kit to a tmpdir (simulates kitRepoPath in vb-publish).
+    // --no-hardlinks: the kit checkout and the temp folder may be on different drives.
+    execSync(`git clone --local --no-hardlinks --quiet "${KIT_PATH}" "${tmpKitClone}"`, {
       stdio: 'pipe',
     });
 
@@ -412,7 +417,7 @@ test('Trial E: old install to new install', async (t) => {
   } catch {
     throw new Error('Trial E needs the upstream-baseline tag of the kit repo (git fetch --tags)');
   }
-  const oldKit = fs.mkdtempSync('/tmp/vb-e2e-oldkit-');
+  const oldKit = fs.mkdtempSync(path.join(os.tmpdir(), 'vb-e2e-oldkit-'));
   const projectPath = seedProject({ seed: 'empty' });
   const cleanEnv = { ...process.env };
   delete cleanEnv.VB_KIT_SOURCE;
@@ -420,7 +425,7 @@ test('Trial E: old install to new install', async (t) => {
   try {
     // 1. The old kit, exactly as released, installed by its own installer.
     execSync(`git archive upstream-baseline | tar -x -C "${oldKit}"`, { cwd: KIT_PATH, stdio: 'pipe' });
-    execSync(`bash "${path.join(oldKit, 'install.sh')}"`, {
+    execSync(`bash "${toBashPath(path.join(oldKit, 'install.sh'))}"`, {
       cwd: projectPath, env: { ...cleanEnv, VC_KIT_SOURCE: oldKit }, stdio: 'pipe',
     });
     const oldSnapshot = fs.readFileSync(path.join(projectPath, '.vc-installed-files'), 'utf8').split('\n').filter(Boolean);
@@ -440,7 +445,7 @@ test('Trial E: old install to new install', async (t) => {
     }
 
     // 3. This kit installed over it.
-    const output = execSync(`bash "${INSTALL_SH}"`, {
+    const output = execSync(`bash "${toBashPath(INSTALL_SH)}"`, {
       cwd: projectPath, env: { ...cleanEnv, VB_KIT_SOURCE: KIT_PATH }, stdio: 'pipe', encoding: 'utf8',
     }).replace(/\x1b\[[0-9;]*m/g, '');
     const exists = (p) => fs.existsSync(path.join(projectPath, p));
