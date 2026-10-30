@@ -18,7 +18,7 @@ Use this folder for durable, repo-specific operating instructions that must stay
 
 ## Read Order
 
-1. `vc-system-behavior/` — complete system behavior reference, 12-file split (start here: `vc-system-behavior/01-overview.md` is the entrypoint). The legacy 186KB monolith is archived at `archive/vc-system-behavior-reference_ARCHIVED_09-06-26.md` (read-only history).
+1. `vc-system-behavior/` — complete system behavior reference, 12-file split (start here: `vc-system-behavior/01-overview.md` is the entrypoint). The former single-file monolith was removed; this split replaces it.
 2. `orchestration.md`
 3. `implementation-standards.md`
 4. `plan-lifecycle.md`
@@ -34,8 +34,7 @@ Use this folder for durable, repo-specific operating instructions that must stay
   Authoritative end-to-end system behavior reference: every phase, every required skill (with
   REQUIRED vs CONDITIONAL labels), both test loops, /goal block format, phase program inner loop,
   infrastructure gaps (D1/H4/G1/I2), and before/after hardening table. Split into numbered files
-  01-overview … 12-reference. The legacy single-file monolith is archived (read-only) at
-  `archive/vc-system-behavior-reference_ARCHIVED_09-06-26.md`.
+  01-overview … 12-reference. The former single-file monolith was removed.
 - `orchestration.md`
   Delegation rules, subagent status protocol, context isolation, feature-scope routing, intent clarification rules, validate gate and skip conditions, BLOCKED escalation path, two-tier fan-out escalation, and research-first rules for service-shaped work.
 - `implementation-standards.md`

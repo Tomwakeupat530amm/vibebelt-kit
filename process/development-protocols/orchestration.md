@@ -194,15 +194,9 @@ is treated as a placeholder.
 
 ### Current Execution State Format
 
-The umbrella plan's `## Current Execution State` (or equivalent status section) must always include:
-- Current loop step: `1a-research | 1b-plan-supplement | 2-validate | 3-execute | 4-update-process`
-- Validate-contract status: `written (date)` or `not written`
+The umbrella plan's `## Current Execution State` uses the canonical 8-field format defined in behavior-reference Section 6 (Last updated / Current phase N of total / Phase N name / Phase N status / Phase N EVL / Phase N report / Next phase). The `update-process-agent` writes it. An older 2-field form (current loop step + validate-contract status) may still appear in umbrella plans written before Section 6; read it, never write it.
 
-This is the signal the orchestrator reads to choose which subagent to spawn next. When this information is missing from the umbrella plan, the orchestrator must infer it from the Phase Loop Progress checkboxes in the selected phase plan.
-
-**Superseded by Section 6 canonical format:** The 2-field format above (current loop step + validate-contract status) is superseded by the canonical 8-field `## Current Execution State` format defined in behavior-reference Section 6 (Last updated / Current phase N of total / Phase N name / Phase N status / Phase N EVL / Phase N report / Next phase). The `update-process-agent` writes the 8-field format.
-
-For orchestrator routing decisions: use the Phase Loop Progress checkboxes in the phase plan file (see Phase Program Pre-Routing Check below), NOT the umbrella `## Current Execution State` loop-step field.
+For orchestrator routing decisions: use the Phase Loop Progress checkboxes in the phase plan file (see Phase Program Pre-Routing Check below), NOT the umbrella `## Current Execution State` loop-step field. When the umbrella state is missing or stale, infer the position from those checkboxes.
 
 ### Phase Program Pre-Routing Check (7-step model)
 
@@ -317,7 +311,7 @@ EXECUTE CONSENT field in the provisional goal block records this consent explici
 This rule applies only to the current autopilot run. It does not persist across sessions unless
 the provisional goal block (or its UPDATE variant) is re-pasted.
 
-Full specification: `process/development-protocols/autopilot.md` §ENTER EXECUTE MODE Consent.
+Full specification: `process/development-protocols/autopilot.md` §Autonomous Run Rules (the ENTER EXECUTE MODE gate row) and `process/development-protocols/autopilot.md` §Provisional Goal Block Format (the `EXECUTE CONSENT:` field).
 
 ### Intent Revalidation After Research
 
@@ -867,8 +861,11 @@ node .claude/skills/vc-audit-vc/scripts/validate-guide-sync.mjs
 node .claude/skills/vc-audit-vc/scripts/validate-protocol-wiring.mjs
 node .claude/skills/vc-audit-vc/scripts/validate-skill-invocation-wiring.mjs
 node .claude/skills/vc-audit-vc/scripts/validate-agent-frontmatter.mjs
+node .claude/skills/vc-audit-vc/scripts/validate-model-effort-policy.mjs
 git diff --check                                                             # (merge-conflict marker check)
 ```
+
+CI (`.github/workflows/validate.yml`) runs the full set of 38 validator scripts; the list above is the minimum local suite.
 
 These additional validators are available for phase programs and plan artifact quality checks:
 
