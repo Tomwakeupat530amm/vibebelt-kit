@@ -1,0 +1,6 @@
+name = "vb-demo-agent"
+description = "Fixture agent for scripts/check-docs.mjs --self-test"
+developer_instructions = """
+Read `process/development-protocols/orchestration.md` first, then hand the work to `vb-planner`.
+When the work is done, emit PHASE_COMPLETE: EXECUTE and end with DONE or BLOCKED.
+"""
