@@ -185,13 +185,13 @@ git diff --check                                                             # E
 Orchestrator reads this before deciding which subagent to spawn next. The canonical 7-step inner loop
 `R → I → P → PVL → E → EVL → UP` SKIPS SPEC (the umbrella plan and the user brief act as the SPEC).
 
-- [ ] 1. RESEARCH — vc-research-agent (opus, front-matter): prior phase reports read; test context loaded; plan drift checked
-- [ ] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written
-- [ ] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus, front-matter): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean")
-- [ ] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md`
-- [ ] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented)
-- [ ] 6. EVL — vc-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written
-- [ ] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main
+- [x] 1. RESEARCH — vc-research-agent (opus, front-matter): prior phase reports read; test context loaded; plan drift checked -- DONE: research complete (tools commit 67a3af9)
+- [x] 2. INNOVATE — innovate-agent (sonnet): approach decided; Decision Summary written -- DONE: scope decision by the orchestrator under user delegation (2026-10-30): minimal safe tuning
+- [x] 3. PLAN-SUPPLEMENT — vc-plan-agent (opus, front-matter): existing phase plan updated; Inner Loop Refresh Note if sections changed (or "n/a — research clean") -- DONE: plan supplemented; Inner Loop Refresh Note written (2026-10-30)
+- [x] 4. PVL — vc-validate-agent (opus, front-matter): full V1-V7; validate-contract written per `.claude/skills/vc-validate-findings/references/example-validate-output.md` -- DONE: Gate: PASS (inner-pvl: phase-5, 2026-10-30, pass 1)
+- [x] 5. EXECUTE — vc-execute-agent (opus): all checklist items done; per-section test gates run and green (or gaps documented) -- DONE: fix commit abb68c0 (6 SKILL.md, 2 new vc-intent-clarify references, regenerated catalog)
+- [x] 6. EVL — vc-tester: all EVL gates green; follow-up stubs registered; EVL HANDOFF SUMMARY written -- DONE: independent vc-tester (opus) PASS, all Exit Gate rows and X1-X5, 8 positive controls, closeout WITH_GAPS
+- [x] 7. UPDATE PROCESS — vc-update-process-agent (sonnet): phase report written, umbrella state updated, commit done on main -- DONE: report phase-05-tune-skills_REPORT_30-10-26.md, umbrella state, results.tsv row 12, verification.json, registry; process commit pending (git-manager)
 
 **Validate-contract required.** If step 4 (PVL) is unchecked or `## Validate Contract` reads
 "(placeholder — vc-validate-agent writes this section before EXECUTE)", the orchestrator must spawn

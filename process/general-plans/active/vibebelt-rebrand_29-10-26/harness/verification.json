@@ -1,31 +1,32 @@
 {
-  "_note": "Phase 4 record, replaces the Phase 3 content (preserved in git history, commit 0469f54, and in phase-03-instrument-and-freeze_REPORT_30-10-26.md). Results come from the independent vc-tester (opus) EVL run of 2026-10-30 plus the UPDATE PROCESS re-checks. Same shape as earlier phases.",
-  "phase": "phase-04-doc-dedup",
+  "_note": "Phase 5 record, replaces the Phase 4 content (preserved in git history, commit f43f597, and in phase-04-doc-dedup_REPORT_30-10-26.md). Results come from the independent vc-tester (opus) EVL run of 2026-10-30 plus the UPDATE PROCESS re-checks. Same shape as earlier phases.",
+  "phase": "phase-05-tune-skills",
   "date": "2026-10-30",
   "tester": "vc-tester (opus), independent EVL confirmation run",
   "gate": "PASS",
   "commits": {
-    "p4_start": "0469f54",
-    "execution": "5b143f4"
+    "p5_start": "f43f597",
+    "tools": "67a3af9",
+    "execution": "abb68c0"
   },
   "steps": [
     {
-      "step": "Exit Gate (all rows, literal committed form)",
-      "command": "Phase 4 plan Exit Gate commands incl. pointer-check, census, size gate, leftover allowlist, catalog --check",
+      "step": "Exit Gate (all rows, literal committed form) and X1-X5",
+      "command": "Phase 5 plan Exit Gate commands incl. claim check over f43f597..HEAD, routing/conservation checks, catalog --check, validator suite",
       "result": "PASS",
-      "notes": "4 broken pointers fixed, 0 new; AGENTS.md 31,983 bytes; allowlist 50 -> 45; census drops only the allowed ones; Skill Registry byte-identical"
+      "notes": "33 top-3 trigger lists preserved in order; word-sharing pairs 2 -> 0; contained-phrase collisions 12 -> 10; vc-intent-clarify 26,600 -> 19,611 bytes, 154 lines conserved, byte-exact rebuild; skillCount 33; resolver ships 418 files"
     },
     {
-      "step": "Positive controls",
-      "command": "size gate, new broken pointer, anchor drop",
+      "step": "Positive controls (8)",
+      "command": "mutation and negative controls over the claim, routing, conservation and size checks",
       "result": "PASS",
-      "notes": "all three caught; control (c) as briefed vacuous for AGENTS.md, passes when aimed at ENTER RESEARCH MODE"
+      "notes": "all behaved as expected; X2 accepts a valid >- block by design E3"
     },
     {
       "step": "Shipped files unchanged outside the claim",
-      "command": "git diff --stat 0469f54 5b143f4 -- CLAUDE.md .claude .codex",
+      "command": "git diff --stat f43f597 abb68c0 -- AGENTS.md CLAUDE.md .codex process/development-protocols",
       "result": "PASS",
-      "notes": "empty"
+      "notes": "AGENTS.md, CLAUDE.md, agents, hooks, protocols byte-identical to f43f597"
     },
     {
       "step": "Validator baseline not worse",
@@ -35,8 +36,10 @@
     }
   ],
   "known_gaps": [
-    "KG-P4-2 pointer-check info line counts 7 of 9 PHASE-GATES citations (informational)",
-    "AGENTS.md mentions nonexistent .claude/memory/MEMORY.md (pre-existing observation, Phase 6/7 may fix)",
-    "validate-context-discovery exit 1 = known .agents/skills drvfs baseline"
+    "KG1 live model routing after the keyword edits is unmeasured (Phase 8 B4)",
+    "KG2 split-skill behaviour proven by conservation and byte-exact rebuild only (Phase 8 B4)",
+    "raw validate-skills passes only via the .agents/skills filter (X1; known drvfs baseline)",
+    "plan E1 text names the phase-04 report _29-10-26 but the real file is _30-10-26 (stale text only)",
+    "p5-tools/body-before.txt and body-after.txt are committed leftovers (doomed at C-CLEAN)"
   ]
 }

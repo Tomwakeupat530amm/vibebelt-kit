@@ -437,7 +437,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 | 2 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_REPORT_29-10-26.md` |
 | 3 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-03-instrument-and-freeze_REPORT_30-10-26.md` |
 | 4 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-04-doc-dedup_REPORT_30-10-26.md` |
-| 5 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_REPORT_29-10-26.md` |
+| 5 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_REPORT_30-10-26.md` |
 | 6 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-06-prefix-rename_REPORT_29-10-26.md` |
 | 7 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-07-vibecoder-docs_REPORT_29-10-26.md` |
 | 8 | `process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_REPORT_29-10-26.md` |
@@ -453,7 +453,7 @@ Proof mapping: C-CLEAN is Fully-Automated (CC1-CC4, CC7, CC8) plus Hybrid (CC5-C
 | 2 — Identity and distribution | ✅ VERIFIED |
 | 3 — Instrument and freeze (no slimming) | ✅ VERIFIED |
 | 4 — Doc de-duplication | ✅ VERIFIED |
-| 5 — Tune skills | ⏳ PLANNED |
+| 5 — Tune skills | ✅ VERIFIED |
 | 6 — Prefix rename | ⏳ PLANNED |
 | 7 — Vibecoder docs | ⏳ PLANNED |
 | 8 — Install test and release | ⏳ PLANNED |
@@ -557,8 +557,12 @@ node .claude/skills/vc-generate-phase-program/scripts/validate-phase-stub.mjs pr
 ## Current Execution State
 
 Last updated: 2026-10-30
-Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS; Phase 2 (Identity and distribution) COMPLETE_WITH_GAPS; Phase 3 (Instrument and freeze, no slimming) COMPLETE_WITH_GAPS; Phase 4 (Doc de-duplication, safe tidy) COMPLETE_WITH_GAPS
-Current phase: 5 of 9
+Completed phases: Phase 0 (Foundation) COMPLETE_WITH_GAPS; Phase 1 (Fix inconsistencies) COMPLETE_WITH_GAPS; Phase 2 (Identity and distribution) COMPLETE_WITH_GAPS; Phase 3 (Instrument and freeze, no slimming) COMPLETE_WITH_GAPS; Phase 4 (Doc de-duplication, safe tidy) COMPLETE_WITH_GAPS; Phase 5 (Tune skills, minimal safe) COMPLETE_WITH_GAPS
+Current phase: 6 of 9
+Phase 5 name: Tune skills (minimal safe)
+Phase 5 status: DONE (COMPLETE_WITH_GAPS; tools commit 67a3af9, execution commit abb68c0, P5_START f43f597; 5 trigger keyword fixes, vc-audit-vc description one line, vc-intent-clarify split 26,600 -> 19,611 bytes into references/dimensions.md and examples.md; catalog regenerated, skillCount 33; AGENTS.md, CLAUDE.md, agents, hooks, protocols byte-identical; zero billed calls; process commit pending; residuals KG1 live routing and KG2 split-skill behavior, both owned by Phase 8 B4)
+Phase 5 EVL: green (independent vc-tester PASS: every Exit Gate row and X1-X5 in literal committed form; 8 positive controls behaved as expected; closeout WITH_GAPS)
+Phase 5 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_REPORT_30-10-26.md
 Phase 4 name: Doc de-duplication (safe tidy)
 Phase 4 status: DONE (COMPLETE_WITH_GAPS; execution commit 5b143f4, P4_START 0469f54; AGENTS.md 37,885 -> 31,983 bytes; 4 broken pointers fixed; K1-1 line added; leftover allowlist 50 -> 45; CLAUDE.md, .claude/, .codex/ unchanged; process commit pending)
 Phase 4 EVL: green (independent vc-tester PASS: every Exit Gate row in literal committed form; positive controls size gate, new broken pointer, anchor drop caught; closeout CLEAN)
@@ -579,9 +583,9 @@ Phase 2 name: Identity and distribution
 Phase 2 status: DONE (COMPLETE_WITH_GAPS; P2_START a3cc0cf; execution commit b80abad, process commit 0812325, follow-up fix commit 0333ed8; version reset to 1.0.0; residuals K2-1 e2e Trial C in Phase 6 B4 and Trial D plus native runs in Phase 8, K2-2 GitHub-side settings and live links in Phase 8)
 Phase 2 EVL: green (independent vc-tester PASS on 0812325: every runnable row, 4 mutation tests, resolver negative control, local install trial 416 = 416 files; Agent-Probe R2.12/R2.13 passed after fixes in 0333ed8). EVL addendum for 0333ed8: PASS (independent vc-tester re-run on 2026-10-29)
 Phase 2 report: process/general-plans/active/vibebelt-rebrand_29-10-26/phase-02-identity-distribution_REPORT_29-10-26.md
-Next phase: 5 - Tune skills (phase-05-tune-skills_PLAN_29-10-26.md)
-Current loop step: EXECUTE (Phase 5, step 5) per its inner PVL Gate: PASS (Entry Gate satisfied: Phase 4 committed, exit gate green); run its Phase Loop Progress first unchecked box before spawning. Phase 5 runs sequentially after Phase 4 on main (decisions F, G) and must not edit AGENTS.md or CLAUDE.md. The only billed hard stop is Phase 8 B4.1.
-Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl); Phases 0, 1, 2, 3 and 4 = Gate: PASS (inner), consumed; Phase 5 = Gate: PASS (inner, 2026-10-30); Phases 6-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
+Next phase: 6 - Prefix rename (phase-06-prefix-rename_PLAN_29-10-26.md)
+Current loop step: PVL (Phase 6, step 4; fresh inner PVL required before any execution, its contract is outer-pvl). After the Phase 5 process commit, run Phase 6 Phase Loop Progress first unchecked box. Phase 6 hand-offs: align AGENTS.md Skill Registry rows (vc-publish, vc-generate-plan) with the catalog, keep AGENTS.md <= 32,768 bytes, sweep vc-intent-clarify/references/*.md and the 19 author: vibecode-pro-max-kit SKILL.md files. The only billed hard stop is Phase 8 B4.1.
+Validate-contract status: umbrella = written (2026-10-29), Gate: PASS (outer-pvl); Phases 0, 1, 2, 3, 4 and 5 = Gate: PASS (inner), consumed; Phases 6-8 = outer-pvl contracts, each needs its own inner PVL before EXECUTE
 Program Net Gate: PASS at umbrella level; C-P8r (native Windows / macOS) stays CONDITIONAL inside Phase 8
 Latest validator run: `bash baseline/compare.sh` exit 0 on 2026-10-30 after Phase 4 (Linux node 22.23.4; NOTE new validator validate-model-effort-policy; 29 rows in baseline/validators.list; validate-skills and validate-context-discovery red only because `.agents/skills` is a text file on drvfs; e2e-kit-flows red, K0-1). 38 validators on disk. Reference files: `baseline/validators_after_setup.tsv` (Linux node) and `.node-exe.tsv` (node.exe).
 Git state: branch main, HEAD 5b143f4 (Phase 4 fix commit), no remote, nothing pushed; tag `upstream-baseline` = 005744e; uncommitted: task-folder files only (p4-tools/, dedup-allowlist*.txt, Phase 4 report, plan checkboxes, umbrella state and status row, results.tsv, harness/verification.json, registry) - commit as one process commit
