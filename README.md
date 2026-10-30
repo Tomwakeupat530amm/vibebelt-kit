@@ -49,7 +49,7 @@ Mở terminal trong thư mục dự án của bạn và dán:
 curl -fsSL https://raw.githubusercontent.com/Tomwakeupat530amm/vibebelt-kit/main/install.sh | bash
 ```
 
-Lệnh này chép bộ kit vào dự án của bạn. Nếu dự án đã có thư mục `.claude/`, `.codex/` hoặc `.agents/`, hay file `CLAUDE.md` hoặc `AGENTS.md`, trình cài đặt sẽ lưu một bản sao của chúng vào `.vibecode-backup/` trước. Sau đó nó thêm các file của bộ kit: file nào trùng tên với một file của bộ kit, kể cả `CLAUDE.md` và `AGENTS.md`, sẽ được thay bằng bản của bộ kit. Kế hoạch và ghi chú riêng của bạn trong `process/` vẫn giữ nguyên; bộ kit chỉ cập nhật file của chính nó trong đó. File `.claude/settings.json` có sẵn cũng được giữ nguyên. Bạn có thể chạy lại lệnh này bất cứ lúc nào; lần nào nó cũng sao lưu trước.
+Lệnh này chép bộ kit vào dự án của bạn. Nếu dự án đã có thư mục `.claude/`, `.codex/` hoặc `.agents/`, hay file `CLAUDE.md` hoặc `AGENTS.md`, trình cài đặt sẽ lưu một bản sao của chúng vào `.vibecode-backup/` trước. Sau đó nó thêm các file của bộ kit. File nào trùng tên với một file của bộ kit, kể cả `CLAUDE.md` và `AGENTS.md`, sẽ được thay bằng bản của bộ kit. Kế hoạch và ghi chú riêng của bạn trong `process/` vẫn giữ nguyên; bộ kit chỉ cập nhật file của chính nó trong đó. File `.claude/settings.json` có sẵn cũng được giữ nguyên. Bạn có thể chạy lại lệnh này bất cứ lúc nào; lần nào nó cũng sao lưu trước.
 
 ### 3. Mở trợ lý AI trong cùng thư mục
 
@@ -108,7 +108,7 @@ Bạn cũng có thể chạy lại lệnh cài đặt; nó sao lưu các file hi
 
 ## Chuyển từ vibecode-pro-max-kit
 
-vibebelt-kit là bản fork (một bản sao được đổi tên và phát triển riêng) của vibecode-pro-max-kit. Nó giữ nguyên quy trình làm việc; các thay đổi (tên mới, các bản sửa lỗi, tài liệu dễ hiểu hơn) đã được kiểm tra bằng các bài kiểm tra tự động của bộ kit. Tên agent và skill giờ bắt đầu bằng `vb` thay vì `vc`.
+vibebelt-kit là bản fork (một bản sao được đổi tên và phát triển riêng) của vibecode-pro-max-kit. Nó giữ nguyên quy trình làm việc; các thay đổi (tên mới, các bản sửa lỗi, tài liệu dễ hiểu hơn) đã được xác minh bằng các bộ kiểm tra tự động của bộ kit. Tên agent và skill giờ bắt đầu bằng `vb` thay vì `vc`.
 
 Cách chuyển:
 
@@ -148,7 +148,7 @@ Cách chuyển:
 | **Codex** | Trợ lý AI viết code của OpenAI, cũng chạy trong terminal. | Cùng ý tưởng đó, của một công ty khác. |
 | **commit** | Một bản lưu nhanh của dự án trong Git, kèm một ghi chú ngắn. | Một điểm lưu trong game. |
 | **context** (ngữ cảnh) | Ghi chú của bộ kit về dự án của bạn, nằm trong `process/context/`. | Cuốn sổ tay trợ lý đọc trước mỗi việc. |
-| **gate** (cổng kiểm tra) | Một lần kiểm tra phải đạt thì phase sau mới được bắt đầu. | Buổi nghiệm thu trước khi xây tường. |
+| **gate** (cổng kiểm tra) | Một lần kiểm tra phải đạt thì phase sau mới được bắt đầu. | Nghiệm thu móng trước khi xây tiếp. |
 | **Git** | Công cụ ghi lại mọi thay đổi trong dự án của bạn. | Chế độ "theo dõi thay đổi" cho cả một thư mục. |
 | **Git Bash** | Một terminal cho Windows, đi kèm Git for Windows, hiểu được bash. | Người phiên dịch giữa Windows và bash. |
 | **hook** | Một script nhỏ tự chạy vào những lúc định sẵn, ví dụ để chặn trợ lý đọc file bí mật như `.env` khi bạn chưa cho phép. | Chuông báo cháy: tự kêu mà không cần ai bảo. |
@@ -157,7 +157,7 @@ Cách chuyển:
 | **plan** (kế hoạch) | Bản viết sẵn những gì sẽ thay đổi và cách kiểm tra, có trước khi viết dòng code nào. | Bản vẽ thiết kế. |
 | **RIPER-5** | Tên quy trình làm việc từng bước của bộ kit (bảy phase ở trên). | Một công thức có các bước cố định. |
 | **skill** (kỹ năng) | Bộ hướng dẫn soạn sẵn mà agent làm theo cho một loại việc, như `vb-setup`. | Một tấm thẻ công thức nấu ăn. |
-| **terminal** (cửa sổ dòng lệnh) | Cửa sổ để gõ lệnh thay vì bấm chuột. | Nhắn tin ra lệnh cho máy tính. |
+| **terminal** (cửa sổ dòng lệnh) | Cửa sổ để gõ lệnh thay vì bấm chuột. | Gõ chữ để ra lệnh cho máy tính. |
 | **validate** (kiểm tra) | Phase tìm chỗ còn hở trong kế hoạch và liệt kê các bài kiểm tra phải đạt. | Một người thứ hai soát lại bản vẽ. |
 | **WSL** | Windows Subsystem for Linux: Linux chạy bên trong Windows. | Một căn phòng Linux trong ngôi nhà Windows. |
 <!-- glossary:end -->
