@@ -15,7 +15,10 @@ if (outFlagIndex === -1 || !process.argv[outFlagIndex + 1]) {
 
 const repoRoot = execSync("git rev-parse --show-toplevel").toString().trim();
 const outDir = path.resolve(process.argv[outFlagIndex + 1]);
-const manifestPath = path.join(repoRoot, "vc-manifest.json");
+// Current manifest name first; a kit from before the prefix rename ships the old name.
+const manifestNew = path.join(repoRoot, "vc-manifest.json");
+const manifestOld = path.join(repoRoot, "vc-manifest.json"); // legacy-vc-fallback
+const manifestPath = fs.existsSync(manifestNew) ? manifestNew : manifestOld;
 const dotGitDirName = `.${"git"}`;
 
 function toPosix(value) {

@@ -1,5 +1,9 @@
+# rename-prefix:keep:start (kit state files: the old vc- names and the new vb- names both stay ignored)
 .vc-version
 .vc-publish-config
+.vb-version
+.vb-publish-config
+# rename-prefix:keep:end
 .vibecode-backup/
 node_modules/
 .DS_Store

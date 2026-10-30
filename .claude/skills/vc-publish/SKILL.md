@@ -38,13 +38,16 @@ If this file is missing, ask the user for the kit repo checkout path and offer t
 ### Step 1: Load Configuration
 
 1. Read `.vc-publish-config` from the current repo root.
+   If only the old `.vc-publish-config` exists (made before the kit's prefix rename), read it, write the same content to the current name, then delete the old file. <!-- legacy-vc-fallback -->
 2. If missing, ask the user for the kit repo local checkout path.
 3. Verify the path exists and contains `vc-manifest.json`.
+   A kit checkout from before the prefix rename has `vc-manifest.json` instead; accept it. <!-- legacy-vc-fallback -->
 4. Verify the kit repo worktree is clean (`git -C <kitRepoPath> status --porcelain`). If dirty, warn and ask whether to proceed or abort.
 
 ### Step 2: Read Manifest
 
 5. Read `vc-manifest.json` from the kit repo checkout.
+   A checkout from before the prefix rename has `vc-manifest.json` instead. <!-- legacy-vc-fallback -->
 6. Extract the current `version`.
 7. Before computing a version bump, check if the current kit version already matches the intended target version (e.g. `3.0.0`). If the kit `version` already equals the target: **skip the bump step entirely** and proceed directly to Step 3 with a `tag-as-is` note — do not increment the version. Record in the publish summary that the version was unchanged.
 

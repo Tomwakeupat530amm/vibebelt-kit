@@ -12,6 +12,9 @@ const { execFileSync } = require('child_process');
 
 const LOCAL_CONFIG_PATH = '.claude/.vc.json';
 const GLOBAL_CONFIG_PATH = path.join(os.homedir(), '.claude', '.vc.json');
+// Config name used before the kit's prefix rename — read-only fallback after the current name.
+const PREV_LOCAL_CONFIG_PATH = '.claude/.vc.json'; // legacy-vc-fallback
+const PREV_GLOBAL_CONFIG_PATH = path.join(os.homedir(), '.claude', '.vc.json'); // legacy-vc-fallback
 // Legacy (pre-rename) config paths — read-only backward-compat fallback.
 const LEGACY_LOCAL_CONFIG_PATH = '.claude/.ck.json';
 const LEGACY_GLOBAL_CONFIG_PATH = path.join(os.homedir(), '.claude', '.ck.json');
@@ -24,15 +27,17 @@ const CONFIG_PATH = LOCAL_CONFIG_PATH;
 
 /**
  * Resolve a config/ignore path with new-first/legacy-fallback semantics.
- * Returns the new path if it exists; else the legacy path if it exists;
+ * Returns the new path if it exists; else the first legacy path that exists (in order);
  * else the new path (so "not found" still reports the canonical name).
  * @param {string} newPath - Preferred (new-brand) path
- * @param {string} legacyPath - Legacy (pre-rename) path
+ * @param {...string} legacyPaths - Legacy (pre-rename) paths, newest first
  * @returns {string} Effective path to read
  */
-function resolveConfigPath(newPath, legacyPath) {
+function resolveConfigPath(newPath, ...legacyPaths) {
   if (fs.existsSync(newPath)) return newPath;
-  if (fs.existsSync(legacyPath)) return legacyPath;
+  for (const legacyPath of legacyPaths) {
+    if (legacyPath && fs.existsSync(legacyPath)) return legacyPath;
+  }
   return newPath;
 }
 
@@ -583,8 +588,8 @@ function loadConfig(options = {}) {
   const projectRoot = process.cwd();
 
   // Load configs from both locations (new-first, legacy fallback per slot)
-  const globalConfig = loadConfigFromPath(resolveConfigPath(GLOBAL_CONFIG_PATH, LEGACY_GLOBAL_CONFIG_PATH));
-  const localConfig = loadConfigFromPath(resolveConfigPath(LOCAL_CONFIG_PATH, LEGACY_LOCAL_CONFIG_PATH));
+  const globalConfig = loadConfigFromPath(resolveConfigPath(GLOBAL_CONFIG_PATH, PREV_GLOBAL_CONFIG_PATH, LEGACY_GLOBAL_CONFIG_PATH));
+  const localConfig = loadConfigFromPath(resolveConfigPath(LOCAL_CONFIG_PATH, PREV_LOCAL_CONFIG_PATH, LEGACY_LOCAL_CONFIG_PATH));
 
   // No config files found - use defaults
   if (!globalConfig && !localConfig) {
@@ -910,6 +915,8 @@ module.exports = {
   CONFIG_PATH,
   LOCAL_CONFIG_PATH,
   GLOBAL_CONFIG_PATH,
+  PREV_LOCAL_CONFIG_PATH,
+  PREV_GLOBAL_CONFIG_PATH,
   LEGACY_LOCAL_CONFIG_PATH,
   LEGACY_GLOBAL_CONFIG_PATH,
   DEFAULT_CONFIG,

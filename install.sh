@@ -13,7 +13,8 @@ REPO="https://github.com/Tomwakeupat530amm/vibebelt-kit.git"
 # Accepts: a local filesystem path OR an alternate git URL.
 # - Local directory: working tree is copied as-is (uncommitted changes included).
 # - URL (or default remote): git clone --depth 1 is used.
-REPO="${VC_KIT_SOURCE:-$REPO}"
+OLD_KIT_SOURCE="${VC_KIT_SOURCE:-}"  # legacy-vc-fallback: the variable name used before the prefix rename still works
+REPO="${VC_KIT_SOURCE:-${OLD_KIT_SOURCE:-$REPO}}"
 # Fix M6: renamed from TMPDIR (shadows POSIX reserved env var) to VC_INSTALL_TMPDIR
 VC_INSTALL_TMPDIR="${TMPDIR:-/tmp}/vc-kit-install-$$"
 BACKUP_DIR=".vibecode-backup"
@@ -71,8 +72,10 @@ else
   git clone --depth 1 --quiet "$REPO" "$VC_INSTALL_TMPDIR"
 fi
 
-# Read version from manifest
-VERSION=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$VC_INSTALL_TMPDIR/vc-manifest.json','utf8')).version)" 2>/dev/null || echo "unknown")
+# Read version from manifest (current name first; a kit source from before the prefix rename ships the old name)
+KIT_MANIFEST="$VC_INSTALL_TMPDIR/vc-manifest.json"
+[ -f "$KIT_MANIFEST" ] || KIT_MANIFEST="${KIT_MANIFEST%/*}/vc-manifest.json"  # legacy-vc-fallback
+VERSION=$(node -e "console.log(JSON.parse(require('fs').readFileSync(process.argv[1],'utf8')).version)" "$KIT_MANIFEST" 2>/dev/null || echo "unknown")
 echo "  Kit version: $VERSION"
 echo ""
 
@@ -140,9 +143,16 @@ fi
 # ══════════════════════════════════════════════════════
 # Read prior installed-files snapshot (before backup)
 # ══════════════════════════════════════════════════════
+# Kit state files: current names first; installs made before the prefix rename wrote the old names.
+SNAPSHOT_FILE=".vc-installed-files"
+OLD_SNAPSHOT_FILE=".vc-installed-files"  # legacy-vc-fallback
+VERSION_FILE=".vc-version"
+OLD_VERSION_FILE=".vc-version"  # legacy-vc-fallback
 PRIOR_SNAPSHOT=""
-if [ -f ".vc-installed-files" ]; then
-  PRIOR_SNAPSHOT=$(cat .vc-installed-files)
+if [ -f "$SNAPSHOT_FILE" ]; then
+  PRIOR_SNAPSHOT=$(cat "$SNAPSHOT_FILE")
+elif [ -f "$OLD_SNAPSHOT_FILE" ]; then
+  PRIOR_SNAPSHOT=$(cat "$OLD_SNAPSHOT_FILE")
 fi
 
 # ══════════════════════════════════════════════════════
@@ -217,13 +227,69 @@ while IFS= read -r file; do
 done <<< "$FILES"
 
 # ══════════════════════════════════════════════════════
+# Shared legacy gate — files of an older kit install are removed only when
+# they are provably unchanged kit files; everything else is kept and reported.
+# One decision for both deletion blocks below (stale removal and
+# legacyDeletions), computed once by compute-sync-plan.mjs --legacy-gate,
+# the same rules vc-update applies. Bash 3 compatible.
+# ══════════════════════════════════════════════════════
+GATE_LINES=""
+GATE_OK=false
+GATE_REMOVED=0
+GATE_KEPT=0
+gate_run() {  # $1 = file with one candidate path per line
+  if GATE_LINES=$(node "$VC_INSTALL_TMPDIR/compute-sync-plan.mjs" --legacy-gate --root "$PWD" --kit-root "$VC_INSTALL_TMPDIR" < "$1" 2>/dev/null); then
+    GATE_OK=true
+  else
+    GATE_OK=false
+    GATE_LINES=""
+    echo -e "  ${YELLOW}Warning${NC}: the legacy gate could not run (kit source too old?); files of an older kit install are kept." >&2
+  fi
+}
+gate_decide() {  # $1 = candidate; prints its decision lines: candidate TAB DELETE|KEEP|UNGATED TAB path [TAB reason]
+  [ "$GATE_OK" = true ] || return 0
+  C="$1" awk -F'\t' '$1 == ENVIRON["C"]' <<< "$GATE_LINES"
+}
+is_gated() {  # $1 = candidate, $2 = its decision lines
+  if [ "$GATE_OK" = true ]; then
+    case "$2" in *$'\t'UNGATED$'\t'*) return 1 ;; esac
+    return 0
+  fi
+  case "/$1" in */vc-*) return 0 ;; esac  # legacy-vc-fallback: without the gate, old-prefix paths are never deleted
+  return 1
+}
+apply_gate() {  # $1 = candidate, $2 = its decision lines
+  local _c decision gfile reason
+  if [ "$GATE_OK" != true ]; then
+    GATE_KEPT=$((GATE_KEPT + 1))
+    echo -e "    ${YELLOW}kept${NC} (legacy gate unavailable): $1"
+    return 0
+  fi
+  while IFS=$'\t' read -r _c decision gfile reason; do
+    case "$decision" in
+      DELETE)
+        if [ -f "$gfile" ] && [ ! -L "$gfile" ]; then
+          rm -f -- "$gfile"
+          GATE_REMOVED=$((GATE_REMOVED + 1))
+          echo "    removed old kit file (unchanged): $gfile"
+        fi
+        ;;
+      KEEP)
+        GATE_KEPT=$((GATE_KEPT + 1))
+        echo -e "    ${YELLOW}kept${NC} ($reason): $gfile"
+        ;;
+    esac
+  done <<< "$2"
+  return 0
+}
+
+# ══════════════════════════════════════════════════════
 # Stale removal — remove kit-owned files that are no
 # longer in the new manifest (snapshot-diff approach).
 # NEVER removes user-owned files.
 # ══════════════════════════════════════════════════════
+STALE_CANDIDATES=""
 if [ -n "$PRIOR_SNAPSHOT" ]; then
-  echo "  Checking for stale kit files..."
-  STALE_COUNT=0
   while IFS= read -r prior_file; do
     [ -z "$prior_file" ] && continue
 
@@ -234,35 +300,58 @@ if [ -n "$PRIOR_SNAPSHOT" ]; then
     done <<< "$OWNED_PATHS"
 
     if [ "$STILL_OWNED" = false ] && [ -f "$prior_file" ]; then
-      # Kit-owned namespace guard: only delete if it matches the kit namespace
-      IS_KIT_NAMESPACE=false
-      case "$prior_file" in
-        .claude/skills/vc-*|.claude/agents/vc-*|.claude/hooks/*|.codex/*|\
-        process/development-protocols/*|process/context/planning/*|\
-        process/context/generated-skills-catalog.json|\
-        process/_seeds/*|CLAUDE.md|AGENTS.md|\
-        .vc-installed-files|.vc-version|.agents/*)
-          IS_KIT_NAMESPACE=true
-          ;;
-      esac
-
-      if [ "$IS_KIT_NAMESPACE" = true ]; then
-        # Fix M4: warn when a vc-* prefixed path is about to be removed as stale
-        # (it matched kit namespace but is NOT in the new manifest — warn before delete)
-        case "$prior_file" in
-          .claude/skills/vc-*|.claude/agents/vc-*)
-            echo -e "    ${YELLOW}WARNING${NC}: removing vc-* prefixed path '$prior_file' as stale kit file."
-            echo "    If this is a custom skill/agent you added, restore it from $BACKUP_DIR/."
-            ;;
-        esac
-        rm -f "$prior_file"
-        STALE_COUNT=$((STALE_COUNT + 1))
-        echo "    removed stale: $prior_file"
-      else
-        echo -e "    ${YELLOW}WARN${NC}: '$prior_file' in old snapshot but not kit-namespace — preserved (check manually)"
-      fi
+      STALE_CANDIDATES="${STALE_CANDIDATES}${prior_file}"$'\n'
     fi
   done <<< "$PRIOR_SNAPSHOT"
+fi
+GATE_CANDIDATES_FILE="$VC_INSTALL_TMPDIR/_legacy_gate_candidates.txt"
+printf '%s%s\n' "$STALE_CANDIDATES" "$LEGACY_DELETIONS" > "$GATE_CANDIDATES_FILE"
+gate_run "$GATE_CANDIDATES_FILE"
+
+if [ -n "$PRIOR_SNAPSHOT" ]; then
+  echo "  Checking for stale kit files..."
+  STALE_COUNT=0
+  while IFS= read -r prior_file; do
+    [ -z "$prior_file" ] && continue
+
+    # Old kit paths: the shared legacy gate decides (unchanged -> removed; otherwise kept and reported)
+    GATE_DECISIONS=$(gate_decide "$prior_file")
+    if is_gated "$prior_file" "$GATE_DECISIONS"; then
+      apply_gate "$prior_file" "$GATE_DECISIONS"
+      continue
+    fi
+
+    # Kit-owned namespace guard: only delete if it matches the kit namespace
+    IS_KIT_NAMESPACE=false
+    case "$prior_file" in
+      .claude/skills/vc-*|.claude/agents/vc-*|.claude/hooks/*|.codex/*|\
+      process/development-protocols/*|process/context/planning/*|\
+      process/context/generated-skills-catalog.json|\
+      process/_seeds/*|CLAUDE.md|AGENTS.md|\
+      .vc-installed-files|.vc-version|.agents/*)
+        IS_KIT_NAMESPACE=true
+        ;;
+      .claude/skills/vc-*|.claude/agents/vc-*|.vc-installed-files|.vc-version)  # legacy-vc-fallback (old namespace; normally decided by the gate above)
+        IS_KIT_NAMESPACE=true
+        ;;
+    esac
+
+    if [ "$IS_KIT_NAMESPACE" = true ]; then
+      # Fix M4: warn when a vc-* prefixed path is about to be removed as stale
+      # (it matched kit namespace but is NOT in the new manifest — warn before delete)
+      case "$prior_file" in
+        .claude/skills/vc-*|.claude/agents/vc-*)
+          echo -e "    ${YELLOW}WARNING${NC}: removing vc-* prefixed path '$prior_file' as stale kit file."
+          echo "    If this is a custom skill/agent you added, restore it from $BACKUP_DIR/."
+          ;;
+      esac
+      rm -f "$prior_file"
+      STALE_COUNT=$((STALE_COUNT + 1))
+      echo "    removed stale: $prior_file"
+    else
+      echo -e "    ${YELLOW}WARN${NC}: '$prior_file' in old snapshot but not kit-namespace — preserved (check manually)"
+    fi
+  done <<< "$STALE_CANDIDATES"
 
   # Clean empty parent directories (deepest-first)
   while IFS= read -r prior_file; do
@@ -342,6 +431,19 @@ if [ -n "$LEGACY_DELETIONS" ]; then
   DEFERRED_LAYOUT=()
   while IFS= read -r legacy_path; do
     [ -z "$legacy_path" ] && continue
+    # Old kit paths: the shared legacy gate decides per file (unchanged -> removed;
+    # changed, unknown or unprovable -> kept and reported); emptied folders are pruned.
+    if [ -e "$legacy_path" ] || [ -L "$legacy_path" ]; then
+      GATE_DECISIONS=$(gate_decide "$legacy_path")
+      if is_gated "$legacy_path" "$GATE_DECISIONS"; then
+        apply_gate "$legacy_path" "$GATE_DECISIONS"
+        if [ -d "$legacy_path" ] && [ ! -L "$legacy_path" ]; then
+          find "$legacy_path" -depth -type d -empty -exec rmdir {} \; 2>/dev/null || true
+        fi
+        DELETED_DIRS+=("$legacy_path")
+        continue
+      fi
+    fi
     if [ -d "$legacy_path" ]; then
       # ── Content-safety guard ──────────────────────────────────────────────
       # install.sh is deterministic (no agent) and cannot run the adaptive
@@ -387,8 +489,19 @@ fi
 # ══════════════════════════════════════════════════════
 # Write snapshot + version
 # ══════════════════════════════════════════════════════
-echo "$FILES" | sort > .vc-installed-files
-echo "$VERSION" > .vc-version
+if [ "$GATE_REMOVED" -gt 0 ]; then
+  echo "  $GATE_REMOVED unchanged file(s) of an older kit install removed."
+fi
+if [ "$GATE_KEPT" -gt 0 ]; then
+  echo -e "  ${YELLOW}$GATE_KEPT file(s) of an older kit install kept${NC} (changed, unknown or not provable; listed above as 'kept')."
+  echo "  Remove them yourself if you no longer need them."
+fi
+
+echo "$FILES" | sort > "$SNAPSHOT_FILE"
+echo "$VERSION" > "$VERSION_FILE"
+# Migrate: the pre-rename state files are removed only after both new ones were written.
+if [ "$OLD_SNAPSHOT_FILE" != "$SNAPSHOT_FILE" ]; then rm -f "$OLD_SNAPSHOT_FILE"; fi
+if [ "$OLD_VERSION_FILE" != "$VERSION_FILE" ]; then rm -f "$OLD_VERSION_FILE"; fi
 
 # Ensure .gitignore excludes .vibecode-backup*/ (additive — never overwrites user content)
 BACKUP_PATTERN=".vibecode-backup*/"

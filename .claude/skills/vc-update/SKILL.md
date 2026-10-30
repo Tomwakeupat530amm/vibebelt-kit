@@ -34,6 +34,7 @@ Run `git status --porcelain` in the project root.
 ### Step 2: Read Current Version
 
 Read the file `.vc-version` in the project root.
+If it is missing, read `.vc-version` instead: installs made before the kit's prefix rename wrote that old name. <!-- legacy-vc-fallback -->
 
 - If it exists: store its contents as `currentVersion` (a semver string like `2.0.4`).
 - If it does not exist: set `currentVersion` to `"0.0.0"` (treat as first update).
@@ -43,7 +44,8 @@ Read the file `.vc-version` in the project root.
 ```bash
 # Respect VC_KIT_SOURCE override (local path or alternate URL).
 # When unset, defaults to the official remote.
-KIT_SOURCE="${VC_KIT_SOURCE:-https://github.com/Tomwakeupat530amm/vibebelt-kit.git}"
+OLD_KIT_SOURCE="${VC_KIT_SOURCE:-}"  # legacy-vc-fallback: the variable name used before the prefix rename still works
+KIT_SOURCE="${VC_KIT_SOURCE:-${OLD_KIT_SOURCE:-https://github.com/Tomwakeupat530amm/vibebelt-kit.git}}"
 VC_UPDATE_TMPDIR="/tmp/vc-update-$(date +%s)"
 git clone --local --depth 1 --quiet "$KIT_SOURCE" "$VC_UPDATE_TMPDIR" 2>/dev/null \
   || git clone --depth 1 --quiet "$KIT_SOURCE" "$VC_UPDATE_TMPDIR"
@@ -51,6 +53,7 @@ git clone --local --depth 1 --quiet "$KIT_SOURCE" "$VC_UPDATE_TMPDIR" 2>/dev/nul
 ```
 
 > `VC_KIT_SOURCE` — if set, use this path or URL instead of the official remote. Accepts any value accepted by `git clone`. This enables offline testing (`VC_KIT_SOURCE=/path/to/local/kit`) and forks/pinned versions.
+> The old variable name `VC_KIT_SOURCE` is still read when the new one is unset. <!-- legacy-vc-fallback -->
 
 If the clone fails (network error, auth error, repo not found):
 - Print the error message.
@@ -75,12 +78,14 @@ Parse the JSON output to extract:
 
 Extract the remote version from the manifest:
 ```bash
-node -e "console.log(JSON.parse(require('fs').readFileSync('$VC_UPDATE_TMPDIR/vc-manifest.json','utf8')).version)"
+KIT_MANIFEST="$VC_UPDATE_TMPDIR/vc-manifest.json"
+[ -f "$KIT_MANIFEST" ] || KIT_MANIFEST="${KIT_MANIFEST%/*}/vc-manifest.json"  # legacy-vc-fallback: kits from before the prefix rename
+node -e "console.log(JSON.parse(require('fs').readFileSync(process.argv[1],'utf8')).version)" "$KIT_MANIFEST"
 ```
 
 **Retain Step 4 output through Step 7:** Keep the full resolver JSON (especially `symlinks`) in memory. `compute-sync-plan.mjs --json` (Steps 6/10) does not re-emit `symlinks`, so Step 7 depends on the Step 4 value.
 
-**Legacy fallback:** If `resolve-manifest.mjs` does not exist in the remote (very old kit version), fall back to reading `vc-manifest.json` directly and using the old `managed`/`managedDirs`/`seedsDir` fields for file resolution.
+**Legacy fallback:** If `resolve-manifest.mjs` does not exist in the remote (very old kit version), fall back to reading that kit's manifest (`vc-manifest.json` in kits that old) directly and using the old `managed`/`managedDirs`/`seedsDir` fields for file resolution. <!-- legacy-vc-fallback -->
 
 ### Step 5: Compare Versions
 
@@ -115,6 +120,7 @@ The manual snapshot-reading and diff logic in the previous version of this step 
 
 **Fallback — no `.vc-installed-files` (first update with new system):**
 When the snapshot file is absent, `compute-sync-plan.mjs` sets `priorSnapshot = []` (empty — no disk scan). No stale removal occurs via the snapshot path because there are no prior entries to compare against. `legacyDeletions` from the manifest are still applied independently (step 4 in the function) and may delete old paths that exist on disk. `.vc-installed-files` is written only when `--apply` is passed, not during a `--json` dry-run.
+`compute-sync-plan.mjs` reads `.vc-installed-files` and `.vc-version` as a fallback when the current names are missing (installs made before the prefix rename); after a successful `--apply` it writes only the current names and removes those old files. <!-- legacy-vc-fallback -->
 
 **Merge files** (e.g. `.claude/settings.json`): files in the `merge` list that exist locally are placed in `toPreserve` by compute-sync-plan.mjs — they are never overwritten. Show the diff for manual review, flag for manual review.
 
@@ -171,6 +177,7 @@ If `staleWarnings` is empty, omit the `STALE WARNINGS` section entirely. If non-
 - Print the count of `safe move` items that will be migrated on apply and the count of unresolved `needs review` items that will stay in place.
 
 **Large-delete WARNING:** After computing the dry-run summary, check `toDelete.length`. If it exceeds 20 files OR exceeds 10% of the prior install file count (line count of `.vc-installed-files`), print the following block prominently before asking for confirmation:
+(On an install made before the prefix rename, count the lines of `.vc-installed-files` instead.) <!-- legacy-vc-fallback -->
 
 ```
 ⚠ WARNING: {N} files scheduled for removal — unusually high.
@@ -255,6 +262,7 @@ node "$VC_UPDATE_TMPDIR/compute-sync-plan.mjs" \
 - **`.gitignore` guard**: after writing the version, apply ensures the project-root `.gitignore` contains `.vibecode-backup*/` (additive — creates the file if absent, appends the glob form `.vibecode-backup*/` if the glob form is missing even if a non-glob `.vibecode-backup/` line already exists, no-ops if the glob form is already present). This prevents rotated backup dirs (`.vibecode-backup-{ts}/`) from being accidentally committed.
 - **staleWarnings (Type 1 — non-vc- namespace)**: paths in the prior snapshot that are not in the vc- namespace — moved to `toPreserve`, never deleted. Message form: `'X' in prior snapshot but not in kit namespace — preserved (verify manually)`.
 - **staleWarnings (Type 2 — vc- namespace, `WARNING:` prefix)**: vc- namespace paths that are in `toDelete` but not in the known `ownedPaths`/`legacyDeletions` — these ARE deleted. The warning is advisory: if the user has a custom vc- skill at that path, rename it before updating.
+- **staleWarnings (Type 3 — `KEPT (...)` prefix)**: files of an older kit install that the shared legacy gate could not prove unchanged (modified, unknown file, not in the old install snapshot, no snapshot, or a kit without `legacy-hashes.json`) — moved to `toPreserve`, never deleted. Show them to the user; they may remove them by hand.
 
 Do NOT hand-loop `rm` or `cp` commands — use only the `--apply` invocation above. The mechanical implementation guarantees correct empty-dir cleanup on every run, including directory-shaped deletions and deeply nested deprecated skill subdirs.
 
@@ -416,6 +424,7 @@ Recommended next step — run the five core validators:
 ## Rules
 
 - `VC_KIT_SOURCE`: when set, overrides the remote URL for cloning. Used verbatim as the `git clone` source argument. No validation. Enables local testing and forks.
+- The old variable name `VC_KIT_SOURCE` is still read when the new one is unset. <!-- legacy-vc-fallback -->
 - `process/_seeds/` is a legacy optional scaffold surface. If a remote release still includes it, treat it as managed reference and overwrite it entirely on update. Its absence in the live repo is valid.
 - Real working files outside `_seeds/` are preserved by default. The only allowed `process/` mutations inside vc-update are the safe old-layout migrations described in Step 8 / Step 10 Part D for `process/general-plans/` and `process/features/*/`.
 - Always show the dry-run diff before applying. Never apply without user confirmation.

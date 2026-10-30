@@ -349,7 +349,7 @@ Skill Registry:
 | `vc-predict` | 5-persona pre-implementation debate | risks, predict issues, architectural review |
 | `vc-scout` | Fast parallel codebase scouting | find files, where is, search codebase |
 | `vc-docs-seeker` | Library docs via context7 | how does X work, API docs, version, syntax |
-| `vc-generate-plan` | Durable implementation planning | plan, PRD, spec, implementation plan |
+| `vc-generate-plan` | Durable implementation planning | plan, PRD, implementation plan |
 | `vc-generate-context` | Refresh repository context router | refresh context, regenerate context, repo context |
 | `vc-audit-context` | Context routing and discoverability audit | context audit, reorganize context, stale context |
 | `vc-audit-plans` | Active-plan maintenance and cleanup | stale plans, cleanup plans, archive plans, plan audit |
@@ -369,7 +369,7 @@ Skill Registry:
 | `vc-review-situation` | Situation review and plan orientation | review situation, where am I |
 | `vc-setup` | Scaffold agent harness into new project | seed, harness, bootstrap, new project, scaffold, setup |
 | `vc-update` | Pull latest harness from remote kit repo | update harness, pull kit, sync harness, upgrade agents |
-| `vc-publish` | Push harness improvements to remote kit repo | publish kit, push harness, release kit, update remote |
+| `vc-publish` | Push harness improvements to remote kit repo | publish kit, push harness, release kit, publish to remote |
 | `vc-audit-vc` | Agent harness health audit (agents, skills, README.md, protocol wiring) | harness, agent parity, skill audit, guide sync |
 
 Rule: When one or more skills match the request, mention them to the user or include them in

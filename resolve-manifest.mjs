@@ -37,10 +37,16 @@ const kitOnlyMode = flag("--kit-only");
 
 // ── Manifest loading ──────────────────────────────────────────────────────────
 
-const manifestPath = path.join(rootDir, "vc-manifest.json");
+// The manifest is read under its current name first; kits released before the
+// prefix rename ship the old name, which is still accepted as a fallback.
+const MANIFEST_NAME = "vc-manifest.json";
+const OLD_MANIFEST_NAME = "vc-manifest.json"; // legacy-vc-fallback (manifest name before the prefix rename)
+const manifestPath = [MANIFEST_NAME, OLD_MANIFEST_NAME]
+  .map((name) => path.join(rootDir, name))
+  .find((candidate) => fs.existsSync(candidate));
 
-if (!fs.existsSync(manifestPath)) {
-  console.error(`Error: vc-manifest.json not found at ${manifestPath}`);
+if (!manifestPath) {
+  console.error(`Error: ${MANIFEST_NAME} not found at ${path.join(rootDir, MANIFEST_NAME)}`);
   process.exit(1);
 }
 
@@ -48,7 +54,7 @@ let manifest;
 try {
   manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 } catch (err) {
-  console.error(`Error: Failed to parse vc-manifest.json: ${err.message}`);
+  console.error(`Error: Failed to parse ${path.basename(manifestPath)}: ${err.message}`);
   process.exit(1);
 }
 

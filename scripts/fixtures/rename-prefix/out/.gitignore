@@ -1,0 +1,5 @@
+# rename-prefix:keep:start (old names stay ignored)
+.vc-keep-old
+# rename-prefix:keep:end
+*.tmp
+.claude/skills/vb-agent-browser/screenshots/

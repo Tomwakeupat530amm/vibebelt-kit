@@ -20,6 +20,10 @@ import { execSync } from 'node:child_process';
 const KIT_PATH = process.env.VC_KIT_SOURCE
   ?? path.dirname(new URL(import.meta.url).pathname);
 const INSTALL_SH = path.join(KIT_PATH, 'install.sh');
+// Kit manifest: the current name first; kits from before the prefix rename ship the old name.
+const KIT_MANIFEST_NEW = path.join(KIT_PATH, 'vc-manifest.json');
+const KIT_MANIFEST_OLD = path.join(KIT_PATH, 'vc-manifest.json'); // legacy-vc-fallback
+const KIT_MANIFEST = fs.existsSync(KIT_MANIFEST_NEW) ? KIT_MANIFEST_NEW : KIT_MANIFEST_OLD;
 
 /**
  * Create a fresh /tmp project directory, optionally seeded with fixtures.
@@ -71,6 +75,7 @@ function seedProject(opts) {
     );
   }
 
+  // rename-prefix:keep:start (Trial C seeds an old v2.x install: its old names must not be renamed)
   if (opts.seed === 'v2x-snapshot') {
     // Seed: simulate v2.4.1 install state
     // Has deprecated vc-team skill (in legacyDeletions) present on disk
@@ -91,6 +96,7 @@ function seedProject(opts) {
     fs.writeFileSync(path.join(projectPath, '.vc-installed-files'), v2Snapshot);
     fs.writeFileSync(path.join(projectPath, '.vc-version'), '2.4.1');
   }
+  // rename-prefix:keep:end
 
   return projectPath;
 }
@@ -109,7 +115,7 @@ test('Trial A: new install on empty project', async () => {
 
     // AC-3: VC_KIT_SOURCE honored — installed version matches kit manifest version
     const kitVersion = JSON.parse(
-      fs.readFileSync(path.join(KIT_PATH, 'vc-manifest.json'), 'utf8')
+      fs.readFileSync(KIT_MANIFEST, 'utf8')
     ).version;
     const installedVersion = fs.readFileSync(
       path.join(projectPath, '.vc-version'),
@@ -238,15 +244,17 @@ test('Trial C: v2.x to v3 migration via install', async () => {
       stdio: 'pipe',
     });
 
+    // rename-prefix:keep:start (the old vc-team folder must be gone; a renamed path never existed)
     // AC-7: deprecated vc-team removed (legacyDeletion — full dir)
     assert.ok(
       !fs.existsSync(path.join(projectPath, '.claude/skills/vc-team')),
       'AC-7: .claude/skills/vc-team removed (legacyDeletion)'
     );
+    // rename-prefix:keep:end
 
     // AC-7: .vc-version updated to current kit version
     const kitVersion = JSON.parse(
-      fs.readFileSync(path.join(KIT_PATH, 'vc-manifest.json'), 'utf8')
+      fs.readFileSync(KIT_MANIFEST, 'utf8')
     ).version;
     const installedVersion = fs.readFileSync(
       path.join(projectPath, '.vc-version'),
@@ -262,19 +270,23 @@ test('Trial C: v2.x to v3 migration via install', async () => {
       'AC-7: user tool byte-identical after migration install'
     );
 
-    // AC-5: legacyDeletions audit — every path must start with a kit-owned prefix
+    // AC-5: legacyDeletions audit — every path must be in a kit-owned namespace (the isKitOwned
+    // namespaces of compute-sync-plan.mjs, old and new prefix) or be one of the two old process dirs
     const manifest = JSON.parse(
-      fs.readFileSync(path.join(KIT_PATH, 'vc-manifest.json'), 'utf8')
+      fs.readFileSync(KIT_MANIFEST, 'utf8')
     );
     const legacyDeletions = manifest.legacyDeletions || [];
+    const KIT_NAMESPACES = [
+      '.claude/skills/vc-', '.claude/agents/vc-', // legacy-vc-fallback: entries of the kit before the prefix rename
+      '.claude/skills/vc-', '.claude/agents/vc-',
+      '.claude/hooks/', '.codex/', 'process/development-protocols/', 'process/_seeds/',
+    ];
+    const KIT_DIRS = ['process/general-plans/reports', 'process/general-plans/references'];
     for (const p of legacyDeletions) {
-      const isKitOwned =
-        p.startsWith('.claude/skills/vc-') ||
-        p.startsWith('.claude/agents/vc-') ||
-        p.startsWith('process/development-protocols/');
+      const isKitOwned = KIT_NAMESPACES.some((ns) => p.startsWith(ns)) || KIT_DIRS.includes(p);
       assert.ok(
         isKitOwned,
-        `AC-5: legacyDeletion '${p}' must start with .claude/skills/vc-, .claude/agents/vc-, or process/development-protocols/`
+        `AC-5: legacyDeletion '${p}' must be under a kit-owned namespace (.claude/skills/, .claude/agents/, .claude/hooks/, .codex/, process/development-protocols/, process/_seeds/) or be process/general-plans/reports or references`
       );
     }
   } finally {
@@ -376,3 +388,97 @@ test('Trial D: publish dry-run — no git push occurs without explicit approval'
     fs.rmSync(tmpKitClone, { recursive: true, force: true });
   }
 });
+
+// rename-prefix:keep:start (Trial E is written in post-rename terms: vc- names describe the old
+// install, vb- names describe this kit; the rename tool must not rewrite anything in this test)
+// ──────────────────────────────────────────────────────────────
+// Trial E: an install of the old kit (upstream-baseline tag, vc- names) upgraded by this installer
+// ──────────────────────────────────────────────────────────────
+function listFiles(root, rel) {
+  const out = [];
+  (function walk(r) {
+    for (const d of fs.readdirSync(path.join(root, r), { withFileTypes: true })) {
+      const p = `${r}/${d.name}`;
+      if (d.isDirectory()) walk(p);
+      else out.push(p);
+    }
+  })(rel);
+  return out.sort();
+}
+
+test('Trial E: old install to new install', async (t) => {
+  try {
+    execSync('git rev-parse --verify --quiet "upstream-baseline^{commit}"', { cwd: KIT_PATH, stdio: 'pipe' });
+  } catch {
+    throw new Error('Trial E needs the upstream-baseline tag of the kit repo (git fetch --tags)');
+  }
+  const oldKit = fs.mkdtempSync('/tmp/vb-e2e-oldkit-');
+  const projectPath = seedProject({ seed: 'empty' });
+  const cleanEnv = { ...process.env };
+  delete cleanEnv.VB_KIT_SOURCE;
+  delete cleanEnv.VC_KIT_SOURCE;
+  try {
+    // 1. The old kit, exactly as released, installed by its own installer.
+    execSync(`git archive upstream-baseline | tar -x -C "${oldKit}"`, { cwd: KIT_PATH, stdio: 'pipe' });
+    execSync(`bash "${path.join(oldKit, 'install.sh')}"`, {
+      cwd: projectPath, env: { ...cleanEnv, VC_KIT_SOURCE: oldKit }, stdio: 'pipe',
+    });
+    const oldSnapshot = fs.readFileSync(path.join(projectPath, '.vc-installed-files'), 'utf8').split('\n').filter(Boolean);
+    assert.ok(oldSnapshot.length > 100, 'the old installer wrote its install snapshot');
+
+    // 2. The user edits one old kit file and adds two skills of their own.
+    const modified = '.claude/skills/vc-scout/SKILL.md';
+    assert.ok(oldSnapshot.includes(modified), `${modified} came from the old install`);
+    fs.appendFileSync(path.join(projectPath, modified), '\nMy own note in an old kit skill.\n');
+    const userSkills = {
+      '.claude/skills/my-skill/SKILL.md': '# my-skill (user owned)\n',
+      '.claude/skills/vc-custom/SKILL.md': '# vc-custom (user owned, old prefix)\n',
+    };
+    for (const [p, text] of Object.entries(userSkills)) {
+      fs.mkdirSync(path.dirname(path.join(projectPath, p)), { recursive: true });
+      fs.writeFileSync(path.join(projectPath, p), text);
+    }
+
+    // 3. This kit installed over it.
+    const output = execSync(`bash "${INSTALL_SH}"`, {
+      cwd: projectPath, env: { ...cleanEnv, VB_KIT_SOURCE: KIT_PATH }, stdio: 'pipe', encoding: 'utf8',
+    }).replace(/\x1b\[[0-9;]*m/g, '');
+    const exists = (p) => fs.existsSync(path.join(projectPath, p));
+
+    // Unmodified old files are removed: no old vc- path of the old snapshot survives except the edited one.
+    const leftovers = oldSnapshot.filter((p) => p !== modified && p.split('/').some((s) => s.startsWith('vc-')) && exists(p));
+    assert.deepEqual(leftovers, [], 'unmodified old vc- files removed');
+
+    // The edited file is kept and reported; nothing else is left in its old folder.
+    assert.ok(exists(modified), 'the edited old file is kept');
+    assert.ok(output.includes(`kept (modified): ${modified}`), 'the edited old file is reported');
+    assert.deepEqual(listFiles(projectPath, '.claude/skills/vc-scout'), [modified], 'only the edited file remains');
+
+    // Custom skills are untouched.
+    for (const [p, text] of Object.entries(userSkills)) {
+      assert.equal(fs.readFileSync(path.join(projectPath, p), 'utf8'), text, `${p} untouched`);
+    }
+
+    // State files migrated to the new names.
+    const kitVersion = JSON.parse(fs.readFileSync(KIT_MANIFEST, 'utf8')).version;
+    const vbVersion = fs.readFileSync(path.join(projectPath, '.vb-version'), 'utf8').trim();
+    assert.equal(vbVersion, kitVersion, '.vb-version holds the new kit version');
+    assert.ok(exists('.vb-installed-files'), '.vb-installed-files written');
+    assert.ok(!exists('.vc-version') && !exists('.vc-installed-files'), 'old state files removed after the migration');
+
+    // No vc-x next to vb-x for unmodified files.
+    for (const dir of ['.claude/skills', '.claude/agents', '.codex/agents']) {
+      for (const name of fs.readdirSync(path.join(projectPath, dir))) {
+        if (!name.startsWith('vb-')) continue;
+        const old = `${dir}/vc-${name.slice(3)}`;
+        if (old === '.claude/skills/vc-scout') continue; // holds only the kept, edited file
+        assert.ok(!exists(old), `${old} must not remain next to ${dir}/${name}`);
+      }
+    }
+    t.diagnostic(`.vb-version after the old-to-new install: ${vbVersion}`);
+  } finally {
+    fs.rmSync(projectPath, { recursive: true, force: true });
+    fs.rmSync(oldKit, { recursive: true, force: true });
+  }
+});
+// rename-prefix:keep:end

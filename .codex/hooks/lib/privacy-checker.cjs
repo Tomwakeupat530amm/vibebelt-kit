@@ -168,10 +168,11 @@ function extractPaths(toolInput) {
 function isPrivacyBlockDisabled(configDir) {
   try {
     const baseDir = configDir || path.join(process.cwd(), '.claude');
-    // New-first, legacy (.ck.json) fallback for backward compatibility.
+    // New-first, then the pre-rename name, then legacy (.ck.json) for backward compatibility.
     const newPath = path.join(baseDir, '.vc.json');
+    const prevPath = path.join(baseDir, '.vc.json'); // legacy-vc-fallback
     const legacyPath = path.join(baseDir, '.ck.json');
-    const configPath = fs.existsSync(newPath) ? newPath : legacyPath;
+    const configPath = [newPath, prevPath].find((p) => fs.existsSync(p)) || legacyPath;
     const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
     return config.privacyBlock === false;
   } catch {
