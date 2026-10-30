@@ -1,7 +1,7 @@
 ---
 name: vc-generate-plan
 description: Create or update implementation plans in the repo's SIMPLE or COMPLEX format. Use when turning an idea, PRD, or approved direction into a saved plan artifact.
-trigger_keywords: plan, create plan, write plan, generate spec, plan artifact
+trigger_keywords: plan, create plan, write plan, plan artifact
 layer: contract
 metadata:
   author: vibecode-pro-max-kit

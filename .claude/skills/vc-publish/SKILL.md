@@ -1,7 +1,7 @@
 ---
 name: vc-publish
 description: Use when publishing harness improvements to the remote kit repo. Diffs managed files, shows what changed, bumps version, and pushes. Counterpart to vc-update (pull).
-trigger_keywords: publish kit, push harness, release kit, update remote
+trigger_keywords: publish kit, push harness, release kit, publish to remote
 layer: contract
 metadata:
   author: vibecode

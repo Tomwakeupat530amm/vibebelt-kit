@@ -2,7 +2,7 @@
 name: vc-autopilot
 description: "Emit and validate the provisional goal block for Autopilot Mode. Owns the 9-field format and resume detection from a pasted goal block."
 argument-hint: "[task description or pasted goal block for resume detection]"
-trigger_keywords: autopilot, run autopilot, full autopilot, autonomous mode, goal block, provisional goal, AUTOPILOT_ACTIVATED, resume autopilot
+trigger_keywords: autopilot, run autopilot, full autopilot, autonomous mode, provisional goal, AUTOPILOT_ACTIVATED, resume autopilot
 layer: contract
 metadata:
   author: vibecode-pro-max-kit

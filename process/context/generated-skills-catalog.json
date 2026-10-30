@@ -165,7 +165,6 @@
         "run autopilot",
         "full autopilot",
         "autonomous mode",
-        "goal block",
         "provisional goal",
         "AUTOPILOT_ACTIVATED",
         "resume autopilot"
@@ -323,9 +322,9 @@
         "probe mechanism",
         "empirical check",
         "unverified mechanism",
-        "does this work",
+        "viability probe",
         "runtime quirk",
-        "api shape check"
+        "response shape probe"
       ],
       "layer": "contract",
       "routedFrom": [
@@ -462,7 +461,6 @@
         "plan",
         "create plan",
         "write plan",
-        "generate spec",
         "plan artifact"
       ],
       "layer": "contract",
@@ -528,7 +526,10 @@
       ],
       "allowlisted": false,
       "allowlistReason": null,
-      "relativeReferences": [],
+      "relativeReferences": [
+        "references/dimensions.md",
+        "references/examples.md"
+      ],
       "mentionedSkills": []
     },
     {
@@ -628,7 +629,7 @@
         "publish kit",
         "push harness",
         "release kit",
-        "update remote"
+        "publish to remote"
       ],
       "layer": "contract",
       "routedFrom": [
