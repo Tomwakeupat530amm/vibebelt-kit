@@ -142,7 +142,7 @@ jobs:
 
       - name: Validate plan artifacts (if any)
         run: |
-          PLANS=$(find process/general-plans/active process/features/*/active -name '*_PLAN_*' -type f 2>/dev/null)
+          PLANS=$(find process/general-plans/active process/features/*/active -name '*_PLAN_*' -type f 2>/dev/null || true)
           if [ -n "$PLANS" ]; then
             echo "$PLANS" | xargs -I {} node .claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs {}
           else
