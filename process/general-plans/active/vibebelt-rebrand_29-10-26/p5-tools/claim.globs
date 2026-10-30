@@ -1,0 +1,8 @@
+.claude/skills/*/SKILL.md
+.claude/skills/*/references/**
+!.claude/skills/vc-generate-phase-program/references/program-goal-charter-template.md
+process/context/generated-skills-catalog.json
+process/general-plans/active/vibebelt-rebrand_29-10-26/p5-tools/**
+process/general-plans/active/vibebelt-rebrand_29-10-26/proposed-new-skills.md
+process/general-plans/active/vibebelt-rebrand_29-10-26/phase-05-tune-skills_REPORT_29-10-26.md
+process/general-plans/backlog/vc-agent-browser-screenshots-untrack_NOTE_29-10-26.md

@@ -1,0 +1,537 @@
+{
+  "purpose": "Phase 5 pre-change routing snapshot (plan Step 0.2 b); read by routing-check.mjs",
+  "sourceHead": "f43f597fc58e1d5fe6baf6dcbc1dbcb4e5559bc3",
+  "runtime": "node v22.23.4",
+  "skillCount": 33,
+  "skills": {
+    "vc-agent-browser": {
+      "top3": [
+        "browser",
+        "screenshot",
+        "scrape"
+      ],
+      "all": [
+        "browser",
+        "screenshot",
+        "scrape",
+        "automation",
+        "web automation",
+        "agent-browser",
+        "browserbase",
+        "cloud browser",
+        "headless",
+        "playwright",
+        "snapshot"
+      ],
+      "description": "AI-optimized browser automation CLI with context-efficient snapshots. Use for long autonomous sessions, self-verifying workflows, video recording, and cloud browser testing (Browserbase).",
+      "layer": "helper"
+    },
+    "vc-agent-strategy-compare": {
+      "top3": [
+        "execution strategy",
+        "parallel agents",
+        "strategy comparison"
+      ],
+      "all": [
+        "execution strategy",
+        "parallel agents",
+        "strategy comparison",
+        "agent count",
+        "fan-out recommendation"
+      ],
+      "description": "Evaluate 4 execution strategies (sequential, parallel-subagents, workflow, agent-team) for a phase or fan-out task. Outputs 7-signal score table, agent count math, cost guards, and strategy recommendation.",
+      "layer": "contract"
+    },
+    "vc-audit-context": {
+      "top3": [
+        "audit context",
+        "context gaps",
+        "context routing audit"
+      ],
+      "all": [
+        "audit context",
+        "context gaps",
+        "context routing audit",
+        "discoverability"
+      ],
+      "description": "Audit project context routing, shared-skill discoverability, and Claude/Codex wiring. Use when context docs or skill surfaces move, split, or drift.",
+      "layer": "contract"
+    },
+    "vc-audit-plans": {
+      "top3": [
+        "audit plans",
+        "plan inventory",
+        "stale plans"
+      ],
+      "all": [
+        "audit plans",
+        "plan inventory",
+        "stale plans",
+        "active plan count"
+      ],
+      "description": "Audit active project plan files for staleness, completion, and routing truth. Use when cleaning up plans, reconciling active work, or archiving completed artifacts.",
+      "layer": "contract"
+    },
+    "vc-audit-vc": {
+      "top3": [
+        "harness audit",
+        "agent parity",
+        "skill audit"
+      ],
+      "all": [
+        "harness audit",
+        "agent parity",
+        "skill audit",
+        "guide sync"
+      ],
+      "description": "Audit agent harness health: Claude/Codex agent parity, skill registry consistency, README.md sync, and protocol file wiring. Use when agents, skills, README.md, or development-protocol files move, split, or drift.",
+      "layer": "contract"
+    },
+    "vc-autopilot": {
+      "top3": [
+        "autopilot",
+        "run autopilot",
+        "full autopilot"
+      ],
+      "all": [
+        "autopilot",
+        "run autopilot",
+        "full autopilot",
+        "autonomous mode",
+        "goal block",
+        "provisional goal",
+        "autopilot_activated",
+        "resume autopilot"
+      ],
+      "description": "Emit and validate the provisional goal block for Autopilot Mode. Owns the 9-field format and resume detection from a pasted goal block.",
+      "layer": "contract"
+    },
+    "vc-autoresearch": {
+      "top3": [
+        "autoresearch",
+        "harden spec",
+        "fix all errors"
+      ],
+      "all": [
+        "autoresearch",
+        "harden spec",
+        "fix all errors",
+        "improve coverage",
+        "iterative improvement",
+        "gap loop"
+      ],
+      "description": "Loop: find gaps → fix → repeat until agents find no gaps or a metric goal is hit. Shared loop primitive for PVL, EVL, and standalone quality runs.",
+      "layer": "contract"
+    },
+    "vc-context-discovery": {
+      "top3": [
+        "context discovery",
+        "load context",
+        "feature folder files"
+      ],
+      "all": [
+        "context discovery",
+        "load context",
+        "feature folder files",
+        "context routing discovery"
+      ],
+      "description": "Discover and load all relevant context for the current task. Lists feature group nested files with full paths, loads process/context/ files by domain routing. Called at the start of every agent session.",
+      "layer": "contract"
+    },
+    "vc-debug": {
+      "top3": [
+        "debug",
+        "root cause",
+        "investigate"
+      ],
+      "all": [
+        "debug",
+        "root cause",
+        "investigate",
+        "why is this"
+      ],
+      "description": "Debug systematically with root-cause analysis before fixes. Use for bugs, test failures, unexpected behavior, performance issues, CI failures, or system investigation.",
+      "layer": "helper"
+    },
+    "vc-docs-seeker": {
+      "top3": [
+        "how does x work",
+        "api docs",
+        "version"
+      ],
+      "all": [
+        "how does x work",
+        "api docs",
+        "version",
+        "syntax"
+      ],
+      "description": "Search library/framework documentation via llms.txt (context7.com). Use for API docs, GitHub repository analysis, technical documentation lookup, latest library features.",
+      "layer": "helper"
+    },
+    "vc-feasibility-test": {
+      "top3": [
+        "feasibility",
+        "spike",
+        "verify assumption"
+      ],
+      "all": [
+        "feasibility",
+        "spike",
+        "verify assumption",
+        "probe mechanism",
+        "empirical check",
+        "unverified mechanism",
+        "does this work",
+        "runtime quirk",
+        "api shape check"
+      ],
+      "description": "Use when a SPEC, INNOVATE, or VALIDATE (Layer 2) approach hinges on an unverified runtime/library/external mechanism: run a probe from the 8-family taxonomy and produce a VIABLE/NOT-VIABLE/INCONCLUSIVE VERDICT artifact.",
+      "layer": "contract"
+    },
+    "vc-frontend-design": {
+      "top3": [
+        "ui",
+        "design",
+        "layout"
+      ],
+      "all": [
+        "ui",
+        "design",
+        "layout",
+        "component",
+        "page",
+        "interface",
+        "visual",
+        "css",
+        "tailwind",
+        "login page",
+        "dashboard"
+      ],
+      "description": "Create polished frontend interfaces from designs/screenshots/videos. Use for web components, 3D experiences, replicating UI designs, quick prototypes, immersive interfaces, avoiding AI slop.",
+      "layer": "helper"
+    },
+    "vc-generate-closeout": {
+      "top3": [
+        "closeout",
+        "phase closeout",
+        "archive readiness"
+      ],
+      "all": [
+        "closeout",
+        "phase closeout",
+        "archive readiness",
+        "drift scoring",
+        "move-on"
+      ],
+      "description": "Generate the post-EXECUTE closeout packet for a plan or phase. Includes archive-readiness classification, drift signal scoring, commit checkpoint recommendation, and move-on next-state recommendation.",
+      "layer": "contract"
+    },
+    "vc-generate-context": {
+      "top3": [
+        "generate context",
+        "update context",
+        "refresh context"
+      ],
+      "all": [
+        "generate context",
+        "update context",
+        "refresh context",
+        "missing context"
+      ],
+      "description": "Generate or update the project's authoritative repository context at process/context/all-context.md. Use when repo context is missing, stale, or contradicted by code.",
+      "layer": "contract"
+    },
+    "vc-generate-phase-program": {
+      "top3": [
+        "phase program",
+        "umbrella plan",
+        "session goal block"
+      ],
+      "all": [
+        "phase program",
+        "umbrella plan",
+        "session goal block",
+        "kickoff template",
+        "multi-phase"
+      ],
+      "description": "Generate kickoff artifacts for a multi-phase program: umbrella plan, Program Goal Charter, session-goal block, per-phase plan stubs, and the 7-step per-phase inner loop reference.",
+      "layer": "contract"
+    },
+    "vc-generate-plan": {
+      "top3": [
+        "plan",
+        "create plan",
+        "write plan"
+      ],
+      "all": [
+        "plan",
+        "create plan",
+        "write plan",
+        "generate spec",
+        "plan artifact"
+      ],
+      "description": "Create or update implementation plans in the repo's SIMPLE or COMPLEX format. Use when turning an idea, PRD, or approved direction into a saved plan artifact.",
+      "layer": "contract"
+    },
+    "vc-generate-spec": {
+      "top3": [
+        "spec",
+        "requirements doc",
+        "product discovery"
+      ],
+      "all": [
+        "spec",
+        "requirements doc",
+        "product discovery",
+        "what and why",
+        "requirements artifact"
+      ],
+      "description": "Create or update a product-discovery SPEC (requirements doc) for user review. Use when turning RESEARCH findings plus user intent into a reviewable requirements artifact before INNOVATE/PLAN.",
+      "layer": "contract"
+    },
+    "vc-intent-clarify": {
+      "top3": [
+        "intent clarification",
+        "ambiguity score",
+        "routing tier"
+      ],
+      "all": [
+        "intent clarification",
+        "ambiguity score",
+        "routing tier",
+        "clarify request"
+      ],
+      "description": "Clarify intent before RIPER-5 phase delegation. Scores ambiguity (4 signals); generates structured multi-choice questions for Tier 2. Two-mode: SIMPLE and DEEP.",
+      "layer": "contract"
+    },
+    "vc-plan-discovery": {
+      "top3": [
+        "related plans",
+        "what was tried",
+        "plan history"
+      ],
+      "all": [
+        "related plans",
+        "what was tried",
+        "plan history",
+        "feature backlog",
+        "plan discovery"
+      ],
+      "description": "Discover related plans for the current task: same feature folder full depth, other features active-only, general-plans active. Like vc-context-discovery but for plan artifacts.",
+      "layer": "contract"
+    },
+    "vc-predict": {
+      "top3": [
+        "risks",
+        "predict issues",
+        "architectural review"
+      ],
+      "all": [
+        "risks",
+        "predict issues",
+        "architectural review"
+      ],
+      "description": "5 expert personas debate proposed changes before implementation. Catches architectural, security, performance, and UX issues early. Use before major features or risky changes.",
+      "layer": "helper"
+    },
+    "vc-problem-solving": {
+      "top3": [
+        "stuck",
+        "can't figure out",
+        "complex"
+      ],
+      "all": [
+        "stuck",
+        "can't figure out",
+        "complex",
+        "spiral"
+      ],
+      "description": "Apply systematic problem-solving techniques when stuck. Use for complexity spirals, innovation blocks, recurring patterns, assumption constraints, simplification cascades, scale uncertainty.",
+      "layer": "helper"
+    },
+    "vc-publish": {
+      "top3": [
+        "publish kit",
+        "push harness",
+        "release kit"
+      ],
+      "all": [
+        "publish kit",
+        "push harness",
+        "release kit",
+        "update remote"
+      ],
+      "description": "Use when publishing harness improvements to the remote kit repo. Diffs managed files, shows what changed, bumps version, and pushes. Counterpart to vc-update (pull).",
+      "layer": "contract"
+    },
+    "vc-review-situation": {
+      "top3": [
+        "what's in flight",
+        "handoff",
+        "worktree status"
+      ],
+      "all": [
+        "what's in flight",
+        "handoff",
+        "worktree status",
+        "active plans",
+        "next steps"
+      ],
+      "description": "Use when you need a read-only situation review and handoff summary of current branch state, local/remote refs, worktrees, active project plans, selected-plan hints, and suggested next checks.",
+      "layer": "helper"
+    },
+    "vc-risk-evidence-pack": {
+      "top3": [
+        "risk evidence",
+        "high-risk pack",
+        "evidence pack"
+      ],
+      "all": [
+        "risk evidence",
+        "high-risk pack",
+        "evidence pack",
+        "risk gate",
+        "adversarial validation"
+      ],
+      "description": "Define and generate the manual-first evidence pack for high-risk work. Covers 6 high-risk class definitions and the 5-artifact schema required before finalizing, pushing, or handing off.",
+      "layer": "contract"
+    },
+    "vc-scenario": {
+      "top3": [
+        "edge cases",
+        "test scenarios",
+        "what could go wrong"
+      ],
+      "all": [
+        "edge cases",
+        "test scenarios",
+        "what could go wrong"
+      ],
+      "description": "Generate comprehensive edge cases and test scenarios by decomposing features across 12 dimensions. Use before implementation or testing to catch issues early.",
+      "layer": "helper"
+    },
+    "vc-scout": {
+      "top3": [
+        "find files",
+        "where is",
+        "search codebase"
+      ],
+      "all": [
+        "find files",
+        "where is",
+        "search codebase"
+      ],
+      "description": "Fast codebase scouting using shell search and optional parallel research agents. Use for file discovery, task context gathering, and quick scoped searches across directories.",
+      "layer": "helper"
+    },
+    "vc-security": {
+      "top3": [
+        "security",
+        "vulnerability",
+        "auth"
+      ],
+      "all": [
+        "security",
+        "vulnerability",
+        "auth",
+        "xss",
+        "sql injection"
+      ],
+      "description": "STRIDE + OWASP-based security audit with optional auto-fix. Scans code for vulnerabilities, categorizes by severity, and can iteratively fix findings using vc-autoresearch pattern.",
+      "layer": "helper"
+    },
+    "vc-sequential-thinking": {
+      "top3": [
+        "complex problem",
+        "think through",
+        "analyze step by step"
+      ],
+      "all": [
+        "complex problem",
+        "think through",
+        "analyze step by step"
+      ],
+      "description": "Apply step-by-step analysis for complex problems with revision capability. Use for multi-step reasoning, hypothesis verification, adaptive planning, problem decomposition, course correction.",
+      "layer": "helper"
+    },
+    "vc-setup": {
+      "top3": [
+        "seed",
+        "harness setup",
+        "bootstrap"
+      ],
+      "all": [
+        "seed",
+        "harness setup",
+        "bootstrap",
+        "new project",
+        "scaffold",
+        "setup"
+      ],
+      "description": "Interactive harness setup for any project. Detects stack, scaffolds process dirs, deep-scans the codebase, populates context. Works on fresh and existing projects — always asks before reorganizing.",
+      "layer": "helper"
+    },
+    "vc-test-coverage-plan": {
+      "top3": [
+        "test coverage plan",
+        "test tiers",
+        "blast radius coverage"
+      ],
+      "all": [
+        "test coverage plan",
+        "test tiers",
+        "blast radius coverage",
+        "gap resolution",
+        "tdd plan"
+      ],
+      "description": "Use when creating a test plan for a blast radius. Assigns all 4 tiers (fully-automated, hybrid, agent-probe, known-gap) with exact commands, what each proves, and gap resolution options.",
+      "layer": "contract"
+    },
+    "vc-update": {
+      "top3": [
+        "update harness",
+        "pull kit",
+        "sync harness"
+      ],
+      "all": [
+        "update harness",
+        "pull kit",
+        "sync harness",
+        "upgrade agents"
+      ],
+      "description": "Pull latest agent harness improvements from the remote kit repository. Shows a dry-run diff summary, waits for confirmation, then applies updates.",
+      "layer": "contract"
+    },
+    "vc-validate-findings": {
+      "top3": [
+        "validate findings",
+        "layer 1 dimensions",
+        "layer 2 feasibility"
+      ],
+      "all": [
+        "validate findings",
+        "layer 1 dimensions",
+        "layer 2 feasibility",
+        "net gate",
+        "validate fan-out"
+      ],
+      "description": "Use when running VALIDATE V2-V3 fan-out. Two-layer investigation (4 dimension agents + per-section feasibility agents) synthesized into PASS/CONDITIONAL/BLOCKED net gate. Strategy-agnostic.",
+      "layer": "contract"
+    },
+    "vc-web-testing": {
+      "top3": [
+        "tests",
+        "e2e",
+        "integration test"
+      ],
+      "all": [
+        "tests",
+        "e2e",
+        "integration test",
+        "performance test"
+      ],
+      "description": "Web testing with Playwright, Vitest, k6. E2E/unit/integration/load/security/visual/a11y testing. Use for test automation, flakiness, Core Web Vitals, mobile gestures, cross-browser.",
+      "layer": "helper"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+# threshold-bytes: 20000
+vc-setup 27741 skipped, line 14 'Dual-File Synchronization' rule: SKILL.md and references/vc-setup.md must be edited together
+vc-intent-clarify 26600 split
+vc-update 25719 skipped, owned by Phases 2 and 6 (installer coupling)
+vc-generate-phase-program 25426 skipped, orchestrator decision (no split in Phase 5)
+vc-agent-strategy-compare 21659 skipped, front-matter only (Phase 1 owns the Model Selection Policy body)

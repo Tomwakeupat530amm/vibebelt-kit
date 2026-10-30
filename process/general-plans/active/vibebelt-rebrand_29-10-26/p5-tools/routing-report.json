@@ -1,0 +1,63 @@
+{
+  "root": "/mnt/c/Users/minhn/Desktop/vibecode-pro-max-kit-main",
+  "snapshot": {
+    "path": "/mnt/c/Users/minhn/Desktop/vibecode-pro-max-kit-main/process/general-plans/active/vibebelt-rebrand_29-10-26/p5-tools/pre-triggers.json",
+    "sourceHead": "f43f597fc58e1d5fe6baf6dcbc1dbcb4e5559bc3",
+    "skillCount": 33
+  },
+  "checkedSkills": 33,
+  "failures": [],
+  "overlapsOver2Words": {
+    "before": {
+      "vc-docs-seeker vs vc-feasibility-test": [
+        "api",
+        "does",
+        "work"
+      ],
+      "vc-publish vs vc-update": [
+        "harness",
+        "kit",
+        "update"
+      ]
+    },
+    "after": {},
+    "new": [],
+    "gone": [
+      "vc-docs-seeker vs vc-feasibility-test",
+      "vc-publish vs vc-update"
+    ]
+  },
+  "containedPhrases": {
+    "before": [
+      "\"complex\" (vc-problem-solving #3 top-3) inside \"complex problem\" (vc-sequential-thinking #1 top-3)",
+      "\"feasibility\" (vc-feasibility-test #1 top-3) inside \"layer 2 feasibility\" (vc-validate-findings #3 top-3)",
+      "\"goal block\" (vc-autopilot #5) inside \"session goal block\" (vc-generate-phase-program #3 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"active plan count\" (vc-audit-plans #4)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan discovery\" (vc-plan-discovery #5)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan history\" (vc-plan-discovery #3 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan inventory\" (vc-audit-plans #2 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"tdd plan\" (vc-test-coverage-plan #5)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"test coverage plan\" (vc-test-coverage-plan #1 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"umbrella plan\" (vc-generate-phase-program #2 top-3)",
+      "\"spec\" (vc-generate-spec #1 top-3) inside \"generate spec\" (vc-generate-plan #4)",
+      "\"spec\" (vc-generate-spec #1 top-3) inside \"harden spec\" (vc-autoresearch #2 top-3)"
+    ],
+    "after": [
+      "\"complex\" (vc-problem-solving #3 top-3) inside \"complex problem\" (vc-sequential-thinking #1 top-3)",
+      "\"feasibility\" (vc-feasibility-test #1 top-3) inside \"layer 2 feasibility\" (vc-validate-findings #3 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"active plan count\" (vc-audit-plans #4)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan discovery\" (vc-plan-discovery #5)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan history\" (vc-plan-discovery #3 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"plan inventory\" (vc-audit-plans #2 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"tdd plan\" (vc-test-coverage-plan #5)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"test coverage plan\" (vc-test-coverage-plan #1 top-3)",
+      "\"plan\" (vc-generate-plan #1 top-3) inside \"umbrella plan\" (vc-generate-phase-program #2 top-3)",
+      "\"spec\" (vc-generate-spec #1 top-3) inside \"harden spec\" (vc-autoresearch #2 top-3)"
+    ],
+    "new": [],
+    "gone": [
+      "\"goal block\" (vc-autopilot #5) inside \"session goal block\" (vc-generate-phase-program #3 top-3)",
+      "\"spec\" (vc-generate-spec #1 top-3) inside \"generate spec\" (vc-generate-plan #4)"
+    ]
+  }
+}
