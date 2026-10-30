@@ -1,1 +1,0 @@
-ENTER PLAN MODE. Use the SPEC and the decision summary in process/general-plans/active/notes-upgrade_30-10-26/ (notes-upgrade_SPEC_30-10-26.md and notes-upgrade-decision_REF_30-10-26.md). The research summary is notes-upgrade-research_REF_30-10-26.md in the same folder.

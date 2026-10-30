@@ -1,3 +1,0 @@
-AGENTS.md
-process/development-protocols/all-development-protocols.md
-process/development-protocols/orchestration.md

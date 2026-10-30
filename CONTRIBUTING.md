@@ -1,12 +1,3 @@
-<p align="center">
-  <a href="CONTRIBUTING.md"><strong>English</strong></a> |
-  <a href="docs/i18n/CONTRIBUTING.zh-CN.md">简体中文</a> |
-  <a href="docs/i18n/CONTRIBUTING.ja-JP.md">日本語</a> |
-  <a href="docs/i18n/CONTRIBUTING.ko-KR.md">한국어</a> |
-  <a href="docs/i18n/CONTRIBUTING.vi-VN.md">Tiếng Việt</a> |
-  <a href="docs/i18n/CONTRIBUTING.pt-BR.md">Português</a>
-</p>
-
 # Contributing to vibebelt-kit
 
 Thank you for your interest in contributing to vibebelt-kit! This project provides a ready-to-use agent harness for Claude Code and Codex, and we welcome contributions from everyone.

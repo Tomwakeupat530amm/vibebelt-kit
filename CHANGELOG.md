@@ -241,4 +241,4 @@ The entries below are the upstream project's history before the fork, kept as th
 
 ### Migration
 
-Run `vc-update` from your project to upgrade from v2.x. See [MIGRATION.md](MIGRATION.md) for step-by-step instructions.
+Run `vc-update` from your project to upgrade from v2.x. See `MIGRATION.md` in the git history (no longer shipped) for step-by-step instructions.

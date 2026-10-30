@@ -1,8 +1,0 @@
-demo-agent	md	gate	Gate: PASS	1
-demo-agent	md	phase-complete	PHASE_COMPLETE: EXECUTE	1
-demo-agent	md	prefix-signal	VB-PREDICT-DEEP-NEEDED	1
-demo-agent	md	status	BLOCKED	1
-demo-agent	md	status	DONE	1
-demo-agent	toml	phase-complete	PHASE_COMPLETE: EXECUTE	1
-demo-agent	toml	status	BLOCKED	1
-demo-agent	toml	status	DONE	1
