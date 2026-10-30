@@ -89,12 +89,7 @@ $ node .claude/skills/vb-audit-vc/scripts/validate-guide-sync.mjs
 {
   "checkedAgents": true,
   "checkedSkills": true,
-  "warnings": [
-    "Skill vb- listed in README.md but not found on disk",
-    "Skill my- listed in README.md but not found on disk",
-    "Skill team- listed in README.md but not found on disk",
-    "Skill proj- listed in README.md but not found on disk"
-  ],
+  "warnings": [],
   "failures": []
 }
 [exit 0]
@@ -319,10 +314,10 @@ $ node .claude/skills/vb-audit-context/scripts/validate-protocol-discovery.mjs
 ===== validate-plan-inventory =====
 $ node .claude/skills/vb-audit-plans/scripts/validate-plan-inventory.mjs
 {
-  "activePlans": 51,
+  "activePlans": 52,
   "completedPlans": 2,
   "warnings": [
-    "active plan count is high: 51",
+    "active plan count is high: 52",
     "nameNotDateStamped: 27 active files",
     "noPlanInName: 27 active files",
     "missingPhaseRules: 28 active files",
@@ -462,7 +457,7 @@ $ node .claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs proces
       "path": "process/general-plans/active/vibebelt-rebrand_29-10-26/vibebelt-rebrand-umbrella_PLAN_29-10-26.md",
       "failures": 0,
       "warnings": 0,
-      "lines": 896
+      "lines": 900
     }
   ],
   "strict": false,
@@ -641,7 +636,7 @@ $ node .claude/skills/vb-generate-plan/scripts/validate-plan-artifact.mjs proces
       "path": "process/general-plans/active/vibebelt-rebrand_29-10-26/phase-08-install-release_PLAN_29-10-26.md",
       "failures": 0,
       "warnings": 2,
-      "lines": 465
+      "lines": 467
     }
   ],
   "strict": false,
@@ -1104,13 +1099,13 @@ $ node resolve-manifest.mjs --json
     "docs/i18n/CONTRIBUTING.vi-VN.md",
     "docs/i18n/CONTRIBUTING.zh-CN.md",
     "docs/i18n/README.de.md",
+    "docs/i18n/README.en.md",
     "docs/i18n/README.es.md",
     "docs/i18n/README.fr.md",
     "docs/i18n/README.hi.md",
     "docs/i18n/README.ja-JP.md",
     "docs/i18n/README.ko-KR.md",
     "docs/i18n/README.pt-BR.md",
-    "docs/i18n/README.vi-VN.md",
     "docs/i18n/README.zh-CN.md",
     "docs/i18n/SECURITY.ja-JP.md",
     "docs/i18n/SECURITY.ko-KR.md",
@@ -1120,6 +1115,29 @@ $ node resolve-manifest.mjs --json
     "install.sh",
     "legacy-hashes.json",
     "resolve-manifest.mjs",
+    "scripts/check-docs.mjs",
+    "scripts/fixtures/check-docs/fail-c1-glossary-rows/README.md",
+    "scripts/fixtures/check-docs/fail-c1-level-swap/README.md",
+    "scripts/fixtures/check-docs/fail-c1-missing-marker/README.md",
+    "scripts/fixtures/check-docs/fail-c2-term-missing/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/fail-c2-too-long-vi/README.md",
+    "scripts/fixtures/check-docs/fail-c2-too-long/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/fail-c3-untagged-owner/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/fail-c3-wrong-install/README.md",
+    "scripts/fixtures/check-docs/fail-c4-orchestration/process/development-protocols/orchestration.md",
+    "scripts/fixtures/check-docs/fail-c6-dead-link/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/fail-c6-leftover-vi/docs/i18n/README.vi-VN.md",
+    "scripts/fixtures/check-docs/fail-c6-other-language/README.md",
+    "scripts/fixtures/check-docs/fail-c6-other-language/docs/i18n/README.de.md",
+    "scripts/fixtures/check-docs/fail-c6-quickstart-reference/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/fail-c6-switcher-order/README.md",
+    "scripts/fixtures/check-docs/pass/LICENSE",
+    "scripts/fixtures/check-docs/pass/README.md",
+    "scripts/fixtures/check-docs/pass/docs/i18n/README.en.md",
+    "scripts/fixtures/check-docs/pass/golden/signal-census-phase3.txt",
+    "scripts/fixtures/check-docs/pass/harness/orchestration-plg-before.txt",
+    "scripts/fixtures/check-docs/pass/install.sh",
+    "scripts/fixtures/check-docs/pass/process/development-protocols/orchestration.md",
     "scripts/fixtures/rename-prefix/in/CHANGELOG.md",
     "scripts/fixtures/rename-prefix/in/MIGRATION.md",
     "scripts/fixtures/rename-prefix/in/data/nul-sample.bin",
@@ -1760,62 +1778,44 @@ TAP version 13
 # Subtest: Trial A: new install on empty project
 ok 1 - Trial A: new install on empty project
   ---
-  duration_ms: 12460.024029
+  duration_ms: 13028.706696
   type: 'test'
   ...
 # Subtest: Trial B: coexistence — user skills survive install
 ok 2 - Trial B: coexistence — user skills survive install
   ---
-  duration_ms: 11859.911711
+  duration_ms: 12176.617839
   type: 'test'
   ...
 # Subtest: Trial C: v2.x to v3 migration via install
 ok 3 - Trial C: v2.x to v3 migration via install
   ---
-  duration_ms: 12273.265014
+  duration_ms: 15201.189111
   type: 'test'
   ...
 # Subtest: Trial D: publish dry-run — no git push occurs without explicit approval
-not ok 4 - Trial D: publish dry-run — no git push occurs without explicit approval
+ok 4 - Trial D: publish dry-run — no git push occurs without explicit approval
   ---
-  duration_ms: 123.087998
+  duration_ms: 14051.444718
   type: 'test'
-  location: '/mnt/c/Users/minhn/Desktop/vibecode-pro-max-kit-main/e2e-kit-flows.test.mjs:300:1'
-  failureType: 'testCodeFailure'
-  error: |-
-    Command failed: git clone --local --quiet "/mnt/c/Users/minhn/Desktop/vibecode-pro-max-kit-main" "/tmp/vb-e2e-publish-Qby5DR"
-    fatal: failed to create link '/tmp/vb-e2e-publish-Qby5DR/.git/objects/00/17141be90680d454059d910d1e56ab2d4e1fc6': Invalid cross-device link
-
-  code: 'ERR_TEST_FAILURE'
-  stack: |-
-    genericNodeError (node:internal/errors:983:15)
-    wrappedFn (node:internal/errors:537:14)
-    checkExecSyncError (node:child_process:916:11)
-    execSync (node:child_process:988:15)
-    TestContext.<anonymous> (file:///mnt/c/Users/minhn/Desktop/vibecode-pro-max-kit-main/e2e-kit-flows.test.mjs:345:5)
-    Test.runInAsyncScope (node:async_hooks:214:14)
-    Test.run (node:internal/test_runner/test:1047:25)
-    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
-    Test.postRun (node:internal/test_runner/test:1173:19)
-    Test.run (node:internal/test_runner/test:1101:12)
   ...
 # Subtest: Trial E: old install to new install
 ok 5 - Trial E: old install to new install
   ---
-  duration_ms: 76459.6558
+  duration_ms: 79477.673559
   type: 'test'
   ...
 # .vb-version after the old-to-new install: 1.0.0
 1..5
 # tests 5
 # suites 0
-# pass 4
-# fail 1
+# pass 5
+# fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 113304.983033
-[exit 1]
+# duration_ms 134066.633941
+[exit 0]
 
 ===== git-diff-check =====
 $ git diff --check HEAD -- . ':!process/general-plans/active/vibebelt-rebrand_29-10-26'
